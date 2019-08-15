@@ -38,7 +38,6 @@ def solve(first_layout: Layout, second_layout: Layout, PenaltyAssignment) -> dic
 
     for e1 in range(first_layout.N):
         for e2 in range(second_layout.N):
-            print(e1, e2, Z[e1, e2].getAttr('X'))
             if Z[e1, e2].getAttr('X') == 1:
                 element_mapping.append((first_layout.elements[e1].id, second_layout.elements[e2].id))
 
