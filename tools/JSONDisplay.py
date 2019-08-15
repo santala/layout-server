@@ -10,13 +10,13 @@ def actualDisplay(layout: Layout, name: str):
     Tval =[]
     Wval =[]
     Hval = []
-    for index in range(layout.N):
+    for index in range(layout.n):
         Lval.append(layout.elements[index].X)
         Tval.append(layout.elements[index].Y)
         Wval.append(layout.elements[index].width)
         Hval.append(layout.elements[index].height)
     
-    displayJSON(layout.N, layout.canvasWidth, layout.canvasHeight, Lval, Tval, Wval, Hval, name)
+    displayJSON(layout.n, layout.canvas_width, layout.canvas_height, Lval, Tval, Wval, Hval, name)
 
 def displayJSON(N:int , CanvasSize_W:int, CanvasSize_H:int, Lval, Tval, Wval, Hval, name: str):
     fig, ax = plt.subplots()
