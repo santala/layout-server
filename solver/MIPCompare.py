@@ -1,6 +1,8 @@
 from gurobipy import GRB, Model
 from gurobipy.gurobipy import LinExpr
 
+from pprint import pprint
+
 from tools.GurobiUtils import define1DBoolVarArray, define2DBoolVarArrayArray
 from model import Layout
 #from solver.PrepareParameters import PenaltyAssignment
@@ -31,15 +33,23 @@ def solve(first_layout: Layout, second_layout: Layout, PenaltyAssignment) -> dic
     define_constraints(first_layout, second_layout, Z, UF, US)
     set_control_parameters()
     gurobi_model.optimize()
-    return report_results()
 
-def report_results() -> dict:
+    element_mapping = []
+
+    for e1 in range(first_layout.N):
+        for e2 in range(second_layout.N):
+            print(e1, e2, Z[e1, e2].getAttr('X'))
+            if Z[e1, e2].getAttr('X') == 1:
+                element_mapping.append((first_layout.elements[e1].id, second_layout.elements[e2].id))
+
+
     if gurobi_model.Status == GRB.Status.OPTIMAL:
         return {
             'status': 1,
             'euclideanDifference': round(objective_euclidean_move_resize.getValue() * 10000),
             'elementsGained': round(objective_elements_gained.getValue() * 10000),
             'elementsLost': round(objective_elements_lost.getValue() * 10000),
+            'elementMapping': element_mapping
         }
     else:
         return { 'status': 0 }
