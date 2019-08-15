@@ -8,14 +8,15 @@
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>
         <legend>Good Form</legend>
-        <input type="file" name="data_set" required />
+        <label>Layout 1 <input type="file" name="layoutA" required /></label>
+        <label>Layout 2 <input type="file" name="layoutB" required /></label>
         <input type="submit" />
     </fieldset>
 </form>
 
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>
-        <legend>Bad Form (Wrong Input Name)</legend>
+        <legend>Bad Form</legend>
         <input type="file" name="wrong_name" />
         <input type="submit" />
     </fieldset>
