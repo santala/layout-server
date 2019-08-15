@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello {{ name }}</title>
+</head>
+<body>
+
+<form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Good Form</legend>
+        <input type="file" name="data_set" required />
+        <input type="submit" />
+    </fieldset>
+</form>
+
+<form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Bad Form (Wrong Input Name)</legend>
+        <input type="file" name="wrong_name" />
+        <input type="submit" />
+    </fieldset>
+</form>
+
+<pre>{{ message }}</pre>
+
+</body>
+</html>
