@@ -2,25 +2,88 @@
 <html>
 <head>
     <title>Hello {{ name }}</title>
+    <script>
+
+async function submitLayoutEngine() {
+    console.log("Submitting to layout engine…");
+    try {
+        console.log("Parsing layout…");
+        let layout = await readJSON(document.getElementById("layoutEngineFile"));
+
+        console.log("Uploading layout…");
+        let response = await fetch("{{ url_for('optimize_layout') }}", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            //mode: '*same-origin', // no-cors, cors, *same-origin
+            //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            //credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            //redirect: 'follow', // manual, *follow, error
+            //referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(layout), // body data type must match "Content-Type" header
+        });
+        console.log(response);
+
+        if (response.ok) {
+            console.log("Parsing response…");
+            let optimizedLayout = await response.json();
+            console.log(optimizedLayout);
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function readJSON(input) {
+    return new Promise((resolve, reject) => {
+        if (typeof window.FileReader !== 'function') {
+            alert("The file API isn't supported on this browser yet.");
+            reject();
+            return;
+        }
+        if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+            reject();
+            return;
+        } else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");
+            reject();
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = () => {
+            resolve(JSON.parse(reader.result));
+        };
+        reader.readAsText(input.files[0]);
+    });
+}
+
+    </script>
 </head>
 <body>
 
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>
-        <legend>Good Form</legend>
+        <legend>Layout Difference</legend>
         <label>Layout 1 <input type="file" name="layoutA" required /></label>
         <label>Layout 2 <input type="file" name="layoutB" required /></label>
         <input type="submit" />
     </fieldset>
 </form>
 
-<form method="POST" action="{{ url_for('optimize_layout') }}" enctype="multipart/form-data">
+<form id="layoutEngineForm" onsubmit="event.preventDefault()">
     <fieldset>
-        <legend>Good Form</legend>
-        <label>Layout <input type="file" name="layout" required /></label>
+        <legend>Layout Engine</legend>
+        <label>Layout <input type="file" id="layoutEngineFile" name="layout" /></label>
         <input type="submit" />
     </fieldset>
 </form>
+
+<canvas id="layoutEngineInput"></canvas>
+<canvas id="layoutEngineOutput"></canvas>
 
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>
@@ -31,6 +94,15 @@
 </form>
 
 <pre>{{ message }}</pre>
+
+<script>
+
+document.getElementById("layoutEngineForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitLayoutEngine();
+}, false);
+
+</script>
 
 </body>
 </html>

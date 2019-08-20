@@ -23,3 +23,63 @@ Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:33:42 2019
 
 Changed value of parameter LogFile to output/GurobiLog.txt
    Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:38:54 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:39:24 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:39:38 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:39:55 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:40:04 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:41:32 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:42:07 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:42:59 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:44:02 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 14:45:42 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 15:23:48 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Tue Aug 20 15:24:53 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
