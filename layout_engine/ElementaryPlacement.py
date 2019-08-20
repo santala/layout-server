@@ -62,13 +62,17 @@ def solve(data: DataInstance):
                 # ‘X’ is the value of the variable in the current solution
                 'x': L[e].getAttr('X'),
                 'y': T[e].getAttr('X'),
-                'w': W[e].getAttr('X'),
-                'h': H[e].getAttr('X'),
+                'width': W[e].getAttr('X'),
+                'height': H[e].getAttr('X'),
             })
 
         return {
             'status': 1,
-            'elements': elements
+            'layout': {
+                'canvasWidth': data.canvasWidth,
+                'canvasHeight': data.canvasHeight,
+                'elements': elements
+            }
         }
     else:
         return {'status': 0}

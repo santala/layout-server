@@ -2,6 +2,20 @@
 <html>
 <head>
     <title>Hello {{ name }}</title>
+    <style>
+
+canvas {
+    display: block;
+    float: left;
+    width: 50%;
+    height: auto;
+}
+
+form {
+    clear: both;
+}
+
+    </style>
     <script>
 
 async function submitLayoutEngine() {
@@ -9,6 +23,8 @@ async function submitLayoutEngine() {
     try {
         console.log("Parsing layout…");
         let layout = await readJSON(document.getElementById("layoutEngineFile"));
+
+        drawLayout("layoutEngineInput", layout.layouts[0]);
 
         console.log("Uploading layout…");
         let response = await fetch("{{ url_for('optimize_layout') }}", {
@@ -28,12 +44,39 @@ async function submitLayoutEngine() {
 
         if (response.ok) {
             console.log("Parsing response…");
-            let optimizedLayout = await response.json();
+            let optimizedLayout = (await response.json()).layout;
             console.log(optimizedLayout);
+            drawLayout("layoutEngineOutput", optimizedLayout);
         }
 
     } catch (e) {
         console.log(e);
+    }
+}
+
+function drawLayout(canvasId, layout) {
+    console.log(canvasId, layout);
+    let canvas = document.getElementById(canvasId);
+    canvas.width = layout.canvasWidth;
+    canvas.height = layout.canvasHeight;
+
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = "lightgray";
+    ctx.strokeStyle = "gray";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = "blue";
+    ctx.font = "bold 48px sans-serif";
+    ctx.textBaseline = "hanging";
+
+    for (let element of layout.elements) {
+        ctx.fillStyle = "lightblue";
+        ctx.fillRect(element.x, element.y, element.width, element.height);
+        ctx.strokeRect(element.x, element.y, element.width, element.height);
+        ctx.fillStyle = "black";
+        ctx.fillText(element.id, element.x, element.y, element.width);
+        console.log(element);
     }
 }
 
