@@ -1,0 +1,24 @@
+{
+  "layouts": [
+    {
+      "canvasWidth": 100,
+      "canvasHeight":  200,
+      "elements": [
+        {
+          "id": 0,
+          "height": 20,
+          "width": 20,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "id": 1,
+          "height": 38,
+          "width": 150,
+          "x": 233,
+          "y": 272
+        }
+      ]
+    }
+  ]
+}

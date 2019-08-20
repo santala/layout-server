@@ -1,0 +1,34 @@
+{
+ "bpid":3,
+ "canvas_width": 1109,
+ "canvas_height": 945,
+ "X": 0,
+ "Y": 70,
+ "NumOfSolutions": 3,
+ "Elements": [
+   {
+     "id": 1,
+     "bpid":10,
+     "Width": 548,
+     "Height": 333,
+     "X": 0,
+     "Y": 70
+   },
+   {
+     "id": 2,
+     "bpid":12,
+     "Width": 548,
+     "Height": 333,
+     "X": 548,
+     "Y": 70
+   },
+   {
+     "id": 3,
+     "bpid":7,
+     "Width": 1106,
+     "Height": 612,
+     "X": 0,
+     "Y": 333
+   }
+ ]
+}

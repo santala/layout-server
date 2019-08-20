@@ -32,7 +32,7 @@ def solve(data: DataInstance):
 
         gurobi.optimize(tapSolutions)
 
-        #TODO check if solution was found. If yes, set the better objective bounds on future solutions
+        #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
 
         #gurobi.computeIIS()
         #gurobi.write("IIS.ilp")
@@ -40,13 +40,38 @@ def solve(data: DataInstance):
         #gurobi.optimize(tapSolutions)
         #reportResult(BAG, H, L, LAG, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG, W, data, gurobi,vBAG, vLAG,vRAG, vTAG)
 
-        repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG,W, data, gurobi, vBAG, vLAG, vRAG, vTAG)
+        # TODO: EXPL: analyze brute force purpose
+        #repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG,W, data, gurobi, vBAG, vLAG, vRAG, vTAG)
 
     except GurobiError as e:
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
+        return {'status': 0}
 
     except AttributeError  as e:
         print('AttributeError:' + str(e))
+        return {'status': 0}
+
+    if gurobi.Status == GRB.Status.OPTIMAL:
+
+        elements = []
+
+        for e in range(data.N):
+
+            elements.append({
+                'id': data.elements[e].id,
+                # ‘X’ is the value of the variable in the current solution
+                'x': L[e].getAttr('X'),
+                'y': T[e].getAttr('X'),
+                'w': W[e].getAttr('X'),
+                'h': H[e].getAttr('X'),
+            })
+
+        return {
+            'status': 1,
+            'elements': elements
+        }
+    else:
+        return {'status': 0}
 
 
 def globalizeVariablesForOpenAccess(H, L, T, W, data):
@@ -78,7 +103,7 @@ def reportResult(BAG, H, L, LAG, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, T
         Hval, Lval, Tval, Wval = extractVariableValues(N, H, L, T, W, gurobi, solNo)
 
         # Output
-        SaveToJSon(N, data.canvasWidth, data.canvasHeight, Lval, Tval, Wval, Hval, 100+solNo, data)
+        SaveToJSon(N, data.canvasWidth, data.canvasHeight, Lval, Tval, Wval, Hval, 100+solNo, data, gurobi.getObjective().getValue())
 
         printResultToConsole(N, BAG, LAG, RAG, TAG, vBAG, vLAG, vRAG, vTAG)
 

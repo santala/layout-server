@@ -1,0 +1,28 @@
+{
+ "width": 1000,
+ "height": 2000,
+ "NumOfSolutions": 1,
+ "Elements": [
+   {
+     "id": 1,
+     "Width": 500,
+     "Height": 500,
+     "X": 10,
+     "Y": 20
+   },
+   {
+     "id": 2,
+     "Width": 500,
+     "Height": 500,
+     "X": 500,
+     "Y": 258
+   },
+   {
+     "id": 3,
+     "Width": 1000,
+     "Height": 500,
+     "X": 789,
+     "Y": 658
+   }
+ ]
+}

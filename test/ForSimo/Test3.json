@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "x_position": 0,
+    "y_position": 0,
+    "width": 553,
+    "height": 333
+  },
+  {
+    "id": 1,
+    "x_position": 553,
+    "y_position": 0,
+    "width": 553,
+    "height": 333
+  },
+  {
+    "id": 2,
+    "x_position": 0,
+    "y_position": 333,
+    "width": 1106,
+    "height": 612
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "layouts" : [
+    {
+      "canvasWidth" : 1080,
+      "id" : "originalLayout",
+      "canvasHeight" : 1920,
+      "elements" : [
+        {
+          "id" : "<SimpleBox: 0x600003500420>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 160,
+          "fillColorGreenValue" : 123,
+          "y" : 96,
+          "isDrawingFill" : 1,
+          "width" : 204,
+          "type" : "SimpleBox",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 40,
+          "height" : 135
+        },
+        {
+          "id" : "<HeadingElement: 0x600003b09260>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 512,
+          "fillColorGreenValue" : 254,
+          "y" : 64,
+          "isDrawingFill" : 1,
+          "width" : 471,
+          "type" : "HeadingElement",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 254,
+          "height" : 133
+        },
+        {
+          "id" : "<ImageElement: 0x60000390d1e0>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 198,
+          "fillColorGreenValue" : 254,
+          "y" : 320,
+          "isDrawingFill" : 1,
+          "width" : 794,
+          "type" : "ImageElement",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 254,
+          "height" : 202
+        },
+        {
+          "id" : "<ParagraphElement: 0x600003b0d880>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : -1,
+          "fillColorGreenValue" : 254,
+          "y" : -1,
+          "isDrawingFill" : 1,
+          "width" : 391,
+          "type" : "ParagraphElement",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 254,
+          "height" : 541
+        },
+        {
+          "id" : "<VideoElement: 0x600003904d00>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : -1,
+          "fillColorGreenValue" : 254,
+          "y" : -1,
+          "isDrawingFill" : 1,
+          "width" : 651,
+          "type" : "VideoElement",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 254,
+          "height" : 323
+        },
+        {
+          "id" : "<HeadingElement: 0x600003b34620>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "Bottom",
+          "x" : -1,
+          "fillColorGreenValue" : 254,
+          "y" : -1,
+          "isDrawingFill" : 1,
+          "width" : 1079,
+          "type" : "HeadingElement",
+          "fillColorBlueValue" : 255,
+          "fillColorRedValue" : 254,
+          "height" : 187
+        }
+      ]
+    }
+  ]
+}
