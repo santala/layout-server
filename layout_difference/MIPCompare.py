@@ -1,8 +1,8 @@
 from gurobipy import GRB, Model
 from gurobipy.gurobipy import LinExpr
 
-from tools.GurobiUtils import define1DBoolVarArray, define2DBoolVarArrayArray
-from model import Layout
+from tools.GurobiUtils import define_1d_bool_var_array, define_2d_bool_var_array_array
+from . import Layout
 
 
 def solve(first_layout: Layout, second_layout: Layout, PenaltyAssignment) -> dict:
@@ -106,7 +106,7 @@ def define_objectives(gurobi_model: Model, first_layout: Layout, second_layout: 
 
 
 def define_variables(gurobi_model: Model, firstLayout:Layout, secondLayout:Layout):
-    Z = define2DBoolVarArrayArray(gurobi_model, firstLayout.n, secondLayout.n, "ZAssignment")
-    UF = define1DBoolVarArray(gurobi_model, firstLayout.n, "UnassignedInFirstLayout")
-    US = define1DBoolVarArray(gurobi_model, secondLayout.n, "UnassignedInSecondLayout")
+    Z = define_2d_bool_var_array_array(gurobi_model, firstLayout.n, secondLayout.n, "ZAssignment")
+    UF = define_1d_bool_var_array(gurobi_model, firstLayout.n, "UnassignedInFirstLayout")
+    US = define_1d_bool_var_array(gurobi_model, secondLayout.n, "UnassignedInSecondLayout")
     return Z, UF, US

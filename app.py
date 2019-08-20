@@ -1,10 +1,11 @@
 import json
-from flask import Flask, abort, jsonify, render_template, request
 
-from tools.JSONDisplay import actualDisplay
-from solver.PrepareParameters import build_layout_parameters
-from solver.MIPCompare import solve
-from model import Element, Layout
+from flask import Flask, abort, jsonify, render_template, request, Response
+
+# from tools.JSONDisplay import actualDisplay
+from layout_difference import Layout
+from layout_difference.MIPCompare import solve
+from layout_difference.PrepareParameters import build_layout_parameters
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ app = Flask(__name__)
 # https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https
 
 @app.route('/')
-def hello_world():
+def hello_world() -> Response:
     try:
         message = request.args['message']
     except:
@@ -21,9 +22,9 @@ def hello_world():
 
 
 @app.route('/api/v1.0/', methods=['POST'])
-def upload():
+def upload() -> Response:
 
-    # TODO: consider improving error reporting
+    # TODO: consider improving error reporting (or not, for security reasons)
 
     # Check existence of file parameters
     if 'layoutA' not in request.files or 'layoutB' not in request.files:
@@ -54,7 +55,9 @@ def compute_difference(layout_a: dict, layout_b: dict, display_result=False) -> 
     first_layout = Layout(layout_a.get("layouts")[0])
     second_layout = Layout(layout_b.get("layouts")[0])
     penalty_assignment = build_layout_parameters(first_layout, second_layout)
+    '''
     if display_result:
         actualDisplay(first_layout, "FirstLayout")
         actualDisplay(second_layout, "SecondLayout")
+    '''
     return solve(first_layout, second_layout, penalty_assignment)

@@ -1,13 +1,13 @@
 class Element:
     def __init__(self):
-        self.width  = None
+        self.width = None
         self.height = None
         self.x = None
         self.y = None
         self.id = None
         self.area = None
         self.penalty_if_skipped = None
-    
+
 
 class Layout:
     def __init__(self, layout_dict=None):

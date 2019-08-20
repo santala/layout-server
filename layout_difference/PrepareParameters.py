@@ -1,4 +1,4 @@
-from model import Layout
+from . import Layout
 
 
 def resolve_individual_layout_parameters(layout: Layout):
