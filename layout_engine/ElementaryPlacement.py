@@ -9,6 +9,7 @@ import math
 import tools.GurobiUtils
 
 def solve(data: DataInstance):
+    print(data)
     try:
         # EXPL: Initiliaze variables
         ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG  =  defineVars(data)

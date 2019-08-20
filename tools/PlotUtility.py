@@ -1,8 +1,6 @@
-# Plotting
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatch
-import matplotlib.colors as mcolors
-import random
+
 
 
 def DrawPlotOnPage(N, CanvasSize_W, CanvasSize_H, Lval, Tval, Wval, Hval, solNo):

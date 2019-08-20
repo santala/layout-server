@@ -226,3 +226,19 @@ Academic license - for non-commercial use only
 Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 10:12:47 2019
 
 Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 10:59:14 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 11:05:59 2019
+
+Academic license - for non-commercial use only
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10

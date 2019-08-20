@@ -14,6 +14,14 @@
     </fieldset>
 </form>
 
+<form method="POST" action="{{ url_for('optimize_layout') }}" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Good Form</legend>
+        <label>Layout <input type="file" name="layout" required /></label>
+        <input type="submit" />
+    </fieldset>
+</form>
+
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>
         <legend>Bad Form</legend>
