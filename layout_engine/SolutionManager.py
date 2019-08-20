@@ -1,11 +1,10 @@
-import layout_engine.SolutionInstance
 from layout_engine.SolutionInstance import *
 from tools.JSonExportUtility import *
 from tools.PlotUtility import *
 
-hashToSolution = dict()
 
-def buildNewSolution(objValue, Lval,Tval, Wval, Hval):
+
+def buildNewSolution(objValue, Lval,Tval, Wval, Hval, hashToSolution):
     solution = SolutionInstance(objValue, Lval,Tval, Wval, Hval)
     hash = str(Lval)+str(Tval)+ str(Wval)+str(Hval)
     if hash in hashToSolution:

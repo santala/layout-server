@@ -28,6 +28,8 @@ def solve(data: DataInstance):
 
         setControlParams(gurobi)
 
+        gurobi._hashToSolution = dict()
+
         gurobi.optimize(tapSolutions)
 
         #TODO check if solution was found. If yes, set the better objective bounds on future solutions
@@ -451,7 +453,7 @@ def tapSolutions(model, where):
         objeValue = math.floor(objeValue*10000)/10000.0
         print("Tapped into Solution No",tools.GurobiUtils.solNo," of objective value ",objeValue," with lower bound at ",lowerBound)
         Hval, Lval, Tval, Wval = extractVariableValuesFromPartialSolution(model)
-        SolutionManager.buildNewSolution(objeValue,  Lval,Tval, Wval, Hval)
+        SolutionManager.buildNewSolution(objeValue,  Lval,Tval, Wval, Hval, model._hashToSolution)
         tools.GurobiUtils.solNo = tools.GurobiUtils.solNo + 1
 
 

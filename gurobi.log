@@ -242,3 +242,68 @@ Changed value of parameter PoolSolutions to 1
    Prev: 10  Min: 1  Max: 2000000000  Default: 10
 Changed value of parameter MIPGapAbs to 0.97
    Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 11:54:09 2019
+
+Academic license - for non-commercial use only
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 11:55:21 2019
+
+Academic license - for non-commercial use only
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 11:56:41 2019
+
+Academic license - for non-commercial use only
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 20 12:39:16 2019
+
+Academic license - for non-commercial use only
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Warning: constraint name "Disable non-permitted based on prespecified" has a space
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
