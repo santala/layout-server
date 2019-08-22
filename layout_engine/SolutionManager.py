@@ -2,19 +2,25 @@ from layout_engine.SolutionInstance import *
 from tools.JSonExportUtility import *
 from tools.PlotUtility import *
 
+from gurobipy import Model
+import tools.GurobiUtils
+from tools.GurobiUtils import *
+from tools.JSONLoader import *
 
+from typing import List
 
-def buildNewSolution(objValue, Lval,Tval, Wval, Hval, hashToSolution):
+def build_new_solution(model: Model, objValue: float, Lval: List[int], Tval: List[int], Wval: List[int], Hval: List[int], hash_to_solution: dict):
+    layout: Layout = model._layout
+    var: Variables = model._var
+
     solution = SolutionInstance(objValue, Lval,Tval, Wval, Hval)
-    hash = str(Lval)+str(Tval)+ str(Wval)+str(Hval)
-    if hash in hashToSolution:
+    solution_hash = str(Lval)+str(Tval)+ str(Wval)+str(Hval)
+    if solution_hash in hash_to_solution:
         print("** Neglecting a repeat solution **")
         return
     else:
-        hashToSolution[hash] = solution
-        useSolution(objValue, Lval,Tval, Wval, Hval)
+        hash_to_solution[solution_hash] = solution
+        SaveToJSon(layout.n, layout.canvasWidth, layout.canvasHeight,
+                   Lval, Tval, Wval, Hval, model._solution_number, layout, objValue)
+        DrawPlotOnPage(layout.n, layout.canvasWidth, layout.canvasHeight, Lval, Tval, Wval, Hval, model._solution_number)
 
-
-def useSolution(objValue, Lval,Tval, Wval, Hval):
-    SaveToJSon(tools.GurobiUtils.data.N, tools.GurobiUtils.data.canvasWidth, tools.GurobiUtils.data.canvasHeight, Lval,Tval, Wval, Hval, tools.GurobiUtils.solNo, tools.GurobiUtils.data, objValue)
-    DrawPlotOnPage(tools.GurobiUtils.data.N, tools.GurobiUtils.data.canvasWidth, tools.GurobiUtils.data.canvasHeight, Lval,Tval, Wval, Hval, tools.GurobiUtils.solNo)

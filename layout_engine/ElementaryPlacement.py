@@ -1,6 +1,8 @@
+from typing import List, Tuple
+
 from gurobipy import *
 from tools.GurobiUtils import *
-from tools.JSONLoader import DataInstance
+from tools.JSONLoader import Layout
 from tools.JSonExportUtility import *
 from tools.PlotUtility import *
 from tools.Constants import *
@@ -8,27 +10,30 @@ from . import SolutionManager
 import math, time
 import tools.GurobiUtils
 
-def solve(data: DataInstance):
+def solve(layout: Layout) -> dict:
 
     try:
-        # EXPL: Initiliaze variables
-        ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG  =  define_vars(data)
-        # EXPL: Set lower and upper bounds
-        setVarNames(B, H, L, R, T, W, data, vBAG, vLAG, vRAG, vTAG)
+        model = Model("GLayout")
+        model._layout = layout
 
-        # EXPL: Define Objective (the objective is to minimize OBJECTIVE_GRIDCOUNT + 0.001*OBJECTIVE_LT)
-        OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT = defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi_model)
+        var = Variables(model)
 
-        setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, elemAtBAG, elemAtLAG, elemAtRAG,elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG)
+        model._var = var
 
-        globalizeVariablesForOpenAccess(H, L, T, W, data)
+        set_variable_bounds(layout, var)
 
-        gurobi_model.write("output/NirajPracticeModel.lp")
+        objective_grid_count, objective_lt = define_objectives(model, layout, var)
 
-        setControlParams(gurobi_model)
-        gurobi_model._hashToSolution = dict()
+        set_constraints(model, layout, var)
 
-        gurobi_model.optimize(tapSolutions)
+        model._solution_number = 1
+
+        model.write("output/NirajPracticeModel.lp")
+
+        set_control_params(model)
+        model._hash_to_solution = dict()
+
+        model.optimize(tap_solutions)
 
         #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
 
@@ -49,26 +54,25 @@ def solve(data: DataInstance):
         print('AttributeError:' + str(e))
         return {'status': 0}
 
-    if gurobi_model.Status == GRB.Status.OPTIMAL:
+    if model.Status == GRB.Status.OPTIMAL:
 
         elements = []
 
-        for e in range(data.N):
+        for e in range(layout.n):
 
             elements.append({
-                'id': data.elements[e].id,
-                # ‘X’ is the value of the variable in the current solution
-                'x': L[e].getAttr('X'),
-                'y': T[e].getAttr('X'),
-                'width': W[e].getAttr('X'),
-                'height': H[e].getAttr('X'),
+                'id': layout.elements[e].id,
+                'x': var.L[e].getAttr('X'), # ‘X’ is the value of the variable in the current solution
+                'y': var.T[e].getAttr('X'),
+                'width': var.W[e].getAttr('X'),
+                'height': var.H[e].getAttr('X'),
             })
 
         return {
             'status': 1,
             'layout': {
-                'canvasWidth': data.canvasWidth,
-                'canvasHeight': data.canvasHeight,
+                'canvasWidth': layout.canvasWidth,
+                'canvasHeight': layout.canvasHeight,
                 'elements': elements
             }
         }
@@ -76,33 +80,24 @@ def solve(data: DataInstance):
         return {'status': 0}
 
 
-def globalizeVariablesForOpenAccess(H, L, T, W, data):
-    tools.GurobiUtils.data = data
-    tools.GurobiUtils.solNo = 1
-    tools.GurobiUtils.L = L
-    tools.GurobiUtils.T = T
-    tools.GurobiUtils.W = W
-    tools.GurobiUtils.H = H
-
-
-def repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG, W,data, gurobi, vBAG, vLAG, vRAG, vTAG):
-    for topElem in range(N):
-        for bottomElem in range(N):
+def repeatBruteForceExecutionForMoreResults(model: Model, layout: Layout, var: Variables):
+    for topElem in range(layout.n):
+        for bottomElem in range(layout.n):
             if (topElem != bottomElem):
 
-                temporaryConstraint = gurobi.addConstr(LEFT[topElem, bottomElem] == 1)
-                gurobi.optimize(tapSolutions)
-                gurobi.remove(temporaryConstraint)
+                temporaryConstraint = model.addConstr(var.LEFT[topElem, bottomElem] == 1)
+                model.optimize(tap_solutions)
+                model.remove(temporaryConstraint)
 
-                temporaryConstraint = gurobi.addConstr(ABOVE[topElem, bottomElem] == 1)
-                gurobi.optimize(tapSolutions)
-                gurobi.remove(temporaryConstraint)
+                temporaryConstraint = model.addConstr(var.ABOVE[topElem, bottomElem] == 1)
+                model.optimize(tap_solutions)
+                model.remove(temporaryConstraint)
 
 def reportResult(BAG, H, L, LAG, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG, W, data, gurobi, vBAG, vLAG, vRAG,vTAG):
     print("Value of grid measure is: ", OBJECTIVE_GRIDCOUNT.getValue())
     print("Value of LT objective is: ", OBJECTIVE_LT.getValue())
     for solNo in range(gurobi.Params.PoolSolutions):
-        Hval, Lval, Tval, Wval = extractVariableValues(N, H, L, T, W, gurobi, solNo)
+        Hval, Lval, Tval, Wval = extract_variable_values(N, H, L, T, W, gurobi, solNo)
 
         # Output
         SaveToJSon(N, data.canvasWidth, data.canvasHeight, Lval, Tval, Wval, Hval, 100+solNo, data, gurobi.getObjective().getValue())
@@ -112,7 +107,7 @@ def reportResult(BAG, H, L, LAG, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, T
         DrawPlotOnPage(N, data.canvasWidth, data.canvasHeight, Lval, Tval, Wval, Hval, 100+solNo)
 
 
-def setControlParams(gurobi):
+def set_control_params(gurobi):
     gurobi.Params.PoolSearchMode = 2
     gurobi.Params.PoolSolutions = 1
     #gurobi.Params.MIPGap = 0.01
@@ -122,7 +117,8 @@ def setControlParams(gurobi):
     gurobi.Params.OutputFlag = 0
 
 
-def setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, elemAtBAG, elemAtLAG, elemAtRAG,elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG):
+#def set_constraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG):
+def set_constraints(model: Model, layout: Layout, var: Variables):
     # TODO: Why are these _constraints_? I.e. are these for e.g. locking elements to their place?
 
     # EXPL: constraints in short
@@ -136,72 +132,72 @@ def setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, e
     # * If an edge is associated with an alignment group, the coordinates have to match.
 
     # Known Position constraints X Y
-    for element in range(data.N):
-        if (data.elements[element].X is not None and data.elements[element].X >= 0):
+    for element in range(layout.n):
+        if (layout.elements[element].X is not None and layout.elements[element].X >= 0):
             # EXPL: Does this lock element X coordinate? Answer: most probably
-            gurobi.addConstr(L[element] == data.elements[element].X, "PrespecifiedXOfElement(", element, ")")
-        if (data.elements[element].Y is not None and data.elements[element].Y >= 0):
+            model.addConstr(var.L[element] == layout.elements[element].X, "PrespecifiedXOfElement(", element, ")")
+        if (layout.elements[element].Y is not None and layout.elements[element].Y >= 0):
             # EXPL: Does this lock element Y coordinate?
-            gurobi.addConstr(T[element] == data.elements[element].Y, "PrespecifiedYOfElement(", element, ")")
-        if (data.elements[element].aspectRatio is not None and data.elements[element].aspectRatio > 0.001):
+            model.addConstr(var.T[element] == layout.elements[element].Y, "PrespecifiedYOfElement(", element, ")")
+        if (layout.elements[element].aspectRatio is not None and layout.elements[element].aspectRatio > 0.001):
             # EXPL: Does this lock element aspect ratio?
-            gurobi.addConstr(W[element] == data.elements[element].aspectRatio * H[element],
+            model.addConstr(var.W[element] == layout.elements[element].aspectRatio * var.H[element],
                              "PrespecifiedAspectRatioOfElement(", element, ")")
     # Known Position constraints TOP BOTTOM LEFT RIGHT
     coeffsForAbsolutePositionExpression = []
     varsForAbsolutePositionExpression = []
-    for element in range(data.N):
-        for other in range(data.N):
+    for element in range(layout.n):
+        for other in range(layout.n):
             # EXPL: loop through element pairs, handling every pair twice
             if (element != other):
                 # EXPL: handle preferences for positioning
-                if (data.elements[element].verticalPreference.lower() == "top"):
-                    varsForAbsolutePositionExpression.append(ABOVE[other, element])
+                if (layout.elements[element].verticalPreference.lower() == "top"):
+                    varsForAbsolutePositionExpression.append(var.ABOVE[other, element])
                     coeffsForAbsolutePositionExpression.append(1.0)
-                if (data.elements[element].verticalPreference.lower() == "bottom"):
-                    varsForAbsolutePositionExpression.append(ABOVE[element, other])
+                if (layout.elements[element].verticalPreference.lower() == "bottom"):
+                    varsForAbsolutePositionExpression.append(var.ABOVE[element, other])
                     coeffsForAbsolutePositionExpression.append(1.0)
-                if (data.elements[element].horizontalPreference.lower() == "left"):
-                    varsForAbsolutePositionExpression.append(LEFT[other, element])
+                if (layout.elements[element].horizontalPreference.lower() == "left"):
+                    varsForAbsolutePositionExpression.append(var.LEFT[other, element])
                     coeffsForAbsolutePositionExpression.append(1.0)
-                if (data.elements[element].horizontalPreference.lower() == "right"):
-                    varsForAbsolutePositionExpression.append(LEFT[element, other])
+                if (layout.elements[element].horizontalPreference.lower() == "right"):
+                    varsForAbsolutePositionExpression.append(var.LEFT[element, other])
                     coeffsForAbsolutePositionExpression.append(1.0)
 
     expression = LinExpr(coeffsForAbsolutePositionExpression, varsForAbsolutePositionExpression)
     # EXPL: This constraint prevents any design where an element is closer to an edge than another element that has a
     # EXPL: preference for that edge.
-    gurobi.addConstr(expression == 0, "Disable non-permitted based on prespecified")
+    model.addConstr(expression == 0, "Disable non-permitted based on prespecified")
     # Height/Width/L/R/T/B Summation Sanity
-    for element in range(N):
+    for element in range(layout.n):
         # EXPL: a sanity constraint that coordinates match width and height
-        gurobi.addConstr(W[element] + L[element] == R[element], "R-L=W(" + str(element) + ")")
-        gurobi.addConstr(H[element] + T[element] == B[element], "B-T=H(" + str(element) + ")")
+        model.addConstr(var.W[element] + var.L[element] == var.R[element], "R-L=W(" + str(element) + ")")
+        model.addConstr(var.H[element] + var.T[element] == var.B[element], "B-T=H(" + str(element) + ")")
     # MinMax limits of Left-Above interactions
-    for element in range(N):
-        for otherElement in range(N):
+    for element in range(layout.n):
+        for otherElement in range(layout.n):
             # EXPL: Loop through element pairs (each pair is handled only once)
             if (element > otherElement):
                 # EXPL: apparently a no overlap constraint: i.e. one element has to be at least either on the left side
                 # EXPL: or above the other. Conversely, if neither element is above or to the left of the other, they
                 # EXPL: overlap.
-                gurobi.addConstr(
-                    ABOVE[element, otherElement] + ABOVE[otherElement, element] + LEFT[element, otherElement] + LEFT[
+                model.addConstr(
+                    var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] + var.LEFT[element, otherElement] + var.LEFT[
                         otherElement, element] >= 1,
                     "NoOverlap(" + str(element) + str(otherElement) + ")")
                 # EXPL: The following three constraints prevent locating the element on multiple sides of the other.
                 # EXPL: I.e. only one element can be ‘the left one’ or ‘the top one’.
-                gurobi.addConstr(
-                    ABOVE[element, otherElement] + ABOVE[otherElement, element] + LEFT[element, otherElement] + LEFT[
+                model.addConstr(
+                    var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] + var.LEFT[element, otherElement] + var.LEFT[
                         otherElement, element] <= 2,
                     "UpperLimOfQuadrants(" + str(element) + str(otherElement) + ")")
-                gurobi.addConstr(ABOVE[element, otherElement] + ABOVE[otherElement, element] <= 1,
+                model.addConstr(var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] <= 1,
                                  "Anti-symmetryABOVE(" + str(element) + str(otherElement) + ")")
-                gurobi.addConstr(LEFT[element, otherElement] + LEFT[otherElement, element] <= 1,
+                model.addConstr(var.LEFT[element, otherElement] + var.LEFT[otherElement, element] <= 1,
                                  "Anti-symmetryLEFT(" + str(element) + str(otherElement) + ")")
     # Interconnect L-R-LEFT and T-B-ABOVE
-    for element in range(N):
-        for otherElement in range(N):
+    for element in range(layout.n):
+        for otherElement in range(layout.n):
             # EXPL: Loop through element pairs (every pair is handled twice)
             if (element != otherElement):
                 # TODO: Check how HPAD_SPECIFICATION and VPAD_SPECIFICATION are defined
@@ -209,28 +205,28 @@ def setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, e
                 # EXPL: from the other left edge.
                 # EXPL: The canvas width term is just a way to make sure the constraint is true if element is not to the
                 # EXPL: left of the other.
-                gurobi.addConstr(
-                    R[element] + HPAD_SPECIFICATION <= L[otherElement] + (1 - LEFT[element, otherElement]) * data.canvasWidth
+                model.addConstr(
+                    var.R[element] + HPAD_SPECIFICATION <= var.L[otherElement] + (1 - var.LEFT[element, otherElement]) * layout.canvasWidth
                     , (str(element) + "(ToLeftOf)" + str(otherElement)))
                 # EXPL: Same rule as above but vertically:
-                gurobi.addConstr(
-                    B[element] + VPAD_SPECIFICATION <= T[otherElement] + (1 - ABOVE[element, otherElement]) * data.canvasHeight
+                model.addConstr(
+                    var.B[element] + VPAD_SPECIFICATION <= var.T[otherElement] + (1 - var.ABOVE[element, otherElement]) * layout.canvasHeight
                     , (str(element) + "(Above)" + str(otherElement)))
                 # EXPL: If element is not to the left of the other, check that element right edge + HPAD exceed the left
                 # EXPL: of the other.
                 # EXPL: The canvas width term is just a way to make sure the constraint is true if element is to the
                 # EXPL: left of the other.
-                gurobi.addConstr(
-                    (L[otherElement] - R[element] - HPAD_SPECIFICATION) <= data.canvasWidth * LEFT[element, otherElement]
+                model.addConstr(
+                    (var.L[otherElement] - var.R[element] - HPAD_SPECIFICATION) <= layout.canvasWidth * var.LEFT[element, otherElement]
                     , (str(element) + "(ConverseOfToLeftOf)" + str(otherElement)))
                 # EXPL: Same as above but vertical
-                gurobi.addConstr(
-                    (T[otherElement] - B[element] - VPAD_SPECIFICATION) <= data.canvasHeight * ABOVE[element, otherElement]
+                model.addConstr(
+                    (var.T[otherElement] - var.B[element] - VPAD_SPECIFICATION) <= layout.canvasHeight * var.ABOVE[element, otherElement]
                     , (str(element) + "(ConverseOfAboveOf)" + str(otherElement)))
     # One Alignment-group for every edge of every element
     # EXPL: The canvas is divided horizontally and vertically into ‘alignment groups’, or grid lines.
     # EXPL: Each element has to have an alignment group (or a grid line) for each of its edges.
-    for element in range(N):
+    for element in range(layout.n):
         coeffsForLAG = []
         coeffsForRAG = []
         coeffsForTAG = []
@@ -239,66 +235,67 @@ def setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, e
         varsForRAG = []
         varsForTAG = []
         varsForBAG = []
-        for alignmentGroupIndex in range(data.N):
+        for alignmentGroupIndex in range(layout.n):
             # TODO: does N equal data.N ? If not, check how data.N is computed.
             # EXPL: data.N corresponds to the number of alignment groups
             # EXPL: elemAt*AG is a boolean matrix of whether an edge of an element aligns with a given ‘alignment group’
-            varsForLAG.append(elemAtLAG[element, alignmentGroupIndex])
+            varsForLAG.append(var.elemAtLAG[element, alignmentGroupIndex])
             coeffsForLAG.append(1)
-            varsForRAG.append(elemAtRAG[element, alignmentGroupIndex])
+            varsForRAG.append(var.elemAtRAG[element, alignmentGroupIndex])
             coeffsForRAG.append(1)
-            varsForTAG.append(elemAtTAG[element, alignmentGroupIndex])
+            varsForTAG.append(var.elemAtTAG[element, alignmentGroupIndex])
             coeffsForTAG.append(1)
-            varsForBAG.append(elemAtBAG[element, alignmentGroupIndex])
+            varsForBAG.append(var.elemAtBAG[element, alignmentGroupIndex])
             coeffsForBAG.append(1)
 
         # EXPL: following constraints make sure that an element edge aligns with only one alignment group
-        gurobi.addConstr(LinExpr(coeffsForLAG, varsForLAG) == 1, "OneLAGForElement[" + str(element) + "]")
-        gurobi.addConstr(LinExpr(coeffsForTAG, varsForTAG) == 1, "OneTAGForElement[" + str(element) + "]")
-        gurobi.addConstr(LinExpr(coeffsForBAG, varsForBAG) == 1, "OneBAGForElement[" + str(element) + "]")
-        gurobi.addConstr(LinExpr(coeffsForRAG, varsForRAG) == 1, "OneRAGForElement[" + str(element) + "]")
+        model.addConstr(LinExpr(coeffsForLAG, varsForLAG) == 1, "OneLAGForElement[" + str(element) + "]")
+        model.addConstr(LinExpr(coeffsForTAG, varsForTAG) == 1, "OneTAGForElement[" + str(element) + "]")
+        model.addConstr(LinExpr(coeffsForBAG, varsForBAG) == 1, "OneBAGForElement[" + str(element) + "]")
+        model.addConstr(LinExpr(coeffsForRAG, varsForRAG) == 1, "OneRAGForElement[" + str(element) + "]")
     # Assign alignment groups to elements only if groups are enabled
-    for alignmentGroupIndex in range(data.N):
-        for element in range(N):
+    for alignmentGroupIndex in range(layout.n):
+        for element in range(layout.n):
             # TODO: EXPL: apparently, LAG is a boolean matrix telling, whether an ‘alignment group’ (= grid line) is
             # TODO: EXPL: enabled. If it is not, any element edge should not align with it either.
-            gurobi.addConstr(elemAtLAG[element, alignmentGroupIndex] <= LAG[alignmentGroupIndex])
-            gurobi.addConstr(elemAtRAG[element, alignmentGroupIndex] <= RAG[alignmentGroupIndex])
-            gurobi.addConstr(elemAtTAG[element, alignmentGroupIndex] <= TAG[alignmentGroupIndex])
-            gurobi.addConstr(elemAtBAG[element, alignmentGroupIndex] <= BAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtLAG[element, alignmentGroupIndex] <= var.LAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtRAG[element, alignmentGroupIndex] <= var.RAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtTAG[element, alignmentGroupIndex] <= var.TAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtBAG[element, alignmentGroupIndex] <= var.BAG[alignmentGroupIndex])
     # Correlate alignment groups value with element edge if assigned
-    for alignmentGroupIndex in range(data.N):
-        for element in range(N):
+    for alignmentGroupIndex in range(layout.n):
+        for element in range(layout.n):
             # EXPL: If element is assigned to alignment group, check that * edge is less than or equal to v*AG
-            gurobi.addConstr(L[element] <= vLAG[alignmentGroupIndex] + data.canvasWidth * (
-                        1 - elemAtLAG[element, alignmentGroupIndex]),
+            model.addConstr(var.L[element] <= var.vLAG[alignmentGroupIndex] + layout.canvasWidth * (
+                        1 - var.elemAtLAG[element, alignmentGroupIndex]),
                              "MinsideConnectL[" + str(element) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(R[element] <= vRAG[alignmentGroupIndex] + data.canvasWidth * (
-                        1 - elemAtRAG[element, alignmentGroupIndex]),
+            model.addConstr(var.R[element] <= var.vRAG[alignmentGroupIndex] + layout.canvasWidth * (
+                        1 - var.elemAtRAG[element, alignmentGroupIndex]),
                              "MinsideConnectR[" + str(element) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(T[element] <= vTAG[alignmentGroupIndex] + data.canvasHeight * (
-                        1 - elemAtTAG[element, alignmentGroupIndex]),
+            model.addConstr(var.T[element] <= var.vTAG[alignmentGroupIndex] + layout.canvasHeight * (
+                        1 - var.elemAtTAG[element, alignmentGroupIndex]),
                              "MinsideConnectT[" + str(element) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(B[element] <= vBAG[alignmentGroupIndex] + data.canvasHeight * (
-                        1 - elemAtBAG[element, alignmentGroupIndex]),
+            model.addConstr(var.B[element] <= var.vBAG[alignmentGroupIndex] + layout.canvasHeight * (
+                        1 - var.elemAtBAG[element, alignmentGroupIndex]),
                              "MinsideConnectB[" + str(element) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
 
             # EXPL: If element is assigned to alignment group, check that * edge is greater than or equal to v*AG
-            gurobi.addConstr(L[element] >= vLAG[alignmentGroupIndex] - data.canvasWidth * (
-                        1 - elemAtLAG[element, alignmentGroupIndex]),
+            model.addConstr(var.L[element] >= var.vLAG[alignmentGroupIndex] - layout.canvasWidth * (
+                        1 - var.elemAtLAG[element, alignmentGroupIndex]),
                              "MaxsideConnectL[" + str(element) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(R[element] >= vRAG[alignmentGroupIndex] - data.canvasWidth * (
-                        1 - elemAtRAG[element, alignmentGroupIndex]),
+            model.addConstr(var.R[element] >= var.vRAG[alignmentGroupIndex] - layout.canvasWidth * (
+                        1 - var.elemAtRAG[element, alignmentGroupIndex]),
                              "MaxsideConnectR[" + str(element) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(T[element] >= vTAG[alignmentGroupIndex] - data.canvasHeight * (
-                        1 - elemAtTAG[element, alignmentGroupIndex]),
+            model.addConstr(var.T[element] >= var.vTAG[alignmentGroupIndex] - layout.canvasHeight * (
+                        1 - var.elemAtTAG[element, alignmentGroupIndex]),
                              "MaxsideConnectT[" + str(element) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
-            gurobi.addConstr(B[element] >= vBAG[alignmentGroupIndex] - data.canvasHeight * (
-                        1 - elemAtBAG[element, alignmentGroupIndex]),
+            model.addConstr(var.B[element] >= var.vBAG[alignmentGroupIndex] - layout.canvasHeight * (
+                        1 - var.elemAtBAG[element, alignmentGroupIndex]),
                              "MaxsideConnectB[" + str(element) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
 
 
-def defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi):
+#def define_objectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi):
+def define_objectives(model: Model, layout: Layout, var: Variables):
     # EXPL: Constraints
     # * every element right and bottom edge can be at max (maxX, maxY)
     # * grid count >= minimum possible grid count (grid count = LAG*2 + TAG*2 + BAG*1 + RAG*1)
@@ -307,9 +304,9 @@ def defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi):
     # * LT = T + L + 2B + 2R - W - H
 
     # EXPL: Model.addVar(…): Add a decision variable to a model.
-    maxX = gurobi.addVar(vtype=GRB.INTEGER, name="maxX")
-    maxY = gurobi.addVar(vtype=GRB.INTEGER, name="maxY")
-    for element in range(data.N):
+    maxX = model.addVar(vtype=GRB.INTEGER, name="maxX")
+    maxY = model.addVar(vtype=GRB.INTEGER, name="maxY")
+    for i in range(layout.n):
         # EXPL: addConstr ( lhs, sense, rhs=None, name="" ): Add a constraint to a model.
         # lhs: Left-hand side for new linear constraint. Can be a constant, a Var, a LinExpr, or a TempConstr.
         # sense: Sense for new linear constraint (GRB.LESS_EQUAL, GRB.EQUAL, or GRB.GREATER_EQUAL).
@@ -317,68 +314,68 @@ def defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi):
         # TODO: CONFIRM THIS: the >= operator is probably overloaded to produce the above arguments
         # EXPL: to think the constraint below another way,
         # EXPL: every element right and bottom coordinates can be at max (maxX, maxY)
-        gurobi.addConstr(maxX >= R[element])
-        gurobi.addConstr(maxY >= B[element])
+        model.addConstr(maxX >= var.R[i])
+        model.addConstr(maxY >= var.B[i])
 
-    OBJECTIVE_GRIDCOUNT = LinExpr(0.0) # EXPL: Initialize a linear expression with a constant
-    for element in range(data.N):
+    objective_grid_count = LinExpr(0.0) # EXPL: Initialize a linear expression with a constant
+    for i in range(layout.n):
         # EXPL: LinExpr.addTerms ( coeffs, vars ):
-        OBJECTIVE_GRIDCOUNT.addTerms([2.0, 2.0], [LAG[element], TAG[element]])
-        OBJECTIVE_GRIDCOUNT.addTerms([1.0, 1.0], [BAG[element], RAG[element]])
-    OBJECTIVE_LT = LinExpr(0)
-    for element in range(data.N):
-
-        OBJECTIVE_LT.addTerms([1, 1, 2, 2, -1, -1],
-                              [T[element], L[element], B[element], R[element], W[element], H[element]])
+        objective_grid_count.addTerms([2.0, 2.0], [var.LAG[i], var.TAG[i]])
+        objective_grid_count.addTerms([1.0, 1.0], [var.BAG[i], var.RAG[i]])
+    objective_lt = LinExpr(0)
+    for i in range(layout.n):
+        objective_lt.addTerms([1, 1, 2, 2, -1, -1],
+                              [var.T[i], var.L[i], var.B[i], var.R[i], var.W[i], var.H[i]])
     Objective = LinExpr(0)
     # EXPL: LinExpr.add( expr, mult=1.0 ): Add one linear expression into another.
-    Objective.add(OBJECTIVE_GRIDCOUNT, 1)
-    Objective.add(OBJECTIVE_LT, 0.001)
+    Objective.add(objective_grid_count, 1)
+    Objective.add(objective_lt, 0.001)
     #Objective.add(maxX, 10)
     #Objective.add(maxY, 10)
 
     # EXPL: Maximum number of grid lines is at minimum something
-    gurobi.addConstr(OBJECTIVE_GRIDCOUNT >= (calculateLowerBound(N)))
+    model.addConstr(objective_grid_count >= (compute_lower_bound(layout.n)))
     # EXPL: Minimize grid line count
-    gurobi.setObjective(Objective, GRB.MINIMIZE)
-    return OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT
+    model.setObjective(Objective, GRB.MINIMIZE)
+    return objective_grid_count, objective_lt
 
 
-def setVarNames(B, H, L, R, T, W, data, vBAG, vLAG, vRAG, vTAG):
-    for element in range(data.N):
-        L[element].LB = 0                                                   # EXPL: Lower bound for left edge
-        L[element].UB = data.canvasWidth - data.elements[element].minWidth  # EXPL: Upper bound for left edge
+def set_variable_bounds(layout: Layout, var: Variables):
 
-        R[element].LB = data.elements[element].minWidth
-        R[element].UB = data.canvasWidth
+    for i in range(layout.n):
+        var.L[i].LB = 0                                                 # EXPL: Lower bound for left edge
+        var.L[i].UB = layout.canvasWidth - layout.elements[i].minWidth  # EXPL: Upper bound for left edge
 
-        T[element].LB = 0
-        T[element].UB = data.canvasHeight - data.elements[element].minHeight
+        var.R[i].LB = layout.elements[i].minWidth
+        var.R[i].UB = layout.canvasWidth
 
-        B[element].LB = data.elements[element].minHeight
-        B[element].UB = data.canvasHeight
+        var.T[i].LB = 0
+        var.T[i].UB = layout.canvasHeight - layout.elements[i].minHeight
 
-        W[element].LB = data.elements[element].minWidth
-        W[element].UB = data.elements[element].maxWidth
+        var.B[i].LB = layout.elements[i].minHeight
+        var.B[i].UB = layout.canvasHeight
 
-        H[element].LB = data.elements[element].minHeight
-        H[element].UB = data.elements[element].maxHeight
+        var.W[i].LB = layout.elements[i].minWidth
+        var.W[i].UB = layout.elements[i].maxWidth
 
-        vLAG[element].LB = 0
-        vLAG[element].UB = data.canvasWidth - 1
+        var.H[i].LB = layout.elements[i].minHeight
+        var.H[i].UB = layout.elements[i].maxHeight
 
-        vRAG[element].LB = 1
-        vRAG[element].UB = data.canvasWidth
+        var.vLAG[i].LB = 0
+        var.vLAG[i].UB = layout.canvasWidth - 1
 
-        vTAG[element].LB = 0
-        vTAG[element].UB = data.canvasHeight - 1
+        var.vRAG[i].LB = 1
+        var.vRAG[i].UB = layout.canvasWidth
 
-        vBAG[element].LB = 1
-        vBAG[element].UB = data.canvasHeight
+        var.vTAG[i].LB = 0
+        var.vTAG[i].UB = layout.canvasHeight - 1
+
+        var.vBAG[i].LB = 1
+        var.vBAG[i].UB = layout.canvasHeight
 
 
-def extractVariableValues(N, H, L, T, W, gurobi, solNo):
-    gurobi.Params.SolutionNumber = solNo
+def extract_variable_values(N, H, L, T, W, model: Model, solNo):
+    model.Params.SolutionNumber = solNo
     Lval = []
     Tval = []
     Wval = []
@@ -420,40 +417,7 @@ def printResultToConsole(N, BAG, LAG, RAG, TAG, vBAG, vLAG, vRAG, vTAG):
             result = result + "Bottom = <>,"
         print(result)
 
-
-def define_vars(data):
-    gurobi_model = Model("GLayout")
-    n = data.N                                              # EXPL: Number of elements
-    L = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='L')
-    R = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='R')
-    T = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='T')
-    B = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='B')
-    H = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='H')
-    W = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='W')
-    ABOVE = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')
-    LEFT = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='LEFT')
-
-    #LAG = define_1d_bool_var_array(gurobi_model, data.N, "LAG")                       # EXPL: left alignment group enabled?
-    LAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='LAG')
-    #RAG = define_1d_bool_var_array(gurobi_model, data.N, "RAG")                       # EXPL: right aligment group enabled?
-    RAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='RAG')
-    #TAG = define_1d_bool_var_array(gurobi_model, data.N, "TAG")                       # EXPL: top alignment group enabled?
-    TAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='TAG')
-    #BAG = define_1d_bool_var_array(gurobi_model, data.N, "BAG")                       # EXPL: bottom alignment group enabled?
-    BAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='BAG')
-
-    vLAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vLAG')
-    vRAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vRAG')
-    vTAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vTAG')
-    vBAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vBAG')
-    elemAtLAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zLAG')
-    elemAtRAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zRAG')
-    elemAtTAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zTAG')
-    elemAtBAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')
-    return ABOVE, B, BAG, H, L, LAG, LEFT, n, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG
-
-
-def calculateLowerBound(N : int) -> int:
+def compute_lower_bound(N : int) -> float:
     floorRootN = math.floor(math.sqrt(N))
     countOfElementsInGrid = floorRootN*floorRootN
     countOfNonGridElements = N - countOfElementsInGrid
@@ -470,34 +434,40 @@ def calculateLowerBound(N : int) -> int:
     return result
 
 
-def tapSolutions(model, where):
+def tap_solutions(model, where):
     if where == GRB.Callback.MIPSOL:
+        layout: Layout = model._layout
+
         objeValue = model.cbGet(GRB.Callback.MIPSOL_OBJ)
         lowerBound = model.cbGet(GRB.Callback.MIPSOL_OBJBND)
         percentGap = (objeValue - lowerBound)/lowerBound
-        printThis = 0
+
         t = model.cbGet(GRB.Callback.RUNTIME)
         if(percentGap > 0.2):
-            if(t < 5 or t < tools.GurobiUtils.data.N):
+            if t < 5 or t < layout.n:
                 print("Neglected poor solution")
                 return
         print("Entering solution because t=",t," and gap%=",percentGap)
-        percentGap = math.floor(percentGap*100)
+
         objeValue = math.floor(objeValue*10000)/10000.0
-        print("Tapped into Solution No",tools.GurobiUtils.solNo," of objective value ",objeValue," with lower bound at ",lowerBound)
-        Hval, Lval, Tval, Wval = extractVariableValuesFromPartialSolution(model)
-        SolutionManager.buildNewSolution(objeValue,  Lval,Tval, Wval, Hval, model._hashToSolution)
-        tools.GurobiUtils.solNo = tools.GurobiUtils.solNo + 1
+        print("Tapped into Solution No",model._solution_number," of objective value ",objeValue," with lower bound at ",lowerBound)
+        Hval, Lval, Tval, Wval = extract_var_values_from_partial_solution(model)
+        print('???', Hval, Lval, Tval, Wval)
+        SolutionManager.build_new_solution(model, objeValue, Lval, Tval, Wval, Hval, model._hash_to_solution)
+        #tools.GurobiUtils.solNo = tools.GurobiUtils.solNo + 1
+        model._solution_number += 1
 
 
-def extractVariableValuesFromPartialSolution(gurobi):
+def extract_var_values_from_partial_solution(model: Model) -> Tuple[List[int], List[int], List[int], List[int]]:
+    layout: Layout = model._layout
+    var: Variables = model._var
     Lval = []
     Tval = []
     Wval = []
     Hval = []
-    for element in range(tools.GurobiUtils.data.N):
-        Lval.append(gurobi.cbGetSolution(tools.GurobiUtils.L[element]))
-        Tval.append(gurobi.cbGetSolution(tools.GurobiUtils.T[element]))
-        Wval.append(gurobi.cbGetSolution(tools.GurobiUtils.W[element]))
-        Hval.append(gurobi.cbGetSolution(tools.GurobiUtils.H[element]))
+    for element in range(layout.n):
+        Lval.append(model.cbGetSolution(var.L[element]))
+        Tval.append(model.cbGetSolution(var.T[element]))
+        Wval.append(model.cbGetSolution(var.W[element]))
+        Hval.append(model.cbGetSolution(var.H[element]))
     return Hval, Lval, Tval, Wval

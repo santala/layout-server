@@ -7,7 +7,7 @@ from layout_difference import Layout
 from layout_difference.MIPCompare import solve
 from layout_difference.PrepareParameters import build_layout_parameters
 from layout_engine import ElementaryPlacement
-from tools.JSONLoader import json_to_data_instance
+from tools.JSONLoader import Layout
 
 app = Flask(__name__)
 
@@ -53,14 +53,8 @@ def upload() -> Response:
 
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
-
-    # TODO: consider improving error reporting (or not, for security reasons)
-
-    layout = json.loads(request.data)
-
-    optimized = ElementaryPlacement.solve(json_to_data_instance(layout))
-
-    return jsonify(optimized)
+    # TODO: consider adding checks for security
+    return jsonify(ElementaryPlacement.solve(Layout(json.loads(request.data))))
 
 
 
