@@ -1,7 +1,6 @@
 from gurobipy import GRB, Model
 from gurobipy.gurobipy import LinExpr
 
-from tools.GurobiUtils import define_1d_bool_var_array, define_2d_bool_var_array_array
 from . import Layout
 
 
@@ -105,8 +104,11 @@ def define_objectives(gurobi_model: Model, first_layout: Layout, second_layout: 
     return objective_euclidean_move_resize, objective_elements_lost, objective_elements_gained, objective_full
 
 
-def define_variables(gurobi_model: Model, firstLayout:Layout, secondLayout:Layout):
-    Z = define_2d_bool_var_array_array(gurobi_model, firstLayout.n, secondLayout.n, "ZAssignment")
-    UF = define_1d_bool_var_array(gurobi_model, firstLayout.n, "UnassignedInFirstLayout")
-    US = define_1d_bool_var_array(gurobi_model, secondLayout.n, "UnassignedInSecondLayout")
+def define_variables(gurobi_model: Model, first_layout: Layout, second_layout: Layout):
+    #Z = define_2d_bool_var_array_array(gurobi_model, firstLayout.n, secondLayout.n, "ZAssignment")
+    Z = gurobi_model.addVars(first_layout.n, second_layout.n, vtype=GRB.BINARY, name='ZAssignment')
+    #UF = define_1d_bool_var_array(gurobi_model, first_layout.n, "UnassignedInFirstLayout")
+    UF = gurobi_model.addVars(first_layout.n, vtype=GRB.BINARY, name='UnassignedInFirstLayout')
+    #US = define_1d_bool_var_array(gurobi_model, second_layout.n, "UnassignedInSecondLayout")
+    US = gurobi_model.addVars(second_layout.n, vtype=GRB.BINARY, name='UnassignedInSecondLayout')
     return Z, UF, US

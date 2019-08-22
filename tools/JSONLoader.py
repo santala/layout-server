@@ -1,26 +1,28 @@
-import json
 
 class DataInstance:
-    canvasWidth = None
-    canvasHeight = None
-    NumOfSolutions = None
-    elements = []
-    N = None
+    def __init__(self):
+        self.canvasWidth = None
+        self.canvasHeight = None
+        self.NumOfSolutions = None
+        self.elements = []
+        self.N = None
+
 
 class Element:
-    width  = None
-    height = None
-    minWidth  = None
-    minHeight = None
-    maxWidth  = None
-    maxHeight = None
-    aspectRatio = None
-    horizontalPreference = None
-    verticalPreference = None
-    elementType = None
-    X = None
-    Y = None
-    id = None
+    def __init__(self):
+        self.width  = None
+        self.height = None
+        self.minWidth  = None
+        self.minHeight = None
+        self.maxWidth  = None
+        self.maxHeight = None
+        self.aspectRatio = None
+        self.horizontalPreference = None
+        self.verticalPreference = None
+        self.elementType = None
+        self.X = None
+        self.Y = None
+        self.id = None
 
 
 def json_to_data_instance(json_dict) -> DataInstance:

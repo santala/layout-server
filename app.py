@@ -57,21 +57,7 @@ def optimize_layout() -> Response:
     # TODO: consider improving error reporting (or not, for security reasons)
 
     layout = json.loads(request.data)
-    '''    
-    # Check existence of file parameters
-    if 'layout' not in request.files:
-        return abort(400) # Bad request
 
-    # Check existence of files
-    layout_file = request.files['layout']
-
-    if layout_file.filename == '':
-        return abort(418) # File missing
-
-    layout = json.load(layout_file.stream)
-
-    layout_file.close()
-    '''
     optimized = ElementaryPlacement.solve(json_to_data_instance(layout))
 
     return jsonify(optimized)

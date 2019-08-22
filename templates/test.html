@@ -28,16 +28,10 @@ async function submitLayoutEngine() {
 
         console.log("Uploading layout…");
         let response = await fetch("{{ url_for('optimize_layout') }}", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            //mode: '*same-origin', // no-cors, cors, *same-origin
-            //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            //credentials: 'same-origin', // include, *same-origin, omit
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            //redirect: 'follow', // manual, *follow, error
-            //referrer: 'no-referrer', // no-referrer, *client
             body: JSON.stringify(layout), // body data type must match "Content-Type" header
         });
         console.log(response);

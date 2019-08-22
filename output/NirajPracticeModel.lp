@@ -41,20 +41,20 @@ Subject To
    + RAG[5] + RAG[6] + RAG[7] + 2 TAG[0] + 2 TAG[1] + 2 TAG[2] + 2 TAG[3]
    + 2 TAG[4] + 2 TAG[5] + 2 TAG[6] + 2 TAG[7] + BAG[0] + BAG[1] + BAG[2]
    + BAG[3] + BAG[4] + BAG[5] + BAG[6] + BAG[7] >= 12
- PrespecifiedXOfElement(: L[0] = 5
+ PrespecifiedXOfElement(: L[0] = 0
  PrespecifiedYOfElement(: T[0] = 0
- PrespecifiedXOfElement(: L[1] = 800
+ PrespecifiedXOfElement(: L[1] = 0
  PrespecifiedYOfElement(: T[1] = 100
- PrespecifiedXOfElement(: L[2] = 0
+ PrespecifiedXOfElement(: L[2] = 600
  PrespecifiedYOfElement(: T[2] = 500
- PrespecifiedXOfElement(: L[3] = 400
+ PrespecifiedXOfElement(: L[3] = 200
  PrespecifiedYOfElement(: T[3] = 500
- PrespecifiedXOfElement(: L[4] = 400
+ PrespecifiedXOfElement(: L[4] = 200
  PrespecifiedYOfElement(: T[4] = 100
- PrespecifiedXOfElement(: L[5] = 0
- PrespecifiedYOfElement(: T[5] = 300
- PrespecifiedXOfElement(: L[6] = 0
- PrespecifiedYOfElement(: T[6] = 100
+ PrespecifiedXOfElement(: L[5] = 600
+ PrespecifiedYOfElement(: T[5] = 100
+ PrespecifiedXOfElement(: L[6] = 600
+ PrespecifiedYOfElement(: T[6] = 300
  PrespecifiedXOfElement(: L[7] = 0
  PrespecifiedYOfElement(: T[7] = 800
  Disable_non-permitted_based_on_prespecified: ABOVE[1,0] + ABOVE[2,0]

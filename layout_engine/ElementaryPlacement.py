@@ -5,32 +5,30 @@ from tools.JSonExportUtility import *
 from tools.PlotUtility import *
 from tools.Constants import *
 from . import SolutionManager
-import math
+import math, time
 import tools.GurobiUtils
 
 def solve(data: DataInstance):
-    print(data)
+
     try:
         # EXPL: Initiliaze variables
-        ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG  =  defineVars(data)
-
+        ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG  =  define_vars(data)
         # EXPL: Set lower and upper bounds
         setVarNames(B, H, L, R, T, W, data, vBAG, vLAG, vRAG, vTAG)
 
         # EXPL: Define Objective (the objective is to minimize OBJECTIVE_GRIDCOUNT + 0.001*OBJECTIVE_LT)
-        OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT = defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi)
+        OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT = defineObjectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi_model)
 
-        setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, elemAtBAG, elemAtLAG, elemAtRAG,elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG)
+        setConstraints(ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, data, elemAtBAG, elemAtLAG, elemAtRAG,elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG)
 
         globalizeVariablesForOpenAccess(H, L, T, W, data)
 
-        gurobi.write("output/NirajPracticeModel.lp")
+        gurobi_model.write("output/NirajPracticeModel.lp")
 
-        setControlParams(gurobi)
+        setControlParams(gurobi_model)
+        gurobi_model._hashToSolution = dict()
 
-        gurobi._hashToSolution = dict()
-
-        gurobi.optimize(tapSolutions)
+        gurobi_model.optimize(tapSolutions)
 
         #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
 
@@ -51,7 +49,7 @@ def solve(data: DataInstance):
         print('AttributeError:' + str(e))
         return {'status': 0}
 
-    if gurobi.Status == GRB.Status.OPTIMAL:
+    if gurobi_model.Status == GRB.Status.OPTIMAL:
 
         elements = []
 
@@ -423,30 +421,36 @@ def printResultToConsole(N, BAG, LAG, RAG, TAG, vBAG, vLAG, vRAG, vTAG):
         print(result)
 
 
-def defineVars(data):
-    gurobi = Model("GLayout")
-    L = define_1d_int_var_array(gurobi, data.N, "L")                            # Left?
-    R = define_1d_int_var_array(gurobi, data.N, "R")                            # Right?
-    T = define_1d_int_var_array(gurobi, data.N, "T")                            # Top?
-    B = define_1d_int_var_array(gurobi, data.N, "B")                            # Bottom?
-    H = define_1d_int_var_array(gurobi, data.N, "H")                            # Height?
-    W = define_1d_int_var_array(gurobi, data.N, "W")                            # Width?
-    ABOVE = define_2d_bool_var_array_array(gurobi, data.N, data.N, "ABOVE")
-    LEFT = define_2d_bool_var_array_array(gurobi, data.N, data.N, "LEFT")
-    N = data.N                                                              # EXPL: Number of elements
-    LAG = define_1d_bool_var_array(gurobi, data.N, "LAG")                       # EXPL: left alignment group enabled?
-    RAG = define_1d_bool_var_array(gurobi, data.N, "RAG")                       # EXPL: right aligment group enabled?
-    TAG = define_1d_bool_var_array(gurobi, data.N, "TAG")                       # EXPL: top alignment group enabled?
-    BAG = define_1d_bool_var_array(gurobi, data.N, "BAG")                       # EXPL: bottom alignment group enabled?
-    vLAG = define_1d_int_var_array(gurobi, data.N, "vLAG")                      # EXPL: ? maybe the value of the grid line?
-    vRAG = define_1d_int_var_array(gurobi, data.N, "vRAG")
-    vTAG = define_1d_int_var_array(gurobi, data.N, "vTAG")
-    vBAG = define_1d_int_var_array(gurobi, data.N, "vBAG")
-    elemAtLAG = define_2d_bool_var_array_array(gurobi, data.N, data.N, "zLAG")   # ???
-    elemAtRAG = define_2d_bool_var_array_array(gurobi, data.N, data.N, "zRAG")
-    elemAtTAG = define_2d_bool_var_array_array(gurobi, data.N, data.N, "zTAG")
-    elemAtBAG = define_2d_bool_var_array_array(gurobi, data.N, data.N, "zBAG")
-    return ABOVE, B, BAG, H, L, LAG, LEFT, N, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi, vBAG, vLAG, vRAG, vTAG
+def define_vars(data):
+    gurobi_model = Model("GLayout")
+    n = data.N                                              # EXPL: Number of elements
+    L = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='L')
+    R = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='R')
+    T = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='T')
+    B = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='B')
+    H = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='H')
+    W = gurobi_model.addVars(n, vtype=GRB.INTEGER, name='W')
+    ABOVE = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')
+    LEFT = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='LEFT')
+
+    #LAG = define_1d_bool_var_array(gurobi_model, data.N, "LAG")                       # EXPL: left alignment group enabled?
+    LAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='LAG')
+    #RAG = define_1d_bool_var_array(gurobi_model, data.N, "RAG")                       # EXPL: right aligment group enabled?
+    RAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='RAG')
+    #TAG = define_1d_bool_var_array(gurobi_model, data.N, "TAG")                       # EXPL: top alignment group enabled?
+    TAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='TAG')
+    #BAG = define_1d_bool_var_array(gurobi_model, data.N, "BAG")                       # EXPL: bottom alignment group enabled?
+    BAG = gurobi_model.addVars(n, vtype=GRB.BINARY, name='BAG')
+
+    vLAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vLAG')
+    vRAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vRAG')
+    vTAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vTAG')
+    vBAG = gurobi_model.addVars(data.N, vtype=GRB.INTEGER, name='vBAG')
+    elemAtLAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zLAG')
+    elemAtRAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zRAG')
+    elemAtTAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zTAG')
+    elemAtBAG = gurobi_model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')
+    return ABOVE, B, BAG, H, L, LAG, LEFT, n, R, RAG, T, TAG, W, elemAtBAG, elemAtLAG, elemAtRAG, elemAtTAG, gurobi_model, vBAG, vLAG, vRAG, vTAG
 
 
 def calculateLowerBound(N : int) -> int:
