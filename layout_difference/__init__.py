@@ -10,7 +10,8 @@ class Element:
 
 
 class Layout:
-    def __init__(self, layout_dict=None):
+    def __init__(self, props=None):
+
         self.canvas_width = None
         self.canvas_height = None
         self.elements = []
@@ -22,12 +23,14 @@ class Layout:
         self.h_sum = 0
         self.area_sum = 0
 
-        if layout_dict is not None:
-            self.canvas_width = layout_dict.get('canvasWidth')
-            self.canvas_height = layout_dict.get('canvasHeight')
-            self.id = layout_dict.get('id')
+        if props is not None:
+            props = props.get("layouts")[0]  # TODO: edit the format
 
-            for element_dict in layout_dict.get('elements'):
+            self.canvas_width = props.get('canvasWidth')
+            self.canvas_height = props.get('canvasHeight')
+            self.id = str(props.get('id'))
+
+            for element_dict in props.get('elements'):
                 element = Element()
                 element.id = element_dict.get('id')
                 element.x = element_dict.get('x')

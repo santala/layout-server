@@ -1,70 +1,70 @@
-from gurobipy import GRB, Model
+from gurobipy import GRB, Model, tupledict
 from gurobipy.gurobipy import LinExpr
 
 from . import Layout
 
 
-def solve(first_layout: Layout, second_layout: Layout, PenaltyAssignment) -> dict:
+def solve(layout1: Layout, layout2: Layout, penalty_assignment: list) -> dict:
 
     # TODO: check whether re-using the same model is feasible
-    gurobi_model = Model('GLayoutCompare')
+    model = Model('GLayoutCompare')
 
     # EXPL: Z = element mapping (a boolean matrix)
     # EXPL: UF = extra elements in the first layout (a list of booleans)
     # EXPL: US = extra elements in the second layout (a list of booleans)
-    Z, UF, US = define_variables(gurobi_model, first_layout, second_layout)
+    # TODO: maybe use the term ‘orphan’ for unassigned elements?
+    element_assignment, unassigned1, unassigned2 = define_variables(model, layout1, layout2)
     # EXPL: Compute the penalty of the mapping plus penalties incurred by the unassigned elements
     objective_euclidean_move_resize, objective_elements_lost, objective_elements_gained, objective_full \
-        = define_objectives(gurobi_model, first_layout, second_layout, Z, UF, US, PenaltyAssignment)
-    define_constraints(gurobi_model, first_layout, second_layout, Z, UF, US)
-    set_control_parameters(gurobi_model)
-    gurobi_model.optimize()
+        = define_objectives(model, layout1, layout2, element_assignment, unassigned1, unassigned2, penalty_assignment)
+    define_constraints(model, layout1, layout2, element_assignment, unassigned1, unassigned2)
+    set_control_parameters(model)
+    model.optimize()
 
     element_mapping = []
 
-    for e1 in range(first_layout.n):
-        for e2 in range(second_layout.n):
-            if Z[e1, e2].getAttr('X') == 1: # ‘X’ is the value of the variable in the current solution
-                element_mapping.append((first_layout.elements[e1].id, second_layout.elements[e2].id))
+    for e1 in range(layout1.n):
+        for e2 in range(layout2.n):
+            if element_assignment[e1, e2].getAttr('X') == 1: # ‘X’ is the value of the variable in the current solution
+                element_mapping.append((layout1.elements[e1].id, layout2.elements[e2].id))
 
-
-    if gurobi_model.Status == GRB.Status.OPTIMAL:
+    if model.Status == GRB.Status.OPTIMAL:
         return {
             'status': 1,
             'euclideanDifference': round(objective_euclidean_move_resize.getValue() * 10000),
-            'elementsGained': round(objective_elements_gained.getValue() * 10000),
-            'elementsLost': round(objective_elements_lost.getValue() * 10000),
+            'elementsGainedPenalty': round(objective_elements_gained.getValue() * 10000),
+            'elementsLostPenalty': round(objective_elements_lost.getValue() * 10000),
             'elementMapping': element_mapping
         }
     else:
         return { 'status': 0 }
 
 
-def set_control_parameters(gurobi_model):
-    gurobi_model.Params.OutputFlag = 0
+def set_control_parameters(model: Model):
+    model.Params.OutputFlag = 0
 
 
-def define_constraints(gurobi_model: Model, firstLayout:Layout, secondLayout:Layout, Z, UF, US):
+def define_constraints(model: Model, layout1: Layout, layout2: Layout, element_mapping, unassigned1, unassigned2):
     #Forward -- First to second
-    for countInFirst in range(firstLayout.n):
-        assignmentOfThisElement = LinExpr()
+    for i1 in range(layout1.n):
+        element1_assignment = LinExpr()
         # EXPL: for each element, check that it is unassigned…
-        assignmentOfThisElement.addTerms([1],[UF[countInFirst]])
-        for countInSecond in range(secondLayout.n):
+        element1_assignment.addTerms([1], [unassigned1[i1]])
+        for i2 in range(layout2.n):
             # EXPL: …or assigned to only one element in the other layout
-            assignmentOfThisElement.addTerms([1],[Z[countInFirst,countInSecond]])
-        gurobi_model.addConstr(assignmentOfThisElement == 1, "AssignFirstForElement(" + str(countInFirst) + ")")
+            element1_assignment.addTerms([1], [element_mapping[i1, i2]])
+        model.addConstr(element1_assignment == 1, name="AssignFirstForElement(" + str(i1) + ")")
 
     #Reverse -- Second to first
-    for countInSecond in range(secondLayout.n):
-        assignmentOfThisElement = LinExpr()
-        assignmentOfThisElement.addTerms([1],[US[countInSecond]])
-        for countInFirst in range(firstLayout.n):
-            assignmentOfThisElement.addTerms(1,Z[countInFirst,countInSecond])
-        gurobi_model.addConstr(assignmentOfThisElement == 1, "AssignSecondForElement(" + str(countInSecond) + ")")
+    for i2 in range(layout2.n):
+        element2_assignment = LinExpr()
+        element2_assignment.addTerms([1], [unassigned2[i2]])
+        for i1 in range(layout1.n):
+            element2_assignment.addTerms(1, element_mapping[i1, i2])
+        model.addConstr(element2_assignment == 1, name="AssignSecondForElement(" + str(i2) + ")")
 
-
-def define_objectives(gurobi_model: Model, first_layout: Layout, second_layout: Layout, Z, UF, US, PenaltyAssignment):
+def define_objectives(gurobi_model: Model, layout1: Layout, layout2: Layout,
+                      element_assignment, unassigned1, unassigned2, penalty_assignment) -> (LinExpr, LinExpr, LinExpr, LinExpr):
     objective_euclidean_move_resize = LinExpr()
     objective_elements_lost = LinExpr()
     objective_elements_gained = LinExpr()
@@ -72,23 +72,23 @@ def define_objectives(gurobi_model: Model, first_layout: Layout, second_layout: 
 
     # Element Assignment
     # EXPL: loop through possible element pairs
-    for countInFirst in range(first_layout.n):
-        for countInSecond in range(second_layout.n):
+    for countInFirst in range(layout1.n):
+        for countInSecond in range(layout2.n):
             # EXPL: TODO: confirm this
             # EXPL: penalty is the ‘EuclideanMoveResize’ distance between two elements from different layouts
             # EXPL: this code adds a term that equals the penalty if the the elements are paired up,
             # EXPL: but is zero if they are not assigned
-            weightage = PenaltyAssignment[countInFirst][countInSecond]
-            variable = Z[countInFirst,countInSecond]
-            objective_euclidean_move_resize.addTerms(weightage, variable)
+            weights = penalty_assignment[countInFirst][countInSecond]
+            variable = element_assignment[countInFirst, countInSecond]
+            objective_euclidean_move_resize.addTerms(weights, variable)
 
             # EXPL: TODO: check how penaltySkipped works
     #UnAssigned from first
-    for countInFirst in range(first_layout.n):
-        objective_elements_lost.addTerms(first_layout.elements[countInFirst].PenaltyIfSkipped, UF[countInFirst])
+    for countInFirst in range(layout1.n):
+        objective_elements_lost.addTerms(layout1.elements[countInFirst].PenaltyIfSkipped, unassigned1[countInFirst])
 
-    for countInSecond in range(second_layout.n):
-        objective_elements_gained.addTerms(second_layout.elements[countInSecond].PenaltyIfSkipped, US[countInSecond])
+    for countInSecond in range(layout2.n):
+        objective_elements_gained.addTerms(layout2.elements[countInSecond].PenaltyIfSkipped, unassigned2[countInSecond])
 
     # TODO: EXPL: are ‘lost’ and ‘gained’ good terms to use?
     # EXPL: ‘Lost’ here refers to elements from the first layout that are don’t correspond to any element in the second
@@ -104,11 +104,9 @@ def define_objectives(gurobi_model: Model, first_layout: Layout, second_layout: 
     return objective_euclidean_move_resize, objective_elements_lost, objective_elements_gained, objective_full
 
 
-def define_variables(gurobi_model: Model, first_layout: Layout, second_layout: Layout):
-    #Z = define_2d_bool_var_array_array(gurobi_model, firstLayout.n, secondLayout.n, "ZAssignment")
-    Z = gurobi_model.addVars(first_layout.n, second_layout.n, vtype=GRB.BINARY, name='ZAssignment')
-    #UF = define_1d_bool_var_array(gurobi_model, first_layout.n, "UnassignedInFirstLayout")
-    UF = gurobi_model.addVars(first_layout.n, vtype=GRB.BINARY, name='UnassignedInFirstLayout')
-    #US = define_1d_bool_var_array(gurobi_model, second_layout.n, "UnassignedInSecondLayout")
-    US = gurobi_model.addVars(second_layout.n, vtype=GRB.BINARY, name='UnassignedInSecondLayout')
-    return Z, UF, US
+def define_variables(gurobi_model: Model, first_layout: Layout, second_layout: Layout)\
+        -> (tupledict, tupledict, tupledict):
+    element_mapping = gurobi_model.addVars(first_layout.n, second_layout.n, vtype=GRB.BINARY, name='ZAssignment')
+    unassigned_in_first = gurobi_model.addVars(first_layout.n, vtype=GRB.BINARY, name='UnassignedInFirstLayout')
+    unassigned_in_second = gurobi_model.addVars(second_layout.n, vtype=GRB.BINARY, name='UnassignedInSecondLayout')
+    return element_mapping, unassigned_in_first, unassigned_in_second

@@ -11,7 +11,7 @@ def resolve_individual_layout_parameters(layout: Layout):
         layout.area_sum = layout.area_sum + element.area
 
 
-def build_layout_parameters(layout_a: Layout, layout_b: Layout):
+def build_layout_parameters(layout_a: Layout, layout_b: Layout) -> list:
     penalty_assignment = []
 
     resolve_individual_layout_parameters(layout_a)

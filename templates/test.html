@@ -18,6 +18,37 @@ form {
     </style>
     <script>
 
+async function submitLayoutDifference() {
+    try {
+        let messageBox = document.getElementById("message");
+        messageBox.innerText = "";
+
+        let inputs = [document.getElementById("layoutDifferenceA"), document.getElementById("layoutDifferenceB")];
+
+        let requestBody = JSON.stringify(await Promise.all(inputs.map(async input => await readJSON(input))));
+
+        let response = await fetch("{{ url_for('upload') }}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: requestBody, // body data type must match "Content-Type" header
+        });
+
+        console.log(response);
+
+        if (response.ok) {
+            console.log("Parsing response…");
+            let jsonObj = await response.json();
+            console.log(jsonObj);
+            messageBox.innerText = JSON.stringify(jsonObj, null, 2);
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 async function submitLayoutEngine() {
     console.log("Submitting to layout engine…");
     try {
@@ -102,19 +133,21 @@ function readJSON(input) {
 </head>
 <body>
 
-<form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+<form id="layoutDifferenceForm" onsubmit="event.preventDefault()">
     <fieldset>
         <legend>Layout Difference</legend>
-        <label>Layout 1 <input type="file" name="layoutA" required /></label>
-        <label>Layout 2 <input type="file" name="layoutB" required /></label>
+        <label>Layout A <input type="file" id="layoutDifferenceA" name="layoutA"  required /></label>
+        <label>Layout B <input type="file" id="layoutDifferenceB" name="layoutB" required /></label>
         <input type="submit" />
     </fieldset>
 </form>
 
+<pre id="message">{{ message }}</pre>
+
 <form id="layoutEngineForm" onsubmit="event.preventDefault()">
     <fieldset>
         <legend>Layout Engine</legend>
-        <label>Layout <input type="file" id="layoutEngineFile" name="layout" /></label>
+        <label>Layout <input type="file" id="layoutEngineFile" name="layout" required /></label>
         <input type="submit" />
     </fieldset>
 </form>
@@ -130,9 +163,12 @@ function readJSON(input) {
     </fieldset>
 </form>
 
-<pre>{{ message }}</pre>
-
 <script>
+
+document.getElementById("layoutDifferenceForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitLayoutDifference();
+}, false);
 
 document.getElementById("layoutEngineForm").addEventListener("submit", (event) => {
     event.preventDefault();
