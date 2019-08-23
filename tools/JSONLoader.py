@@ -14,11 +14,17 @@ class Layout:
 
         self.n = len(self.elements)
 
-        self.x_sum = 0
-        self.y_sum = 0
-        self.w_sum = 0
-        self.h_sum = 0
-        self.area_sum = 0
+        # The following are for the layout difference algorithm
+
+        self.x_sum = sum([element.x for element in self.elements])
+        self.y_sum = sum([element.y for element in self.elements])
+        self.w_sum = sum([element.width for element in self.elements])
+        self.h_sum = sum([element.height for element in self.elements])
+        self.area_sum = sum([element.area for element in self.elements])
+
+        # EXPL: Penalty of being skipped is the relative size of the element
+        for element in self.elements:
+            element.PenaltyIfSkipped = element.area / self.area_sum
 
 
 class Element:
@@ -29,6 +35,7 @@ class Element:
         self.y = props.get('y')
         self.width = props.get('width', None)
         self.height = props.get('height', None)
+        self.area = self.width * self.height if self.width is not None and self.height is not None else None
         self.minWidth = props.get('minWidth')
         self.minHeight = props.get('minHeight')
         self.maxWidth = props.get('maxWidth')
@@ -37,6 +44,8 @@ class Element:
         self.verticalPreference = props.get('verticalPreference')
         self.aspectRatio = props.get('aspectRatio')
         self.elementType = props.get('type')
+
+        self.PenaltyIfSkipped = None
 
         if self.width is not None and self.width >= 0:
             self.minWidth = self.width

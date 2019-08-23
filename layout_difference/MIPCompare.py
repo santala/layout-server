@@ -71,23 +71,24 @@ def define_objectives(gurobi_model: Model, layout1: Layout, layout2: Layout,
 
     # Element Assignment
     # EXPL: loop through possible element pairs
-    for countInFirst in range(layout1.n):
-        for countInSecond in range(layout2.n):
+    for i1 in range(layout1.n):
+        for i2 in range(layout2.n):
             # EXPL: TODO: confirm this
             # EXPL: penalty is the ‘EuclideanMoveResize’ distance between two elements from different layouts
             # EXPL: this code adds a term that equals the penalty if the the elements are paired up,
             # EXPL: but is zero if they are not assigned
-            weights = penalty_assignment[countInFirst][countInSecond]
-            variable = element_assignment[countInFirst, countInSecond]
+            weights = penalty_assignment[i1][i2]
+            variable = element_assignment[i1, i2]
             objective_euclidean_move_resize.addTerms(weights, variable)
 
             # EXPL: TODO: check how penaltySkipped works
     #UnAssigned from first
-    for countInFirst in range(layout1.n):
-        objective_elements_lost.addTerms(layout1.elements[countInFirst].PenaltyIfSkipped, unassigned1[countInFirst])
+    for i1, element1 in enumerate(layout1.elements):
+        objective_elements_lost.addTerms(element1.PenaltyIfSkipped, unassigned1[i1])
 
-    for countInSecond in range(layout2.n):
-        objective_elements_gained.addTerms(layout2.elements[countInSecond].PenaltyIfSkipped, unassigned2[countInSecond])
+
+    for i2, element2 in enumerate(layout2.elements):
+        objective_elements_gained.addTerms(element2.PenaltyIfSkipped, unassigned2[i2])
 
     # TODO: EXPL: are ‘lost’ and ‘gained’ good terms to use?
     # EXPL: ‘Lost’ here refers to elements from the first layout that are don’t correspond to any element in the second
