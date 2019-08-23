@@ -1,8 +1,11 @@
+from pprint import pprint
 from typing import List, Tuple
+
+from itertools import combinations, permutations
 
 from gurobipy import *
 from tools.GurobiUtils import *
-from tools.JSONLoader import Layout
+from tools.JSONLoader import Layout, Element
 from tools.JSonExportUtility import *
 from tools.PlotUtility import *
 from tools.Constants import *
@@ -56,23 +59,21 @@ def solve(layout: Layout) -> dict:
 
     if model.Status == GRB.Status.OPTIMAL:
 
-        elements = []
-
-        for e in range(layout.n):
-
-            elements.append({
-                'id': layout.elements[e].id,
-                'x': var.L[e].getAttr('X'), # ‘X’ is the value of the variable in the current solution
-                'y': var.T[e].getAttr('X'),
-                'width': var.W[e].getAttr('X'),
-                'height': var.H[e].getAttr('X'),
-            })
+        elements = [
+            {
+                'id': element.id,
+                'x': var.L[i].getAttr('X'),  # ‘X’ is the value of the variable in the current solution
+                'y': var.T[i].getAttr('X'),
+                'width': var.W[i].getAttr('X'),
+                'height': var.H[i].getAttr('X'),
+            } for i, element in enumerate(layout.elements)
+        ]
 
         return {
             'status': 1,
             'layout': {
-                'canvasWidth': layout.canvasWidth,
-                'canvasHeight': layout.canvasHeight,
+                'canvasWidth': layout.canvas_width,
+                'canvasHeight': layout.canvas_height,
                 'elements': elements
             }
         }
@@ -132,101 +133,99 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
     # * If an edge is associated with an alignment group, the coordinates have to match.
 
     # Known Position constraints X Y
-    for element in range(layout.n):
-        if (layout.elements[element].X is not None and layout.elements[element].X >= 0):
+    for i, element in enumerate(layout.elements):
+        if element.x is not None and element.x >= 0:
             # EXPL: Does this lock element X coordinate? Answer: most probably
-            model.addConstr(var.L[element] == layout.elements[element].X, "PrespecifiedXOfElement(", element, ")")
-        if (layout.elements[element].Y is not None and layout.elements[element].Y >= 0):
+            model.addConstr(var.L[i] == element.x, "PrespecifiedXOfElement(", i, ")")
+        if element.y is not None and element.y >= 0:
             # EXPL: Does this lock element Y coordinate?
-            model.addConstr(var.T[element] == layout.elements[element].Y, "PrespecifiedYOfElement(", element, ")")
-        if (layout.elements[element].aspectRatio is not None and layout.elements[element].aspectRatio > 0.001):
+            model.addConstr(var.T[i] == element.y, "PrespecifiedYOfElement(", i, ")")
+        if element.aspectRatio is not None and element.aspectRatio > 0.001:
             # EXPL: Does this lock element aspect ratio?
-            model.addConstr(var.W[element] == layout.elements[element].aspectRatio * var.H[element],
-                             "PrespecifiedAspectRatioOfElement(", element, ")")
+            model.addConstr(var.W[i] == element.aspectRatio * var.H[i],
+                             "PrespecifiedAspectRatioOfElement(", i, ")")
     # Known Position constraints TOP BOTTOM LEFT RIGHT
     coeffsForAbsolutePositionExpression = []
     varsForAbsolutePositionExpression = []
-    for element in range(layout.n):
-        for other in range(layout.n):
-            # EXPL: loop through element pairs, handling every pair twice
-            if (element != other):
-                # EXPL: handle preferences for positioning
-                if (layout.elements[element].verticalPreference.lower() == "top"):
-                    varsForAbsolutePositionExpression.append(var.ABOVE[other, element])
-                    coeffsForAbsolutePositionExpression.append(1.0)
-                if (layout.elements[element].verticalPreference.lower() == "bottom"):
-                    varsForAbsolutePositionExpression.append(var.ABOVE[element, other])
-                    coeffsForAbsolutePositionExpression.append(1.0)
-                if (layout.elements[element].horizontalPreference.lower() == "left"):
-                    varsForAbsolutePositionExpression.append(var.LEFT[other, element])
-                    coeffsForAbsolutePositionExpression.append(1.0)
-                if (layout.elements[element].horizontalPreference.lower() == "right"):
-                    varsForAbsolutePositionExpression.append(var.LEFT[element, other])
-                    coeffsForAbsolutePositionExpression.append(1.0)
+
+
+    for (i, element), (j, other) in permutations(enumerate(layout.elements), 2):
+        # j = the index of the other element
+        # EXPL: loop through element pairs, handling every pair twice (both orderings)
+
+        # EXPL: handle preferences for positioning
+        if element.verticalPreference.lower() == "top":
+            varsForAbsolutePositionExpression.append(var.ABOVE[j, i])
+            coeffsForAbsolutePositionExpression.append(1.0)
+        if element.verticalPreference.lower() == "bottom":
+            varsForAbsolutePositionExpression.append(var.ABOVE[i, j])
+            coeffsForAbsolutePositionExpression.append(1.0)
+        if element.horizontalPreference.lower() == "left":
+            varsForAbsolutePositionExpression.append(var.LEFT[j, i])
+            coeffsForAbsolutePositionExpression.append(1.0)
+        if element.horizontalPreference.lower() == "right":
+            varsForAbsolutePositionExpression.append(var.LEFT[i, j])
+            coeffsForAbsolutePositionExpression.append(1.0)
 
     expression = LinExpr(coeffsForAbsolutePositionExpression, varsForAbsolutePositionExpression)
     # EXPL: This constraint prevents any design where an element is closer to an edge than another element that has a
     # EXPL: preference for that edge.
     model.addConstr(expression == 0, "Disable non-permitted based on prespecified")
     # Height/Width/L/R/T/B Summation Sanity
-    for element in range(layout.n):
+    for i in range(layout.n):
         # EXPL: a sanity constraint that coordinates match width and height
-        model.addConstr(var.W[element] + var.L[element] == var.R[element], "R-L=W(" + str(element) + ")")
-        model.addConstr(var.H[element] + var.T[element] == var.B[element], "B-T=H(" + str(element) + ")")
+        model.addConstr(var.W[i] + var.L[i] == var.R[i], "R-L=W(" + str(i) + ")")
+        model.addConstr(var.H[i] + var.T[i] == var.B[i], "B-T=H(" + str(i) + ")")
     # MinMax limits of Left-Above interactions
-    for element in range(layout.n):
-        for otherElement in range(layout.n):
-            # EXPL: Loop through element pairs (each pair is handled only once)
-            if (element > otherElement):
-                # EXPL: apparently a no overlap constraint: i.e. one element has to be at least either on the left side
-                # EXPL: or above the other. Conversely, if neither element is above or to the left of the other, they
-                # EXPL: overlap.
-                model.addConstr(
-                    var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] + var.LEFT[element, otherElement] + var.LEFT[
-                        otherElement, element] >= 1,
-                    "NoOverlap(" + str(element) + str(otherElement) + ")")
-                # EXPL: The following three constraints prevent locating the element on multiple sides of the other.
-                # EXPL: I.e. only one element can be ‘the left one’ or ‘the top one’.
-                model.addConstr(
-                    var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] + var.LEFT[element, otherElement] + var.LEFT[
-                        otherElement, element] <= 2,
-                    "UpperLimOfQuadrants(" + str(element) + str(otherElement) + ")")
-                model.addConstr(var.ABOVE[element, otherElement] + var.ABOVE[otherElement, element] <= 1,
-                                 "Anti-symmetryABOVE(" + str(element) + str(otherElement) + ")")
-                model.addConstr(var.LEFT[element, otherElement] + var.LEFT[otherElement, element] <= 1,
-                                 "Anti-symmetryLEFT(" + str(element) + str(otherElement) + ")")
+    for i, j in combinations(range(layout.n), 2):
+        # EXPL: Loop through element pairs (each pair is handled only once)
+        # EXPL: apparently a no overlap constraint: i.e. one element has to be at least either on the left side
+        # EXPL: or above the other. Conversely, if neither element is above or to the left of the other, they
+        # EXPL: overlap.
+        model.addConstr(
+            var.ABOVE[i, j] + var.ABOVE[j, i] + var.LEFT[i, j] + var.LEFT[
+                j, i] >= 1,
+            "NoOverlap(" + str(i) + str(j) + ")")
+        # EXPL: The following three constraints prevent locating the element on multiple sides of the other.
+        # EXPL: I.e. only one element can be ‘the left one’ or ‘the top one’.
+        model.addConstr(
+            var.ABOVE[i, j] + var.ABOVE[j, i] + var.LEFT[i, j] + var.LEFT[
+                j, i] <= 2,
+            "UpperLimOfQuadrants(" + str(i) + str(j) + ")")
+        model.addConstr(var.ABOVE[i, j] + var.ABOVE[j, i] <= 1,
+                         "Anti-symmetryABOVE(" + str(i) + str(j) + ")")
+        model.addConstr(var.LEFT[i, j] + var.LEFT[j, i] <= 1,
+                         "Anti-symmetryLEFT(" + str(i) + str(j) + ")")
     # Interconnect L-R-LEFT and T-B-ABOVE
-    for element in range(layout.n):
-        for otherElement in range(layout.n):
-            # EXPL: Loop through element pairs (every pair is handled twice)
-            if (element != otherElement):
-                # TODO: Check how HPAD_SPECIFICATION and VPAD_SPECIFICATION are defined
-                # EXPL: If element is to the right of the other, check that element right edge is at least HPAD distance
-                # EXPL: from the other left edge.
-                # EXPL: The canvas width term is just a way to make sure the constraint is true if element is not to the
-                # EXPL: left of the other.
-                model.addConstr(
-                    var.R[element] + HPAD_SPECIFICATION <= var.L[otherElement] + (1 - var.LEFT[element, otherElement]) * layout.canvasWidth
-                    , (str(element) + "(ToLeftOf)" + str(otherElement)))
-                # EXPL: Same rule as above but vertically:
-                model.addConstr(
-                    var.B[element] + VPAD_SPECIFICATION <= var.T[otherElement] + (1 - var.ABOVE[element, otherElement]) * layout.canvasHeight
-                    , (str(element) + "(Above)" + str(otherElement)))
-                # EXPL: If element is not to the left of the other, check that element right edge + HPAD exceed the left
-                # EXPL: of the other.
-                # EXPL: The canvas width term is just a way to make sure the constraint is true if element is to the
-                # EXPL: left of the other.
-                model.addConstr(
-                    (var.L[otherElement] - var.R[element] - HPAD_SPECIFICATION) <= layout.canvasWidth * var.LEFT[element, otherElement]
-                    , (str(element) + "(ConverseOfToLeftOf)" + str(otherElement)))
-                # EXPL: Same as above but vertical
-                model.addConstr(
-                    (var.T[otherElement] - var.B[element] - VPAD_SPECIFICATION) <= layout.canvasHeight * var.ABOVE[element, otherElement]
-                    , (str(element) + "(ConverseOfAboveOf)" + str(otherElement)))
+    for (i, element), (j, other) in permutations(enumerate(layout.elements), 2):
+        # EXPL: Loop through element pairs (every pair is handled twice)
+        # TODO: Check how HPAD_SPECIFICATION and VPAD_SPECIFICATION are defined
+        # EXPL: If element is to the right of the other, check that element right edge is at least HPAD distance
+        # EXPL: from the other left edge.
+        # EXPL: The canvas width term is just a way to make sure the constraint is true if element is not to the
+        # EXPL: left of the other.
+        model.addConstr(
+            var.R[i] + HPAD_SPECIFICATION <= var.L[j] + (1 - var.LEFT[i, j]) * layout.canvas_width
+            , (str(i) + "(ToLeftOf)" + str(j)))
+        # EXPL: Same rule as above but vertically:
+        model.addConstr(
+            var.B[i] + VPAD_SPECIFICATION <= var.T[j] + (1 - var.ABOVE[i, j]) * layout.canvas_height
+            , (str(i) + "(Above)" + str(j)))
+        # EXPL: If element is not to the left of the other, check that element right edge + HPAD exceed the left
+        # EXPL: of the other.
+        # EXPL: The canvas width term is just a way to make sure the constraint is true if element is to the
+        # EXPL: left of the other.
+        model.addConstr(
+            (var.L[j] - var.R[i] - HPAD_SPECIFICATION) <= layout.canvas_width * var.LEFT[i, j]
+            , (str(i) + "(ConverseOfToLeftOf)" + str(j)))
+        # EXPL: Same as above but vertical
+        model.addConstr(
+            (var.T[j] - var.B[i] - VPAD_SPECIFICATION) <= layout.canvas_height * var.ABOVE[i, j]
+            , (str(i) + "(ConverseOfAboveOf)" + str(j)))
     # One Alignment-group for every edge of every element
     # EXPL: The canvas is divided horizontally and vertically into ‘alignment groups’, or grid lines.
     # EXPL: Each element has to have an alignment group (or a grid line) for each of its edges.
-    for element in range(layout.n):
+    for i in range(layout.n):
         coeffsForLAG = []
         coeffsForRAG = []
         coeffsForTAG = []
@@ -239,63 +238,62 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
             # TODO: does N equal data.N ? If not, check how data.N is computed.
             # EXPL: data.N corresponds to the number of alignment groups
             # EXPL: elemAt*AG is a boolean matrix of whether an edge of an element aligns with a given ‘alignment group’
-            varsForLAG.append(var.elemAtLAG[element, alignmentGroupIndex])
+            varsForLAG.append(var.elemAtLAG[i, alignmentGroupIndex])
             coeffsForLAG.append(1)
-            varsForRAG.append(var.elemAtRAG[element, alignmentGroupIndex])
+            varsForRAG.append(var.elemAtRAG[i, alignmentGroupIndex])
             coeffsForRAG.append(1)
-            varsForTAG.append(var.elemAtTAG[element, alignmentGroupIndex])
+            varsForTAG.append(var.elemAtTAG[i, alignmentGroupIndex])
             coeffsForTAG.append(1)
-            varsForBAG.append(var.elemAtBAG[element, alignmentGroupIndex])
+            varsForBAG.append(var.elemAtBAG[i, alignmentGroupIndex])
             coeffsForBAG.append(1)
 
         # EXPL: following constraints make sure that an element edge aligns with only one alignment group
-        model.addConstr(LinExpr(coeffsForLAG, varsForLAG) == 1, "OneLAGForElement[" + str(element) + "]")
-        model.addConstr(LinExpr(coeffsForTAG, varsForTAG) == 1, "OneTAGForElement[" + str(element) + "]")
-        model.addConstr(LinExpr(coeffsForBAG, varsForBAG) == 1, "OneBAGForElement[" + str(element) + "]")
-        model.addConstr(LinExpr(coeffsForRAG, varsForRAG) == 1, "OneRAGForElement[" + str(element) + "]")
+        model.addConstr(LinExpr(coeffsForLAG, varsForLAG) == 1, "OneLAGForElement[" + str(i) + "]")
+        model.addConstr(LinExpr(coeffsForTAG, varsForTAG) == 1, "OneTAGForElement[" + str(i) + "]")
+        model.addConstr(LinExpr(coeffsForBAG, varsForBAG) == 1, "OneBAGForElement[" + str(i) + "]")
+        model.addConstr(LinExpr(coeffsForRAG, varsForRAG) == 1, "OneRAGForElement[" + str(i) + "]")
     # Assign alignment groups to elements only if groups are enabled
     for alignmentGroupIndex in range(layout.n):
-        for element in range(layout.n):
+        for i in range(layout.n):
             # TODO: EXPL: apparently, LAG is a boolean matrix telling, whether an ‘alignment group’ (= grid line) is
             # TODO: EXPL: enabled. If it is not, any element edge should not align with it either.
-            model.addConstr(var.elemAtLAG[element, alignmentGroupIndex] <= var.LAG[alignmentGroupIndex])
-            model.addConstr(var.elemAtRAG[element, alignmentGroupIndex] <= var.RAG[alignmentGroupIndex])
-            model.addConstr(var.elemAtTAG[element, alignmentGroupIndex] <= var.TAG[alignmentGroupIndex])
-            model.addConstr(var.elemAtBAG[element, alignmentGroupIndex] <= var.BAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtLAG[i, alignmentGroupIndex] <= var.LAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtRAG[i, alignmentGroupIndex] <= var.RAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtTAG[i, alignmentGroupIndex] <= var.TAG[alignmentGroupIndex])
+            model.addConstr(var.elemAtBAG[i, alignmentGroupIndex] <= var.BAG[alignmentGroupIndex])
     # Correlate alignment groups value with element edge if assigned
     for alignmentGroupIndex in range(layout.n):
-        for element in range(layout.n):
+        for i in range(layout.n):
             # EXPL: If element is assigned to alignment group, check that * edge is less than or equal to v*AG
-            model.addConstr(var.L[element] <= var.vLAG[alignmentGroupIndex] + layout.canvasWidth * (
-                        1 - var.elemAtLAG[element, alignmentGroupIndex]),
-                             "MinsideConnectL[" + str(element) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.R[element] <= var.vRAG[alignmentGroupIndex] + layout.canvasWidth * (
-                        1 - var.elemAtRAG[element, alignmentGroupIndex]),
-                             "MinsideConnectR[" + str(element) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.T[element] <= var.vTAG[alignmentGroupIndex] + layout.canvasHeight * (
-                        1 - var.elemAtTAG[element, alignmentGroupIndex]),
-                             "MinsideConnectT[" + str(element) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.B[element] <= var.vBAG[alignmentGroupIndex] + layout.canvasHeight * (
-                        1 - var.elemAtBAG[element, alignmentGroupIndex]),
-                             "MinsideConnectB[" + str(element) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.L[i] <= var.vLAG[alignmentGroupIndex] + layout.canvas_width * (
+                        1 - var.elemAtLAG[i, alignmentGroupIndex]),
+                             "MinsideConnectL[" + str(i) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.R[i] <= var.vRAG[alignmentGroupIndex] + layout.canvas_width * (
+                        1 - var.elemAtRAG[i, alignmentGroupIndex]),
+                             "MinsideConnectR[" + str(i) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.T[i] <= var.vTAG[alignmentGroupIndex] + layout.canvas_height * (
+                        1 - var.elemAtTAG[i, alignmentGroupIndex]),
+                             "MinsideConnectT[" + str(i) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.B[i] <= var.vBAG[alignmentGroupIndex] + layout.canvas_height * (
+                        1 - var.elemAtBAG[i, alignmentGroupIndex]),
+                             "MinsideConnectB[" + str(i) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
 
             # EXPL: If element is assigned to alignment group, check that * edge is greater than or equal to v*AG
-            model.addConstr(var.L[element] >= var.vLAG[alignmentGroupIndex] - layout.canvasWidth * (
-                        1 - var.elemAtLAG[element, alignmentGroupIndex]),
-                             "MaxsideConnectL[" + str(element) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.R[element] >= var.vRAG[alignmentGroupIndex] - layout.canvasWidth * (
-                        1 - var.elemAtRAG[element, alignmentGroupIndex]),
-                             "MaxsideConnectR[" + str(element) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.T[element] >= var.vTAG[alignmentGroupIndex] - layout.canvasHeight * (
-                        1 - var.elemAtTAG[element, alignmentGroupIndex]),
-                             "MaxsideConnectT[" + str(element) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
-            model.addConstr(var.B[element] >= var.vBAG[alignmentGroupIndex] - layout.canvasHeight * (
-                        1 - var.elemAtBAG[element, alignmentGroupIndex]),
-                             "MaxsideConnectB[" + str(element) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.L[i] >= var.vLAG[alignmentGroupIndex] - layout.canvas_width * (
+                        1 - var.elemAtLAG[i, alignmentGroupIndex]),
+                             "MaxsideConnectL[" + str(i) + "]ToLAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.R[i] >= var.vRAG[alignmentGroupIndex] - layout.canvas_width * (
+                        1 - var.elemAtRAG[i, alignmentGroupIndex]),
+                             "MaxsideConnectR[" + str(i) + "]ToRAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.T[i] >= var.vTAG[alignmentGroupIndex] - layout.canvas_height * (
+                        1 - var.elemAtTAG[i, alignmentGroupIndex]),
+                             "MaxsideConnectT[" + str(i) + "]ToTAG[" + str(alignmentGroupIndex) + "]")
+            model.addConstr(var.B[i] >= var.vBAG[alignmentGroupIndex] - layout.canvas_height * (
+                        1 - var.elemAtBAG[i, alignmentGroupIndex]),
+                             "MaxsideConnectB[" + str(i) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
 
 
-#def define_objectives(N, W, H, B, BAG, L, LAG, R, RAG, T, TAG, data, gurobi):
-def define_objectives(model: Model, layout: Layout, var: Variables):
+def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr, LinExpr):
     # EXPL: Constraints
     # * every element right and bottom edge can be at max (maxX, maxY)
     # * grid count >= minimum possible grid count (grid count = LAG*2 + TAG*2 + BAG*1 + RAG*1)
@@ -342,36 +340,36 @@ def define_objectives(model: Model, layout: Layout, var: Variables):
 
 def set_variable_bounds(layout: Layout, var: Variables):
 
-    for i in range(layout.n):
+    for i, element in enumerate(layout.elements):
         var.L[i].LB = 0                                                 # EXPL: Lower bound for left edge
-        var.L[i].UB = layout.canvasWidth - layout.elements[i].minWidth  # EXPL: Upper bound for left edge
+        var.L[i].UB = layout.canvas_width - element.minWidth  # EXPL: Upper bound for left edge
 
-        var.R[i].LB = layout.elements[i].minWidth
-        var.R[i].UB = layout.canvasWidth
+        var.R[i].LB = element.minWidth
+        var.R[i].UB = layout.canvas_width
 
         var.T[i].LB = 0
-        var.T[i].UB = layout.canvasHeight - layout.elements[i].minHeight
+        var.T[i].UB = layout.canvas_height - element.minHeight
 
-        var.B[i].LB = layout.elements[i].minHeight
-        var.B[i].UB = layout.canvasHeight
+        var.B[i].LB = element.minHeight
+        var.B[i].UB = layout.canvas_height
 
-        var.W[i].LB = layout.elements[i].minWidth
-        var.W[i].UB = layout.elements[i].maxWidth
+        var.W[i].LB = element.minWidth
+        var.W[i].UB = element.maxWidth
 
-        var.H[i].LB = layout.elements[i].minHeight
-        var.H[i].UB = layout.elements[i].maxHeight
+        var.H[i].LB = element.minHeight
+        var.H[i].UB = element.maxHeight
 
         var.vLAG[i].LB = 0
-        var.vLAG[i].UB = layout.canvasWidth - 1
+        var.vLAG[i].UB = layout.canvas_width - 1
 
         var.vRAG[i].LB = 1
-        var.vRAG[i].UB = layout.canvasWidth
+        var.vRAG[i].UB = layout.canvas_width
 
         var.vTAG[i].LB = 0
-        var.vTAG[i].UB = layout.canvasHeight - 1
+        var.vTAG[i].UB = layout.canvas_height - 1
 
         var.vBAG[i].LB = 1
-        var.vBAG[i].UB = layout.canvasHeight
+        var.vBAG[i].UB = layout.canvas_height
 
 
 def extract_variable_values(N, H, L, T, W, model: Model, solNo):

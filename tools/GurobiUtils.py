@@ -1,7 +1,7 @@
-from gurobipy import *
+from gurobipy import GRB, Model, tupledict
 
 class Variables:
-    def __init__(self, model):
+    def __init__(self, model: Model):
 
         layout: DataInstance = model._layout
         n = layout.n  # EXPL: Number of elements

@@ -1,7 +1,6 @@
-from gurobipy import GRB, Model, tupledict
-from gurobipy.gurobipy import LinExpr
+from gurobipy import GRB, LinExpr, Model, tupledict
 
-from . import Layout
+from tools.JSONLoader import Layout
 
 
 def solve(layout1: Layout, layout2: Layout, penalty_assignment: list) -> dict:

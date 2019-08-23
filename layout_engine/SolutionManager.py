@@ -20,7 +20,7 @@ def build_new_solution(model: Model, objValue: float, Lval: List[int], Tval: Lis
         return
     else:
         hash_to_solution[solution_hash] = solution
-        SaveToJSon(layout.n, layout.canvasWidth, layout.canvasHeight,
+        SaveToJSon(layout.n, layout.canvas_width, layout.canvas_height,
                    Lval, Tval, Wval, Hval, model._solution_number, layout, objValue)
-        DrawPlotOnPage(layout.n, layout.canvasWidth, layout.canvasHeight, Lval, Tval, Wval, Hval, model._solution_number)
+        DrawPlotOnPage(layout.n, layout.canvas_width, layout.canvas_height, Lval, Tval, Wval, Hval, model._solution_number)
 

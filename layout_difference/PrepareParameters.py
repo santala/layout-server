@@ -1,4 +1,4 @@
-from . import Layout
+from tools.JSONLoader import Layout
 
 
 def resolve_individual_layout_parameters(layout: Layout):
