@@ -15,6 +15,7 @@ class Layout:
         self.n = len(self.elements)
 
         # The following are for the layout difference algorithm
+        # TODO: consider making this a separate method
 
         self.x_sum = sum([element.x for element in self.elements])
         self.y_sum = sum([element.y for element in self.elements])

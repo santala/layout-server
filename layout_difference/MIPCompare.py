@@ -2,8 +2,12 @@ from gurobipy import GRB, LinExpr, Model, tupledict
 
 from tools.JSONLoader import Layout
 
+from .PrepareParameters import compute_penalty_assignment
 
-def solve(layout1: Layout, layout2: Layout, penalty_assignment: list) -> dict:
+
+def solve(layout1: Layout, layout2: Layout) -> dict:
+
+    penalty_assignment = compute_penalty_assignment(layout1, layout2)
 
     # TODO: check whether re-using the same model is feasible
     model = Model('GLayoutCompare')

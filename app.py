@@ -4,7 +4,6 @@ from flask import Flask, abort, jsonify, render_template, request, Response
 
 # from tools.JSONDisplay import actualDisplay
 from layout_difference import MIPCompare
-from layout_difference.PrepareParameters import compute_penalty_assignment
 from layout_engine import ElementaryPlacement
 from tools.JSONLoader import Layout
 
@@ -30,9 +29,7 @@ def upload() -> Response:
     print("Comparing ", first_layout.id, " ( n =", first_layout.n, ") <>",
           second_layout.id, "( n =", str(second_layout.n), ")")
 
-    penalty_assignment = compute_penalty_assignment(first_layout, second_layout)
-
-    return jsonify(MIPCompare.solve(first_layout, second_layout, penalty_assignment))
+    return jsonify(MIPCompare.solve(first_layout, second_layout))
 
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
