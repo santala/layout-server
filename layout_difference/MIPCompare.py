@@ -33,14 +33,15 @@ def solve(layout1: Layout, layout2: Layout) -> dict:
 
     if model.Status == GRB.Status.OPTIMAL:
         return {
-            'status': 1,
+            'status': 0,
             'euclideanDifference': round(objective_euclidean_move_resize.getValue() * 10000),
             'elementsGainedPenalty': round(objective_elements_gained.getValue() * 10000),
             'elementsLostPenalty': round(objective_elements_lost.getValue() * 10000),
             'elementMapping': element_mapping
         }
     else:
-        return { 'status': 0 }
+        print('Non-optimal status:', model.Status)
+        return { 'status': 1 }
 
 
 def set_control_parameters(model: Model):

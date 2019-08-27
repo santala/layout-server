@@ -1,7 +1,8 @@
 
 class Layout:
     def __init__(self, props: dict):
-        props = props.get("layouts")[0]  # TODO: edit the format
+        # TODO: format validation
+        props = props.get('layouts')[0]  # TODO: edit the format
 
         self.id = str(props.get('id'))
         self.canvas_width = props.get('canvasWidth', None)
@@ -17,15 +18,17 @@ class Layout:
         # The following are for the layout difference algorithm
         # TODO: consider making this a separate method
 
-        self.x_sum = sum([element.x for element in self.elements])
-        self.y_sum = sum([element.y for element in self.elements])
-        self.w_sum = sum([element.width for element in self.elements])
-        self.h_sum = sum([element.height for element in self.elements])
+        self.x_sum = sum([abs(element.x) for element in self.elements])
+        self.y_sum = sum([abs(element.y) for element in self.elements])
+        self.w_sum = sum([abs(element.width) for element in self.elements])
+        self.h_sum = sum([abs(element.height) for element in self.elements])
         self.area_sum = sum([element.area for element in self.elements])
 
         # EXPL: Penalty of being skipped is the relative size of the element
         for element in self.elements:
             element.PenaltyIfSkipped = element.area / self.area_sum
+
+        print(props)
 
 
 class Element:
@@ -36,7 +39,10 @@ class Element:
         self.y = props.get('y')
         self.width = props.get('width', None)
         self.height = props.get('height', None)
-        self.area = self.width * self.height if self.width is not None and self.height is not None else None
+        self.area = self.width * self.height \
+            if self.width is not None and self.height is not None \
+               and self.width > 0 and self.height > 0 \
+            else None
         self.minWidth = props.get('minWidth')
         self.minHeight = props.get('minHeight')
         self.maxWidth = props.get('maxWidth')

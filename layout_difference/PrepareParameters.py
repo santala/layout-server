@@ -27,6 +27,16 @@ def compute_penalty_assignment(layout1: Layout, layout2: Layout) -> List[List[fl
                               * ((element1.area + element2.area) / (layout1.area_sum + layout2.area_sum))
             # TODO: is there a penalty for changing element type? # EXPL: if not, consider places to add that (and test)
 
+            '''
+            if penalty_to_move < 0:
+                print('penalty to move')
+                print(layout1.x_sum, layout2.x_sum, layout1.y_sum, layout2.y_sum, element1.area, element2.area, layout1.area_sum, layout2.area_sum)
+            elif penalty_to_resize < 0:
+                print('penalty to resize')
+                print(layout1.w_sum, layout2.w_sum, layout1.h_sum, layout2.h_sum, element1.area, element2.area, layout1.area_sum, layout2.area_sum)
+            '''
+
+
             local_penalty.append(penalty_to_move + penalty_to_resize)
 
         penalty_assignment.append(local_penalty)

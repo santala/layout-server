@@ -52,11 +52,11 @@ def solve(layout: Layout) -> dict:
 
     except GurobiError as e:
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
-        return {'status': 0}
+        return {'status': 1}
 
-    except AttributeError  as e:
+    except AttributeError as e:
         print('AttributeError:' + str(e))
-        return {'status': 0}
+        return {'status': 1}
 
     if model.Status == GRB.Status.OPTIMAL:
 
@@ -71,7 +71,7 @@ def solve(layout: Layout) -> dict:
         ]
 
         return {
-            'status': 1,
+            'status': 0,
             'layout': {
                 'canvasWidth': layout.canvas_width,
                 'canvasHeight': layout.canvas_height,
@@ -79,7 +79,10 @@ def solve(layout: Layout) -> dict:
             }
         }
     else:
-        return {'status': 0}
+        model.computeIIS()
+        model.write("output/NirajPracticeModel.ilp")
+        print('Non-optimal status:', model.Status)
+        return {'status': 1}
 
 
 def repeatBruteForceExecutionForMoreResults(model: Model, layout: Layout, var: Variables):
@@ -121,6 +124,7 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
 
     # Known Position constraints X Y
     for i, element in enumerate(layout.elements):
+        print('PrespecifiedXOfElement', i, element.x, element.y)
         if element.x is not None and element.x >= 0:
             # EXPL: Does this lock element X coordinate? Answer: yes
             model.addConstr(var.l[i] == element.x, "PrespecifiedXOfElement("+str(i)+")")
@@ -411,4 +415,4 @@ def tap_solutions(model: Model, where):
         else:
             model._solutions.append(solution)
             model._solution_number += 1
-        
+

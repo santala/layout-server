@@ -1,1 +1,123 @@
-{"layouts": [{"canvasWidth": 1000, "canvasHeight": 950, "id": 6, "elements": [{"x": 0.0, "y": 0.0, "width": 1000.0, "height": 100.0, "id": "<1>", "type": "SimpleBox", "verticalPreference": "TOP", "horizontalPreference": "", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 0.0, "y": 100.0, "width": 200.0, "height": 700.0, "id": "<2>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 600.0, "y": 500.0, "width": 400.0, "height": 300.0, "id": "<3>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 200.0, "y": 500.0, "width": 400.0, "height": 300.0, "id": "<4>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 200.0, "y": 100.0, "width": 400.0, "height": 400.0, "id": "<5>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 600.0, "y": 100.0, "width": 400.0, "height": 200.0, "id": "<6>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 600.0, "y": 300.0, "width": 400.0, "height": 200.0, "id": "<7>", "type": "SimpleBox", "verticalPreference": "", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}, {"x": 0.0, "y": 800.0, "width": 1000.0, "height": 150.0, "id": "<8>", "type": "SimpleBox", "verticalPreference": "Bottom", "horizontalPreference": "None", "fillColorRedValue": 157, "fillColorGreenValue": 136, "fillColorBlueValue": 255, "isLocked": null}]}]}
+{
+  "layouts": [
+    {
+      "canvasWidth": 1000,
+      "canvasHeight": 950,
+      "id": 6,
+      "elements": [
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "width": 1000.0,
+          "height": 100.0,
+          "id": "<1>",
+          "type": "SimpleBox",
+          "verticalPreference": "TOP",
+          "horizontalPreference": "",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 0.0,
+          "y": 100.0,
+          "width": 200.0,
+          "height": 700.0,
+          "id": "<2>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 600.0,
+          "y": 500.0,
+          "width": 400.0,
+          "height": 300.0,
+          "id": "<3>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 200.0,
+          "y": 500.0,
+          "width": 400.0,
+          "height": 300.0,
+          "id": "<4>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 200.0,
+          "y": 100.0,
+          "width": 400.0,
+          "height": 400.0,
+          "id": "<5>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 600.0,
+          "y": 100.0,
+          "width": 400.0,
+          "height": 200.0,
+          "id": "<6>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 600.0,
+          "y": 300.0,
+          "width": 400.0,
+          "height": 200.0,
+          "id": "<7>",
+          "type": "SimpleBox",
+          "verticalPreference": "",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        },
+        {
+          "x": 0.0,
+          "y": 800.0,
+          "width": 1000.0,
+          "height": 150.0,
+          "id": "<8>",
+          "type": "SimpleBox",
+          "verticalPreference": "Bottom",
+          "horizontalPreference": "None",
+          "fillColorRedValue": 157,
+          "fillColorGreenValue": 136,
+          "fillColorBlueValue": 255,
+          "isLocked": null
+        }
+      ]
+    }
+  ]
+}

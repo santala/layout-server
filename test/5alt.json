@@ -1,0 +1,72 @@
+{
+  "layouts" : [
+    {
+      "canvasWidth" : 1080,
+      "id" : "originalLayout",
+      "canvasHeight" : 1920,
+      "elements" : [
+        {
+          "id" : "<SimpleBox: 0x600003500420>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 160,
+          "y" : 96,
+          "width" : 204,
+          "type" : "SimpleBox",
+          "height" : 135
+        },
+        {
+          "id" : "<HeadingElement: 0x600003b09260>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 512,
+          "y" : 64,
+          "width" : 471,
+          "type" : "HeadingElement",
+          "height" : 133
+        },
+        {
+          "id" : "<ImageElement: 0x60000390d1e0>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : 198,
+          "y" : 320,
+          "width" : 794,
+          "type" : "ImageElement",
+          "height" : 202
+        },
+        {
+          "id" : "<ParagraphElement: 0x600003b0d880>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : -1,
+          "y" : -1,
+          "width" : 391,
+          "type" : "ParagraphElement",
+          "height" : 541
+        },
+        {
+          "id" : "<VideoElement: 0x600003904d00>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "None",
+          "x" : -1,
+          "y" : -1,
+          "width" : 651,
+          "type" : "VideoElement",
+          "height" : 323
+        },
+        {
+          "id" : "<HeadingElement: 0x600003b34620>",
+          "horizontalPreference" : "None",
+          "verticalPreference" : "Bottom",
+          "x" : -1,
+          "y" : -1,
+          "isDrawingFill" : 1,
+          "width" : 1079,
+          "type" : "HeadingElement",
+          "height" : 187
+        }
+      ]
+    }
+  ]
+}

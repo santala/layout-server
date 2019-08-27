@@ -1808,3 +1808,284 @@ Changed value of parameter PoolSolutions to 1
    Prev: 10  Min: 1  Max: 2000000000  Default: 10
 Changed value of parameter MIPGapAbs to 0.97
    Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 08:48:54 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 09:57:23 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 09:57:23 2019
+
+Academic license - for non-commercial use only
+Freed default Gurobi environment
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 10:02:06 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 10:13:07 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 10:13:55 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 10:16:13 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 10:18:41 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 12:52:30 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 12:55:33 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 12:56:40 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 13:01:10 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 13:02:48 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 13:05:58 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:02:49 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:03:52 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:06:01 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:07:02 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:08:38 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:11:57 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:12:19 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:21:30 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:28:41 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:31:02 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Aug 27 16:31:54 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10

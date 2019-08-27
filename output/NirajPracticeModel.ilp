@@ -1,0 +1,11 @@
+\ Model GLayout_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ PrespecifiedXOfElement(2): L[2] = 28.5
+Bounds
+ L[2] free
+Generals
+ L[2]
+End
