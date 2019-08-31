@@ -32,6 +32,7 @@ def solve(layout1: Layout, layout2: Layout) -> dict:
                 element_mapping.append((layout1.elements[e1].id, layout2.elements[e2].id))
 
     if model.Status == GRB.Status.OPTIMAL:
+        # TODO: consider adding metric for difference in screen size
         return {
             'status': 0,
             'euclideanDifference': round(objective_euclidean_move_resize.getValue() * 10000),

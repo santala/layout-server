@@ -35,3 +35,14 @@ class Variables:
         self.at_rag = model.addVars(n, n, vtype=GRB.BINARY, name='zRAG')
         self.at_tag = model.addVars(n, n, vtype=GRB.BINARY, name='zTAG')
         self.at_bag = model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')
+
+        # Use the current layout as the starting solution
+        for i, element in enumerate(layout.elements):
+            if element.x > 0:
+                self.l[i].start = element.x
+            if element.y > 0:
+                self.t[i].start = element.y
+            if element.width > 0:
+                self.w[i].start = element.width
+            if element.height > 0:
+                self.h[i].start = element.height

@@ -13,6 +13,32 @@ from collections import namedtuple
 Solution = namedtuple('Solution', 'x, y, w, h, objective_value')
 
 
+def apply_template(layout: Layout, template: Layout, element_mapping: List[Tuple[str, str]]) -> dict:
+    try:
+        model = Model("GLayout")
+        model._layout = layout
+        model._template = template
+
+        var = Variables(model)
+
+        model._var = var
+
+
+
+
+    except GurobiError as e:
+        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
+        return {'status': 1}
+
+    except AttributeError as e:
+        print('AttributeError:' + str(e))
+        return {'status': 1}
+
+def define_layout_combination_objective(model: Model, layout1: Layout, layout2: Layout, element_mapping: List[Tuple[str, str]], var: Variables):
+
+
+    pass
+
 def solve(layout: Layout) -> dict:
 
     try:
@@ -58,7 +84,7 @@ def solve(layout: Layout) -> dict:
         print('AttributeError:' + str(e))
         return {'status': 1}
 
-    if model.Status == GRB.Status.OPTIMAL:
+    if model.Status == GRB.Status.OPTIMAL or model.Status == GRB.Status.INTERRUPTED:
 
         elements = [
             {
@@ -79,8 +105,9 @@ def solve(layout: Layout) -> dict:
             }
         }
     else:
-        model.computeIIS()
-        model.write("output/NirajPracticeModel.ilp")
+        if model.Status == GRB.Status.INFEASIBLE:
+            model.computeIIS()
+            model.write("output/NirajPracticeModel.ilp")
         print('Non-optimal status:', model.Status)
         return {'status': 1}
 
@@ -124,13 +151,31 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
 
     # Known Position constraints X Y
     for i, element in enumerate(layout.elements):
-        print('PrespecifiedXOfElement', i, element.x, element.y)
-        if element.x is not None and element.x >= 0:
-            # EXPL: Does this lock element X coordinate? Answer: yes
+        '''
+        print(element.isLocked)
+        if not element.isLocked:
+            print('Element', element.id, 'is not locked.')
+            continue
+        '''
+
+        if element.x is not None and element.x >= 0 and element.constraintLeft:
             model.addConstr(var.l[i] == element.x, "PrespecifiedXOfElement("+str(i)+")")
-        if element.y is not None and element.y >= 0:
-            # EXPL: Does this lock element Y coordinate?
+
+        if element.y is not None and element.y >= 0 and element.constraintTop:
             model.addConstr(var.t[i] == element.y, "PrespecifiedYOfElement("+str(i)+")")
+
+        if element.constraintRight:
+            model.addConstr(var.l[i] + var.w[i] == element.x + element.width, "PrespecifiedROfElement("+str(i)+")")
+
+        if element.constraintBottom:
+            model.addConstr(var.t[i] + var.h[i] == element.y + element.height, "PrespecifiedBOfElement("+str(i)+")")
+
+        if element.constraintWidth:
+            model.addConstr(var.w[i] == element.width, "PrespecifiedWOfElement("+str(i)+")")
+
+        if element.constraintWidth:
+            model.addConstr(var.h[i] == element.height, "PrespecifiedHOfElement("+str(i)+")")
+        
         if element.aspectRatio is not None and element.aspectRatio > 0.001:
             # EXPL: Does this lock element aspect ratio?
             model.addConstr(var.w[i] == element.aspectRatio * var.h[i],

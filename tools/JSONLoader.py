@@ -28,15 +28,14 @@ class Layout:
         for element in self.elements:
             element.PenaltyIfSkipped = element.area / self.area_sum
 
-        print(props)
 
 
 class Element:
     def __init__(self, props: dict):
 
         self.id = str(props.get('id'))
-        self.x = props.get('x')
-        self.y = props.get('y')
+        self.x = int(props.get('x'))
+        self.y = int(props.get('y'))
         self.width = props.get('width', None)
         self.height = props.get('height', None)
         self.area = self.width * self.height \
@@ -49,8 +48,19 @@ class Element:
         self.maxHeight = props.get('maxHeight')
         self.horizontalPreference = props.get('horizontalPreference')
         self.verticalPreference = props.get('verticalPreference')
-        self.aspectRatio = props.get('aspectRatio')
+        self.aspectRatio = props.get('aspectRatio', None)
         self.elementType = props.get('type')
+
+        self.constraintLeft = bool(props.get('constrainLeft', False))
+        self.constraintRight = bool(props.get('constrainRight', False))
+        self.constraintTop = bool(props.get('constrainTop', False))
+        self.constraintBottom = bool(props.get('constrainBottom', False))
+        self.constraintWidth = bool(props.get('constrainWidth', False))
+        self.constraintHeight = bool(props.get('constrainHeight', False))
+
+        self.isLocked = bool(props.get('isLocked', False))
+
+        print(props)
 
         self.PenaltyIfSkipped = None
 
