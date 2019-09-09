@@ -1,6 +1,7 @@
 
 class Layout:
     def __init__(self, props: dict):
+        print(props)
         # TODO: format validation
         props = props.get('layouts')[0]  # TODO: edit the format
 
@@ -33,6 +34,7 @@ class Layout:
 class Element:
     def __init__(self, props: dict):
 
+
         self.id = str(props.get('id'))
         self.x = int(props.get('x'))
         self.y = int(props.get('y'))
@@ -42,21 +44,17 @@ class Element:
             if self.width is not None and self.height is not None \
                and self.width > 0 and self.height > 0 \
             else None
-        self.minWidth = props.get('minWidth')
-        self.minHeight = props.get('minHeight')
-        self.maxWidth = props.get('maxWidth')
-        self.maxHeight = props.get('maxHeight')
         self.horizontalPreference = props.get('horizontalPreference')
         self.verticalPreference = props.get('verticalPreference')
         self.aspectRatio = props.get('aspectRatio', None)
         self.elementType = props.get('type')
 
-        self.constraintLeft = bool(props.get('constrainLeft', False))
-        self.constraintRight = bool(props.get('constrainRight', False))
-        self.constraintTop = bool(props.get('constrainTop', False))
-        self.constraintBottom = bool(props.get('constrainBottom', False))
-        self.constraintWidth = bool(props.get('constrainWidth', False))
-        self.constraintHeight = bool(props.get('constrainHeight', False))
+        self.constrainLeft = bool(props.get('constrainLeft', False))
+        self.constrainRight = bool(props.get('constrainRight', False))
+        self.constrainTop = bool(props.get('constrainTop', False))
+        self.constrainBottom = bool(props.get('constrainBottom', False))
+        self.constrainWidth = bool(props.get('constrainWidth', False))
+        self.constrainHeight = bool(props.get('constrainHeight', False))
 
         self.isLocked = bool(props.get('isLocked', False))
 
@@ -64,10 +62,12 @@ class Element:
 
         self.PenaltyIfSkipped = None
 
+        # TODO: make grid size configurable
         if self.width is not None and self.width >= 0:
-            self.minWidth = self.width
-            self.maxWidth = self.width
+            self.minWidth = int(self.width / 8) * 8
+            self.maxWidth = int(self.width / 8 + 1) * 8
         if self.height is not None and self.height >= 0:
-            self.minHeight = self.height
-            self.maxHeight = self.height
+            self.minHeight = int(self.height / 8) * 8
+            self.maxHeight = int(self.height / 8 + 1) * 8
+
 

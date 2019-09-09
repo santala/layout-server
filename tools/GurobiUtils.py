@@ -13,6 +13,12 @@ class Variables:
         self.h = model.addVars(n, vtype=GRB.INTEGER, name='H')
         self.w = model.addVars(n, vtype=GRB.INTEGER, name='W')
 
+        # Multiples of grid to allow for constraining the layout to a grid
+        self.lg = model.addVars(n, vtype=GRB.INTEGER, name='LG')
+        self.tg = model.addVars(n, vtype=GRB.INTEGER, name='TG')
+        self.wg = model.addVars(n, vtype=GRB.INTEGER, name='WG')
+        self.hg = model.addVars(n, vtype=GRB.INTEGER, name='HG')
+
         self.above = model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')  # EXPL: one elem is above the other
         self.on_left = model.addVars(n, n, vtype=GRB.BINARY,
                                      name='LEFT')  # EXPL: one elem is to the left of the other
@@ -37,6 +43,7 @@ class Variables:
         self.at_bag = model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')
 
         # Use the current layout as the starting solution
+        '''
         for i, element in enumerate(layout.elements):
             if element.x > 0:
                 self.l[i].start = element.x
@@ -46,3 +53,4 @@ class Variables:
                 self.w[i].start = element.width
             if element.height > 0:
                 self.h[i].start = element.height
+        '''

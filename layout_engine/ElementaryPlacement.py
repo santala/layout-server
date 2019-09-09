@@ -2,6 +2,7 @@ from typing import List, Tuple
 
 from itertools import combinations, permutations
 
+import time
 from gurobipy import *
 from tools.GurobiUtils import *
 from tools.JSONLoader import Layout, Element
@@ -12,6 +13,7 @@ from collections import namedtuple
 
 Solution = namedtuple('Solution', 'x, y, w, h, objective_value')
 
+GRID_SIZE = 8
 
 def apply_template(layout: Layout, template: Layout, element_mapping: List[Tuple[str, str]]) -> dict:
     try:
@@ -57,6 +59,7 @@ def solve(layout: Layout) -> dict:
 
         model._solutions = []
         model._solution_number = 1
+        model._start_time = time.time()
 
         model.write("output/NirajPracticeModel.lp")
 
@@ -89,10 +92,10 @@ def solve(layout: Layout) -> dict:
         elements = [
             {
                 'id': element.id,
-                'x': var.l[i].getAttr('X'),  # ‘X’ is the value of the variable in the current solution
-                'y': var.t[i].getAttr('X'),
-                'width': var.w[i].getAttr('X'),
-                'height': var.h[i].getAttr('X'),
+                'x': int(var.l[i].getAttr('X')),  # ‘X’ is the value of the variable in the current solution
+                'y': int(var.t[i].getAttr('X')),
+                'width': int(var.w[i].getAttr('X')),
+                'height': int(var.h[i].getAttr('X')),
             } for i, element in enumerate(layout.elements)
         ]
 
@@ -151,30 +154,38 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
 
     # Known Position constraints X Y
     for i, element in enumerate(layout.elements):
-        '''
-        print(element.isLocked)
-        if not element.isLocked:
-            print('Element', element.id, 'is not locked.')
-            continue
-        '''
 
-        if element.x is not None and element.x >= 0 and element.constraintLeft:
+        # TODO: support for locking
+
+        # TODO: try to check that constraints don’t make the model infeasible
+        # (e.g. by making the element to be too big or putting it outside the canvas)
+
+
+        if element.constrainLeft:
             model.addConstr(var.l[i] == element.x, "PrespecifiedXOfElement("+str(i)+")")
+        else:
+            model.addConstr(var.lg[i] * GRID_SIZE == var.l[i], "SnapXToGrid("+str(i)+")")
 
-        if element.y is not None and element.y >= 0 and element.constraintTop:
+        if element.constrainTop:
             model.addConstr(var.t[i] == element.y, "PrespecifiedYOfElement("+str(i)+")")
+        else:
+            model.addConstr(var.tg[i] * GRID_SIZE == var.t[i], "SnapYToGrid("+str(i)+")")
 
-        if element.constraintRight:
+        if element.constrainRight:
             model.addConstr(var.l[i] + var.w[i] == element.x + element.width, "PrespecifiedROfElement("+str(i)+")")
 
-        if element.constraintBottom:
+        if element.constrainBottom:
             model.addConstr(var.t[i] + var.h[i] == element.y + element.height, "PrespecifiedBOfElement("+str(i)+")")
 
-        if element.constraintWidth:
+        if element.constrainWidth:
             model.addConstr(var.w[i] == element.width, "PrespecifiedWOfElement("+str(i)+")")
+        else:
+            model.addConstr(var.wg[i] * GRID_SIZE == var.w[i], "SnapWToGrid(" + str(i) + ")")
 
-        if element.constraintWidth:
+        if element.constrainHeight:
             model.addConstr(var.h[i] == element.height, "PrespecifiedHOfElement("+str(i)+")")
+        else:
+            model.addConstr(var.hg[i] * GRID_SIZE == var.h[i], "SnapHToGrid("+str(i)+")")
         
         if element.aspectRatio is not None and element.aspectRatio > 0.001:
             # EXPL: Does this lock element aspect ratio?
@@ -377,6 +388,7 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
 def set_variable_bounds(layout: Layout, var: Variables):
 
     for i, element in enumerate(layout.elements):
+        print(element.minWidth, element.maxWidth, element.minHeight, element.maxHeight)
         var.l[i].LB = 0                                                 # EXPL: Lower bound for left edge
         var.l[i].UB = layout.canvas_width - element.minWidth  # EXPL: Upper bound for left edge
 
@@ -434,7 +446,8 @@ def tap_solutions(model: Model, where):
         percent_gap = (obj_value - lower_bound) / lower_bound
 
         t = model.cbGet(GRB.Callback.RUNTIME)
-        if percent_gap > 0.2:
+        # EXPL: This is skipped so that poor solutions are not skipped
+        if False and percent_gap > 0.2:
             if t < 5 or t < layout.n:
                 # TODO: ask Niraj why?
                 print("Neglected poor solution")
@@ -447,7 +460,9 @@ def tap_solutions(model: Model, where):
               "of objective value ",
               obj_value,
               "with lower bound at",
-              lower_bound)
+              lower_bound,
+              'at runtime',
+              t, time.time(), model._start_time)
         x_list = [model.cbGetSolution(var.l[i]) for i in range(layout.n)]
         y_list = [model.cbGetSolution(var.t[i]) for i in range(layout.n)]
         w_list = [model.cbGetSolution(var.w[i]) for i in range(layout.n)]
@@ -460,4 +475,9 @@ def tap_solutions(model: Model, where):
         else:
             model._solutions.append(solution)
             model._solution_number += 1
+
+
+    if time.time() - model._start_time > 10:
+        print('Terminating after', time.time() - model._start_time, 'seconds…')
+        model.terminate()
 
