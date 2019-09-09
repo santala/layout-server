@@ -6,6 +6,7 @@ class Variables:
         layout: DataInstance = model._layout
         n = layout.n  # EXPL: Number of elements
 
+
         self.l = model.addVars(n, vtype=GRB.INTEGER, name='L')
         self.r = model.addVars(n, vtype=GRB.INTEGER, name='R')
         self.t = model.addVars(n, vtype=GRB.INTEGER, name='T')
@@ -18,6 +19,7 @@ class Variables:
         self.tg = model.addVars(n, vtype=GRB.INTEGER, name='TG')
         self.wg = model.addVars(n, vtype=GRB.INTEGER, name='WG')
         self.hg = model.addVars(n, vtype=GRB.INTEGER, name='HG')
+
 
         self.above = model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')  # EXPL: one elem is above the other
         self.on_left = model.addVars(n, n, vtype=GRB.BINARY,

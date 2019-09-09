@@ -7,12 +7,12 @@ Minimize
    + 0.002 B[0] + 0.002 B[1] + 0.002 B[2] + 0.002 B[3] + 0.002 B[4]
    - 0.001 H[0] - 0.001 H[1] - 0.001 H[2] - 0.001 H[3] - 0.001 H[4]
    - 0.001 W[0] - 0.001 W[1] - 0.001 W[2] - 0.001 W[3] - 0.001 W[4]
-   + 0 LG[1] + 0 ABOVE[0,0] + 0 ABOVE[1,1] + 0 ABOVE[2,2] + 0 ABOVE[3,3]
-   + 0 ABOVE[4,4] + 0 LEFT[0,0] + 0 LEFT[1,1] + 0 LEFT[2,2] + 0 LEFT[3,3]
-   + 0 LEFT[4,4] + 2 LAG[0] + 2 LAG[1] + 2 LAG[2] + 2 LAG[3] + 2 LAG[4]
-   + RAG[0] + RAG[1] + RAG[2] + RAG[3] + RAG[4] + 2 TAG[0] + 2 TAG[1]
-   + 2 TAG[2] + 2 TAG[3] + 2 TAG[4] + BAG[0] + BAG[1] + BAG[2] + BAG[3]
-   + BAG[4]
+   + 0 LG[0] + 0 TG[0] + 0 ABOVE[0,0] + 0 ABOVE[1,1] + 0 ABOVE[2,2]
+   + 0 ABOVE[3,3] + 0 ABOVE[4,4] + 0 LEFT[0,0] + 0 LEFT[1,1] + 0 LEFT[2,2]
+   + 0 LEFT[3,3] + 0 LEFT[4,4] + 2 LAG[0] + 2 LAG[1] + 2 LAG[2] + 2 LAG[3]
+   + 2 LAG[4] + RAG[0] + RAG[1] + RAG[2] + RAG[3] + RAG[4] + 2 TAG[0]
+   + 2 TAG[1] + 2 TAG[2] + 2 TAG[3] + 2 TAG[4] + BAG[0] + BAG[1] + BAG[2]
+   + BAG[3] + BAG[4]
 Subject To
  R0: - R[0] + maxX >= 0
  R1: - B[0] + maxY >= 0
@@ -28,11 +28,11 @@ Subject To
    + RAG[1] + RAG[2] + RAG[3] + RAG[4] + 2 TAG[0] + 2 TAG[1] + 2 TAG[2]
    + 2 TAG[3] + 2 TAG[4] + BAG[0] + BAG[1] + BAG[2] + BAG[3] + BAG[4]
    >= 10
- SnapXToGrid(0): - L[0] + 8 LG[0] = 0
- SnapYToGrid(0): - T[0] + 8 TG[0] = 0
+ PrespecifiedXOfElement(0): L[0] = 0
+ PrespecifiedYOfElement(0): T[0] = 0
  SnapWToGrid(0): - W[0] + 8 WG[0] = 0
  SnapHToGrid(0): - H[0] + 8 HG[0] = 0
- PrespecifiedXOfElement(1): L[1] = 0
+ SnapXToGrid(1): - L[1] + 8 LG[1] = 0
  SnapYToGrid(1): - T[1] + 8 TG[1] = 0
  SnapWToGrid(1): - W[1] + 8 WG[1] = 0
  SnapHToGrid(1): - H[1] + 8 HG[1] = 0
@@ -534,32 +534,32 @@ Bounds
  L[1] <= 1277
  L[2] <= 1093
  L[3] <= 1093
- L[4] <= 1133
+ L[4] <= 1125
  1312 <= R[0] <= 1461
  184 <= R[1] <= 1461
  368 <= R[2] <= 1461
  368 <= R[3] <= 1461
- 328 <= R[4] <= 1461
+ 336 <= R[4] <= 1461
  T[0] <= 964
  T[1] <= 148
  T[2] <= 756
- T[3] <= 620
+ T[3] <= 580
  T[4] <= 516
  32 <= B[0] <= 996
  848 <= B[1] <= 996
  240 <= B[2] <= 996
- 376 <= B[3] <= 996
+ 416 <= B[3] <= 996
  480 <= B[4] <= 996
  32 <= H[0] <= 40
  848 <= H[1] <= 856
  240 <= H[2] <= 248
- 376 <= H[3] <= 384
+ 416 <= H[3] <= 424
  480 <= H[4] <= 488
  1312 <= W[0] <= 1320
  184 <= W[1] <= 192
  368 <= W[2] <= 376
  368 <= W[3] <= 376
- 328 <= W[4] <= 336
+ 336 <= W[4] <= 344
  vLAG[0] <= 1460
  vLAG[1] <= 1460
  vLAG[2] <= 1460

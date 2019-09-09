@@ -63,6 +63,7 @@ class Element:
         self.PenaltyIfSkipped = None
 
         # TODO: make grid size configurable
+
         if self.width is not None and self.width >= 0:
             self.minWidth = int(self.width / 8) * 8
             self.maxWidth = int(self.width / 8 + 1) * 8

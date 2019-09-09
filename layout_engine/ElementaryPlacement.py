@@ -13,42 +13,15 @@ from collections import namedtuple
 
 Solution = namedtuple('Solution', 'x, y, w, h, objective_value')
 
-GRID_SIZE = 8
-
-def apply_template(layout: Layout, template: Layout, element_mapping: List[Tuple[str, str]]) -> dict:
-    try:
-        model = Model("GLayout")
-        model._layout = layout
-        model._template = template
-
-        var = Variables(model)
-
-        model._var = var
-
-
-
-
-    except GurobiError as e:
-        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
-        return {'status': 1}
-
-    except AttributeError as e:
-        print('AttributeError:' + str(e))
-        return {'status': 1}
-
-def define_layout_combination_objective(model: Model, layout1: Layout, layout2: Layout, element_mapping: List[Tuple[str, str]], var: Variables):
-
-
-    pass
 
 def solve(layout: Layout) -> dict:
 
     try:
         model = Model("GLayout")
         model._layout = layout
+        model._grid_size = 8
 
         var = Variables(model)
-
         model._var = var
 
         set_variable_bounds(layout, var)
@@ -70,11 +43,7 @@ def solve(layout: Layout) -> dict:
 
         #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
 
-        #gurobi.computeIIS()
-        #gurobi.write("IIS.ilp")
 
-        #gurobi.optimize(tapSolutions)
-        #reportResult(BAG, H, L, LAG, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG, W, data, gurobi,vBAG, vLAG,vRAG, vTAG)
 
         # TODO: EXPL: analyze brute force purpose
         #repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG,W, data, gurobi, vBAG, vLAG, vRAG, vTAG)
@@ -87,15 +56,15 @@ def solve(layout: Layout) -> dict:
         print('AttributeError:' + str(e))
         return {'status': 1}
 
-    if model.Status == GRB.Status.OPTIMAL or model.Status == GRB.Status.INTERRUPTED:
+    if model.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
         elements = [
             {
                 'id': element.id,
-                'x': int(var.l[i].getAttr('X')),  # ‘X’ is the value of the variable in the current solution
-                'y': int(var.t[i].getAttr('X')),
-                'width': int(var.w[i].getAttr('X')),
-                'height': int(var.h[i].getAttr('X')),
+                'x': int(var.l[i].X),  # ‘X’ is the value of the variable in the current solution
+                'y': int(var.t[i].X),
+                'width': int(var.w[i].X),
+                'height': int(var.h[i].X),
             } for i, element in enumerate(layout.elements)
         ]
 
@@ -130,10 +99,15 @@ def repeatBruteForceExecutionForMoreResults(model: Model, layout: Layout, var: V
 
 
 def set_control_params(model: Model):
+    # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
+
+    model.Params.MIPFocus = 1
+    model.Params.TimeLimit = 10
+
     model.Params.PoolSearchMode = 2
     model.Params.PoolSolutions = 1
-    #gurobi.Params.MIPGap = 0.01
-    #gurobi.Params.TimeLimit = 75
+    #model.Params.MIPGap = 0.01
+
     model.Params.MIPGapAbs = 0.97
     model.Params.LogFile = "output/GurobiLog.txt"
     model.Params.OutputFlag = 0
@@ -164,12 +138,12 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
         if element.constrainLeft:
             model.addConstr(var.l[i] == element.x, "PrespecifiedXOfElement("+str(i)+")")
         else:
-            model.addConstr(var.lg[i] * GRID_SIZE == var.l[i], "SnapXToGrid("+str(i)+")")
+            model.addConstr(var.lg[i] * model._grid_size == var.l[i], "SnapXToGrid("+str(i)+")")
 
         if element.constrainTop:
             model.addConstr(var.t[i] == element.y, "PrespecifiedYOfElement("+str(i)+")")
         else:
-            model.addConstr(var.tg[i] * GRID_SIZE == var.t[i], "SnapYToGrid("+str(i)+")")
+            model.addConstr(var.tg[i] * model._grid_size == var.t[i], "SnapYToGrid("+str(i)+")")
 
         if element.constrainRight:
             model.addConstr(var.l[i] + var.w[i] == element.x + element.width, "PrespecifiedROfElement("+str(i)+")")
@@ -180,12 +154,12 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
         if element.constrainWidth:
             model.addConstr(var.w[i] == element.width, "PrespecifiedWOfElement("+str(i)+")")
         else:
-            model.addConstr(var.wg[i] * GRID_SIZE == var.w[i], "SnapWToGrid(" + str(i) + ")")
+            model.addConstr(var.wg[i] * model._grid_size == var.w[i], "SnapWToGrid(" + str(i) + ")")
 
         if element.constrainHeight:
             model.addConstr(var.h[i] == element.height, "PrespecifiedHOfElement("+str(i)+")")
         else:
-            model.addConstr(var.hg[i] * GRID_SIZE == var.h[i], "SnapHToGrid("+str(i)+")")
+            model.addConstr(var.hg[i] * model._grid_size == var.h[i], "SnapHToGrid("+str(i)+")")
         
         if element.aspectRatio is not None and element.aspectRatio > 0.001:
             # EXPL: Does this lock element aspect ratio?
@@ -475,9 +449,4 @@ def tap_solutions(model: Model, where):
         else:
             model._solutions.append(solution)
             model._solution_number += 1
-
-
-    if time.time() - model._start_time > 10:
-        print('Terminating after', time.time() - model._start_time, 'seconds…')
-        model.terminate()
 

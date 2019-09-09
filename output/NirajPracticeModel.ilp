@@ -3,10 +3,13 @@
 Minimize
  
 Subject To
- SnapHToGrid(2): - H[2] + 8 HG[2] = 0
+ PrespecifiedXOfElement(1): L[1] = 0
+ 0(ToLeftOf)1: - L[1] + R[0] + 182.625 LEFT[0,1] <= 150.625
 Bounds
- H[2] = 250
- HG[2] free
+ L[1] free
+ R[0] >= 160
+Binaries
+ LEFT[0,1]
 Generals
- H[2] HG[2]
+ L[1] R[0]
 End
