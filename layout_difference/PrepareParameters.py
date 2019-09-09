@@ -1,6 +1,9 @@
 from typing import List
+import difflib
+
 
 from tools.JSONLoader import Layout
+
 
 def compute_penalty_assignment(layout1: Layout, layout2: Layout) -> List[List[float]]:
     penalty_assignment = []
@@ -8,6 +11,9 @@ def compute_penalty_assignment(layout1: Layout, layout2: Layout) -> List[List[fl
     # EXPL: loop through possible element pairs and build a matrix (2D list) of penalty incurred if they are paired up
     for element1 in layout1.elements:
         local_penalty = []
+
+        # TODO: perhaps replace this with a requirement that all elements from the first layout must have an assignment
+        #element1.PenaltyIfSkipped = 100000
 
         for element2 in layout2.elements:
             # TODO: would the calculation be different if we used relative coordinates instead, and how would that work
@@ -28,8 +34,18 @@ def compute_penalty_assignment(layout1: Layout, layout2: Layout) -> List[List[fl
             # TODO: is there a penalty for changing element type? # EXPL: if not, consider places to add that (and test)
 
 
+            penalty_to_change_type = 0 if element1.elementType == element2.elementType else 1
+            print('type change', penalty_to_change_type, element1.elementType)
+            if penalty_to_change_type == 0 and element1.elementType == 'component':
+                print('names', element1.componentName, '<>', element2.componentName)
+                penalty_to_change_component_type = difflib.SequenceMatcher(None, element1.componentName, element2.componentName).ratio()
+                print('diff test', penalty_to_change_component_type,
+                      difflib.SequenceMatcher(None, element2.componentName, element1.componentName).ratio())
+            else:
+                penalty_to_change_component_type = 0
 
-            local_penalty.append(penalty_to_move + penalty_to_resize)
+            local_penalty.append(penalty_to_move + penalty_to_resize + penalty_to_change_type * 100 + penalty_to_change_component_type * 10)
+
 
         penalty_assignment.append(local_penalty)
 

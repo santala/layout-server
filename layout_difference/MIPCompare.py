@@ -68,6 +68,11 @@ def define_constraints(model: Model, layout1: Layout, layout2: Layout, element_m
             element2_assignment.addTerms(1, element_mapping[i1, i2])
         model.addConstr(element2_assignment == 1, name="AssignSecondForElement(" + str(i2) + ")")
 
+    # All elements from the first layout must be assigned, if possible
+    print('MIN N', max(layout1.n - layout2.n, 0))
+    model.addConstr(unassigned1.sum() == max(layout1.n - layout2.n, 0), name='AssignAllElements')
+
+
 def define_objectives(gurobi_model: Model, layout1: Layout, layout2: Layout,
                       element_assignment, unassigned1, unassigned2, penalty_assignment) -> (LinExpr, LinExpr, LinExpr, LinExpr):
     objective_euclidean_move_resize = LinExpr()

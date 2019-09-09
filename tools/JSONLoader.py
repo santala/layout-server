@@ -1,7 +1,6 @@
 
 class Layout:
     def __init__(self, props: dict):
-        print(props)
         # TODO: format validation
         props = props.get('layouts')[0]  # TODO: edit the format
 
@@ -48,6 +47,9 @@ class Element:
         self.verticalPreference = props.get('verticalPreference')
         self.aspectRatio = props.get('aspectRatio', None)
         self.elementType = props.get('type')
+        self.componentName = props.get('componentName', '?')
+
+        print(self.elementType, self.componentName)
 
         self.constrainLeft = bool(props.get('constrainLeft', False))
         self.constrainRight = bool(props.get('constrainRight', False))
@@ -57,8 +59,6 @@ class Element:
         self.constrainHeight = bool(props.get('constrainHeight', False))
 
         self.isLocked = bool(props.get('isLocked', False))
-
-        print(props)
 
         self.PenaltyIfSkipped = None
 
