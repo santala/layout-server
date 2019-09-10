@@ -28,6 +28,11 @@ class Variables:
         self.resize_height = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeH')
         self.resize_height_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeHAbs')
 
+        self.move_x = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='moveX')
+        self.move_x_abs = model.addVars(n, vtype=GRB.INTEGER, name='moveXAbs')
+        self.move_y = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='moveY')
+        self.move_y_abs = model.addVars(n, vtype=GRB.INTEGER, name='moveYAbs')
+
         self.above = model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')  # EXPL: one elem is above the other
         self.on_left = model.addVars(n, n, vtype=GRB.BINARY,
                                      name='LEFT')  # EXPL: one elem is to the left of the other

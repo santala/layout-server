@@ -3,6 +3,7 @@ class Layout:
     def __init__(self, props: dict):
         # TODO: format validation
 
+
         self.id = str(props.get('id'))
         self.canvas_width = props.get('canvasWidth', None)
         self.canvas_height = props.get('canvasHeight', None)

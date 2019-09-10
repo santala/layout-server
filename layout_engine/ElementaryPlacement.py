@@ -79,14 +79,18 @@ def set_combination_constraints_and_objectives(model: Model):
     model.addConstr(d_n_rag == obj_n_rag, name="nconstr3")
     model.addConstr(d_n_bag == obj_n_bag, name="nconstr4")
 
-    model.setObjective(
-        dabs_n_lag +
-        dabs_n_tag +
-        dabs_n_rag +
-        dabs_n_bag, GRB.MINIMIZE)
+    full_objective = dabs_n_lag + dabs_n_tag + dabs_n_rag + dabs_n_bag
+
+    obj_resize = get_resize_expr(model)
+    obj_move = get_move_expr(model)
+
+    full_objective.add(obj_move, 100)
+    full_objective.add(obj_resize, 100)
+
+    model.setObjective(full_objective, GRB.MINIMIZE)
 
 
-def solve(layout: Layout, template: Layout=None) -> dict:
+def solve(layout: Layout, template: Layout=None, results=None) -> dict:
 
 
 
@@ -94,6 +98,7 @@ def solve(layout: Layout, template: Layout=None) -> dict:
     model = Model("GLayout")
     model._layout = layout
     model._template = template
+    model._results = results
     model._grid_size = 8
 
     var = Variables(model)
@@ -198,6 +203,7 @@ def set_control_params(model: Model):
 def set_constraints(model: Model, layout: Layout, var: Variables):
     # TODO: Why are these _constraints_? I.e. are these for e.g. locking elements to their place?
 
+
     # EXPL: constraints in short
     # * If element X, Y, or aspectRatio is defined, lock them.
     # * If element has preference towards some edge, prevent other elements from being closer to that edge.
@@ -215,6 +221,27 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
         model.addConstr(var.resize_width_abs[i] == abs_(var.resize_width[i]), name="resizeWAbs")
         model.addConstr(var.resize_height[i] == var.h[i] - math.ceil(element.height / model._grid_size), name="resizeH")
         model.addConstr(var.resize_height_abs[i] == abs_(var.resize_height[i]), name="resizeHAbs")
+
+
+        if model._results is not None and model._template is not None and element.id in [assignment[0] for assignment in model._results['elementMapping']]:
+            # Compute the distance to the position of the corresponding element in the template
+            template_elem_id = next((assignment[1] for assignment in model._results['elementMapping'] if assignment[0] == element.id), None)
+
+            print('id', template_elem_id)
+            print(model._template.elements)
+            template_elem = next((e for e in model._template.elements if e.id == template_elem_id), None)
+            # Scale the coordinates to the sketch coordinates
+            preferred_x = template_elem.x / model._template.canvas_width * layout.canvas_width
+            preferred_y = template_elem.y / model._template.canvas_height * layout.canvas_height
+        else:
+            # Compute the distance to the position in the sketch
+            preferred_x = element.x
+            preferred_y = element.y
+
+        model.addConstr(var.move_x[i] == var.l[i] - round(preferred_x / model._grid_size), name="moveX")
+        model.addConstr(var.move_x_abs[i] == abs_(var.move_x[i]), name="moveXAbs")
+        model.addConstr(var.move_y[i] == var.t[i] - round(preferred_y / model._grid_size), name="moveY")
+        model.addConstr(var.move_y_abs[i] == abs_(var.move_y[i]), name="moveYAbs")
 
         # TODO: support for locking
 
@@ -401,6 +428,36 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
                              "MaxsideConnectB[" + str(i) + "]ToBAG[" + str(alignmentGroupIndex) + "]")
 
 
+def get_resize_expr(model: Model):
+    layout: Layout = model._layout
+    var: Variables = model._var
+
+    element_width_coeffs = [1 / e.width for e in layout.elements]
+    element_height_coeffs = [1 / e.height for e in layout.elements]
+
+    resize_expr = LinExpr(0.0)
+    for i in range(layout.n):
+        resize_expr.addTerms([element_width_coeffs[i]], [var.resize_width_abs[i]])
+        resize_expr.addTerms([element_height_coeffs[i]], [var.resize_height_abs[i]])
+
+    return resize_expr
+
+
+def get_move_expr(model: Model):
+    layout: Layout = model._layout
+    var: Variables = model._var
+
+    element_width_coeffs = [1 / e.width for e in layout.elements]
+    element_height_coeffs = [1 / e.height for e in layout.elements]
+
+    move_expr = LinExpr(0.0)
+    for i in range(layout.n):
+        move_expr.addTerms([element_width_coeffs[i]], [var.move_x_abs[i]])
+        move_expr.addTerms([element_height_coeffs[i]], [var.move_y_abs[i]])
+
+    return move_expr
+
+
 def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr, LinExpr):
     # EXPL: Constraints
     # * every element right and bottom edge can be at max (maxX, maxY)
@@ -440,32 +497,11 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
 
 
 
-    # Minimize resizing of elements
-    '''
-    delta_x = abs(element1.x - element2.x)
-    delta_y = abs(element1.y - element2.y)
-    delta_w = abs(element1.width - element2.width)
-    delta_h = abs(element1.height - element2.height)
+    # Minimize resizing and moving of elements
+    obj_resize = get_resize_expr(model)
+    obj_move = get_move_expr(model)
 
-    penalty_to_resize = ((delta_w / (layout1.w_sum + layout2.w_sum)) + (delta_h / (layout1.h_sum + layout2.h_sum))) \
-                      * ((element1.area + element2.area) / (layout1.area_sum + layout2.area_sum))
-    
-    
-    penalty_to_resize = (
-        ( abs(element1.width - element2.width) / (layout1.w_sum + layout2.w_sum) )
-        + ( abs(element1.height - element2.height) / (layout1.h_sum + layout2.h_sum) )
-    ) * (
-        ( element1.area + element2.area ) / ( layout1.area_sum + layout2.area_sum )
-    )
-    '''
-    element_width_coeffs = [1 / e.width for e in layout.elements]
-    element_height_coeffs = [1 / e.height for e in layout.elements]
-
-    obj_resize = LinExpr(0.0)
-    for i in range(layout.n):
-        obj_resize.addTerms([element_width_coeffs[i]], [var.resize_width_abs[i]])
-        obj_resize.addTerms([element_height_coeffs[i]], [var.resize_height_abs[i]])
-
+    full_objective.add(obj_move, 10)
     full_objective.add(obj_resize, 100)
 
     # EXPL: Maximum number of grid lines is at minimum something

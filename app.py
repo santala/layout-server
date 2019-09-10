@@ -43,5 +43,5 @@ def apply_template() -> Response:
     # TODO: consider adding checks for security
     request_props = json.loads(request.data)
 
-    return jsonify(ElementaryPlacement.solve(Layout(request_props['layout']), Layout(request_props['template'])))
+    return jsonify(ElementaryPlacement.solve(Layout(request_props['layout']), Layout(request_props['template']), request_props['results']))
 

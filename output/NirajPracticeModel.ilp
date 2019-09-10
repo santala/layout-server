@@ -3,22 +3,10 @@
 Minimize
  
 Subject To
- NoOverlap(02): ABOVE[0,2] + ABOVE[2,0] + LEFT[0,2] + LEFT[2,0] >= 1
- 0(ToLeftOf)2: - L[2] + R[0] + 862 LEFT[0,2] <= 830
- 0(Above)2: - T[2] + B[0] + 996 ABOVE[0,2] <= 964
- 2(ToLeftOf)0: - L[0] + R[2] + 862 LEFT[2,0] <= 830
- 2(Above)0: - T[0] + B[2] + 996 ABOVE[2,0] <= 964
+ moveX: - L[0] + moveX[0] = -53.875
 Bounds
- -infinity <= L[0] <= 55
- -infinity <= L[2] <= 62
- R[0] >= 52
- R[2] >= 45
- -infinity <= T[0] <= 34
- -infinity <= T[2] <= 109
- B[0] >= 90
- B[2] >= 15
-Binaries
- ABOVE[0,2] ABOVE[2,0] LEFT[0,2] LEFT[2,0]
+ L[0] free
+ moveX[0] free
 Generals
- L[0] L[2] R[0] R[2] T[0] T[2] B[0] B[2]
+ L[0] moveX[0]
 End
