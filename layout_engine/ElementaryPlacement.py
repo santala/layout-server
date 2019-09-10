@@ -36,12 +36,9 @@ def set_combination_constraints_and_objectives(model: Model):
     n_rag = len(rag)
     n_bag = len(bag)
 
-    # Hard constraints for grid lines
-    # TODO
 
 
-
-    obj_n_lag = LinExpr(0)
+    obj_n_lag = LinExpr(0.0)
     obj_n_tag = LinExpr(0.0)
     obj_n_rag = LinExpr(0.0)
     obj_n_bag = LinExpr(0.0)
@@ -52,14 +49,40 @@ def set_combination_constraints_and_objectives(model: Model):
         obj_n_bag.addTerms([1], [var.bag[i]])
 
 
+    # Hard constraints for grid lines:
     limit = 3
     model.addConstr(obj_n_lag == [n_lag - limit, n_lag + limit], 'N_LAG')
     model.addConstr(obj_n_tag == [n_tag - limit, n_tag + limit], 'N_TAG')
     model.addConstr(obj_n_rag == [n_rag - limit, n_rag + limit], 'N_RAG')
     model.addConstr(obj_n_bag == [n_bag - limit, n_bag + limit], 'N_BAG')
 
-    # Objective for grid lines
-    # TODO
+    # Optimize for same number of grid lines
+
+    # TODO check proper way to set lower bound
+    d_n_lag = model.addVar(lb=-1000, vtype=GRB.INTEGER, name='DistanceFromTargetNLAG')
+    d_n_tag = model.addVar(lb=-1000, vtype=GRB.INTEGER, name='DistanceFromTargetNTAG')
+    d_n_rag = model.addVar(lb=-1000, vtype=GRB.INTEGER, name='DistanceFromTargetNRAG')
+    d_n_bag = model.addVar(lb=-1000, vtype=GRB.INTEGER, name='DistanceFromTargetNBAG')
+    dabs_n_lag = model.addVar(vtype=GRB.INTEGER, name='AbsDistanceFromTargetNLAG')
+    dabs_n_tag = model.addVar(vtype=GRB.INTEGER, name='AbsDistanceFromTargetNTAG')
+    dabs_n_rag = model.addVar(vtype=GRB.INTEGER, name='AbsDistanceFromTargetNRAG')
+    dabs_n_bag = model.addVar(vtype=GRB.INTEGER, name='AbsDistanceFromTargetNBAG')
+
+    model.addConstr(dabs_n_lag == abs_(d_n_lag), name="absconstr1")
+    model.addConstr(dabs_n_tag == abs_(d_n_tag), name="absconstr2")
+    model.addConstr(dabs_n_rag == abs_(d_n_rag), name="absconstr3")
+    model.addConstr(dabs_n_bag == abs_(d_n_bag), name="absconstr4")
+
+    model.addConstr(d_n_lag == obj_n_lag, name="nconstr1")
+    model.addConstr(d_n_tag == obj_n_tag, name="nconstr2")
+    model.addConstr(d_n_rag == obj_n_rag, name="nconstr3")
+    model.addConstr(d_n_bag == obj_n_bag, name="nconstr4")
+
+    model.setObjective(
+        dabs_n_lag +
+        dabs_n_tag +
+        dabs_n_rag +
+        dabs_n_bag, GRB.MINIMIZE)
 
 
 def solve(layout: Layout, template: Layout=None) -> dict:

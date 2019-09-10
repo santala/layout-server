@@ -2,7 +2,9 @@
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
   0 ABOVE[0,0] + 0 ABOVE[1,1] + 0 ABOVE[2,2] + 0 ABOVE[3,3] + 0 LEFT[0,0]
-   + 0 LEFT[1,1] + 0 LEFT[2,2] + 0 LEFT[3,3]
+   + 0 LEFT[1,1] + 0 LEFT[2,2] + 0 LEFT[3,3] + AbsDistanceFromTargetNLAG
+   + AbsDistanceFromTargetNTAG + AbsDistanceFromTargetNRAG
+   + AbsDistanceFromTargetNBAG
 Subject To
  SnapXToGrid(0): - L[0] + 8 LG[0] = 0
  SnapYToGrid(0): - T[0] + 8 TG[0] = 0
@@ -319,31 +321,39 @@ Subject To
  R306: TAG[0] + TAG[1] + TAG[2] + TAG[3] + RgR306 = 3
  R307: RAG[0] + RAG[1] + RAG[2] + RAG[3] + RgR307 = 3
  R308: BAG[0] + BAG[1] + BAG[2] + BAG[3] + RgR308 = 3
+ nconstr1: - LAG[0] - LAG[1] - LAG[2] - LAG[3] + DistanceFromTargetNLAG
+   = 0
+ nconstr2: - TAG[0] - TAG[1] - TAG[2] - TAG[3] + DistanceFromTargetNTAG
+   = 0
+ nconstr3: - RAG[0] - RAG[1] - RAG[2] - RAG[3] + DistanceFromTargetNRAG
+   = 0
+ nconstr4: - BAG[0] - BAG[1] - BAG[2] - BAG[3] + DistanceFromTargetNBAG
+   = 0
 Bounds
  L[0] <= 446
- L[1] <= 526
- L[2] <= 510
- L[3] <= 566
+ L[1] <= 518
+ L[2] <= 502
+ L[3] <= 550
  416 <= R[0] <= 862
- 336 <= R[1] <= 862
- 352 <= R[2] <= 862
- 296 <= R[3] <= 862
- T[0] <= 284
- T[1] <= 732
- T[2] <= 892
+ 344 <= R[1] <= 862
+ 360 <= R[2] <= 862
+ 312 <= R[3] <= 862
+ T[0] <= 276
+ T[1] <= 724
+ T[2] <= 876
  T[3] <= 796
- 712 <= B[0] <= 996
- 264 <= B[1] <= 996
- 104 <= B[2] <= 996
+ 720 <= B[0] <= 996
+ 272 <= B[1] <= 996
+ 120 <= B[2] <= 996
  200 <= B[3] <= 996
- 712 <= H[0] <= 720
- 264 <= H[1] <= 272
- 104 <= H[2] <= 112
+ 720 <= H[0] <= 728
+ 272 <= H[1] <= 280
+ 120 <= H[2] <= 128
  200 <= H[3] <= 208
  416 <= W[0] <= 424
- 336 <= W[1] <= 344
- 352 <= W[2] <= 360
- 296 <= W[3] <= 304
+ 344 <= W[1] <= 352
+ 360 <= W[2] <= 368
+ 312 <= W[3] <= 320
  vLAG[0] <= 861
  vLAG[1] <= 861
  vLAG[2] <= 861
@@ -360,6 +370,10 @@ Bounds
  1 <= vBAG[1] <= 996
  1 <= vBAG[2] <= 996
  1 <= vBAG[3] <= 996
+ DistanceFromTargetNLAG >= -1000
+ DistanceFromTargetNTAG >= -1000
+ DistanceFromTargetNRAG >= -1000
+ DistanceFromTargetNBAG >= -1000
  RgR305 <= 6
  RgR306 <= 6
  RgR307 <= 6
@@ -386,5 +400,13 @@ Generals
  B[3] H[0] H[1] H[2] H[3] W[0] W[1] W[2] W[3] LG[0] LG[1] LG[2] LG[3] TG[0]
  TG[1] TG[2] TG[3] WG[0] WG[1] WG[2] WG[3] HG[0] HG[1] HG[2] HG[3] vLAG[0]
  vLAG[1] vLAG[2] vLAG[3] vRAG[0] vRAG[1] vRAG[2] vRAG[3] vTAG[0] vTAG[1]
- vTAG[2] vTAG[3] vBAG[0] vBAG[1] vBAG[2] vBAG[3]
+ vTAG[2] vTAG[3] vBAG[0] vBAG[1] vBAG[2] vBAG[3] DistanceFromTargetNLAG
+ DistanceFromTargetNTAG DistanceFromTargetNRAG DistanceFromTargetNBAG
+ AbsDistanceFromTargetNLAG AbsDistanceFromTargetNTAG
+ AbsDistanceFromTargetNRAG AbsDistanceFromTargetNBAG
+General Constraints
+ absconstr1: AbsDistanceFromTargetNLAG = ABS ( DistanceFromTargetNLAG )
+ absconstr2: AbsDistanceFromTargetNTAG = ABS ( DistanceFromTargetNTAG )
+ absconstr3: AbsDistanceFromTargetNRAG = ABS ( DistanceFromTargetNRAG )
+ absconstr4: AbsDistanceFromTargetNBAG = ABS ( DistanceFromTargetNBAG )
 End
