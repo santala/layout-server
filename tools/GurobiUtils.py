@@ -34,12 +34,12 @@ class Variables:
         self.bag = model.addVars(n, vtype=GRB.BINARY,
                                  name='BAG')  # EXPL: bottom alignment group enabled?
 
-        self.v_lag = model.addVars(n, vtype=GRB.INTEGER, name='vLAG')  # EXPL: ???
+        self.v_lag = model.addVars(n, vtype=GRB.INTEGER, name='vLAG')  # EXPL: Pixel values for alignment groups?
         self.v_rag = model.addVars(n, vtype=GRB.INTEGER, name='vRAG')
         self.v_tag = model.addVars(n, vtype=GRB.INTEGER, name='vTAG')
         self.v_bag = model.addVars(n, vtype=GRB.INTEGER, name='vBAG')
 
-        self.at_lag = model.addVars(n, n, vtype=GRB.BINARY, name='zLAG')
+        self.at_lag = model.addVars(n, n, vtype=GRB.BINARY, name='zLAG') # EXPL: Assignment matrix of elements to alignment groups
         self.at_rag = model.addVars(n, n, vtype=GRB.BINARY, name='zRAG')
         self.at_tag = model.addVars(n, n, vtype=GRB.BINARY, name='zTAG')
         self.at_bag = model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')

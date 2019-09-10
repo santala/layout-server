@@ -2,7 +2,6 @@
 class Layout:
     def __init__(self, props: dict):
         # TODO: format validation
-        props = props.get('layouts')[0]  # TODO: edit the format
 
         self.id = str(props.get('id'))
         self.canvas_width = props.get('canvasWidth', None)
@@ -43,8 +42,8 @@ class Element:
             if self.width is not None and self.height is not None \
                and self.width > 0 and self.height > 0 \
             else None
-        self.horizontalPreference = props.get('horizontalPreference')
-        self.verticalPreference = props.get('verticalPreference')
+        self.horizontalPreference = props.get('horizontalPreference', 'None')
+        self.verticalPreference = props.get('verticalPreference', 'None')
         self.aspectRatio = props.get('aspectRatio', None)
         self.elementType = props.get('type')
         self.componentName = props.get('componentName', '?')

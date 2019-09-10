@@ -38,3 +38,10 @@ def optimize_layout() -> Response:
     # TODO: consider adding checks for security
     return jsonify(ElementaryPlacement.solve(Layout(json.loads(request.data))))
 
+@app.route('/api/v1.0/apply-template/', methods=['POST'])
+def apply_template() -> Response:
+    # TODO: consider adding checks for security
+    request_props = json.loads(request.data)
+
+    return jsonify(ElementaryPlacement.solve(Layout(request_props['layout']), Layout(request_props['template'])))
+

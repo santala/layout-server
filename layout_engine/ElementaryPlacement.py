@@ -13,48 +13,103 @@ from collections import namedtuple
 
 Solution = namedtuple('Solution', 'x, y, w, h, objective_value')
 
+def set_combination_constraints_and_objectives(model: Model):
 
-def solve(layout: Layout) -> dict:
+    layout: Layout = model._layout
+    template: Layout = model._template
+    var: Variables = model._var
 
-    try:
-        model = Model("GLayout")
-        model._layout = layout
-        model._grid_size = 8
+    # Count grid lines
+    lag = set()
+    tag = set()
+    rag = set()
+    bag = set()
 
-        var = Variables(model)
-        model._var = var
+    for element in template.elements:
+        lag.add(element.x)
+        tag.add(element.y)
+        rag.add(element.x+element.width)
+        bag.add(element.y+element.height)
 
-        set_variable_bounds(layout, var)
+    n_lag = len(lag)
+    n_tag = len(tag)
+    n_rag = len(rag)
+    n_bag = len(bag)
 
-        objective_grid_count, objective_lt = define_objectives(model, layout, var)
-
-        set_constraints(model, layout, var)
-
-        model._solutions = []
-        model._solution_number = 1
-        model._start_time = time.time()
-
-        model.write("output/NirajPracticeModel.lp")
-
-        set_control_params(model)
-
-
-        model.optimize(tap_solutions)
-
-        #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
+    # Hard constraints for grid lines
+    # TODO
 
 
 
-        # TODO: EXPL: analyze brute force purpose
-        #repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG,W, data, gurobi, vBAG, vLAG, vRAG, vTAG)
+    obj_n_lag = LinExpr(0)
+    obj_n_tag = LinExpr(0.0)
+    obj_n_rag = LinExpr(0.0)
+    obj_n_bag = LinExpr(0.0)
+    for i in range(layout.n):
+        obj_n_lag.addTerms([1], [var.lag[i]])
+        obj_n_tag.addTerms([1], [var.tag[i]])
+        obj_n_rag.addTerms([1], [var.rag[i]])
+        obj_n_bag.addTerms([1], [var.bag[i]])
 
+
+    limit = 3
+    model.addConstr(obj_n_lag == [n_lag - limit, n_lag + limit], 'N_LAG')
+    model.addConstr(obj_n_tag == [n_tag - limit, n_tag + limit], 'N_TAG')
+    model.addConstr(obj_n_rag == [n_rag - limit, n_rag + limit], 'N_RAG')
+    model.addConstr(obj_n_bag == [n_bag - limit, n_bag + limit], 'N_BAG')
+
+    # Objective for grid lines
+    # TODO
+
+
+def solve(layout: Layout, template: Layout=None) -> dict:
+
+    #try:
+    model = Model("GLayout")
+    model._layout = layout
+    model._template = template
+    model._grid_size = 8
+
+    var = Variables(model)
+    model._var = var
+
+    set_variable_bounds(layout, var)
+
+
+    set_constraints(model, layout, var)
+
+    if template is not None:
+        set_combination_constraints_and_objectives(model)
+    else:
+        define_objectives(model, layout, var)
+
+    model._solutions = []
+    model._solution_number = 1
+    model._start_time = time.time()
+
+    model.write("output/NirajPracticeModel.lp")
+
+    set_control_params(model)
+
+
+    model.optimize(tap_solutions)
+
+    #TODO (from Niraj) check if solution was found. If yes, set the better objective bounds on future solutions
+
+
+
+    # TODO: EXPL: analyze brute force purpose
+    #repeatBruteForceExecutionForMoreResults(BAG, H, L, LAG, LEFT, ABOVE, N, OBJECTIVE_GRIDCOUNT, OBJECTIVE_LT, RAG, T, TAG,W, data, gurobi, vBAG, vLAG, vRAG, vTAG)
+    '''
     except GurobiError as e:
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         return {'status': 1}
-
+    '''
+    '''
     except AttributeError as e:
         print('AttributeError:' + str(e))
         return {'status': 1}
+    '''
 
     if model.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
@@ -339,8 +394,9 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
     objective_grid_count = LinExpr(0.0) # EXPL: Initialize a linear expression with a constant
     for i in range(layout.n):
         # EXPL: LinExpr.addTerms ( coeffs, vars ):
-        objective_grid_count.addTerms([2.0, 2.0], [var.lag[i], var.tag[i]])
+        objective_grid_count.addTerms([1.0, 1.0], [var.lag[i], var.tag[i]])
         objective_grid_count.addTerms([1.0, 1.0], [var.bag[i], var.rag[i]])
+    # TODO: Ask Niraj about objective_lt
     objective_lt = LinExpr(0)
     for i in range(layout.n):
         objective_lt.addTerms([1, 1, 2, 2, -1, -1],
@@ -417,16 +473,9 @@ def tap_solutions(model: Model, where):
 
         obj_value = model.cbGet(GRB.Callback.MIPSOL_OBJ)
         lower_bound = model.cbGet(GRB.Callback.MIPSOL_OBJBND)
-        percent_gap = (obj_value - lower_bound) / lower_bound
 
         t = model.cbGet(GRB.Callback.RUNTIME)
-        # EXPL: This is skipped so that poor solutions are not skipped
-        if False and percent_gap > 0.2:
-            if t < 5 or t < layout.n:
-                # TODO: ask Niraj why?
-                print("Neglected poor solution")
-                return
-        print("Entering solution because t=",t," and gap%=",percent_gap)
+
 
         obj_value = math.floor(obj_value * 10000) / 10000.0
         print("Tapped into Solution No",
