@@ -13,6 +13,7 @@ from collections import namedtuple
 
 Solution = namedtuple('Solution', 'x, y, w, h, objective_value')
 
+
 def set_combination_constraints_and_objectives(model: Model):
 
     layout: Layout = model._layout
@@ -87,6 +88,8 @@ def set_combination_constraints_and_objectives(model: Model):
 
 def solve(layout: Layout, template: Layout=None) -> dict:
 
+
+
     #try:
     model = Model("GLayout")
     model._layout = layout
@@ -96,12 +99,13 @@ def solve(layout: Layout, template: Layout=None) -> dict:
     var = Variables(model)
     model._var = var
 
-    set_variable_bounds(layout, var)
+    set_variable_bounds(layout, var, model._grid_size)
 
 
     set_constraints(model, layout, var)
 
     if template is not None:
+        print('Applying template')
         set_combination_constraints_and_objectives(model)
     else:
         define_objectives(model, layout, var)
@@ -139,10 +143,10 @@ def solve(layout: Layout, template: Layout=None) -> dict:
         elements = [
             {
                 'id': element.id,
-                'x': int(var.l[i].X),  # ‘X’ is the value of the variable in the current solution
-                'y': int(var.t[i].X),
-                'width': int(var.w[i].X),
-                'height': int(var.h[i].X),
+                'x': int(var.l[i].X) * model._grid_size,  # ‘X’ is the value of the variable in the current solution
+                'y': int(var.t[i].X) * model._grid_size,
+                'width': int(var.w[i].X) * model._grid_size,
+                'height': int(var.h[i].X) * model._grid_size,
             } for i, element in enumerate(layout.elements)
         ]
 
@@ -207,6 +211,11 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
     # Known Position constraints X Y
     for i, element in enumerate(layout.elements):
 
+        model.addConstr(var.resize_width[i] == var.w[i] - math.ceil(element.width / model._grid_size), name="resizeW")
+        model.addConstr(var.resize_width_abs[i] == abs_(var.resize_width[i]), name="resizeWAbs")
+        model.addConstr(var.resize_height[i] == var.h[i] - math.ceil(element.height / model._grid_size), name="resizeH")
+        model.addConstr(var.resize_height_abs[i] == abs_(var.resize_height[i]), name="resizeHAbs")
+
         # TODO: support for locking
 
         # TODO: try to check that constraints don’t make the model infeasible
@@ -216,12 +225,12 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
         if element.constrainLeft:
             model.addConstr(var.l[i] == element.x, "PrespecifiedXOfElement("+str(i)+")")
         else:
-            model.addConstr(var.lg[i] * model._grid_size == var.l[i], "SnapXToGrid("+str(i)+")")
+            pass #model.addConstr(var.lg[i] * model._grid_size == var.l[i], "SnapXToGrid("+str(i)+")")
 
         if element.constrainTop:
             model.addConstr(var.t[i] == element.y, "PrespecifiedYOfElement("+str(i)+")")
         else:
-            model.addConstr(var.tg[i] * model._grid_size == var.t[i], "SnapYToGrid("+str(i)+")")
+            pass  #model.addConstr(var.tg[i] * model._grid_size == var.t[i], "SnapYToGrid("+str(i)+")")
 
         if element.constrainRight:
             model.addConstr(var.l[i] + var.w[i] == element.x + element.width, "PrespecifiedROfElement("+str(i)+")")
@@ -232,12 +241,12 @@ def set_constraints(model: Model, layout: Layout, var: Variables):
         if element.constrainWidth:
             model.addConstr(var.w[i] == element.width, "PrespecifiedWOfElement("+str(i)+")")
         else:
-            model.addConstr(var.wg[i] * model._grid_size == var.w[i], "SnapWToGrid(" + str(i) + ")")
+            pass  #model.addConstr(var.wg[i] * model._grid_size == var.w[i], "SnapWToGrid(" + str(i) + ")")
 
         if element.constrainHeight:
             model.addConstr(var.h[i] == element.height, "PrespecifiedHOfElement("+str(i)+")")
         else:
-            model.addConstr(var.hg[i] * model._grid_size == var.h[i], "SnapHToGrid("+str(i)+")")
+            pass  #model.addConstr(var.hg[i] * model._grid_size == var.h[i], "SnapHToGrid("+str(i)+")")
         
         if element.aspectRatio is not None and element.aspectRatio > 0.001:
             # EXPL: Does this lock element aspect ratio?
@@ -428,8 +437,36 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
     # EXPL: LinExpr.add( expr, mult=1.0 ): Add one linear expression into another.
     full_objective.add(objective_grid_count, 1)
     full_objective.add(objective_lt, 0.001)
-    #Objective.add(maxX, 10)
-    #Objective.add(maxY, 10)
+
+
+
+    # Minimize resizing of elements
+    '''
+    delta_x = abs(element1.x - element2.x)
+    delta_y = abs(element1.y - element2.y)
+    delta_w = abs(element1.width - element2.width)
+    delta_h = abs(element1.height - element2.height)
+
+    penalty_to_resize = ((delta_w / (layout1.w_sum + layout2.w_sum)) + (delta_h / (layout1.h_sum + layout2.h_sum))) \
+                      * ((element1.area + element2.area) / (layout1.area_sum + layout2.area_sum))
+    
+    
+    penalty_to_resize = (
+        ( abs(element1.width - element2.width) / (layout1.w_sum + layout2.w_sum) )
+        + ( abs(element1.height - element2.height) / (layout1.h_sum + layout2.h_sum) )
+    ) * (
+        ( element1.area + element2.area ) / ( layout1.area_sum + layout2.area_sum )
+    )
+    '''
+    element_width_coeffs = [1 / e.width for e in layout.elements]
+    element_height_coeffs = [1 / e.height for e in layout.elements]
+
+    obj_resize = LinExpr(0.0)
+    for i in range(layout.n):
+        obj_resize.addTerms([element_width_coeffs[i]], [var.resize_width_abs[i]])
+        obj_resize.addTerms([element_height_coeffs[i]], [var.resize_height_abs[i]])
+
+    full_objective.add(obj_resize, 100)
 
     # EXPL: Maximum number of grid lines is at minimum something
     model.addConstr(objective_grid_count >= (compute_minimum_grid(layout.n)))
@@ -438,39 +475,40 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
     return objective_grid_count, objective_lt
 
 
-def set_variable_bounds(layout: Layout, var: Variables):
+def set_variable_bounds(layout: Layout, var: Variables, grid_size: int):
+
 
     for i, element in enumerate(layout.elements):
-        print(element.minWidth, element.maxWidth, element.minHeight, element.maxHeight)
-        var.l[i].LB = 0                                                 # EXPL: Lower bound for left edge
-        var.l[i].UB = layout.canvas_width - element.minWidth  # EXPL: Upper bound for left edge
 
-        var.r[i].LB = element.minWidth
-        var.r[i].UB = layout.canvas_width
+        var.l[i].LB = 0
+        var.l[i].UB = (layout.canvas_width - element.minWidth) / grid_size
+
+        var.r[i].LB = math.ceil(element.minWidth / grid_size)
+        var.r[i].UB = layout.canvas_width / grid_size
 
         var.t[i].LB = 0
-        var.t[i].UB = layout.canvas_height - element.minHeight
+        var.t[i].UB = (layout.canvas_height - element.minHeight) / grid_size
 
-        var.b[i].LB = element.minHeight
-        var.b[i].UB = layout.canvas_height
+        var.b[i].LB = math.ceil(element.minHeight / grid_size)
+        var.b[i].UB = layout.canvas_height / grid_size
 
-        var.w[i].LB = element.minWidth
-        var.w[i].UB = element.maxWidth
+        var.w[i].LB = math.ceil(element.minWidth / grid_size)
+        var.w[i].UB = math.ceil(element.maxWidth / grid_size)
 
-        var.h[i].LB = element.minHeight
-        var.h[i].UB = element.maxHeight
+        var.h[i].LB = math.ceil(element.minHeight / grid_size)
+        var.h[i].UB = math.ceil(element.maxHeight / grid_size)
 
         var.v_lag[i].LB = 0
-        var.v_lag[i].UB = layout.canvas_width - 1
+        var.v_lag[i].UB = layout.canvas_width / grid_size - 1
 
         var.v_rag[i].LB = 1
-        var.v_rag[i].UB = layout.canvas_width
+        var.v_rag[i].UB = layout.canvas_width / grid_size
 
         var.v_tag[i].LB = 0
-        var.v_tag[i].UB = layout.canvas_height - 1
+        var.v_tag[i].UB = layout.canvas_height / grid_size - 1
 
         var.v_bag[i].LB = 1
-        var.v_bag[i].UB = layout.canvas_height
+        var.v_bag[i].UB = layout.canvas_height / grid_size
 
 
 def compute_minimum_grid(n: int) -> int:

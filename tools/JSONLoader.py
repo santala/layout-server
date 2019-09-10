@@ -9,7 +9,7 @@ class Layout:
         self.solution_count = props.get('NumOfSolutions', None)
 
         self.elements = [
-            Element(element_props) for element_props in props.get('elements', [])
+            Element(element_props, self) for element_props in props.get('elements', [])
         ]
 
         self.n = len(self.elements)
@@ -30,7 +30,7 @@ class Layout:
 
 
 class Element:
-    def __init__(self, props: dict):
+    def __init__(self, props: dict, layout: Layout):
 
 
         self.id = str(props.get('id'))
@@ -63,11 +63,27 @@ class Element:
 
         # TODO: make grid size configurable
 
-        if self.width is not None and self.width >= 0:
-            self.minWidth = int(self.width / 8) * 8
-            self.maxWidth = int(self.width / 8 + 1) * 8
-        if self.height is not None and self.height >= 0:
-            self.minHeight = int(self.height / 8) * 8
-            self.maxHeight = int(self.height / 8 + 1) * 8
+        choice = 2
+        if choice == 1:
+            if self.width is not None and self.width >= 0:
+                self.minWidth = self.width #1#int(self.width / 8) * 8
+                self.maxWidth = self.width #1000#int(self.width / 8 + 1) * 8
+            if self.height is not None and self.height >= 0:
+                self.minHeight = self.height #1#int(self.height / 8) * 8
+                self.maxHeight = self.height # 1000#int(self.height / 8 + 1) * 8
+        elif choice == 2:
+            if self.width is not None and self.width >= 0:
+                self.minWidth = 1
+                self.maxWidth = layout.canvas_width
+            if self.height is not None and self.height >= 0:
+                self.minHeight = 1
+                self.maxHeight = layout.canvas_height
+        else:
+            if self.width is not None and self.width >= 0:
+                self.minWidth = int(self.width * .5)
+                self.maxWidth = int(self.width * 1.5)
+            if self.height is not None and self.height >= 0:
+                self.minHeight = int(self.height * .5)
+                self.maxHeight = int(self.height * 1.5)
 
 

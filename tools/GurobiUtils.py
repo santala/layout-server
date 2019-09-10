@@ -15,11 +15,18 @@ class Variables:
         self.w = model.addVars(n, vtype=GRB.INTEGER, name='W')
 
         # Multiples of grid to allow for constraining the layout to a grid
+        '''
         self.lg = model.addVars(n, vtype=GRB.INTEGER, name='LG')
         self.tg = model.addVars(n, vtype=GRB.INTEGER, name='TG')
         self.wg = model.addVars(n, vtype=GRB.INTEGER, name='WG')
         self.hg = model.addVars(n, vtype=GRB.INTEGER, name='HG')
+        '''
 
+        # TODO: proper negative bounds
+        self.resize_width = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeW')
+        self.resize_width_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeWAbs')
+        self.resize_height = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeH')
+        self.resize_height_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeHAbs')
 
         self.above = model.addVars(n, n, vtype=GRB.BINARY, name='ABOVE')  # EXPL: one elem is above the other
         self.on_left = model.addVars(n, n, vtype=GRB.BINARY,
@@ -45,14 +52,14 @@ class Variables:
         self.at_bag = model.addVars(n, n, vtype=GRB.BINARY, name='zBAG')
 
         # Use the current layout as the starting solution
-        '''
+
         for i, element in enumerate(layout.elements):
             if element.x > 0:
-                self.l[i].start = element.x
+                self.l[i].Start = element.x / model._grid_size + 1
             if element.y > 0:
-                self.t[i].start = element.y
+                self.t[i].Start = element.y / model._grid_size + 1
             if element.width > 0:
-                self.w[i].start = element.width
+                self.w[i].Start = element.width / model._grid_size + 1
             if element.height > 0:
-                self.h[i].start = element.height
-        '''
+                self.h[i].Start = element.height / model._grid_size + 1
+                ''''''
