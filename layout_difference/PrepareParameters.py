@@ -37,14 +37,16 @@ def compute_penalty_assignment(layout1: Layout, layout2: Layout) -> List[List[fl
             penalty_to_change_type = 0 if element1.elementType == element2.elementType else 1
             print('type change', penalty_to_change_type, element1.elementType)
             if penalty_to_change_type == 0 and element1.elementType == 'component':
+                penalty_to_change_component_type = 1 - max(difflib.SequenceMatcher(None, element1.componentName, element2.componentName).ratio(), difflib.SequenceMatcher(None, element2.componentName, element1.componentName).ratio())
                 print('names', element1.componentName, '<>', element2.componentName)
-                penalty_to_change_component_type = difflib.SequenceMatcher(None, element1.componentName, element2.componentName).ratio()
-                print('diff test', penalty_to_change_component_type,
-                      difflib.SequenceMatcher(None, element2.componentName, element1.componentName).ratio())
             else:
                 penalty_to_change_component_type = 0
 
-            local_penalty.append(penalty_to_move + penalty_to_resize + penalty_to_change_type * 100 + penalty_to_change_component_type * 10)
+            local_penalty.append(
+                penalty_to_move +
+                penalty_to_resize +
+                penalty_to_change_type * 100 +
+                penalty_to_change_component_type * 100)
 
 
         penalty_assignment.append(local_penalty)
