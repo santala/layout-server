@@ -3,7 +3,6 @@ import json
 from flask import Flask, abort, jsonify, render_template, request, Response
 
 # from tools.JSONDisplay import actualDisplay
-from layout_difference import MIPCompare
 from layout_engine import ElementaryPlacement
 from tools.JSONLoader import Layout
 
