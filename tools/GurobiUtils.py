@@ -23,10 +23,11 @@ class Variables:
         '''
 
         # TODO: proper negative bounds
-        self.resize_width = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeW')
-        self.resize_width_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeWAbs')
-        self.resize_height = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeH')
-        self.resize_height_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeHAbs')
+        self.resize_width = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeWVar')
+        self.resize_width_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeWAbsVar')
+        self.resize_height = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='resizeHVar')
+        self.resize_height_abs = model.addVars(n, vtype=GRB.INTEGER, name='resizeHAbsVar')
+
 
         self.move_x = model.addVars(n, lb=-1000, vtype=GRB.INTEGER, name='moveX')
         self.move_x_abs = model.addVars(n, vtype=GRB.INTEGER, name='moveXAbs')

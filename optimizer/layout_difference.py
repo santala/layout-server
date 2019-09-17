@@ -139,6 +139,3 @@ def element_similarity(e1: Element, e2: Element) -> float:
         )
     else: # Same element type, but not components (e.g. text)
         return 0
-
-def canvas_resize(layout1: Layout, layout2: Layout):
-    pass

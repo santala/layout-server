@@ -6,7 +6,7 @@ from flask import Flask, abort, jsonify, render_template, request, Response
 from layout_engine import ElementaryPlacement
 from tools.JSONLoader import Layout
 
-from optimizer import layout_difference, classes
+from optimizer import classes, layout_difference, layout_quality
 
 app = Flask(__name__)
 
@@ -39,7 +39,9 @@ def upload() -> Response:
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
     # TODO: consider adding checks for security
-    return jsonify(ElementaryPlacement.solve(Layout(json.loads(request.data))))
+    layout = Layout(json.loads(request.data))
+    return jsonify(layout_quality.solve(layout))
+    #return jsonify(ElementaryPlacement.solve(layout))
 
 @app.route('/api/v1.0/apply-template/', methods=['POST'])
 def apply_template() -> Response:

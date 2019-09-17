@@ -4296,3 +4296,313 @@ Academic license - for non-commercial use only
 Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 12:22:55 2019
 
 Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 14:55:31 2019
+
+Academic license - for non-commercial use only
+Warning: linear constraint 0 and linear constraint 4 have the same name "resizeW"
+Warning: general constraint 0 and general constraint 4 have the same name "resizeWAbs"
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 15:14:33 2019
+
+Academic license - for non-commercial use only
+Warning: linear constraint 0 and linear constraint 4 have the same name "resizeW"
+Warning: general constraint 0 and general constraint 4 have the same name "resizeWAbs"
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 15:45:05 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 15:53:46 2019
+
+Academic license - for non-commercial use only
+Warning: linear constraint 0 and linear constraint 4 have the same name "resizeW"
+Warning: general constraint 0 and general constraint 4 have the same name "resizeWAbs"
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:31:29 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:32:23 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:49:28 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:50:21 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:51:58 2019
+
+Academic license - for non-commercial use only
+Warning: linear constraint 0 and linear constraint 4 have the same name "resizeW"
+Warning: general constraint 0 and general constraint 4 have the same name "resizeWAbs"
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 16:54:19 2019
+
+Academic license - for non-commercial use only
+Warning: linear constraint 0 and linear constraint 4 have the same name "resizeW"
+Warning: general constraint 0 and general constraint 4 have the same name "resizeWAbs"
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:07:50 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:08:26 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:09:18 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 405 rows, 692 columns and 920 nonzeros
+Model has 96 quadratic constraints
+Model has 128 general constraints
+Variable types: 32 continuous, 660 integer (256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+01, 1e+01]
+  QRHS range       [1e+00, 1e+00]
+Presolve added 0 rows and 258 columns
+Presolve removed 178 rows and 0 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Best objective -, best bound -, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:10:32 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: linear constraint 277 and linear constraint 341 have the same name "LinkLeftOverlap[0,0]"
+Warning: general constraint 96 and general constraint 160 have the same name "LinkHorizontalOverlap[0,0]"
+Optimize a model with 405 rows, 692 columns and 920 nonzeros
+Model has 96 quadratic constraints
+Model has 128 general constraints
+Variable types: 32 continuous, 660 integer (256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+01, 1e+01]
+  QRHS range       [1e+00, 1e+00]
+Presolve added 0 rows and 258 columns
+Presolve removed 178 rows and 0 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Best objective -, best bound -, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:14:48 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: linear constraint 277 and linear constraint 341 have the same name "LinkLeftOverlap[0,0]"
+Warning: general constraint 64 and general constraint 128 have the same name "LinkHorizontalOverlap[0,0]"
+Optimize a model with 405 rows, 692 columns and 920 nonzeros
+Model has 64 quadratic constraints
+Model has 128 general constraints
+Variable types: 32 continuous, 660 integer (256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+01, 1e+01]
+Presolve added 0 rows and 258 columns
+Presolve removed 178 rows and 0 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Best objective -, best bound -, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:16:43 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: linear constraint 277 and linear constraint 341 have the same name "LinkLeftOverlap[0,0]"
+Warning: general constraint 32 and general constraint 96 have the same name "LinkHorizontalOverlap[0,0]"
+Optimize a model with 469 rows, 692 columns and 1112 nonzeros
+Model has 32 quadratic constraints
+Model has 128 general constraints
+Variable types: 32 continuous, 660 integer (256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+01, 1e+01]
+  QRHS range       [1e+00, 1e+00]
+Presolve added 0 rows and 196 columns
+Presolve removed 240 rows and 0 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Best objective -, best bound -, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Sep 17 17:17:51 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: linear constraint 277 and linear constraint 341 have the same name "LinkLeftOverlap[0,0]"
+Warning: general constraint 0 and general constraint 64 have the same name "LinkHorizontalOverlap[0,0]"
+Optimize a model with 469 rows, 692 columns and 1112 nonzeros
+Model has 128 general constraints
+Variable types: 32 continuous, 660 integer (256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+01, 1e+01]
+Presolve added 0 rows and 196 columns
+Presolve removed 240 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 229 rows, 888 columns, 488 nonzeros
+Variable types: 256 continuous, 632 integer (480 binary)
+
+Root relaxation: objective 1.200000e+01, 1 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0      12.0000000   12.00000  0.00%     -    0s
+
+Explored 1 nodes (1 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 12 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.200000000000e+01, best bound 1.200000000000e+01, gap 0.0000%

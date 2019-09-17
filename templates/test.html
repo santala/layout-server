@@ -57,7 +57,7 @@ async function submitLayoutEngine() {
         console.log("Parsing layout…");
         let layout = await readJSON(document.getElementById("layoutEngineFile"));
 
-        drawLayout("layoutEngineInput", layout.layouts[0]);
+        drawLayout("layoutEngineInput", layout);
 
         console.log("Uploading layout…");
         let response = await fetch("{{ url_for('optimize_layout') }}", {
@@ -126,7 +126,7 @@ function readJSON(input) {
         let reader = new FileReader();
         reader.onload = () => {
             let result = JSON.parse(reader.result);
-            if (result.layouts && result.layouts[0]) {
+            if (result.hasOwnProperty('layouts') && result.layouts.length) {
                 // Handle two different formats of JSON
                 result = result.layouts[0];
             }
