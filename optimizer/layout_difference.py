@@ -8,16 +8,24 @@ from .classes import Layout, Element
 
 
 def solve(layout1: Layout, layout2: Layout):
+    '''
+    This function finds a mapping between the elements of the two layouts, and computes the distance between
+    the two layouts based on that mapping.
+
+    :param layout1: A sketch
+    :param layout2: A template
+    :return: Measures of the distance between the two layouts
+    '''
 
     m = Model('GLayoutDifference')
 
     # Variables
 
-    element_mapping = m.addVars(layout1.n, layout2.n, vtype=GRB.BINARY, name='ElementMapping')
-    layout1_unmapped = m.addVars(layout1.n, vtype=GRB.BINARY, name='UnmappedInLayout1')
-    layout2_unmapped = m.addVars(layout2.n, vtype=GRB.BINARY, name='UnmappedInLayout2')
+    element_mapping: tupledict = m.addVars(layout1.n, layout2.n, vtype=GRB.BINARY, name='ElementMapping')
+    layout1_unmapped: tupledict = m.addVars(layout1.n, vtype=GRB.BINARY, name='UnmappedInLayout1')
+    layout2_unmapped: tupledict = m.addVars(layout2.n, vtype=GRB.BINARY, name='UnmappedInLayout2')
 
-    # Constraints
+    # CONSTRAINTS
 
     # For each element in either layout, check that it is unassigned, or assigned to only one element in the other layout
     for i1 in range(layout1.n):
@@ -26,58 +34,77 @@ def solve(layout1: Layout, layout2: Layout):
     for i2 in range(layout2.n):
         m.addConstr(layout2_unmapped[i2] + element_mapping.sum('*', i2) == 1, name='Element' + str(i2) + 'InLayout2Is(Un)MappedOnce')
 
-    # Map as many elements from the first layout as possible
+    # Map as many elements from the first layout as possible.
     m.addConstr(layout1_unmapped.sum() == max(layout1.n - layout2.n, 0), name='MapMaxElementsFromLayout1')
 
-    # Objectives
+    # OBJECTIVES
 
-    # objective_euclidean_move_resize
+    # Minimize the relative distance of paired elements
+    euclidean_distance_expr = element_mapping.prod(get_prod_coeff(euclidean_distance, layout1, layout2))
 
-    euclidean_move_expr = element_mapping.prod(get_prod_coeff(euclidean_move_between, layout1, layout2))
-    euclidean_resize_expr = element_mapping.prod(get_prod_coeff(euclidean_resize_between, layout1, layout2))
+    # Minimize the relative size difference of paired elements
+    euclidean_size_diff_expr = element_mapping.prod(get_prod_coeff(euclidean_size_diff, layout1, layout2))
 
-    # component match
-
+    # Maximize the similarity of paired elements
     element_similarity_expr = element_mapping.prod(get_prod_coeff(element_similarity, layout1, layout2))
 
-    # number of elements TODO: add this
-    # size of canvas TODO: add this
-    # objective_elements_lost TODO: probably unnecessary (if this is used, there should be a way to define the importance of each element)
-
+    # In cases, where all of the elements from the first layout can’t be mapped (i.e. the second layout has fewer
+    # elements), prioritize mapping of larger elements
     element_ignored_expr = layout1_unmapped.prod({(i): e.area / e.layout.area_sum for i, e in enumerate(layout1.elements)})
 
+    # TODO: consider taking weights as input
+    obj_expr = LinExpr()
+    obj_expr.add(euclidean_distance_expr)
+    obj_expr.add(euclidean_size_diff_expr)
+    obj_expr.add(element_ignored_expr)
+    obj_expr.add(element_similarity_expr, 100)
 
-    full_obj_expr = LinExpr()
-    full_obj_expr.add(euclidean_move_expr)
-    full_obj_expr.add(euclidean_resize_expr)
-    full_obj_expr.add(element_ignored_expr)
-    full_obj_expr.add(element_similarity_expr, 100)
-
-    m.setObjective(full_obj_expr, GRB.MINIMIZE)
+    m.setObjective(obj_expr, GRB.MINIMIZE)
 
     m.Params.OutputFlag = 0
     m.optimize()
 
+    # MEASURES INDEPENDENT OF MAPPING
 
-    element_mapping_dict = []
+    # Difference in the number of elements in the layouts
+    element_count_diff = abs(layout2.n - layout1.n) / layout1.n
 
-    for e1 in range(layout1.n):
-        for e2 in range(layout2.n):
-            if element_mapping[e1, e2].X == 1:  # ‘X’ is the value of the variable in the current solution
-                element_mapping_dict.append((layout1.elements[e1].id, layout2.elements[e2].id))
+    # Canvas area difference
+    canvas_area_diff = abs(layout2.canvas_area - layout1.canvas_area) / layout1.canvas_area
+
+    # Canvas aspect ratio difference
+    canvas_aspect_ratio_diff = abs(layout2.canvas_aspect_ratio - layout1.canvas_aspect_ratio) / layout1.canvas_aspect_ratio
+
+    # number of elements TODO: add this
+    # size of canvas TODO: add this
 
     if m.Status == GRB.Status.OPTIMAL:
         # TODO: consider adding metric for difference in screen size
         return {
-            'status': 0,
-            'euclideanDifference': round(full_obj_expr.getValue() * 10000 - element_ignored_expr.getValue() * 10000),
-            'elementsGainedPenalty': 0,
-            'elementsLostPenalty': round(element_ignored_expr.getValue() * 10000),
-            'elementMapping': element_mapping_dict
+            'success': True,
+            'gurobiStatus': m.Status,
+            'mappingDistance': round(obj_expr.getValue() * 10000),
+            'measures': {
+                'euclideanDistance': round(euclidean_distance_expr.getValue() * 10000),
+                'euclideanSizeDiff': round(euclidean_size_diff_expr.getValue() * 10000),
+                'elementDissimilarity': round(element_similarity_expr.getValue() * 10000),
+                'ignoredElements': round(element_ignored_expr.getValue() * 10000),
+                'elementCountDiff': round(element_count_diff * 10000),
+                'canvasAreaDiff': round(canvas_area_diff * 10000),
+                'canvasAspectRatioDiff': round(canvas_aspect_ratio_diff * 10000),
+            },
+            'elementMapping': [
+                (e1.id, e2.id)
+                for (i1, e1), (i2, e2) in product(enumerate(layout1.elements), enumerate(layout2.elements))
+                if element_mapping[i1, i2].X == 1
+            ]
         }
     else:
         print('Non-optimal status:', m.Status)
-        return {'status': 1}
+        return {
+            'success': False,
+            'gurobiStatus': m.Status
+        }
 
 def get_prod_coeff(coeff_func: Callable[[Element, Element], float], layout1: Layout, layout2: Layout) -> dict:
     # Returns a dict that can be used as an argument for tupledict.prod() method
@@ -87,14 +114,14 @@ def get_prod_coeff(coeff_func: Callable[[Element, Element], float], layout1: Lay
         for (i1, e1), (i2, e2) in product(enumerate(layout1.elements), enumerate(layout2.elements))
     }
 
-def euclidean_move_between(e1: Element, e2: Element):
+def euclidean_distance(e1: Element, e2: Element):
     delta_x = abs(e1.x - e2.x)
     delta_y = abs(e1.y - e2.y)
     return ((delta_x / (e1.layout.x_sum + e2.layout.x_sum)) + (delta_y / (e1.layout.y_sum + e2.layout.y_sum))) \
         * ((e1.area + e2.area) / (e1.layout.area_sum + e2.layout.area_sum))
 
 
-def euclidean_resize_between(e1, e2):
+def euclidean_size_diff(e1, e2):
     delta_w = abs(e1.width - e2.width)
     delta_h = abs(e1.height - e2.height)
     return ((delta_w / (e1.layout.w_sum + e2.layout.w_sum)) + (delta_h / (e1.layout.h_sum + e2.layout.h_sum))) \

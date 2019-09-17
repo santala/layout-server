@@ -5,8 +5,11 @@ class Layout:
 
 
         self.id = str(props.get('id'))
-        self.canvas_width = props.get('canvasWidth', None)
-        self.canvas_height = props.get('canvasHeight', None)
+        self.canvas_width = props.get('canvasWidth', 0)
+        self.canvas_height = props.get('canvasHeight', 0)
+        self.canvas_aspect_ratio = self.canvas_width / self.canvas_height
+        self.canvas_area = self.canvas_width * self.canvas_height
+
         self.solution_count = props.get('NumOfSolutions', None)
 
         self.elements = [

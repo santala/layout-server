@@ -28,19 +28,14 @@ def upload() -> Response:
     # TODO: consider adding checks for security
     first_layout, second_layout = map(Layout, json.loads(request.data))
 
-    print("Comparing", first_layout.id, " ( n =", first_layout.n, ") <>",
-          second_layout.id, "( n =", str(second_layout.n), ")")
-
-    result = MIPCompare.solve(first_layout, second_layout)
-
     first_layout, second_layout = map(classes.Layout, json.loads(request.data))
 
     print("Comparing", first_layout.id, " ( n =", first_layout.n, ") <>",
           second_layout.id, "( n =", str(second_layout.n), ")")
 
-    result2 = layout_difference.solve(first_layout, second_layout)
+    result = layout_difference.solve(first_layout, second_layout)
 
-    return jsonify([result, result2])
+    return jsonify(result)
 
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
