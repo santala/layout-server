@@ -27,6 +27,8 @@ async function submitLayoutDifference() {
 
         let requestBody = JSON.stringify(await Promise.all(inputs.map(async input => await readJSON(input))));
 
+        console.log(requestBody);
+
         let response = await fetch("{{ url_for('upload') }}", {
             method: "POST",
             headers: {
@@ -123,7 +125,12 @@ function readJSON(input) {
         }
         let reader = new FileReader();
         reader.onload = () => {
-            resolve(JSON.parse(reader.result));
+            let result = JSON.parse(reader.result);
+            if (result.layouts && result.layouts[0]) {
+                // Handle two different formats of JSON
+                result = result.layouts[0];
+            }
+            resolve(result);
         };
         reader.readAsText(input.files[0]);
     });

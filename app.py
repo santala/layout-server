@@ -7,6 +7,8 @@ from layout_difference import MIPCompare
 from layout_engine import ElementaryPlacement
 from tools.JSONLoader import Layout
 
+from optimizer import layout_difference, classes
+
 app = Flask(__name__)
 
 # TODO: configure HTTPS support
@@ -31,7 +33,14 @@ def upload() -> Response:
 
     result = MIPCompare.solve(first_layout, second_layout)
 
-    return jsonify(result)
+    first_layout, second_layout = map(classes.Layout, json.loads(request.data))
+
+    print("Comparing", first_layout.id, " ( n =", first_layout.n, ") <>",
+          second_layout.id, "( n =", str(second_layout.n), ")")
+
+    result2 = layout_difference.solve(first_layout, second_layout)
+
+    return jsonify([result, result2])
 
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:

@@ -24,15 +24,12 @@ class Layout:
         self.h_sum = sum([abs(element.height) for element in self.elements])
         self.area_sum = sum([element.area for element in self.elements])
 
-        # EXPL: Penalty of being skipped is the relative size of the element
-        for element in self.elements:
-            element.PenaltyIfSkipped = element.area / self.area_sum
-
 
 
 class Element:
     def __init__(self, props: dict, layout: Layout):
 
+        self.layout = layout
 
         self.id = str(props.get('id'))
         self.x = int(props.get('x'))
