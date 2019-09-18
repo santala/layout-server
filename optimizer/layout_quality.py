@@ -1,7 +1,7 @@
 from itertools import combinations, product
 from math import factorial, sqrt
 
-from gurobipy import GRB, LinExpr, Model, tupledict, abs_, max_, min_, QuadExpr, GurobiError
+from gurobipy import GRB, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
@@ -19,7 +19,7 @@ def solve(layout: Layout):
         # VARIABLES
 
         # Element coordinates (in multiples of grid size)
-        edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
+        edge_coord = m.addVars(edge_indices, elem_indices, ub=20, vtype=GRB.INTEGER, name='EdgeCoord')
         m.addConstrs((
             edge_coord['x0', i] <= edge_coord['x1', i] - 1
             for i in elem_indices
@@ -34,13 +34,59 @@ def solve(layout: Layout):
         x1 = m.addVars(n, vtype=GRB.INTEGER, name='X1')
         y1 = m.addVars(n, vtype=GRB.INTEGER, name='Y1')
         '''
+        for i in range(n):
+            edge_coord['x0', i].start = i
+            edge_coord['y0', i].start = i
 
         # Element size (in multiples of grid size)
-        w = m.addVars(n, vtype=GRB.INTEGER, name='W')
-        h = m.addVars(n, vtype=GRB.INTEGER, name='H')
+        w = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='W')
+        h = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='H')
         # Bind width and height to the coordinates
         m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
         m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
+
+
+        # ABOVE & ON LEFT
+
+        above = m.addVars(n, n, vtype=GRB.BINARY, name='Above')
+        m.addConstrs((
+            (above[i1, i2] == 1) >> (edge_coord['y1', i1] <= edge_coord['y0', i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkAbove1')
+        m.addConstrs((
+            (above[i1, i2] == 0) >> (edge_coord['y1', i1] >= edge_coord['y0', i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkAbove2')
+
+        on_left = m.addVars(n, n, vtype=GRB.BINARY, name='OnLeft')
+        m.addConstrs((
+            (on_left[i1, i2] == 1) >> (edge_coord['x1', i1] <= edge_coord['x0', i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOnLeft1')
+        m.addConstrs((
+            (on_left[i1, i2] == 0) >> (edge_coord['x1', i1] >= edge_coord['x0', i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOnLeft2')
+
+        # OVERLAP
+
+        h_overlap = m.addVars(n, n, vtype=GRB.BINARY, name='HorizontalOverlap')
+        m.addConstrs((
+            h_overlap[i1, i2] == 1 - (on_left[i1, i2] + on_left[i2, i1])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkHorizontalOverlap')
+
+        v_overlap = m.addVars(n, n, vtype=GRB.BINARY, name='VerticalOverlap')
+        m.addConstrs((
+            v_overlap[i1, i2] == 1 - (above[i1, i2] + above[i2, i1])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkVerticalOverlap')
+
+        overlap = m.addVars(n, n, vtype=GRB.BINARY, name='Overlap')
+        m.addConstrs((
+            overlap[i1, i2] == and_(h_overlap[i1, i2], v_overlap[i1, i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOverlap')
 
         # EXPL: OLD
         # TODO: 4x *ag [n BOOL]: alignment group enabled
@@ -53,11 +99,13 @@ def solve(layout: Layout):
 
 
         # VAR element edge distance 4*n*n
-        edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistance')
+        edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='EdgeDistance')
         m.addConstrs((
             edge_diff[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgeDistance')
+
+
         edge_diff_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
         m.addConstrs((
             edge_diff_abs[edge, i1, i2] == abs_(edge_diff[edge, i1, i2])
@@ -93,9 +141,17 @@ def solve(layout: Layout):
         # Minimize number of grid lines
         # Number of elements sharing an edge
 
+        h_overlap_expr = h_overlap.sum()
+        v_overlap_expr = v_overlap.sum()
+        overlap_expr = overlap.sum()
+
+        m.addConstr(overlap_expr == 0)
+        #m.setObjective(overlap_expr, GRB.MINIMIZE)
+
+
         number_of_groups_expr = LinExpr()
         number_of_groups_expr.add(number_of_groups.sum())
-        #m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
+        m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
         m.setObjective(number_of_groups_expr, GRB.MINIMIZE)
 
         # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
@@ -115,6 +171,7 @@ def solve(layout: Layout):
         m.optimize()
 
         #print('Number of groups', number_of_groups_expr.getValue())
+        #print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 

@@ -5581,3 +5581,1267 @@ Computing Irreducible Inconsistent Subsystem (IIS)...
 IIS computed: 108 constraints, 39 bounds
 IIS runtime: 2.65 seconds
 Warning: constraint name "Prevent over-optimization" has a space
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 20:45:24 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 20:45:48 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 404 rows, 980 columns and 1044 nonzeros
+Model has 672 general constraints
+Variable types: 0 continuous, 980 integer (416 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 404 rows and 716 columns
+Presolve time: 0.00s
+Presolved: 0 rows, 264 columns, 0 nonzeros
+Presolved model has 128 SOS constraint(s)
+Variable types: 0 continuous, 264 integer (128 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 20:59:18 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 468 rows, 980 columns and 1164 nonzeros
+Model has 736 general constraints
+Variable types: 0 continuous, 980 integer (416 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 376 rows and 788 columns
+Presolve time: 0.01s
+Presolved: 92 rows, 192 columns, 184 nonzeros
+Presolved model has 56 SOS constraint(s)
+Variable types: 0 continuous, 192 integer (56 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:05:36 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: linear constraint 32 and linear constraint 96 have the same name "LinkHorizontalOverlap[0,0]"
+Optimize a model with 532 rows, 1108 columns and 1412 nonzeros
+Model has 800 general constraints
+Variable types: 0 continuous, 1108 integer (544 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve added 928 rows and 1320 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1332         0      564         0s
+        7        7         4        4         0s
+
+IIS computed: 7 constraints, 4 bounds
+IIS runtime: 0.39 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:07:29 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 532 rows, 1108 columns and 1412 nonzeros
+Model has 800 general constraints
+Variable types: 0 continuous, 1108 integer (544 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve added 928 rows and 1320 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1332         0      564         0s
+        7        7         4        4         0s
+
+IIS computed: 7 constraints, 4 bounds
+IIS runtime: 0.39 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:08:44 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1108 columns and 1380 nonzeros
+Model has 768 general constraints
+Variable types: 0 continuous, 1108 integer (544 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve removed 348 rows and 676 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1284         0      564         0s
+        7        7         4        4         0s
+
+IIS computed: 7 constraints, 4 bounds
+IIS runtime: 0.35 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:10:36 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1108 columns and 1380 nonzeros
+Model has 768 general constraints
+Variable types: 0 continuous, 1108 integer (544 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 348 rows and 676 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1284         0      564         0s
+        7        7         4        4         0s
+
+IIS computed: 7 constraints, 4 bounds
+IIS runtime: 0.35 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:10:57 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 404 rows, 980 columns and 1044 nonzeros
+Model has 768 general constraints
+Variable types: 0 continuous, 980 integer (416 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 292 rows and 844 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 136 columns, 224 nonzeros
+Variable types: 0 continuous, 136 integer (16 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:11:27 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 460 rows, 1044 columns and 1212 nonzeros
+Model has 768 general constraints
+Variable types: 0 continuous, 1044 integer (480 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 320 rows and 648 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1228         0      564         0s
+        6        6         3        3         0s
+
+IIS computed: 6 constraints, 3 bounds
+IIS runtime: 0.22 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:15:19 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 460 rows, 1044 columns and 1212 nonzeros
+Model has 768 general constraints
+Variable types: 0 continuous, 1044 integer (480 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 348 rows and 900 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 144 columns, 224 nonzeros
+Variable types: 0 continuous, 144 integer (24 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:17:20 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:17:35 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:18:03 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:18:33 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:19:17 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:20:02 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:20:26 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:21:03 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 4.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:21:40 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 517 rows, 1172 columns and 1444 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve added 15 rows and 0 columns
+Presolve removed 0 rows and 516 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:22:12 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 517 rows, 1172 columns and 1444 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve added 15 rows and 0 columns
+Presolve removed 0 rows and 516 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+      Constraints           Bounds       Runtime
+     Min       Max       Min      Max
+------------------------------------------------
+        0     1341         0      564         0s
+       22       22        13       13         2s
+
+IIS computed: 22 constraints, 13 bounds
+IIS runtime: 2.28 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:23:15 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 404 rows and 1012 columns
+Presolve time: 0.01s
+Presolved: 112 rows, 160 columns, 224 nonzeros
+Variable types: 0 continuous, 160 integer (40 binary)
+Found heuristic solution: objective 56.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 56 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.600000000000e+01, best bound 5.600000000000e+01, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:24:02 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,1] by 1.000000000
+
+Presolve removed 402 rows and 1010 columns
+Presolve time: 0.01s
+Presolved: 114 rows, 162 columns, 230 nonzeros
+Variable types: 0 continuous, 162 integer (40 binary)
+Found heuristic solution: objective 56.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 56 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.600000000000e+01, best bound 5.600000000000e+01, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:26:24 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 144 rows, 368 columns and 416 nonzeros
+Model has 280 general constraints
+Variable types: 0 continuous, 368 integer (320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start produced solution with objective 0 (0.01s)
+Loaded MIP start with objective 0
+
+Presolve added 432 rows and 280 columns
+Presolve time: 0.00s
+Presolved: 576 rows, 648 columns, 1504 nonzeros
+Presolved model has 224 SOS constraint(s)
+Variable types: 0 continuous, 648 integer (376 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:31:14 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 400 rows, 624 columns and 1120 nonzeros
+Model has 280 general constraints
+Variable types: 0 continuous, 624 integer (320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+MIP start violates constraint LinkEdgeDistance[x0,0,0] by 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104.000000000
+
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+IIS computed: 0 constraints, 2 bounds
+IIS runtime: 0.00 seconds
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:31:37 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 400 rows, 624 columns and 1120 nonzeros
+Model has 280 general constraints
+Variable types: 0 continuous, 624 integer (320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+03]
+  RHS range        [1e+00, 1e+00]
+
+MIP start produced solution with objective 0 (0.01s)
+Loaded MIP start with objective 0
+
+Presolve added 176 rows and 24 columns
+Presolve time: 0.00s
+Presolved: 576 rows, 648 columns, 1504 nonzeros
+Presolved model has 224 SOS constraint(s)
+Variable types: 0 continuous, 648 integer (376 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:32:35 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 400 rows, 624 columns and 1120 nonzeros
+Model has 280 general constraints
+Variable types: 0 continuous, 624 integer (320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start produced solution with objective 0 (0.01s)
+Loaded MIP start with objective 0
+
+Presolve added 176 rows and 24 columns
+Presolve time: 0.00s
+Presolved: 576 rows, 648 columns, 1504 nonzeros
+Presolved model has 224 SOS constraint(s)
+Variable types: 0 continuous, 648 integer (376 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:32:51 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 516 rows, 1172 columns and 1380 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start produced solution with objective 34 (0.07s)
+MIP start produced solution with objective 32 (0.12s)
+MIP start produced solution with objective 18 (0.18s)
+MIP start produced solution with objective 2 (0.20s)
+MIP start produced solution with objective 0 (0.21s)
+Loaded MIP start with objective 0
+
+Presolve added 2771 rows and 2107 columns
+Presolve time: 0.05s
+Presolved: 3287 rows, 3279 columns, 7795 nonzeros
+Presolved model has 252 SOS constraint(s)
+Variable types: 0 continuous, 3279 integer (1968 binary)
+
+Explored 0 nodes (0 simplex iterations) in 0.27 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:33:18 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 517 rows, 1172 columns and 1444 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+00]
+
+MIP start did not produce a new incumbent solution
+
+Presolve added 2631 rows and 2044 columns
+Presolve time: 0.05s
+Presolved: 3148 rows, 3216 columns, 7460 nonzeros
+Presolved model has 252 SOS constraint(s)
+Variable types: 0 continuous, 3216 integer (1904 binary)
+
+Root relaxation: objective 4.000000e+00, 1522 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    4.00000    0   56          -    4.00000      -     -    0s
+Another try with MIP start
+H    0     0                      32.0000000    4.00000  87.5%     -    0s
+     0     0    4.00000    0   56   32.00000    4.00000  87.5%     -    1s
+     0     2    4.00000    0   56   32.00000    4.00000  87.5%     -    1s
+H    2     3                      30.0000000    4.00000  86.7%   0.5    1s
+H   87    84                      24.0000000    4.00000  83.3%   110    1s
+H  480   435                      22.0000000    4.00000  81.8%  48.9    2s
+H  535   470                      20.0000000    4.00000  80.0%  50.6    2s
+H  630   541                      18.0000000    4.00000  77.8%  55.6    2s
+  3004  1306    4.00000   24   62   18.00000    4.00000  77.8%  58.2    5s
+  7940  3548    6.00000   30  162   18.00000    4.00000  77.8%  59.3   10s
+
+Explored 7997 nodes (476267 simplex iterations) in 10.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 18 
+
+Time limit reached
+Best objective 1.800000000000e+01, best bound 4.000000000000e+00, gap 77.7778%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Sep 18 21:33:42 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 518 rows, 1172 columns and 1448 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+01]
+
+MIP start produced solution with objective 26 (0.53s)
+Loaded MIP start with objective 26
+
+Presolve added 2631 rows and 2044 columns
+Presolve time: 0.05s
+Presolved: 3149 rows, 3216 columns, 7488 nonzeros
+Presolved model has 252 SOS constraint(s)
+Variable types: 0 continuous, 3216 integer (1904 binary)
+
+Root relaxation: objective 1.200000e+01, 2551 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   12.00000    0   56   26.00000   12.00000  53.8%     -    0s
+H    0     0                      21.0000000   12.00000  42.9%     -    0s
+     0     0   12.00000    0  220   21.00000   12.00000  42.9%     -    0s
+     0     0   12.00000    0   86   21.00000   12.00000  42.9%     -    0s
+H    0     0                      20.0000000   12.00000  40.0%     -    0s
+     0     0   12.00000    0  165   20.00000   12.00000  40.0%     -    0s
+     0     0   12.00000    0  287   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0  379   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   62   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   86   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   53   20.00000   12.00000  40.0%     -    1s
+     0     2   12.00000    0   53   20.00000   12.00000  40.0%     -    1s
+H   40    42                      19.0000000   12.00000  36.8%   104    1s
+H   72    68                      18.0000000   12.00000  33.3%   159    1s
+  1076   837   12.00000   17   33   18.00000   12.00000  33.3%  71.6    5s
+  3945  1611   13.00000   44  402   18.00000   12.00000  33.3%  89.5   10s
+
+Cutting planes:
+  Gomory: 6
+  Cover: 55
+  Implied bound: 2
+  MIR: 61
+  StrongCG: 10
+  Flow cover: 332
+  Zero half: 24
+
+Explored 3972 nodes (363719 simplex iterations) in 10.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 18 
+
+Time limit reached
+Best objective 1.800000000000e+01, best bound 1.200000000000e+01, gap 33.3333%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 518 rows, 1172 columns and 1448 nonzeros
+Model has 824 general constraints
+Variable types: 0 continuous, 1172 integer (608 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 1e+01]
+
+MIP start produced solution with objective 26 (0.51s)
+Loaded MIP start with objective 26
+
+Presolve added 2631 rows and 2044 columns
+Presolve time: 0.05s
+Presolved: 3149 rows, 3216 columns, 7488 nonzeros
+Presolved model has 252 SOS constraint(s)
+Variable types: 0 continuous, 3216 integer (1904 binary)
+
+Root relaxation: objective 1.200000e+01, 2551 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   12.00000    0   56   26.00000   12.00000  53.8%     -    0s
+H    0     0                      21.0000000   12.00000  42.9%     -    0s
+     0     0   12.00000    0  220   21.00000   12.00000  42.9%     -    0s
+     0     0   12.00000    0   86   21.00000   12.00000  42.9%     -    0s
+H    0     0                      20.0000000   12.00000  40.0%     -    0s
+     0     0   12.00000    0  165   20.00000   12.00000  40.0%     -    0s
+     0     0   12.00000    0  287   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0  379   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   62   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   86   20.00000   12.00000  40.0%     -    1s
+     0     0   12.00000    0   53   20.00000   12.00000  40.0%     -    1s
+     0     2   12.00000    0   53   20.00000   12.00000  40.0%     -    1s
+H   40    42                      19.0000000   12.00000  36.8%   104    1s
+H   72    68                      18.0000000   12.00000  33.3%   159    1s
+  1076   837   12.00000   17   33   18.00000   12.00000  33.3%  71.6    5s
+  3945  1608   13.00000   44  402   18.00000   12.00000  33.3%  89.5   10s
+
+Cutting planes:
+  Gomory: 6
+  Cover: 55
+  Implied bound: 2
+  MIR: 65
+  StrongCG: 10
+  Flow cover: 333
+  Zero half: 24
+
+Explored 4091 nodes (373059 simplex iterations) in 10.04 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 18 
+
+Time limit reached
+Best objective 1.800000000000e+01, best bound 1.200000000000e+01, gap 33.3333%

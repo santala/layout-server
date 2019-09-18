@@ -1,7 +1,19 @@
 \ Model GLayoutQuality
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
-  0 EdgeDistanceAbs[x0,0,0] + 0 EdgeDistanceAbs[x0,0,1]
+  0 Above[0,0] + 0 Above[1,1] + 0 Above[2,2] + 0 Above[3,3] + 0 Above[4,4]
+   + 0 Above[5,5] + 0 Above[6,6] + 0 Above[7,7] + 0 OnLeft[0,0]
+   + 0 OnLeft[1,1] + 0 OnLeft[2,2] + 0 OnLeft[3,3] + 0 OnLeft[4,4]
+   + 0 OnLeft[5,5] + 0 OnLeft[6,6] + 0 OnLeft[7,7]
+   + 0 HorizontalOverlap[0,0] + 0 HorizontalOverlap[1,1]
+   + 0 HorizontalOverlap[2,2] + 0 HorizontalOverlap[3,3]
+   + 0 HorizontalOverlap[4,4] + 0 HorizontalOverlap[5,5]
+   + 0 HorizontalOverlap[6,6] + 0 HorizontalOverlap[7,7]
+   + 0 VerticalOverlap[0,0] + 0 VerticalOverlap[1,1]
+   + 0 VerticalOverlap[2,2] + 0 VerticalOverlap[3,3]
+   + 0 VerticalOverlap[4,4] + 0 VerticalOverlap[5,5]
+   + 0 VerticalOverlap[6,6] + 0 VerticalOverlap[7,7]
+   + 0 EdgeDistanceAbs[x0,0,0] + 0 EdgeDistanceAbs[x0,0,1]
    + 0 EdgeDistanceAbs[x0,0,2] + 0 EdgeDistanceAbs[x0,0,3]
    + 0 EdgeDistanceAbs[x0,0,4] + 0 EdgeDistanceAbs[x0,0,5]
    + 0 EdgeDistanceAbs[x0,0,6] + 0 EdgeDistanceAbs[x0,0,7]
@@ -212,6 +224,230 @@ Subject To
  Y1-Y0=H[5]: - EdgeCoord[y0,5] + EdgeCoord[y1,5] - H[5] = 0
  Y1-Y0=H[6]: - EdgeCoord[y0,6] + EdgeCoord[y1,6] - H[6] = 0
  Y1-Y0=H[7]: - EdgeCoord[y0,7] + EdgeCoord[y1,7] - H[7] = 0
+ LinkHorizontalOverlap[0,1]: OnLeft[0,1] + OnLeft[1,0]
+   + HorizontalOverlap[0,1] = 1
+ LinkHorizontalOverlap[0,2]: OnLeft[0,2] + OnLeft[2,0]
+   + HorizontalOverlap[0,2] = 1
+ LinkHorizontalOverlap[0,3]: OnLeft[0,3] + OnLeft[3,0]
+   + HorizontalOverlap[0,3] = 1
+ LinkHorizontalOverlap[0,4]: OnLeft[0,4] + OnLeft[4,0]
+   + HorizontalOverlap[0,4] = 1
+ LinkHorizontalOverlap[0,5]: OnLeft[0,5] + OnLeft[5,0]
+   + HorizontalOverlap[0,5] = 1
+ LinkHorizontalOverlap[0,6]: OnLeft[0,6] + OnLeft[6,0]
+   + HorizontalOverlap[0,6] = 1
+ LinkHorizontalOverlap[0,7]: OnLeft[0,7] + OnLeft[7,0]
+   + HorizontalOverlap[0,7] = 1
+ LinkHorizontalOverlap[1,0]: OnLeft[0,1] + OnLeft[1,0]
+   + HorizontalOverlap[1,0] = 1
+ LinkHorizontalOverlap[1,2]: OnLeft[1,2] + OnLeft[2,1]
+   + HorizontalOverlap[1,2] = 1
+ LinkHorizontalOverlap[1,3]: OnLeft[1,3] + OnLeft[3,1]
+   + HorizontalOverlap[1,3] = 1
+ LinkHorizontalOverlap[1,4]: OnLeft[1,4] + OnLeft[4,1]
+   + HorizontalOverlap[1,4] = 1
+ LinkHorizontalOverlap[1,5]: OnLeft[1,5] + OnLeft[5,1]
+   + HorizontalOverlap[1,5] = 1
+ LinkHorizontalOverlap[1,6]: OnLeft[1,6] + OnLeft[6,1]
+   + HorizontalOverlap[1,6] = 1
+ LinkHorizontalOverlap[1,7]: OnLeft[1,7] + OnLeft[7,1]
+   + HorizontalOverlap[1,7] = 1
+ LinkHorizontalOverlap[2,0]: OnLeft[0,2] + OnLeft[2,0]
+   + HorizontalOverlap[2,0] = 1
+ LinkHorizontalOverlap[2,1]: OnLeft[1,2] + OnLeft[2,1]
+   + HorizontalOverlap[2,1] = 1
+ LinkHorizontalOverlap[2,3]: OnLeft[2,3] + OnLeft[3,2]
+   + HorizontalOverlap[2,3] = 1
+ LinkHorizontalOverlap[2,4]: OnLeft[2,4] + OnLeft[4,2]
+   + HorizontalOverlap[2,4] = 1
+ LinkHorizontalOverlap[2,5]: OnLeft[2,5] + OnLeft[5,2]
+   + HorizontalOverlap[2,5] = 1
+ LinkHorizontalOverlap[2,6]: OnLeft[2,6] + OnLeft[6,2]
+   + HorizontalOverlap[2,6] = 1
+ LinkHorizontalOverlap[2,7]: OnLeft[2,7] + OnLeft[7,2]
+   + HorizontalOverlap[2,7] = 1
+ LinkHorizontalOverlap[3,0]: OnLeft[0,3] + OnLeft[3,0]
+   + HorizontalOverlap[3,0] = 1
+ LinkHorizontalOverlap[3,1]: OnLeft[1,3] + OnLeft[3,1]
+   + HorizontalOverlap[3,1] = 1
+ LinkHorizontalOverlap[3,2]: OnLeft[2,3] + OnLeft[3,2]
+   + HorizontalOverlap[3,2] = 1
+ LinkHorizontalOverlap[3,4]: OnLeft[3,4] + OnLeft[4,3]
+   + HorizontalOverlap[3,4] = 1
+ LinkHorizontalOverlap[3,5]: OnLeft[3,5] + OnLeft[5,3]
+   + HorizontalOverlap[3,5] = 1
+ LinkHorizontalOverlap[3,6]: OnLeft[3,6] + OnLeft[6,3]
+   + HorizontalOverlap[3,6] = 1
+ LinkHorizontalOverlap[3,7]: OnLeft[3,7] + OnLeft[7,3]
+   + HorizontalOverlap[3,7] = 1
+ LinkHorizontalOverlap[4,0]: OnLeft[0,4] + OnLeft[4,0]
+   + HorizontalOverlap[4,0] = 1
+ LinkHorizontalOverlap[4,1]: OnLeft[1,4] + OnLeft[4,1]
+   + HorizontalOverlap[4,1] = 1
+ LinkHorizontalOverlap[4,2]: OnLeft[2,4] + OnLeft[4,2]
+   + HorizontalOverlap[4,2] = 1
+ LinkHorizontalOverlap[4,3]: OnLeft[3,4] + OnLeft[4,3]
+   + HorizontalOverlap[4,3] = 1
+ LinkHorizontalOverlap[4,5]: OnLeft[4,5] + OnLeft[5,4]
+   + HorizontalOverlap[4,5] = 1
+ LinkHorizontalOverlap[4,6]: OnLeft[4,6] + OnLeft[6,4]
+   + HorizontalOverlap[4,6] = 1
+ LinkHorizontalOverlap[4,7]: OnLeft[4,7] + OnLeft[7,4]
+   + HorizontalOverlap[4,7] = 1
+ LinkHorizontalOverlap[5,0]: OnLeft[0,5] + OnLeft[5,0]
+   + HorizontalOverlap[5,0] = 1
+ LinkHorizontalOverlap[5,1]: OnLeft[1,5] + OnLeft[5,1]
+   + HorizontalOverlap[5,1] = 1
+ LinkHorizontalOverlap[5,2]: OnLeft[2,5] + OnLeft[5,2]
+   + HorizontalOverlap[5,2] = 1
+ LinkHorizontalOverlap[5,3]: OnLeft[3,5] + OnLeft[5,3]
+   + HorizontalOverlap[5,3] = 1
+ LinkHorizontalOverlap[5,4]: OnLeft[4,5] + OnLeft[5,4]
+   + HorizontalOverlap[5,4] = 1
+ LinkHorizontalOverlap[5,6]: OnLeft[5,6] + OnLeft[6,5]
+   + HorizontalOverlap[5,6] = 1
+ LinkHorizontalOverlap[5,7]: OnLeft[5,7] + OnLeft[7,5]
+   + HorizontalOverlap[5,7] = 1
+ LinkHorizontalOverlap[6,0]: OnLeft[0,6] + OnLeft[6,0]
+   + HorizontalOverlap[6,0] = 1
+ LinkHorizontalOverlap[6,1]: OnLeft[1,6] + OnLeft[6,1]
+   + HorizontalOverlap[6,1] = 1
+ LinkHorizontalOverlap[6,2]: OnLeft[2,6] + OnLeft[6,2]
+   + HorizontalOverlap[6,2] = 1
+ LinkHorizontalOverlap[6,3]: OnLeft[3,6] + OnLeft[6,3]
+   + HorizontalOverlap[6,3] = 1
+ LinkHorizontalOverlap[6,4]: OnLeft[4,6] + OnLeft[6,4]
+   + HorizontalOverlap[6,4] = 1
+ LinkHorizontalOverlap[6,5]: OnLeft[5,6] + OnLeft[6,5]
+   + HorizontalOverlap[6,5] = 1
+ LinkHorizontalOverlap[6,7]: OnLeft[6,7] + OnLeft[7,6]
+   + HorizontalOverlap[6,7] = 1
+ LinkHorizontalOverlap[7,0]: OnLeft[0,7] + OnLeft[7,0]
+   + HorizontalOverlap[7,0] = 1
+ LinkHorizontalOverlap[7,1]: OnLeft[1,7] + OnLeft[7,1]
+   + HorizontalOverlap[7,1] = 1
+ LinkHorizontalOverlap[7,2]: OnLeft[2,7] + OnLeft[7,2]
+   + HorizontalOverlap[7,2] = 1
+ LinkHorizontalOverlap[7,3]: OnLeft[3,7] + OnLeft[7,3]
+   + HorizontalOverlap[7,3] = 1
+ LinkHorizontalOverlap[7,4]: OnLeft[4,7] + OnLeft[7,4]
+   + HorizontalOverlap[7,4] = 1
+ LinkHorizontalOverlap[7,5]: OnLeft[5,7] + OnLeft[7,5]
+   + HorizontalOverlap[7,5] = 1
+ LinkHorizontalOverlap[7,6]: OnLeft[6,7] + OnLeft[7,6]
+   + HorizontalOverlap[7,6] = 1
+ LinkVerticalOverlap[0,1]: Above[0,1] + Above[1,0] + VerticalOverlap[0,1]
+   = 1
+ LinkVerticalOverlap[0,2]: Above[0,2] + Above[2,0] + VerticalOverlap[0,2]
+   = 1
+ LinkVerticalOverlap[0,3]: Above[0,3] + Above[3,0] + VerticalOverlap[0,3]
+   = 1
+ LinkVerticalOverlap[0,4]: Above[0,4] + Above[4,0] + VerticalOverlap[0,4]
+   = 1
+ LinkVerticalOverlap[0,5]: Above[0,5] + Above[5,0] + VerticalOverlap[0,5]
+   = 1
+ LinkVerticalOverlap[0,6]: Above[0,6] + Above[6,0] + VerticalOverlap[0,6]
+   = 1
+ LinkVerticalOverlap[0,7]: Above[0,7] + Above[7,0] + VerticalOverlap[0,7]
+   = 1
+ LinkVerticalOverlap[1,0]: Above[0,1] + Above[1,0] + VerticalOverlap[1,0]
+   = 1
+ LinkVerticalOverlap[1,2]: Above[1,2] + Above[2,1] + VerticalOverlap[1,2]
+   = 1
+ LinkVerticalOverlap[1,3]: Above[1,3] + Above[3,1] + VerticalOverlap[1,3]
+   = 1
+ LinkVerticalOverlap[1,4]: Above[1,4] + Above[4,1] + VerticalOverlap[1,4]
+   = 1
+ LinkVerticalOverlap[1,5]: Above[1,5] + Above[5,1] + VerticalOverlap[1,5]
+   = 1
+ LinkVerticalOverlap[1,6]: Above[1,6] + Above[6,1] + VerticalOverlap[1,6]
+   = 1
+ LinkVerticalOverlap[1,7]: Above[1,7] + Above[7,1] + VerticalOverlap[1,7]
+   = 1
+ LinkVerticalOverlap[2,0]: Above[0,2] + Above[2,0] + VerticalOverlap[2,0]
+   = 1
+ LinkVerticalOverlap[2,1]: Above[1,2] + Above[2,1] + VerticalOverlap[2,1]
+   = 1
+ LinkVerticalOverlap[2,3]: Above[2,3] + Above[3,2] + VerticalOverlap[2,3]
+   = 1
+ LinkVerticalOverlap[2,4]: Above[2,4] + Above[4,2] + VerticalOverlap[2,4]
+   = 1
+ LinkVerticalOverlap[2,5]: Above[2,5] + Above[5,2] + VerticalOverlap[2,5]
+   = 1
+ LinkVerticalOverlap[2,6]: Above[2,6] + Above[6,2] + VerticalOverlap[2,6]
+   = 1
+ LinkVerticalOverlap[2,7]: Above[2,7] + Above[7,2] + VerticalOverlap[2,7]
+   = 1
+ LinkVerticalOverlap[3,0]: Above[0,3] + Above[3,0] + VerticalOverlap[3,0]
+   = 1
+ LinkVerticalOverlap[3,1]: Above[1,3] + Above[3,1] + VerticalOverlap[3,1]
+   = 1
+ LinkVerticalOverlap[3,2]: Above[2,3] + Above[3,2] + VerticalOverlap[3,2]
+   = 1
+ LinkVerticalOverlap[3,4]: Above[3,4] + Above[4,3] + VerticalOverlap[3,4]
+   = 1
+ LinkVerticalOverlap[3,5]: Above[3,5] + Above[5,3] + VerticalOverlap[3,5]
+   = 1
+ LinkVerticalOverlap[3,6]: Above[3,6] + Above[6,3] + VerticalOverlap[3,6]
+   = 1
+ LinkVerticalOverlap[3,7]: Above[3,7] + Above[7,3] + VerticalOverlap[3,7]
+   = 1
+ LinkVerticalOverlap[4,0]: Above[0,4] + Above[4,0] + VerticalOverlap[4,0]
+   = 1
+ LinkVerticalOverlap[4,1]: Above[1,4] + Above[4,1] + VerticalOverlap[4,1]
+   = 1
+ LinkVerticalOverlap[4,2]: Above[2,4] + Above[4,2] + VerticalOverlap[4,2]
+   = 1
+ LinkVerticalOverlap[4,3]: Above[3,4] + Above[4,3] + VerticalOverlap[4,3]
+   = 1
+ LinkVerticalOverlap[4,5]: Above[4,5] + Above[5,4] + VerticalOverlap[4,5]
+   = 1
+ LinkVerticalOverlap[4,6]: Above[4,6] + Above[6,4] + VerticalOverlap[4,6]
+   = 1
+ LinkVerticalOverlap[4,7]: Above[4,7] + Above[7,4] + VerticalOverlap[4,7]
+   = 1
+ LinkVerticalOverlap[5,0]: Above[0,5] + Above[5,0] + VerticalOverlap[5,0]
+   = 1
+ LinkVerticalOverlap[5,1]: Above[1,5] + Above[5,1] + VerticalOverlap[5,1]
+   = 1
+ LinkVerticalOverlap[5,2]: Above[2,5] + Above[5,2] + VerticalOverlap[5,2]
+   = 1
+ LinkVerticalOverlap[5,3]: Above[3,5] + Above[5,3] + VerticalOverlap[5,3]
+   = 1
+ LinkVerticalOverlap[5,4]: Above[4,5] + Above[5,4] + VerticalOverlap[5,4]
+   = 1
+ LinkVerticalOverlap[5,6]: Above[5,6] + Above[6,5] + VerticalOverlap[5,6]
+   = 1
+ LinkVerticalOverlap[5,7]: Above[5,7] + Above[7,5] + VerticalOverlap[5,7]
+   = 1
+ LinkVerticalOverlap[6,0]: Above[0,6] + Above[6,0] + VerticalOverlap[6,0]
+   = 1
+ LinkVerticalOverlap[6,1]: Above[1,6] + Above[6,1] + VerticalOverlap[6,1]
+   = 1
+ LinkVerticalOverlap[6,2]: Above[2,6] + Above[6,2] + VerticalOverlap[6,2]
+   = 1
+ LinkVerticalOverlap[6,3]: Above[3,6] + Above[6,3] + VerticalOverlap[6,3]
+   = 1
+ LinkVerticalOverlap[6,4]: Above[4,6] + Above[6,4] + VerticalOverlap[6,4]
+   = 1
+ LinkVerticalOverlap[6,5]: Above[5,6] + Above[6,5] + VerticalOverlap[6,5]
+   = 1
+ LinkVerticalOverlap[6,7]: Above[6,7] + Above[7,6] + VerticalOverlap[6,7]
+   = 1
+ LinkVerticalOverlap[7,0]: Above[0,7] + Above[7,0] + VerticalOverlap[7,0]
+   = 1
+ LinkVerticalOverlap[7,1]: Above[1,7] + Above[7,1] + VerticalOverlap[7,1]
+   = 1
+ LinkVerticalOverlap[7,2]: Above[2,7] + Above[7,2] + VerticalOverlap[7,2]
+   = 1
+ LinkVerticalOverlap[7,3]: Above[3,7] + Above[7,3] + VerticalOverlap[7,3]
+   = 1
+ LinkVerticalOverlap[7,4]: Above[4,7] + Above[7,4] + VerticalOverlap[7,4]
+   = 1
+ LinkVerticalOverlap[7,5]: Above[5,7] + Above[7,5] + VerticalOverlap[7,5]
+   = 1
+ LinkVerticalOverlap[7,6]: Above[6,7] + Above[7,6] + VerticalOverlap[7,6]
+   = 1
  LinkEdgeDistance[x0,0,0]: EdgeDistance[x0,0,0] = 0
  LinkEdgeDistance[x0,0,1]: - EdgeCoord[x0,0] + EdgeCoord[x0,1]
    + EdgeDistance[x0,0,1] = 0
@@ -936,8 +1172,472 @@ Subject To
    - IsElemFirstInGroup[y1,3] - IsElemFirstInGroup[y1,4]
    - IsElemFirstInGroup[y1,5] - IsElemFirstInGroup[y1,6]
    - IsElemFirstInGroup[y1,7] + NumberOfGroups[y1] = 0
- Prevent_over-optimization: NumberOfGroups[x0] + NumberOfGroups[y0]
+ R516: Overlap[0,0] + Overlap[0,1] + Overlap[0,2] + Overlap[0,3]
+   + Overlap[0,4] + Overlap[0,5] + Overlap[0,6] + Overlap[0,7]
+   + Overlap[1,0] + Overlap[1,1] + Overlap[1,2] + Overlap[1,3]
+   + Overlap[1,4] + Overlap[1,5] + Overlap[1,6] + Overlap[1,7]
+   + Overlap[2,0] + Overlap[2,1] + Overlap[2,2] + Overlap[2,3]
+   + Overlap[2,4] + Overlap[2,5] + Overlap[2,6] + Overlap[2,7]
+   + Overlap[3,0] + Overlap[3,1] + Overlap[3,2] + Overlap[3,3]
+   + Overlap[3,4] + Overlap[3,5] + Overlap[3,6] + Overlap[3,7]
+   + Overlap[4,0] + Overlap[4,1] + Overlap[4,2] + Overlap[4,3]
+   + Overlap[4,4] + Overlap[4,5] + Overlap[4,6] + Overlap[4,7]
+   + Overlap[5,0] + Overlap[5,1] + Overlap[5,2] + Overlap[5,3]
+   + Overlap[5,4] + Overlap[5,5] + Overlap[5,6] + Overlap[5,7]
+   + Overlap[6,0] + Overlap[6,1] + Overlap[6,2] + Overlap[6,3]
+   + Overlap[6,4] + Overlap[6,5] + Overlap[6,6] + Overlap[6,7]
+   + Overlap[7,0] + Overlap[7,1] + Overlap[7,2] + Overlap[7,3]
+   + Overlap[7,4] + Overlap[7,5] + Overlap[7,6] + Overlap[7,7] = 0
+ PreventOvertOptimization: NumberOfGroups[x0] + NumberOfGroups[y0]
    + NumberOfGroups[x1] + NumberOfGroups[y1] >= 12
+ LinkAbove1[0,1]: Above[0,1] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[0,2]: Above[0,2] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[0,3]: Above[0,3] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[0,4]: Above[0,4] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[0,5]: Above[0,5] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[0,6]: Above[0,6] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[0,7]: Above[0,7] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[1,0]: Above[1,0] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[1,2]: Above[1,2] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[1,3]: Above[1,3] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[1,4]: Above[1,4] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[1,5]: Above[1,5] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[1,6]: Above[1,6] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[1,7]: Above[1,7] = 1 -> EdgeCoord[y1,1] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[2,0]: Above[2,0] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[2,1]: Above[2,1] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[2,3]: Above[2,3] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[2,4]: Above[2,4] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[2,5]: Above[2,5] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[2,6]: Above[2,6] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[2,7]: Above[2,7] = 1 -> EdgeCoord[y1,2] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[3,0]: Above[3,0] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[3,1]: Above[3,1] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[3,2]: Above[3,2] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[3,4]: Above[3,4] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[3,5]: Above[3,5] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[3,6]: Above[3,6] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[3,7]: Above[3,7] = 1 -> EdgeCoord[y1,3] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[4,0]: Above[4,0] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[4,1]: Above[4,1] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[4,2]: Above[4,2] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[4,3]: Above[4,3] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[4,5]: Above[4,5] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[4,6]: Above[4,6] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[4,7]: Above[4,7] = 1 -> EdgeCoord[y1,4] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[5,0]: Above[5,0] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[5,1]: Above[5,1] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[5,2]: Above[5,2] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[5,3]: Above[5,3] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[5,4]: Above[5,4] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[5,6]: Above[5,6] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove1[5,7]: Above[5,7] = 1 -> EdgeCoord[y1,5] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[6,0]: Above[6,0] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[6,1]: Above[6,1] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[6,2]: Above[6,2] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[6,3]: Above[6,3] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[6,4]: Above[6,4] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[6,5]: Above[6,5] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[6,7]: Above[6,7] = 1 -> EdgeCoord[y1,6] - EdgeCoord[y0,7]
+   <= -0
+ LinkAbove1[7,0]: Above[7,0] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,0]
+   <= -0
+ LinkAbove1[7,1]: Above[7,1] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,1]
+   <= -0
+ LinkAbove1[7,2]: Above[7,2] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,2]
+   <= -0
+ LinkAbove1[7,3]: Above[7,3] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,3]
+   <= -0
+ LinkAbove1[7,4]: Above[7,4] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,4]
+   <= -0
+ LinkAbove1[7,5]: Above[7,5] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,5]
+   <= -0
+ LinkAbove1[7,6]: Above[7,6] = 1 -> EdgeCoord[y1,7] - EdgeCoord[y0,6]
+   <= -0
+ LinkAbove2[0,1]: Above[0,1] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[0,2]: Above[0,2] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[0,3]: Above[0,3] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[0,4]: Above[0,4] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[0,5]: Above[0,5] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[0,6]: Above[0,6] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[0,7]: Above[0,7] = 0 -> EdgeCoord[y1,0] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[1,0]: Above[1,0] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[1,2]: Above[1,2] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[1,3]: Above[1,3] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[1,4]: Above[1,4] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[1,5]: Above[1,5] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[1,6]: Above[1,6] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[1,7]: Above[1,7] = 0 -> EdgeCoord[y1,1] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[2,0]: Above[2,0] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[2,1]: Above[2,1] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[2,3]: Above[2,3] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[2,4]: Above[2,4] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[2,5]: Above[2,5] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[2,6]: Above[2,6] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[2,7]: Above[2,7] = 0 -> EdgeCoord[y1,2] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[3,0]: Above[3,0] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[3,1]: Above[3,1] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[3,2]: Above[3,2] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[3,4]: Above[3,4] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[3,5]: Above[3,5] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[3,6]: Above[3,6] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[3,7]: Above[3,7] = 0 -> EdgeCoord[y1,3] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[4,0]: Above[4,0] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[4,1]: Above[4,1] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[4,2]: Above[4,2] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[4,3]: Above[4,3] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[4,5]: Above[4,5] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[4,6]: Above[4,6] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[4,7]: Above[4,7] = 0 -> EdgeCoord[y1,4] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[5,0]: Above[5,0] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[5,1]: Above[5,1] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[5,2]: Above[5,2] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[5,3]: Above[5,3] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[5,4]: Above[5,4] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[5,6]: Above[5,6] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,6]
+   >= -1
+ LinkAbove2[5,7]: Above[5,7] = 0 -> EdgeCoord[y1,5] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[6,0]: Above[6,0] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[6,1]: Above[6,1] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[6,2]: Above[6,2] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[6,3]: Above[6,3] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[6,4]: Above[6,4] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[6,5]: Above[6,5] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[6,7]: Above[6,7] = 0 -> EdgeCoord[y1,6] - EdgeCoord[y0,7]
+   >= -1
+ LinkAbove2[7,0]: Above[7,0] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,0]
+   >= -1
+ LinkAbove2[7,1]: Above[7,1] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,1]
+   >= -1
+ LinkAbove2[7,2]: Above[7,2] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,2]
+   >= -1
+ LinkAbove2[7,3]: Above[7,3] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,3]
+   >= -1
+ LinkAbove2[7,4]: Above[7,4] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,4]
+   >= -1
+ LinkAbove2[7,5]: Above[7,5] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,5]
+   >= -1
+ LinkAbove2[7,6]: Above[7,6] = 0 -> EdgeCoord[y1,7] - EdgeCoord[y0,6]
+   >= -1
+ LinkOnLeft1[0,1]: OnLeft[0,1] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[0,2]: OnLeft[0,2] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[0,3]: OnLeft[0,3] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[0,4]: OnLeft[0,4] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[0,5]: OnLeft[0,5] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[0,6]: OnLeft[0,6] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[0,7]: OnLeft[0,7] = 1 -> EdgeCoord[x1,0] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[1,0]: OnLeft[1,0] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[1,2]: OnLeft[1,2] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[1,3]: OnLeft[1,3] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[1,4]: OnLeft[1,4] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[1,5]: OnLeft[1,5] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[1,6]: OnLeft[1,6] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[1,7]: OnLeft[1,7] = 1 -> EdgeCoord[x1,1] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[2,0]: OnLeft[2,0] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[2,1]: OnLeft[2,1] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[2,3]: OnLeft[2,3] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[2,4]: OnLeft[2,4] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[2,5]: OnLeft[2,5] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[2,6]: OnLeft[2,6] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[2,7]: OnLeft[2,7] = 1 -> EdgeCoord[x1,2] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[3,0]: OnLeft[3,0] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[3,1]: OnLeft[3,1] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[3,2]: OnLeft[3,2] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[3,4]: OnLeft[3,4] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[3,5]: OnLeft[3,5] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[3,6]: OnLeft[3,6] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[3,7]: OnLeft[3,7] = 1 -> EdgeCoord[x1,3] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[4,0]: OnLeft[4,0] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[4,1]: OnLeft[4,1] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[4,2]: OnLeft[4,2] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[4,3]: OnLeft[4,3] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[4,5]: OnLeft[4,5] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[4,6]: OnLeft[4,6] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[4,7]: OnLeft[4,7] = 1 -> EdgeCoord[x1,4] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[5,0]: OnLeft[5,0] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[5,1]: OnLeft[5,1] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[5,2]: OnLeft[5,2] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[5,3]: OnLeft[5,3] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[5,4]: OnLeft[5,4] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[5,6]: OnLeft[5,6] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft1[5,7]: OnLeft[5,7] = 1 -> EdgeCoord[x1,5] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[6,0]: OnLeft[6,0] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[6,1]: OnLeft[6,1] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[6,2]: OnLeft[6,2] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[6,3]: OnLeft[6,3] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[6,4]: OnLeft[6,4] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[6,5]: OnLeft[6,5] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[6,7]: OnLeft[6,7] = 1 -> EdgeCoord[x1,6] - EdgeCoord[x0,7]
+   <= -0
+ LinkOnLeft1[7,0]: OnLeft[7,0] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,0]
+   <= -0
+ LinkOnLeft1[7,1]: OnLeft[7,1] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,1]
+   <= -0
+ LinkOnLeft1[7,2]: OnLeft[7,2] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,2]
+   <= -0
+ LinkOnLeft1[7,3]: OnLeft[7,3] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,3]
+   <= -0
+ LinkOnLeft1[7,4]: OnLeft[7,4] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,4]
+   <= -0
+ LinkOnLeft1[7,5]: OnLeft[7,5] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,5]
+   <= -0
+ LinkOnLeft1[7,6]: OnLeft[7,6] = 1 -> EdgeCoord[x1,7] - EdgeCoord[x0,6]
+   <= -0
+ LinkOnLeft2[0,1]: OnLeft[0,1] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[0,2]: OnLeft[0,2] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[0,3]: OnLeft[0,3] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[0,4]: OnLeft[0,4] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[0,5]: OnLeft[0,5] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[0,6]: OnLeft[0,6] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[0,7]: OnLeft[0,7] = 0 -> EdgeCoord[x1,0] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[1,0]: OnLeft[1,0] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[1,2]: OnLeft[1,2] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[1,3]: OnLeft[1,3] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[1,4]: OnLeft[1,4] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[1,5]: OnLeft[1,5] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[1,6]: OnLeft[1,6] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[1,7]: OnLeft[1,7] = 0 -> EdgeCoord[x1,1] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[2,0]: OnLeft[2,0] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[2,1]: OnLeft[2,1] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[2,3]: OnLeft[2,3] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[2,4]: OnLeft[2,4] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[2,5]: OnLeft[2,5] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[2,6]: OnLeft[2,6] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[2,7]: OnLeft[2,7] = 0 -> EdgeCoord[x1,2] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[3,0]: OnLeft[3,0] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[3,1]: OnLeft[3,1] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[3,2]: OnLeft[3,2] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[3,4]: OnLeft[3,4] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[3,5]: OnLeft[3,5] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[3,6]: OnLeft[3,6] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[3,7]: OnLeft[3,7] = 0 -> EdgeCoord[x1,3] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[4,0]: OnLeft[4,0] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[4,1]: OnLeft[4,1] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[4,2]: OnLeft[4,2] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[4,3]: OnLeft[4,3] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[4,5]: OnLeft[4,5] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[4,6]: OnLeft[4,6] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[4,7]: OnLeft[4,7] = 0 -> EdgeCoord[x1,4] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[5,0]: OnLeft[5,0] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[5,1]: OnLeft[5,1] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[5,2]: OnLeft[5,2] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[5,3]: OnLeft[5,3] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[5,4]: OnLeft[5,4] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[5,6]: OnLeft[5,6] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,6]
+   >= -1
+ LinkOnLeft2[5,7]: OnLeft[5,7] = 0 -> EdgeCoord[x1,5] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[6,0]: OnLeft[6,0] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[6,1]: OnLeft[6,1] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[6,2]: OnLeft[6,2] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[6,3]: OnLeft[6,3] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[6,4]: OnLeft[6,4] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[6,5]: OnLeft[6,5] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[6,7]: OnLeft[6,7] = 0 -> EdgeCoord[x1,6] - EdgeCoord[x0,7]
+   >= -1
+ LinkOnLeft2[7,0]: OnLeft[7,0] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,0]
+   >= -1
+ LinkOnLeft2[7,1]: OnLeft[7,1] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,1]
+   >= -1
+ LinkOnLeft2[7,2]: OnLeft[7,2] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,2]
+   >= -1
+ LinkOnLeft2[7,3]: OnLeft[7,3] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,3]
+   >= -1
+ LinkOnLeft2[7,4]: OnLeft[7,4] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,4]
+   >= -1
+ LinkOnLeft2[7,5]: OnLeft[7,5] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,5]
+   >= -1
+ LinkOnLeft2[7,6]: OnLeft[7,6] = 0 -> EdgeCoord[x1,7] - EdgeCoord[x0,6]
+   >= -1
  LinkIsElemFirstInGroup2[x0,0]: IsElemFirstInGroup[x0,0] = 0 -> <= -1
  LinkIsElemFirstInGroup2[x0,1]: IsElemFirstInGroup[x0,1] = 0 ->
    EdgesAlign[x0,0,1] <= -0
@@ -1019,103 +1719,484 @@ Subject To
    + EdgesAlign[y1,3,7] + EdgesAlign[y1,4,7] + EdgesAlign[y1,5,7]
    + EdgesAlign[y1,6,7] <= 6
 Bounds
+ EdgeCoord[x0,0] <= 20
+ EdgeCoord[x0,1] <= 20
+ EdgeCoord[x0,2] <= 20
+ EdgeCoord[x0,3] <= 20
+ EdgeCoord[x0,4] <= 20
+ EdgeCoord[x0,5] <= 20
+ EdgeCoord[x0,6] <= 20
+ EdgeCoord[x0,7] <= 20
+ EdgeCoord[y0,0] <= 20
+ EdgeCoord[y0,1] <= 20
+ EdgeCoord[y0,2] <= 20
+ EdgeCoord[y0,3] <= 20
+ EdgeCoord[y0,4] <= 20
+ EdgeCoord[y0,5] <= 20
+ EdgeCoord[y0,6] <= 20
+ EdgeCoord[y0,7] <= 20
+ EdgeCoord[x1,0] <= 20
+ EdgeCoord[x1,1] <= 20
+ EdgeCoord[x1,2] <= 20
+ EdgeCoord[x1,3] <= 20
+ EdgeCoord[x1,4] <= 20
+ EdgeCoord[x1,5] <= 20
+ EdgeCoord[x1,6] <= 20
+ EdgeCoord[x1,7] <= 20
+ EdgeCoord[y1,0] <= 20
+ EdgeCoord[y1,1] <= 20
+ EdgeCoord[y1,2] <= 20
+ EdgeCoord[y1,3] <= 20
+ EdgeCoord[y1,4] <= 20
+ EdgeCoord[y1,5] <= 20
+ EdgeCoord[y1,6] <= 20
+ EdgeCoord[y1,7] <= 20
+ W[0] >= 1
+ W[1] >= 1
+ W[2] >= 1
+ W[3] >= 1
+ W[4] >= 1
+ W[5] >= 1
+ W[6] >= 1
+ W[7] >= 1
+ H[0] >= 1
+ H[1] >= 1
+ H[2] >= 1
+ H[3] >= 1
+ H[4] >= 1
+ H[5] >= 1
+ H[6] >= 1
+ H[7] >= 1
+ EdgeDistance[x0,0,0] free
+ EdgeDistance[x0,0,1] free
+ EdgeDistance[x0,0,2] free
+ EdgeDistance[x0,0,3] free
+ EdgeDistance[x0,0,4] free
+ EdgeDistance[x0,0,5] free
+ EdgeDistance[x0,0,6] free
+ EdgeDistance[x0,0,7] free
+ EdgeDistance[x0,1,0] free
+ EdgeDistance[x0,1,1] free
+ EdgeDistance[x0,1,2] free
+ EdgeDistance[x0,1,3] free
+ EdgeDistance[x0,1,4] free
+ EdgeDistance[x0,1,5] free
+ EdgeDistance[x0,1,6] free
+ EdgeDistance[x0,1,7] free
+ EdgeDistance[x0,2,0] free
+ EdgeDistance[x0,2,1] free
+ EdgeDistance[x0,2,2] free
+ EdgeDistance[x0,2,3] free
+ EdgeDistance[x0,2,4] free
+ EdgeDistance[x0,2,5] free
+ EdgeDistance[x0,2,6] free
+ EdgeDistance[x0,2,7] free
+ EdgeDistance[x0,3,0] free
+ EdgeDistance[x0,3,1] free
+ EdgeDistance[x0,3,2] free
+ EdgeDistance[x0,3,3] free
+ EdgeDistance[x0,3,4] free
+ EdgeDistance[x0,3,5] free
+ EdgeDistance[x0,3,6] free
+ EdgeDistance[x0,3,7] free
+ EdgeDistance[x0,4,0] free
+ EdgeDistance[x0,4,1] free
+ EdgeDistance[x0,4,2] free
+ EdgeDistance[x0,4,3] free
+ EdgeDistance[x0,4,4] free
+ EdgeDistance[x0,4,5] free
+ EdgeDistance[x0,4,6] free
+ EdgeDistance[x0,4,7] free
+ EdgeDistance[x0,5,0] free
+ EdgeDistance[x0,5,1] free
+ EdgeDistance[x0,5,2] free
+ EdgeDistance[x0,5,3] free
+ EdgeDistance[x0,5,4] free
+ EdgeDistance[x0,5,5] free
+ EdgeDistance[x0,5,6] free
+ EdgeDistance[x0,5,7] free
+ EdgeDistance[x0,6,0] free
+ EdgeDistance[x0,6,1] free
+ EdgeDistance[x0,6,2] free
+ EdgeDistance[x0,6,3] free
+ EdgeDistance[x0,6,4] free
+ EdgeDistance[x0,6,5] free
+ EdgeDistance[x0,6,6] free
+ EdgeDistance[x0,6,7] free
+ EdgeDistance[x0,7,0] free
+ EdgeDistance[x0,7,1] free
+ EdgeDistance[x0,7,2] free
+ EdgeDistance[x0,7,3] free
+ EdgeDistance[x0,7,4] free
+ EdgeDistance[x0,7,5] free
+ EdgeDistance[x0,7,6] free
+ EdgeDistance[x0,7,7] free
+ EdgeDistance[y0,0,0] free
+ EdgeDistance[y0,0,1] free
+ EdgeDistance[y0,0,2] free
+ EdgeDistance[y0,0,3] free
+ EdgeDistance[y0,0,4] free
+ EdgeDistance[y0,0,5] free
+ EdgeDistance[y0,0,6] free
+ EdgeDistance[y0,0,7] free
+ EdgeDistance[y0,1,0] free
+ EdgeDistance[y0,1,1] free
+ EdgeDistance[y0,1,2] free
+ EdgeDistance[y0,1,3] free
+ EdgeDistance[y0,1,4] free
+ EdgeDistance[y0,1,5] free
+ EdgeDistance[y0,1,6] free
+ EdgeDistance[y0,1,7] free
+ EdgeDistance[y0,2,0] free
+ EdgeDistance[y0,2,1] free
+ EdgeDistance[y0,2,2] free
+ EdgeDistance[y0,2,3] free
+ EdgeDistance[y0,2,4] free
+ EdgeDistance[y0,2,5] free
+ EdgeDistance[y0,2,6] free
+ EdgeDistance[y0,2,7] free
+ EdgeDistance[y0,3,0] free
+ EdgeDistance[y0,3,1] free
+ EdgeDistance[y0,3,2] free
+ EdgeDistance[y0,3,3] free
+ EdgeDistance[y0,3,4] free
+ EdgeDistance[y0,3,5] free
+ EdgeDistance[y0,3,6] free
+ EdgeDistance[y0,3,7] free
+ EdgeDistance[y0,4,0] free
+ EdgeDistance[y0,4,1] free
+ EdgeDistance[y0,4,2] free
+ EdgeDistance[y0,4,3] free
+ EdgeDistance[y0,4,4] free
+ EdgeDistance[y0,4,5] free
+ EdgeDistance[y0,4,6] free
+ EdgeDistance[y0,4,7] free
+ EdgeDistance[y0,5,0] free
+ EdgeDistance[y0,5,1] free
+ EdgeDistance[y0,5,2] free
+ EdgeDistance[y0,5,3] free
+ EdgeDistance[y0,5,4] free
+ EdgeDistance[y0,5,5] free
+ EdgeDistance[y0,5,6] free
+ EdgeDistance[y0,5,7] free
+ EdgeDistance[y0,6,0] free
+ EdgeDistance[y0,6,1] free
+ EdgeDistance[y0,6,2] free
+ EdgeDistance[y0,6,3] free
+ EdgeDistance[y0,6,4] free
+ EdgeDistance[y0,6,5] free
+ EdgeDistance[y0,6,6] free
+ EdgeDistance[y0,6,7] free
+ EdgeDistance[y0,7,0] free
+ EdgeDistance[y0,7,1] free
+ EdgeDistance[y0,7,2] free
+ EdgeDistance[y0,7,3] free
+ EdgeDistance[y0,7,4] free
+ EdgeDistance[y0,7,5] free
+ EdgeDistance[y0,7,6] free
+ EdgeDistance[y0,7,7] free
+ EdgeDistance[x1,0,0] free
+ EdgeDistance[x1,0,1] free
+ EdgeDistance[x1,0,2] free
+ EdgeDistance[x1,0,3] free
+ EdgeDistance[x1,0,4] free
+ EdgeDistance[x1,0,5] free
+ EdgeDistance[x1,0,6] free
+ EdgeDistance[x1,0,7] free
+ EdgeDistance[x1,1,0] free
+ EdgeDistance[x1,1,1] free
+ EdgeDistance[x1,1,2] free
+ EdgeDistance[x1,1,3] free
+ EdgeDistance[x1,1,4] free
+ EdgeDistance[x1,1,5] free
+ EdgeDistance[x1,1,6] free
+ EdgeDistance[x1,1,7] free
+ EdgeDistance[x1,2,0] free
+ EdgeDistance[x1,2,1] free
+ EdgeDistance[x1,2,2] free
+ EdgeDistance[x1,2,3] free
+ EdgeDistance[x1,2,4] free
+ EdgeDistance[x1,2,5] free
+ EdgeDistance[x1,2,6] free
+ EdgeDistance[x1,2,7] free
+ EdgeDistance[x1,3,0] free
+ EdgeDistance[x1,3,1] free
+ EdgeDistance[x1,3,2] free
+ EdgeDistance[x1,3,3] free
+ EdgeDistance[x1,3,4] free
+ EdgeDistance[x1,3,5] free
+ EdgeDistance[x1,3,6] free
+ EdgeDistance[x1,3,7] free
+ EdgeDistance[x1,4,0] free
+ EdgeDistance[x1,4,1] free
+ EdgeDistance[x1,4,2] free
+ EdgeDistance[x1,4,3] free
+ EdgeDistance[x1,4,4] free
+ EdgeDistance[x1,4,5] free
+ EdgeDistance[x1,4,6] free
+ EdgeDistance[x1,4,7] free
+ EdgeDistance[x1,5,0] free
+ EdgeDistance[x1,5,1] free
+ EdgeDistance[x1,5,2] free
+ EdgeDistance[x1,5,3] free
+ EdgeDistance[x1,5,4] free
+ EdgeDistance[x1,5,5] free
+ EdgeDistance[x1,5,6] free
+ EdgeDistance[x1,5,7] free
+ EdgeDistance[x1,6,0] free
+ EdgeDistance[x1,6,1] free
+ EdgeDistance[x1,6,2] free
+ EdgeDistance[x1,6,3] free
+ EdgeDistance[x1,6,4] free
+ EdgeDistance[x1,6,5] free
+ EdgeDistance[x1,6,6] free
+ EdgeDistance[x1,6,7] free
+ EdgeDistance[x1,7,0] free
+ EdgeDistance[x1,7,1] free
+ EdgeDistance[x1,7,2] free
+ EdgeDistance[x1,7,3] free
+ EdgeDistance[x1,7,4] free
+ EdgeDistance[x1,7,5] free
+ EdgeDistance[x1,7,6] free
+ EdgeDistance[x1,7,7] free
+ EdgeDistance[y1,0,0] free
+ EdgeDistance[y1,0,1] free
+ EdgeDistance[y1,0,2] free
+ EdgeDistance[y1,0,3] free
+ EdgeDistance[y1,0,4] free
+ EdgeDistance[y1,0,5] free
+ EdgeDistance[y1,0,6] free
+ EdgeDistance[y1,0,7] free
+ EdgeDistance[y1,1,0] free
+ EdgeDistance[y1,1,1] free
+ EdgeDistance[y1,1,2] free
+ EdgeDistance[y1,1,3] free
+ EdgeDistance[y1,1,4] free
+ EdgeDistance[y1,1,5] free
+ EdgeDistance[y1,1,6] free
+ EdgeDistance[y1,1,7] free
+ EdgeDistance[y1,2,0] free
+ EdgeDistance[y1,2,1] free
+ EdgeDistance[y1,2,2] free
+ EdgeDistance[y1,2,3] free
+ EdgeDistance[y1,2,4] free
+ EdgeDistance[y1,2,5] free
+ EdgeDistance[y1,2,6] free
+ EdgeDistance[y1,2,7] free
+ EdgeDistance[y1,3,0] free
+ EdgeDistance[y1,3,1] free
+ EdgeDistance[y1,3,2] free
+ EdgeDistance[y1,3,3] free
+ EdgeDistance[y1,3,4] free
+ EdgeDistance[y1,3,5] free
+ EdgeDistance[y1,3,6] free
+ EdgeDistance[y1,3,7] free
+ EdgeDistance[y1,4,0] free
+ EdgeDistance[y1,4,1] free
+ EdgeDistance[y1,4,2] free
+ EdgeDistance[y1,4,3] free
+ EdgeDistance[y1,4,4] free
+ EdgeDistance[y1,4,5] free
+ EdgeDistance[y1,4,6] free
+ EdgeDistance[y1,4,7] free
+ EdgeDistance[y1,5,0] free
+ EdgeDistance[y1,5,1] free
+ EdgeDistance[y1,5,2] free
+ EdgeDistance[y1,5,3] free
+ EdgeDistance[y1,5,4] free
+ EdgeDistance[y1,5,5] free
+ EdgeDistance[y1,5,6] free
+ EdgeDistance[y1,5,7] free
+ EdgeDistance[y1,6,0] free
+ EdgeDistance[y1,6,1] free
+ EdgeDistance[y1,6,2] free
+ EdgeDistance[y1,6,3] free
+ EdgeDistance[y1,6,4] free
+ EdgeDistance[y1,6,5] free
+ EdgeDistance[y1,6,6] free
+ EdgeDistance[y1,6,7] free
+ EdgeDistance[y1,7,0] free
+ EdgeDistance[y1,7,1] free
+ EdgeDistance[y1,7,2] free
+ EdgeDistance[y1,7,3] free
+ EdgeDistance[y1,7,4] free
+ EdgeDistance[y1,7,5] free
+ EdgeDistance[y1,7,6] free
+ EdgeDistance[y1,7,7] free
 Binaries
- EdgesAlign[x0,0,0] EdgesAlign[x0,0,1] EdgesAlign[x0,0,2]
- EdgesAlign[x0,0,3] EdgesAlign[x0,0,4] EdgesAlign[x0,0,5]
- EdgesAlign[x0,0,6] EdgesAlign[x0,0,7] EdgesAlign[x0,1,0]
- EdgesAlign[x0,1,1] EdgesAlign[x0,1,2] EdgesAlign[x0,1,3]
- EdgesAlign[x0,1,4] EdgesAlign[x0,1,5] EdgesAlign[x0,1,6]
- EdgesAlign[x0,1,7] EdgesAlign[x0,2,0] EdgesAlign[x0,2,1]
- EdgesAlign[x0,2,2] EdgesAlign[x0,2,3] EdgesAlign[x0,2,4]
- EdgesAlign[x0,2,5] EdgesAlign[x0,2,6] EdgesAlign[x0,2,7]
- EdgesAlign[x0,3,0] EdgesAlign[x0,3,1] EdgesAlign[x0,3,2]
- EdgesAlign[x0,3,3] EdgesAlign[x0,3,4] EdgesAlign[x0,3,5]
- EdgesAlign[x0,3,6] EdgesAlign[x0,3,7] EdgesAlign[x0,4,0]
- EdgesAlign[x0,4,1] EdgesAlign[x0,4,2] EdgesAlign[x0,4,3]
- EdgesAlign[x0,4,4] EdgesAlign[x0,4,5] EdgesAlign[x0,4,6]
- EdgesAlign[x0,4,7] EdgesAlign[x0,5,0] EdgesAlign[x0,5,1]
- EdgesAlign[x0,5,2] EdgesAlign[x0,5,3] EdgesAlign[x0,5,4]
- EdgesAlign[x0,5,5] EdgesAlign[x0,5,6] EdgesAlign[x0,5,7]
- EdgesAlign[x0,6,0] EdgesAlign[x0,6,1] EdgesAlign[x0,6,2]
- EdgesAlign[x0,6,3] EdgesAlign[x0,6,4] EdgesAlign[x0,6,5]
- EdgesAlign[x0,6,6] EdgesAlign[x0,6,7] EdgesAlign[x0,7,0]
- EdgesAlign[x0,7,1] EdgesAlign[x0,7,2] EdgesAlign[x0,7,3]
- EdgesAlign[x0,7,4] EdgesAlign[x0,7,5] EdgesAlign[x0,7,6]
- EdgesAlign[x0,7,7] EdgesAlign[y0,0,0] EdgesAlign[y0,0,1]
- EdgesAlign[y0,0,2] EdgesAlign[y0,0,3] EdgesAlign[y0,0,4]
- EdgesAlign[y0,0,5] EdgesAlign[y0,0,6] EdgesAlign[y0,0,7]
- EdgesAlign[y0,1,0] EdgesAlign[y0,1,1] EdgesAlign[y0,1,2]
- EdgesAlign[y0,1,3] EdgesAlign[y0,1,4] EdgesAlign[y0,1,5]
- EdgesAlign[y0,1,6] EdgesAlign[y0,1,7] EdgesAlign[y0,2,0]
- EdgesAlign[y0,2,1] EdgesAlign[y0,2,2] EdgesAlign[y0,2,3]
- EdgesAlign[y0,2,4] EdgesAlign[y0,2,5] EdgesAlign[y0,2,6]
- EdgesAlign[y0,2,7] EdgesAlign[y0,3,0] EdgesAlign[y0,3,1]
- EdgesAlign[y0,3,2] EdgesAlign[y0,3,3] EdgesAlign[y0,3,4]
- EdgesAlign[y0,3,5] EdgesAlign[y0,3,6] EdgesAlign[y0,3,7]
- EdgesAlign[y0,4,0] EdgesAlign[y0,4,1] EdgesAlign[y0,4,2]
- EdgesAlign[y0,4,3] EdgesAlign[y0,4,4] EdgesAlign[y0,4,5]
- EdgesAlign[y0,4,6] EdgesAlign[y0,4,7] EdgesAlign[y0,5,0]
- EdgesAlign[y0,5,1] EdgesAlign[y0,5,2] EdgesAlign[y0,5,3]
- EdgesAlign[y0,5,4] EdgesAlign[y0,5,5] EdgesAlign[y0,5,6]
- EdgesAlign[y0,5,7] EdgesAlign[y0,6,0] EdgesAlign[y0,6,1]
- EdgesAlign[y0,6,2] EdgesAlign[y0,6,3] EdgesAlign[y0,6,4]
- EdgesAlign[y0,6,5] EdgesAlign[y0,6,6] EdgesAlign[y0,6,7]
- EdgesAlign[y0,7,0] EdgesAlign[y0,7,1] EdgesAlign[y0,7,2]
- EdgesAlign[y0,7,3] EdgesAlign[y0,7,4] EdgesAlign[y0,7,5]
- EdgesAlign[y0,7,6] EdgesAlign[y0,7,7] EdgesAlign[x1,0,0]
- EdgesAlign[x1,0,1] EdgesAlign[x1,0,2] EdgesAlign[x1,0,3]
- EdgesAlign[x1,0,4] EdgesAlign[x1,0,5] EdgesAlign[x1,0,6]
- EdgesAlign[x1,0,7] EdgesAlign[x1,1,0] EdgesAlign[x1,1,1]
- EdgesAlign[x1,1,2] EdgesAlign[x1,1,3] EdgesAlign[x1,1,4]
- EdgesAlign[x1,1,5] EdgesAlign[x1,1,6] EdgesAlign[x1,1,7]
- EdgesAlign[x1,2,0] EdgesAlign[x1,2,1] EdgesAlign[x1,2,2]
- EdgesAlign[x1,2,3] EdgesAlign[x1,2,4] EdgesAlign[x1,2,5]
- EdgesAlign[x1,2,6] EdgesAlign[x1,2,7] EdgesAlign[x1,3,0]
- EdgesAlign[x1,3,1] EdgesAlign[x1,3,2] EdgesAlign[x1,3,3]
- EdgesAlign[x1,3,4] EdgesAlign[x1,3,5] EdgesAlign[x1,3,6]
- EdgesAlign[x1,3,7] EdgesAlign[x1,4,0] EdgesAlign[x1,4,1]
- EdgesAlign[x1,4,2] EdgesAlign[x1,4,3] EdgesAlign[x1,4,4]
- EdgesAlign[x1,4,5] EdgesAlign[x1,4,6] EdgesAlign[x1,4,7]
- EdgesAlign[x1,5,0] EdgesAlign[x1,5,1] EdgesAlign[x1,5,2]
- EdgesAlign[x1,5,3] EdgesAlign[x1,5,4] EdgesAlign[x1,5,5]
- EdgesAlign[x1,5,6] EdgesAlign[x1,5,7] EdgesAlign[x1,6,0]
- EdgesAlign[x1,6,1] EdgesAlign[x1,6,2] EdgesAlign[x1,6,3]
- EdgesAlign[x1,6,4] EdgesAlign[x1,6,5] EdgesAlign[x1,6,6]
- EdgesAlign[x1,6,7] EdgesAlign[x1,7,0] EdgesAlign[x1,7,1]
- EdgesAlign[x1,7,2] EdgesAlign[x1,7,3] EdgesAlign[x1,7,4]
- EdgesAlign[x1,7,5] EdgesAlign[x1,7,6] EdgesAlign[x1,7,7]
- EdgesAlign[y1,0,0] EdgesAlign[y1,0,1] EdgesAlign[y1,0,2]
- EdgesAlign[y1,0,3] EdgesAlign[y1,0,4] EdgesAlign[y1,0,5]
- EdgesAlign[y1,0,6] EdgesAlign[y1,0,7] EdgesAlign[y1,1,0]
- EdgesAlign[y1,1,1] EdgesAlign[y1,1,2] EdgesAlign[y1,1,3]
- EdgesAlign[y1,1,4] EdgesAlign[y1,1,5] EdgesAlign[y1,1,6]
- EdgesAlign[y1,1,7] EdgesAlign[y1,2,0] EdgesAlign[y1,2,1]
- EdgesAlign[y1,2,2] EdgesAlign[y1,2,3] EdgesAlign[y1,2,4]
- EdgesAlign[y1,2,5] EdgesAlign[y1,2,6] EdgesAlign[y1,2,7]
- EdgesAlign[y1,3,0] EdgesAlign[y1,3,1] EdgesAlign[y1,3,2]
- EdgesAlign[y1,3,3] EdgesAlign[y1,3,4] EdgesAlign[y1,3,5]
- EdgesAlign[y1,3,6] EdgesAlign[y1,3,7] EdgesAlign[y1,4,0]
- EdgesAlign[y1,4,1] EdgesAlign[y1,4,2] EdgesAlign[y1,4,3]
- EdgesAlign[y1,4,4] EdgesAlign[y1,4,5] EdgesAlign[y1,4,6]
- EdgesAlign[y1,4,7] EdgesAlign[y1,5,0] EdgesAlign[y1,5,1]
- EdgesAlign[y1,5,2] EdgesAlign[y1,5,3] EdgesAlign[y1,5,4]
- EdgesAlign[y1,5,5] EdgesAlign[y1,5,6] EdgesAlign[y1,5,7]
- EdgesAlign[y1,6,0] EdgesAlign[y1,6,1] EdgesAlign[y1,6,2]
- EdgesAlign[y1,6,3] EdgesAlign[y1,6,4] EdgesAlign[y1,6,5]
- EdgesAlign[y1,6,6] EdgesAlign[y1,6,7] EdgesAlign[y1,7,0]
- EdgesAlign[y1,7,1] EdgesAlign[y1,7,2] EdgesAlign[y1,7,3]
- EdgesAlign[y1,7,4] EdgesAlign[y1,7,5] EdgesAlign[y1,7,6]
- EdgesAlign[y1,7,7] IsElemFirstInGroup[x0,0] IsElemFirstInGroup[x0,1]
- IsElemFirstInGroup[x0,2] IsElemFirstInGroup[x0,3] IsElemFirstInGroup[x0,4]
- IsElemFirstInGroup[x0,5] IsElemFirstInGroup[x0,6] IsElemFirstInGroup[x0,7]
- IsElemFirstInGroup[y0,0] IsElemFirstInGroup[y0,1] IsElemFirstInGroup[y0,2]
- IsElemFirstInGroup[y0,3] IsElemFirstInGroup[y0,4] IsElemFirstInGroup[y0,5]
- IsElemFirstInGroup[y0,6] IsElemFirstInGroup[y0,7] IsElemFirstInGroup[x1,0]
- IsElemFirstInGroup[x1,1] IsElemFirstInGroup[x1,2] IsElemFirstInGroup[x1,3]
- IsElemFirstInGroup[x1,4] IsElemFirstInGroup[x1,5] IsElemFirstInGroup[x1,6]
- IsElemFirstInGroup[x1,7] IsElemFirstInGroup[y1,0] IsElemFirstInGroup[y1,1]
- IsElemFirstInGroup[y1,2] IsElemFirstInGroup[y1,3] IsElemFirstInGroup[y1,4]
- IsElemFirstInGroup[y1,5] IsElemFirstInGroup[y1,6] IsElemFirstInGroup[y1,7]
+ Above[0,0] Above[0,1] Above[0,2] Above[0,3] Above[0,4] Above[0,5]
+ Above[0,6] Above[0,7] Above[1,0] Above[1,1] Above[1,2] Above[1,3]
+ Above[1,4] Above[1,5] Above[1,6] Above[1,7] Above[2,0] Above[2,1]
+ Above[2,2] Above[2,3] Above[2,4] Above[2,5] Above[2,6] Above[2,7]
+ Above[3,0] Above[3,1] Above[3,2] Above[3,3] Above[3,4] Above[3,5]
+ Above[3,6] Above[3,7] Above[4,0] Above[4,1] Above[4,2] Above[4,3]
+ Above[4,4] Above[4,5] Above[4,6] Above[4,7] Above[5,0] Above[5,1]
+ Above[5,2] Above[5,3] Above[5,4] Above[5,5] Above[5,6] Above[5,7]
+ Above[6,0] Above[6,1] Above[6,2] Above[6,3] Above[6,4] Above[6,5]
+ Above[6,6] Above[6,7] Above[7,0] Above[7,1] Above[7,2] Above[7,3]
+ Above[7,4] Above[7,5] Above[7,6] Above[7,7] OnLeft[0,0] OnLeft[0,1]
+ OnLeft[0,2] OnLeft[0,3] OnLeft[0,4] OnLeft[0,5] OnLeft[0,6] OnLeft[0,7]
+ OnLeft[1,0] OnLeft[1,1] OnLeft[1,2] OnLeft[1,3] OnLeft[1,4] OnLeft[1,5]
+ OnLeft[1,6] OnLeft[1,7] OnLeft[2,0] OnLeft[2,1] OnLeft[2,2] OnLeft[2,3]
+ OnLeft[2,4] OnLeft[2,5] OnLeft[2,6] OnLeft[2,7] OnLeft[3,0] OnLeft[3,1]
+ OnLeft[3,2] OnLeft[3,3] OnLeft[3,4] OnLeft[3,5] OnLeft[3,6] OnLeft[3,7]
+ OnLeft[4,0] OnLeft[4,1] OnLeft[4,2] OnLeft[4,3] OnLeft[4,4] OnLeft[4,5]
+ OnLeft[4,6] OnLeft[4,7] OnLeft[5,0] OnLeft[5,1] OnLeft[5,2] OnLeft[5,3]
+ OnLeft[5,4] OnLeft[5,5] OnLeft[5,6] OnLeft[5,7] OnLeft[6,0] OnLeft[6,1]
+ OnLeft[6,2] OnLeft[6,3] OnLeft[6,4] OnLeft[6,5] OnLeft[6,6] OnLeft[6,7]
+ OnLeft[7,0] OnLeft[7,1] OnLeft[7,2] OnLeft[7,3] OnLeft[7,4] OnLeft[7,5]
+ OnLeft[7,6] OnLeft[7,7] HorizontalOverlap[0,0] HorizontalOverlap[0,1]
+ HorizontalOverlap[0,2] HorizontalOverlap[0,3] HorizontalOverlap[0,4]
+ HorizontalOverlap[0,5] HorizontalOverlap[0,6] HorizontalOverlap[0,7]
+ HorizontalOverlap[1,0] HorizontalOverlap[1,1] HorizontalOverlap[1,2]
+ HorizontalOverlap[1,3] HorizontalOverlap[1,4] HorizontalOverlap[1,5]
+ HorizontalOverlap[1,6] HorizontalOverlap[1,7] HorizontalOverlap[2,0]
+ HorizontalOverlap[2,1] HorizontalOverlap[2,2] HorizontalOverlap[2,3]
+ HorizontalOverlap[2,4] HorizontalOverlap[2,5] HorizontalOverlap[2,6]
+ HorizontalOverlap[2,7] HorizontalOverlap[3,0] HorizontalOverlap[3,1]
+ HorizontalOverlap[3,2] HorizontalOverlap[3,3] HorizontalOverlap[3,4]
+ HorizontalOverlap[3,5] HorizontalOverlap[3,6] HorizontalOverlap[3,7]
+ HorizontalOverlap[4,0] HorizontalOverlap[4,1] HorizontalOverlap[4,2]
+ HorizontalOverlap[4,3] HorizontalOverlap[4,4] HorizontalOverlap[4,5]
+ HorizontalOverlap[4,6] HorizontalOverlap[4,7] HorizontalOverlap[5,0]
+ HorizontalOverlap[5,1] HorizontalOverlap[5,2] HorizontalOverlap[5,3]
+ HorizontalOverlap[5,4] HorizontalOverlap[5,5] HorizontalOverlap[5,6]
+ HorizontalOverlap[5,7] HorizontalOverlap[6,0] HorizontalOverlap[6,1]
+ HorizontalOverlap[6,2] HorizontalOverlap[6,3] HorizontalOverlap[6,4]
+ HorizontalOverlap[6,5] HorizontalOverlap[6,6] HorizontalOverlap[6,7]
+ HorizontalOverlap[7,0] HorizontalOverlap[7,1] HorizontalOverlap[7,2]
+ HorizontalOverlap[7,3] HorizontalOverlap[7,4] HorizontalOverlap[7,5]
+ HorizontalOverlap[7,6] HorizontalOverlap[7,7] VerticalOverlap[0,0]
+ VerticalOverlap[0,1] VerticalOverlap[0,2] VerticalOverlap[0,3]
+ VerticalOverlap[0,4] VerticalOverlap[0,5] VerticalOverlap[0,6]
+ VerticalOverlap[0,7] VerticalOverlap[1,0] VerticalOverlap[1,1]
+ VerticalOverlap[1,2] VerticalOverlap[1,3] VerticalOverlap[1,4]
+ VerticalOverlap[1,5] VerticalOverlap[1,6] VerticalOverlap[1,7]
+ VerticalOverlap[2,0] VerticalOverlap[2,1] VerticalOverlap[2,2]
+ VerticalOverlap[2,3] VerticalOverlap[2,4] VerticalOverlap[2,5]
+ VerticalOverlap[2,6] VerticalOverlap[2,7] VerticalOverlap[3,0]
+ VerticalOverlap[3,1] VerticalOverlap[3,2] VerticalOverlap[3,3]
+ VerticalOverlap[3,4] VerticalOverlap[3,5] VerticalOverlap[3,6]
+ VerticalOverlap[3,7] VerticalOverlap[4,0] VerticalOverlap[4,1]
+ VerticalOverlap[4,2] VerticalOverlap[4,3] VerticalOverlap[4,4]
+ VerticalOverlap[4,5] VerticalOverlap[4,6] VerticalOverlap[4,7]
+ VerticalOverlap[5,0] VerticalOverlap[5,1] VerticalOverlap[5,2]
+ VerticalOverlap[5,3] VerticalOverlap[5,4] VerticalOverlap[5,5]
+ VerticalOverlap[5,6] VerticalOverlap[5,7] VerticalOverlap[6,0]
+ VerticalOverlap[6,1] VerticalOverlap[6,2] VerticalOverlap[6,3]
+ VerticalOverlap[6,4] VerticalOverlap[6,5] VerticalOverlap[6,6]
+ VerticalOverlap[6,7] VerticalOverlap[7,0] VerticalOverlap[7,1]
+ VerticalOverlap[7,2] VerticalOverlap[7,3] VerticalOverlap[7,4]
+ VerticalOverlap[7,5] VerticalOverlap[7,6] VerticalOverlap[7,7]
+ Overlap[0,0] Overlap[0,1] Overlap[0,2] Overlap[0,3] Overlap[0,4]
+ Overlap[0,5] Overlap[0,6] Overlap[0,7] Overlap[1,0] Overlap[1,1]
+ Overlap[1,2] Overlap[1,3] Overlap[1,4] Overlap[1,5] Overlap[1,6]
+ Overlap[1,7] Overlap[2,0] Overlap[2,1] Overlap[2,2] Overlap[2,3]
+ Overlap[2,4] Overlap[2,5] Overlap[2,6] Overlap[2,7] Overlap[3,0]
+ Overlap[3,1] Overlap[3,2] Overlap[3,3] Overlap[3,4] Overlap[3,5]
+ Overlap[3,6] Overlap[3,7] Overlap[4,0] Overlap[4,1] Overlap[4,2]
+ Overlap[4,3] Overlap[4,4] Overlap[4,5] Overlap[4,6] Overlap[4,7]
+ Overlap[5,0] Overlap[5,1] Overlap[5,2] Overlap[5,3] Overlap[5,4]
+ Overlap[5,5] Overlap[5,6] Overlap[5,7] Overlap[6,0] Overlap[6,1]
+ Overlap[6,2] Overlap[6,3] Overlap[6,4] Overlap[6,5] Overlap[6,6]
+ Overlap[6,7] Overlap[7,0] Overlap[7,1] Overlap[7,2] Overlap[7,3]
+ Overlap[7,4] Overlap[7,5] Overlap[7,6] Overlap[7,7] EdgesAlign[x0,0,0]
+ EdgesAlign[x0,0,1] EdgesAlign[x0,0,2] EdgesAlign[x0,0,3]
+ EdgesAlign[x0,0,4] EdgesAlign[x0,0,5] EdgesAlign[x0,0,6]
+ EdgesAlign[x0,0,7] EdgesAlign[x0,1,0] EdgesAlign[x0,1,1]
+ EdgesAlign[x0,1,2] EdgesAlign[x0,1,3] EdgesAlign[x0,1,4]
+ EdgesAlign[x0,1,5] EdgesAlign[x0,1,6] EdgesAlign[x0,1,7]
+ EdgesAlign[x0,2,0] EdgesAlign[x0,2,1] EdgesAlign[x0,2,2]
+ EdgesAlign[x0,2,3] EdgesAlign[x0,2,4] EdgesAlign[x0,2,5]
+ EdgesAlign[x0,2,6] EdgesAlign[x0,2,7] EdgesAlign[x0,3,0]
+ EdgesAlign[x0,3,1] EdgesAlign[x0,3,2] EdgesAlign[x0,3,3]
+ EdgesAlign[x0,3,4] EdgesAlign[x0,3,5] EdgesAlign[x0,3,6]
+ EdgesAlign[x0,3,7] EdgesAlign[x0,4,0] EdgesAlign[x0,4,1]
+ EdgesAlign[x0,4,2] EdgesAlign[x0,4,3] EdgesAlign[x0,4,4]
+ EdgesAlign[x0,4,5] EdgesAlign[x0,4,6] EdgesAlign[x0,4,7]
+ EdgesAlign[x0,5,0] EdgesAlign[x0,5,1] EdgesAlign[x0,5,2]
+ EdgesAlign[x0,5,3] EdgesAlign[x0,5,4] EdgesAlign[x0,5,5]
+ EdgesAlign[x0,5,6] EdgesAlign[x0,5,7] EdgesAlign[x0,6,0]
+ EdgesAlign[x0,6,1] EdgesAlign[x0,6,2] EdgesAlign[x0,6,3]
+ EdgesAlign[x0,6,4] EdgesAlign[x0,6,5] EdgesAlign[x0,6,6]
+ EdgesAlign[x0,6,7] EdgesAlign[x0,7,0] EdgesAlign[x0,7,1]
+ EdgesAlign[x0,7,2] EdgesAlign[x0,7,3] EdgesAlign[x0,7,4]
+ EdgesAlign[x0,7,5] EdgesAlign[x0,7,6] EdgesAlign[x0,7,7]
+ EdgesAlign[y0,0,0] EdgesAlign[y0,0,1] EdgesAlign[y0,0,2]
+ EdgesAlign[y0,0,3] EdgesAlign[y0,0,4] EdgesAlign[y0,0,5]
+ EdgesAlign[y0,0,6] EdgesAlign[y0,0,7] EdgesAlign[y0,1,0]
+ EdgesAlign[y0,1,1] EdgesAlign[y0,1,2] EdgesAlign[y0,1,3]
+ EdgesAlign[y0,1,4] EdgesAlign[y0,1,5] EdgesAlign[y0,1,6]
+ EdgesAlign[y0,1,7] EdgesAlign[y0,2,0] EdgesAlign[y0,2,1]
+ EdgesAlign[y0,2,2] EdgesAlign[y0,2,3] EdgesAlign[y0,2,4]
+ EdgesAlign[y0,2,5] EdgesAlign[y0,2,6] EdgesAlign[y0,2,7]
+ EdgesAlign[y0,3,0] EdgesAlign[y0,3,1] EdgesAlign[y0,3,2]
+ EdgesAlign[y0,3,3] EdgesAlign[y0,3,4] EdgesAlign[y0,3,5]
+ EdgesAlign[y0,3,6] EdgesAlign[y0,3,7] EdgesAlign[y0,4,0]
+ EdgesAlign[y0,4,1] EdgesAlign[y0,4,2] EdgesAlign[y0,4,3]
+ EdgesAlign[y0,4,4] EdgesAlign[y0,4,5] EdgesAlign[y0,4,6]
+ EdgesAlign[y0,4,7] EdgesAlign[y0,5,0] EdgesAlign[y0,5,1]
+ EdgesAlign[y0,5,2] EdgesAlign[y0,5,3] EdgesAlign[y0,5,4]
+ EdgesAlign[y0,5,5] EdgesAlign[y0,5,6] EdgesAlign[y0,5,7]
+ EdgesAlign[y0,6,0] EdgesAlign[y0,6,1] EdgesAlign[y0,6,2]
+ EdgesAlign[y0,6,3] EdgesAlign[y0,6,4] EdgesAlign[y0,6,5]
+ EdgesAlign[y0,6,6] EdgesAlign[y0,6,7] EdgesAlign[y0,7,0]
+ EdgesAlign[y0,7,1] EdgesAlign[y0,7,2] EdgesAlign[y0,7,3]
+ EdgesAlign[y0,7,4] EdgesAlign[y0,7,5] EdgesAlign[y0,7,6]
+ EdgesAlign[y0,7,7] EdgesAlign[x1,0,0] EdgesAlign[x1,0,1]
+ EdgesAlign[x1,0,2] EdgesAlign[x1,0,3] EdgesAlign[x1,0,4]
+ EdgesAlign[x1,0,5] EdgesAlign[x1,0,6] EdgesAlign[x1,0,7]
+ EdgesAlign[x1,1,0] EdgesAlign[x1,1,1] EdgesAlign[x1,1,2]
+ EdgesAlign[x1,1,3] EdgesAlign[x1,1,4] EdgesAlign[x1,1,5]
+ EdgesAlign[x1,1,6] EdgesAlign[x1,1,7] EdgesAlign[x1,2,0]
+ EdgesAlign[x1,2,1] EdgesAlign[x1,2,2] EdgesAlign[x1,2,3]
+ EdgesAlign[x1,2,4] EdgesAlign[x1,2,5] EdgesAlign[x1,2,6]
+ EdgesAlign[x1,2,7] EdgesAlign[x1,3,0] EdgesAlign[x1,3,1]
+ EdgesAlign[x1,3,2] EdgesAlign[x1,3,3] EdgesAlign[x1,3,4]
+ EdgesAlign[x1,3,5] EdgesAlign[x1,3,6] EdgesAlign[x1,3,7]
+ EdgesAlign[x1,4,0] EdgesAlign[x1,4,1] EdgesAlign[x1,4,2]
+ EdgesAlign[x1,4,3] EdgesAlign[x1,4,4] EdgesAlign[x1,4,5]
+ EdgesAlign[x1,4,6] EdgesAlign[x1,4,7] EdgesAlign[x1,5,0]
+ EdgesAlign[x1,5,1] EdgesAlign[x1,5,2] EdgesAlign[x1,5,3]
+ EdgesAlign[x1,5,4] EdgesAlign[x1,5,5] EdgesAlign[x1,5,6]
+ EdgesAlign[x1,5,7] EdgesAlign[x1,6,0] EdgesAlign[x1,6,1]
+ EdgesAlign[x1,6,2] EdgesAlign[x1,6,3] EdgesAlign[x1,6,4]
+ EdgesAlign[x1,6,5] EdgesAlign[x1,6,6] EdgesAlign[x1,6,7]
+ EdgesAlign[x1,7,0] EdgesAlign[x1,7,1] EdgesAlign[x1,7,2]
+ EdgesAlign[x1,7,3] EdgesAlign[x1,7,4] EdgesAlign[x1,7,5]
+ EdgesAlign[x1,7,6] EdgesAlign[x1,7,7] EdgesAlign[y1,0,0]
+ EdgesAlign[y1,0,1] EdgesAlign[y1,0,2] EdgesAlign[y1,0,3]
+ EdgesAlign[y1,0,4] EdgesAlign[y1,0,5] EdgesAlign[y1,0,6]
+ EdgesAlign[y1,0,7] EdgesAlign[y1,1,0] EdgesAlign[y1,1,1]
+ EdgesAlign[y1,1,2] EdgesAlign[y1,1,3] EdgesAlign[y1,1,4]
+ EdgesAlign[y1,1,5] EdgesAlign[y1,1,6] EdgesAlign[y1,1,7]
+ EdgesAlign[y1,2,0] EdgesAlign[y1,2,1] EdgesAlign[y1,2,2]
+ EdgesAlign[y1,2,3] EdgesAlign[y1,2,4] EdgesAlign[y1,2,5]
+ EdgesAlign[y1,2,6] EdgesAlign[y1,2,7] EdgesAlign[y1,3,0]
+ EdgesAlign[y1,3,1] EdgesAlign[y1,3,2] EdgesAlign[y1,3,3]
+ EdgesAlign[y1,3,4] EdgesAlign[y1,3,5] EdgesAlign[y1,3,6]
+ EdgesAlign[y1,3,7] EdgesAlign[y1,4,0] EdgesAlign[y1,4,1]
+ EdgesAlign[y1,4,2] EdgesAlign[y1,4,3] EdgesAlign[y1,4,4]
+ EdgesAlign[y1,4,5] EdgesAlign[y1,4,6] EdgesAlign[y1,4,7]
+ EdgesAlign[y1,5,0] EdgesAlign[y1,5,1] EdgesAlign[y1,5,2]
+ EdgesAlign[y1,5,3] EdgesAlign[y1,5,4] EdgesAlign[y1,5,5]
+ EdgesAlign[y1,5,6] EdgesAlign[y1,5,7] EdgesAlign[y1,6,0]
+ EdgesAlign[y1,6,1] EdgesAlign[y1,6,2] EdgesAlign[y1,6,3]
+ EdgesAlign[y1,6,4] EdgesAlign[y1,6,5] EdgesAlign[y1,6,6]
+ EdgesAlign[y1,6,7] EdgesAlign[y1,7,0] EdgesAlign[y1,7,1]
+ EdgesAlign[y1,7,2] EdgesAlign[y1,7,3] EdgesAlign[y1,7,4]
+ EdgesAlign[y1,7,5] EdgesAlign[y1,7,6] EdgesAlign[y1,7,7]
+ IsElemFirstInGroup[x0,0] IsElemFirstInGroup[x0,1] IsElemFirstInGroup[x0,2]
+ IsElemFirstInGroup[x0,3] IsElemFirstInGroup[x0,4] IsElemFirstInGroup[x0,5]
+ IsElemFirstInGroup[x0,6] IsElemFirstInGroup[x0,7] IsElemFirstInGroup[y0,0]
+ IsElemFirstInGroup[y0,1] IsElemFirstInGroup[y0,2] IsElemFirstInGroup[y0,3]
+ IsElemFirstInGroup[y0,4] IsElemFirstInGroup[y0,5] IsElemFirstInGroup[y0,6]
+ IsElemFirstInGroup[y0,7] IsElemFirstInGroup[x1,0] IsElemFirstInGroup[x1,1]
+ IsElemFirstInGroup[x1,2] IsElemFirstInGroup[x1,3] IsElemFirstInGroup[x1,4]
+ IsElemFirstInGroup[x1,5] IsElemFirstInGroup[x1,6] IsElemFirstInGroup[x1,7]
+ IsElemFirstInGroup[y1,0] IsElemFirstInGroup[y1,1] IsElemFirstInGroup[y1,2]
+ IsElemFirstInGroup[y1,3] IsElemFirstInGroup[y1,4] IsElemFirstInGroup[y1,5]
+ IsElemFirstInGroup[y1,6] IsElemFirstInGroup[y1,7]
 Generals
  EdgeCoord[x0,0] EdgeCoord[x0,1] EdgeCoord[x0,2] EdgeCoord[x0,3]
  EdgeCoord[x0,4] EdgeCoord[x0,5] EdgeCoord[x0,6] EdgeCoord[x0,7]
@@ -1299,6 +2380,118 @@ Generals
  EdgeDistanceAbs[y1,7,6] EdgeDistanceAbs[y1,7,7] NumberOfGroups[x0]
  NumberOfGroups[y0] NumberOfGroups[x1] NumberOfGroups[y1]
 General Constraints
+ LinkOverlap[0,1]: Overlap[0,1] = AND ( HorizontalOverlap[0,1] ,
+   VerticalOverlap[0,1] )
+ LinkOverlap[0,2]: Overlap[0,2] = AND ( HorizontalOverlap[0,2] ,
+   VerticalOverlap[0,2] )
+ LinkOverlap[0,3]: Overlap[0,3] = AND ( HorizontalOverlap[0,3] ,
+   VerticalOverlap[0,3] )
+ LinkOverlap[0,4]: Overlap[0,4] = AND ( HorizontalOverlap[0,4] ,
+   VerticalOverlap[0,4] )
+ LinkOverlap[0,5]: Overlap[0,5] = AND ( HorizontalOverlap[0,5] ,
+   VerticalOverlap[0,5] )
+ LinkOverlap[0,6]: Overlap[0,6] = AND ( HorizontalOverlap[0,6] ,
+   VerticalOverlap[0,6] )
+ LinkOverlap[0,7]: Overlap[0,7] = AND ( HorizontalOverlap[0,7] ,
+   VerticalOverlap[0,7] )
+ LinkOverlap[1,0]: Overlap[1,0] = AND ( HorizontalOverlap[1,0] ,
+   VerticalOverlap[1,0] )
+ LinkOverlap[1,2]: Overlap[1,2] = AND ( HorizontalOverlap[1,2] ,
+   VerticalOverlap[1,2] )
+ LinkOverlap[1,3]: Overlap[1,3] = AND ( HorizontalOverlap[1,3] ,
+   VerticalOverlap[1,3] )
+ LinkOverlap[1,4]: Overlap[1,4] = AND ( HorizontalOverlap[1,4] ,
+   VerticalOverlap[1,4] )
+ LinkOverlap[1,5]: Overlap[1,5] = AND ( HorizontalOverlap[1,5] ,
+   VerticalOverlap[1,5] )
+ LinkOverlap[1,6]: Overlap[1,6] = AND ( HorizontalOverlap[1,6] ,
+   VerticalOverlap[1,6] )
+ LinkOverlap[1,7]: Overlap[1,7] = AND ( HorizontalOverlap[1,7] ,
+   VerticalOverlap[1,7] )
+ LinkOverlap[2,0]: Overlap[2,0] = AND ( HorizontalOverlap[2,0] ,
+   VerticalOverlap[2,0] )
+ LinkOverlap[2,1]: Overlap[2,1] = AND ( HorizontalOverlap[2,1] ,
+   VerticalOverlap[2,1] )
+ LinkOverlap[2,3]: Overlap[2,3] = AND ( HorizontalOverlap[2,3] ,
+   VerticalOverlap[2,3] )
+ LinkOverlap[2,4]: Overlap[2,4] = AND ( HorizontalOverlap[2,4] ,
+   VerticalOverlap[2,4] )
+ LinkOverlap[2,5]: Overlap[2,5] = AND ( HorizontalOverlap[2,5] ,
+   VerticalOverlap[2,5] )
+ LinkOverlap[2,6]: Overlap[2,6] = AND ( HorizontalOverlap[2,6] ,
+   VerticalOverlap[2,6] )
+ LinkOverlap[2,7]: Overlap[2,7] = AND ( HorizontalOverlap[2,7] ,
+   VerticalOverlap[2,7] )
+ LinkOverlap[3,0]: Overlap[3,0] = AND ( HorizontalOverlap[3,0] ,
+   VerticalOverlap[3,0] )
+ LinkOverlap[3,1]: Overlap[3,1] = AND ( HorizontalOverlap[3,1] ,
+   VerticalOverlap[3,1] )
+ LinkOverlap[3,2]: Overlap[3,2] = AND ( HorizontalOverlap[3,2] ,
+   VerticalOverlap[3,2] )
+ LinkOverlap[3,4]: Overlap[3,4] = AND ( HorizontalOverlap[3,4] ,
+   VerticalOverlap[3,4] )
+ LinkOverlap[3,5]: Overlap[3,5] = AND ( HorizontalOverlap[3,5] ,
+   VerticalOverlap[3,5] )
+ LinkOverlap[3,6]: Overlap[3,6] = AND ( HorizontalOverlap[3,6] ,
+   VerticalOverlap[3,6] )
+ LinkOverlap[3,7]: Overlap[3,7] = AND ( HorizontalOverlap[3,7] ,
+   VerticalOverlap[3,7] )
+ LinkOverlap[4,0]: Overlap[4,0] = AND ( HorizontalOverlap[4,0] ,
+   VerticalOverlap[4,0] )
+ LinkOverlap[4,1]: Overlap[4,1] = AND ( HorizontalOverlap[4,1] ,
+   VerticalOverlap[4,1] )
+ LinkOverlap[4,2]: Overlap[4,2] = AND ( HorizontalOverlap[4,2] ,
+   VerticalOverlap[4,2] )
+ LinkOverlap[4,3]: Overlap[4,3] = AND ( HorizontalOverlap[4,3] ,
+   VerticalOverlap[4,3] )
+ LinkOverlap[4,5]: Overlap[4,5] = AND ( HorizontalOverlap[4,5] ,
+   VerticalOverlap[4,5] )
+ LinkOverlap[4,6]: Overlap[4,6] = AND ( HorizontalOverlap[4,6] ,
+   VerticalOverlap[4,6] )
+ LinkOverlap[4,7]: Overlap[4,7] = AND ( HorizontalOverlap[4,7] ,
+   VerticalOverlap[4,7] )
+ LinkOverlap[5,0]: Overlap[5,0] = AND ( HorizontalOverlap[5,0] ,
+   VerticalOverlap[5,0] )
+ LinkOverlap[5,1]: Overlap[5,1] = AND ( HorizontalOverlap[5,1] ,
+   VerticalOverlap[5,1] )
+ LinkOverlap[5,2]: Overlap[5,2] = AND ( HorizontalOverlap[5,2] ,
+   VerticalOverlap[5,2] )
+ LinkOverlap[5,3]: Overlap[5,3] = AND ( HorizontalOverlap[5,3] ,
+   VerticalOverlap[5,3] )
+ LinkOverlap[5,4]: Overlap[5,4] = AND ( HorizontalOverlap[5,4] ,
+   VerticalOverlap[5,4] )
+ LinkOverlap[5,6]: Overlap[5,6] = AND ( HorizontalOverlap[5,6] ,
+   VerticalOverlap[5,6] )
+ LinkOverlap[5,7]: Overlap[5,7] = AND ( HorizontalOverlap[5,7] ,
+   VerticalOverlap[5,7] )
+ LinkOverlap[6,0]: Overlap[6,0] = AND ( HorizontalOverlap[6,0] ,
+   VerticalOverlap[6,0] )
+ LinkOverlap[6,1]: Overlap[6,1] = AND ( HorizontalOverlap[6,1] ,
+   VerticalOverlap[6,1] )
+ LinkOverlap[6,2]: Overlap[6,2] = AND ( HorizontalOverlap[6,2] ,
+   VerticalOverlap[6,2] )
+ LinkOverlap[6,3]: Overlap[6,3] = AND ( HorizontalOverlap[6,3] ,
+   VerticalOverlap[6,3] )
+ LinkOverlap[6,4]: Overlap[6,4] = AND ( HorizontalOverlap[6,4] ,
+   VerticalOverlap[6,4] )
+ LinkOverlap[6,5]: Overlap[6,5] = AND ( HorizontalOverlap[6,5] ,
+   VerticalOverlap[6,5] )
+ LinkOverlap[6,7]: Overlap[6,7] = AND ( HorizontalOverlap[6,7] ,
+   VerticalOverlap[6,7] )
+ LinkOverlap[7,0]: Overlap[7,0] = AND ( HorizontalOverlap[7,0] ,
+   VerticalOverlap[7,0] )
+ LinkOverlap[7,1]: Overlap[7,1] = AND ( HorizontalOverlap[7,1] ,
+   VerticalOverlap[7,1] )
+ LinkOverlap[7,2]: Overlap[7,2] = AND ( HorizontalOverlap[7,2] ,
+   VerticalOverlap[7,2] )
+ LinkOverlap[7,3]: Overlap[7,3] = AND ( HorizontalOverlap[7,3] ,
+   VerticalOverlap[7,3] )
+ LinkOverlap[7,4]: Overlap[7,4] = AND ( HorizontalOverlap[7,4] ,
+   VerticalOverlap[7,4] )
+ LinkOverlap[7,5]: Overlap[7,5] = AND ( HorizontalOverlap[7,5] ,
+   VerticalOverlap[7,5] )
+ LinkOverlap[7,6]: Overlap[7,6] = AND ( HorizontalOverlap[7,6] ,
+   VerticalOverlap[7,6] )
  LinkEdgeDistanceAbs[x0,0,0]: EdgeDistanceAbs[x0,0,0] = ABS (
    EdgeDistance[x0,0,0] )
  LinkEdgeDistanceAbs[x0,0,1]: EdgeDistanceAbs[x0,0,1] = ABS (
