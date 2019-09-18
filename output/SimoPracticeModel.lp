@@ -1719,54 +1719,54 @@ Subject To
    + EdgesAlign[y1,3,7] + EdgesAlign[y1,4,7] + EdgesAlign[y1,5,7]
    + EdgesAlign[y1,6,7] <= 6
 Bounds
- EdgeCoord[x0,0] <= 20
- EdgeCoord[x0,1] <= 20
- EdgeCoord[x0,2] <= 20
- EdgeCoord[x0,3] <= 20
- EdgeCoord[x0,4] <= 20
- EdgeCoord[x0,5] <= 20
- EdgeCoord[x0,6] <= 20
- EdgeCoord[x0,7] <= 20
- EdgeCoord[y0,0] <= 20
- EdgeCoord[y0,1] <= 20
- EdgeCoord[y0,2] <= 20
- EdgeCoord[y0,3] <= 20
- EdgeCoord[y0,4] <= 20
- EdgeCoord[y0,5] <= 20
- EdgeCoord[y0,6] <= 20
- EdgeCoord[y0,7] <= 20
- EdgeCoord[x1,0] <= 20
- EdgeCoord[x1,1] <= 20
- EdgeCoord[x1,2] <= 20
- EdgeCoord[x1,3] <= 20
- EdgeCoord[x1,4] <= 20
- EdgeCoord[x1,5] <= 20
- EdgeCoord[x1,6] <= 20
- EdgeCoord[x1,7] <= 20
- EdgeCoord[y1,0] <= 20
- EdgeCoord[y1,1] <= 20
- EdgeCoord[y1,2] <= 20
- EdgeCoord[y1,3] <= 20
- EdgeCoord[y1,4] <= 20
- EdgeCoord[y1,5] <= 20
- EdgeCoord[y1,6] <= 20
- EdgeCoord[y1,7] <= 20
- W[0] >= 1
- W[1] >= 1
- W[2] >= 1
- W[3] >= 1
- W[4] >= 1
- W[5] >= 1
- W[6] >= 1
- W[7] >= 1
- H[0] >= 1
- H[1] >= 1
- H[2] >= 1
- H[3] >= 1
- H[4] >= 1
- H[5] >= 1
- H[6] >= 1
- H[7] >= 1
+ EdgeCoord[x0,0] <= 8
+ EdgeCoord[x0,1] <= 8
+ EdgeCoord[x0,2] <= 8
+ EdgeCoord[x0,3] <= 8
+ EdgeCoord[x0,4] <= 8
+ EdgeCoord[x0,5] <= 8
+ EdgeCoord[x0,6] <= 8
+ EdgeCoord[x0,7] <= 8
+ EdgeCoord[y0,0] <= 8
+ EdgeCoord[y0,1] <= 8
+ EdgeCoord[y0,2] <= 8
+ EdgeCoord[y0,3] <= 8
+ EdgeCoord[y0,4] <= 8
+ EdgeCoord[y0,5] <= 8
+ EdgeCoord[y0,6] <= 8
+ EdgeCoord[y0,7] <= 8
+ EdgeCoord[x1,0] <= 8
+ EdgeCoord[x1,1] <= 8
+ EdgeCoord[x1,2] <= 8
+ EdgeCoord[x1,3] <= 8
+ EdgeCoord[x1,4] <= 8
+ EdgeCoord[x1,5] <= 8
+ EdgeCoord[x1,6] <= 8
+ EdgeCoord[x1,7] <= 8
+ EdgeCoord[y1,0] <= 8
+ EdgeCoord[y1,1] <= 8
+ EdgeCoord[y1,2] <= 8
+ EdgeCoord[y1,3] <= 8
+ EdgeCoord[y1,4] <= 8
+ EdgeCoord[y1,5] <= 8
+ EdgeCoord[y1,6] <= 8
+ EdgeCoord[y1,7] <= 8
+ 1 <= W[0] <= 8
+ 1 <= W[1] <= 8
+ 1 <= W[2] <= 8
+ 1 <= W[3] <= 8
+ 1 <= W[4] <= 8
+ 1 <= W[5] <= 8
+ 1 <= W[6] <= 8
+ 1 <= W[7] <= 8
+ 1 <= H[0] <= 8
+ 1 <= H[1] <= 8
+ 1 <= H[2] <= 8
+ 1 <= H[3] <= 8
+ 1 <= H[4] <= 8
+ 1 <= H[5] <= 8
+ 1 <= H[6] <= 8
+ 1 <= H[7] <= 8
  EdgeDistance[x0,0,0] free
  EdgeDistance[x0,0,1] free
  EdgeDistance[x0,0,2] free

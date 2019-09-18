@@ -19,7 +19,7 @@ def solve(layout: Layout):
         # VARIABLES
 
         # Element coordinates (in multiples of grid size)
-        edge_coord = m.addVars(edge_indices, elem_indices, ub=20, vtype=GRB.INTEGER, name='EdgeCoord')
+        edge_coord = m.addVars(edge_indices, elem_indices, ub=n, vtype=GRB.INTEGER, name='EdgeCoord')
         m.addConstrs((
             edge_coord['x0', i] <= edge_coord['x1', i] - 1
             for i in elem_indices
@@ -39,8 +39,8 @@ def solve(layout: Layout):
             edge_coord['y0', i].start = i
 
         # Element size (in multiples of grid size)
-        w = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='W')
-        h = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='H')
+        w = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='W')
+        h = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='H')
         # Bind width and height to the coordinates
         m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
         m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
@@ -157,7 +157,7 @@ def solve(layout: Layout):
         # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
 
         m.Params.MIPFocus = 1
-        m.Params.TimeLimit = 10
+        m.Params.TimeLimit = 30
 
         m.Params.PoolSearchMode = 2
         m.Params.PoolSolutions = 1
@@ -170,8 +170,8 @@ def solve(layout: Layout):
 
         m.optimize()
 
-        #print('Number of groups', number_of_groups_expr.getValue())
-        #print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
+        print('Number of groups', number_of_groups_expr.getValue(), 'Minimum:', compute_minimum_grid(n))
+        print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
