@@ -180,6 +180,22 @@ Minimize
    + NumberOfGroups[x0] + NumberOfGroups[y0] + NumberOfGroups[x1]
    + NumberOfGroups[y1]
 Subject To
+ X0X1Sanity[0]: EdgeCoord[x0,0] - EdgeCoord[x1,0] <= -1
+ X0X1Sanity[1]: EdgeCoord[x0,1] - EdgeCoord[x1,1] <= -1
+ X0X1Sanity[2]: EdgeCoord[x0,2] - EdgeCoord[x1,2] <= -1
+ X0X1Sanity[3]: EdgeCoord[x0,3] - EdgeCoord[x1,3] <= -1
+ X0X1Sanity[4]: EdgeCoord[x0,4] - EdgeCoord[x1,4] <= -1
+ X0X1Sanity[5]: EdgeCoord[x0,5] - EdgeCoord[x1,5] <= -1
+ X0X1Sanity[6]: EdgeCoord[x0,6] - EdgeCoord[x1,6] <= -1
+ X0X1Sanity[7]: EdgeCoord[x0,7] - EdgeCoord[x1,7] <= -1
+ Y0Y1Sanity[0]: EdgeCoord[y0,0] - EdgeCoord[y1,0] <= -1
+ Y0Y1Sanity[1]: EdgeCoord[y0,1] - EdgeCoord[y1,1] <= -1
+ Y0Y1Sanity[2]: EdgeCoord[y0,2] - EdgeCoord[y1,2] <= -1
+ Y0Y1Sanity[3]: EdgeCoord[y0,3] - EdgeCoord[y1,3] <= -1
+ Y0Y1Sanity[4]: EdgeCoord[y0,4] - EdgeCoord[y1,4] <= -1
+ Y0Y1Sanity[5]: EdgeCoord[y0,5] - EdgeCoord[y1,5] <= -1
+ Y0Y1Sanity[6]: EdgeCoord[y0,6] - EdgeCoord[y1,6] <= -1
+ Y0Y1Sanity[7]: EdgeCoord[y0,7] - EdgeCoord[y1,7] <= -1
  X1-X0=W[0]: - EdgeCoord[x0,0] + EdgeCoord[x1,0] - W[0] = 0
  X1-X0=W[1]: - EdgeCoord[x0,1] + EdgeCoord[x1,1] - W[1] = 0
  X1-X0=W[2]: - EdgeCoord[x0,2] + EdgeCoord[x1,2] - W[2] = 0
@@ -676,230 +692,230 @@ Subject To
  LinkEdgeDistance[y1,7,6]: EdgeCoord[y1,6] - EdgeCoord[y1,7]
    + EdgeDistance[y1,7,6] = 0
  LinkEdgeDistance[y1,7,7]: EdgeDistance[y1,7,7] = 0
- LinkIsElemFirstInGroup1[x0,0,1]: EdgesAlign[x0,0,1]
-   + IsElemFirstInGroup[x0,1] <= 1
- LinkIsElemFirstInGroup1[x0,0,2]: EdgesAlign[x0,0,2]
-   + IsElemFirstInGroup[x0,2] <= 1
- LinkIsElemFirstInGroup1[x0,0,3]: EdgesAlign[x0,0,3]
-   + IsElemFirstInGroup[x0,3] <= 1
- LinkIsElemFirstInGroup1[x0,0,4]: EdgesAlign[x0,0,4]
-   + IsElemFirstInGroup[x0,4] <= 1
- LinkIsElemFirstInGroup1[x0,0,5]: EdgesAlign[x0,0,5]
-   + IsElemFirstInGroup[x0,5] <= 1
- LinkIsElemFirstInGroup1[x0,0,6]: EdgesAlign[x0,0,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,0,7]: EdgesAlign[x0,0,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,1,2]: EdgesAlign[x0,1,2]
-   + IsElemFirstInGroup[x0,2] <= 1
- LinkIsElemFirstInGroup1[x0,1,3]: EdgesAlign[x0,1,3]
-   + IsElemFirstInGroup[x0,3] <= 1
- LinkIsElemFirstInGroup1[x0,1,4]: EdgesAlign[x0,1,4]
-   + IsElemFirstInGroup[x0,4] <= 1
- LinkIsElemFirstInGroup1[x0,1,5]: EdgesAlign[x0,1,5]
-   + IsElemFirstInGroup[x0,5] <= 1
- LinkIsElemFirstInGroup1[x0,1,6]: EdgesAlign[x0,1,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,1,7]: EdgesAlign[x0,1,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,2,3]: EdgesAlign[x0,2,3]
-   + IsElemFirstInGroup[x0,3] <= 1
- LinkIsElemFirstInGroup1[x0,2,4]: EdgesAlign[x0,2,4]
-   + IsElemFirstInGroup[x0,4] <= 1
- LinkIsElemFirstInGroup1[x0,2,5]: EdgesAlign[x0,2,5]
-   + IsElemFirstInGroup[x0,5] <= 1
- LinkIsElemFirstInGroup1[x0,2,6]: EdgesAlign[x0,2,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,2,7]: EdgesAlign[x0,2,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,3,4]: EdgesAlign[x0,3,4]
-   + IsElemFirstInGroup[x0,4] <= 1
- LinkIsElemFirstInGroup1[x0,3,5]: EdgesAlign[x0,3,5]
-   + IsElemFirstInGroup[x0,5] <= 1
- LinkIsElemFirstInGroup1[x0,3,6]: EdgesAlign[x0,3,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,3,7]: EdgesAlign[x0,3,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,4,5]: EdgesAlign[x0,4,5]
-   + IsElemFirstInGroup[x0,5] <= 1
- LinkIsElemFirstInGroup1[x0,4,6]: EdgesAlign[x0,4,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,4,7]: EdgesAlign[x0,4,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,5,6]: EdgesAlign[x0,5,6]
-   + IsElemFirstInGroup[x0,6] <= 1
- LinkIsElemFirstInGroup1[x0,5,7]: EdgesAlign[x0,5,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[x0,6,7]: EdgesAlign[x0,6,7]
-   + IsElemFirstInGroup[x0,7] <= 1
- LinkIsElemFirstInGroup1[y0,0,1]: EdgesAlign[y0,0,1]
-   + IsElemFirstInGroup[y0,1] <= 1
- LinkIsElemFirstInGroup1[y0,0,2]: EdgesAlign[y0,0,2]
-   + IsElemFirstInGroup[y0,2] <= 1
- LinkIsElemFirstInGroup1[y0,0,3]: EdgesAlign[y0,0,3]
-   + IsElemFirstInGroup[y0,3] <= 1
- LinkIsElemFirstInGroup1[y0,0,4]: EdgesAlign[y0,0,4]
-   + IsElemFirstInGroup[y0,4] <= 1
- LinkIsElemFirstInGroup1[y0,0,5]: EdgesAlign[y0,0,5]
-   + IsElemFirstInGroup[y0,5] <= 1
- LinkIsElemFirstInGroup1[y0,0,6]: EdgesAlign[y0,0,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,0,7]: EdgesAlign[y0,0,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,1,2]: EdgesAlign[y0,1,2]
-   + IsElemFirstInGroup[y0,2] <= 1
- LinkIsElemFirstInGroup1[y0,1,3]: EdgesAlign[y0,1,3]
-   + IsElemFirstInGroup[y0,3] <= 1
- LinkIsElemFirstInGroup1[y0,1,4]: EdgesAlign[y0,1,4]
-   + IsElemFirstInGroup[y0,4] <= 1
- LinkIsElemFirstInGroup1[y0,1,5]: EdgesAlign[y0,1,5]
-   + IsElemFirstInGroup[y0,5] <= 1
- LinkIsElemFirstInGroup1[y0,1,6]: EdgesAlign[y0,1,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,1,7]: EdgesAlign[y0,1,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,2,3]: EdgesAlign[y0,2,3]
-   + IsElemFirstInGroup[y0,3] <= 1
- LinkIsElemFirstInGroup1[y0,2,4]: EdgesAlign[y0,2,4]
-   + IsElemFirstInGroup[y0,4] <= 1
- LinkIsElemFirstInGroup1[y0,2,5]: EdgesAlign[y0,2,5]
-   + IsElemFirstInGroup[y0,5] <= 1
- LinkIsElemFirstInGroup1[y0,2,6]: EdgesAlign[y0,2,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,2,7]: EdgesAlign[y0,2,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,3,4]: EdgesAlign[y0,3,4]
-   + IsElemFirstInGroup[y0,4] <= 1
- LinkIsElemFirstInGroup1[y0,3,5]: EdgesAlign[y0,3,5]
-   + IsElemFirstInGroup[y0,5] <= 1
- LinkIsElemFirstInGroup1[y0,3,6]: EdgesAlign[y0,3,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,3,7]: EdgesAlign[y0,3,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,4,5]: EdgesAlign[y0,4,5]
-   + IsElemFirstInGroup[y0,5] <= 1
- LinkIsElemFirstInGroup1[y0,4,6]: EdgesAlign[y0,4,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,4,7]: EdgesAlign[y0,4,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,5,6]: EdgesAlign[y0,5,6]
-   + IsElemFirstInGroup[y0,6] <= 1
- LinkIsElemFirstInGroup1[y0,5,7]: EdgesAlign[y0,5,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[y0,6,7]: EdgesAlign[y0,6,7]
-   + IsElemFirstInGroup[y0,7] <= 1
- LinkIsElemFirstInGroup1[x1,0,1]: EdgesAlign[x1,0,1]
-   + IsElemFirstInGroup[x1,1] <= 1
- LinkIsElemFirstInGroup1[x1,0,2]: EdgesAlign[x1,0,2]
-   + IsElemFirstInGroup[x1,2] <= 1
- LinkIsElemFirstInGroup1[x1,0,3]: EdgesAlign[x1,0,3]
-   + IsElemFirstInGroup[x1,3] <= 1
- LinkIsElemFirstInGroup1[x1,0,4]: EdgesAlign[x1,0,4]
-   + IsElemFirstInGroup[x1,4] <= 1
- LinkIsElemFirstInGroup1[x1,0,5]: EdgesAlign[x1,0,5]
-   + IsElemFirstInGroup[x1,5] <= 1
- LinkIsElemFirstInGroup1[x1,0,6]: EdgesAlign[x1,0,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,0,7]: EdgesAlign[x1,0,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,1,2]: EdgesAlign[x1,1,2]
-   + IsElemFirstInGroup[x1,2] <= 1
- LinkIsElemFirstInGroup1[x1,1,3]: EdgesAlign[x1,1,3]
-   + IsElemFirstInGroup[x1,3] <= 1
- LinkIsElemFirstInGroup1[x1,1,4]: EdgesAlign[x1,1,4]
-   + IsElemFirstInGroup[x1,4] <= 1
- LinkIsElemFirstInGroup1[x1,1,5]: EdgesAlign[x1,1,5]
-   + IsElemFirstInGroup[x1,5] <= 1
- LinkIsElemFirstInGroup1[x1,1,6]: EdgesAlign[x1,1,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,1,7]: EdgesAlign[x1,1,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,2,3]: EdgesAlign[x1,2,3]
-   + IsElemFirstInGroup[x1,3] <= 1
- LinkIsElemFirstInGroup1[x1,2,4]: EdgesAlign[x1,2,4]
-   + IsElemFirstInGroup[x1,4] <= 1
- LinkIsElemFirstInGroup1[x1,2,5]: EdgesAlign[x1,2,5]
-   + IsElemFirstInGroup[x1,5] <= 1
- LinkIsElemFirstInGroup1[x1,2,6]: EdgesAlign[x1,2,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,2,7]: EdgesAlign[x1,2,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,3,4]: EdgesAlign[x1,3,4]
-   + IsElemFirstInGroup[x1,4] <= 1
- LinkIsElemFirstInGroup1[x1,3,5]: EdgesAlign[x1,3,5]
-   + IsElemFirstInGroup[x1,5] <= 1
- LinkIsElemFirstInGroup1[x1,3,6]: EdgesAlign[x1,3,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,3,7]: EdgesAlign[x1,3,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,4,5]: EdgesAlign[x1,4,5]
-   + IsElemFirstInGroup[x1,5] <= 1
- LinkIsElemFirstInGroup1[x1,4,6]: EdgesAlign[x1,4,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,4,7]: EdgesAlign[x1,4,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,5,6]: EdgesAlign[x1,5,6]
-   + IsElemFirstInGroup[x1,6] <= 1
- LinkIsElemFirstInGroup1[x1,5,7]: EdgesAlign[x1,5,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[x1,6,7]: EdgesAlign[x1,6,7]
-   + IsElemFirstInGroup[x1,7] <= 1
- LinkIsElemFirstInGroup1[y1,0,1]: EdgesAlign[y1,0,1]
-   + IsElemFirstInGroup[y1,1] <= 1
- LinkIsElemFirstInGroup1[y1,0,2]: EdgesAlign[y1,0,2]
-   + IsElemFirstInGroup[y1,2] <= 1
- LinkIsElemFirstInGroup1[y1,0,3]: EdgesAlign[y1,0,3]
-   + IsElemFirstInGroup[y1,3] <= 1
- LinkIsElemFirstInGroup1[y1,0,4]: EdgesAlign[y1,0,4]
-   + IsElemFirstInGroup[y1,4] <= 1
- LinkIsElemFirstInGroup1[y1,0,5]: EdgesAlign[y1,0,5]
-   + IsElemFirstInGroup[y1,5] <= 1
- LinkIsElemFirstInGroup1[y1,0,6]: EdgesAlign[y1,0,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,0,7]: EdgesAlign[y1,0,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,1,2]: EdgesAlign[y1,1,2]
-   + IsElemFirstInGroup[y1,2] <= 1
- LinkIsElemFirstInGroup1[y1,1,3]: EdgesAlign[y1,1,3]
-   + IsElemFirstInGroup[y1,3] <= 1
- LinkIsElemFirstInGroup1[y1,1,4]: EdgesAlign[y1,1,4]
-   + IsElemFirstInGroup[y1,4] <= 1
- LinkIsElemFirstInGroup1[y1,1,5]: EdgesAlign[y1,1,5]
-   + IsElemFirstInGroup[y1,5] <= 1
- LinkIsElemFirstInGroup1[y1,1,6]: EdgesAlign[y1,1,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,1,7]: EdgesAlign[y1,1,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,2,3]: EdgesAlign[y1,2,3]
-   + IsElemFirstInGroup[y1,3] <= 1
- LinkIsElemFirstInGroup1[y1,2,4]: EdgesAlign[y1,2,4]
-   + IsElemFirstInGroup[y1,4] <= 1
- LinkIsElemFirstInGroup1[y1,2,5]: EdgesAlign[y1,2,5]
-   + IsElemFirstInGroup[y1,5] <= 1
- LinkIsElemFirstInGroup1[y1,2,6]: EdgesAlign[y1,2,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,2,7]: EdgesAlign[y1,2,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,3,4]: EdgesAlign[y1,3,4]
-   + IsElemFirstInGroup[y1,4] <= 1
- LinkIsElemFirstInGroup1[y1,3,5]: EdgesAlign[y1,3,5]
-   + IsElemFirstInGroup[y1,5] <= 1
- LinkIsElemFirstInGroup1[y1,3,6]: EdgesAlign[y1,3,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,3,7]: EdgesAlign[y1,3,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,4,5]: EdgesAlign[y1,4,5]
-   + IsElemFirstInGroup[y1,5] <= 1
- LinkIsElemFirstInGroup1[y1,4,6]: EdgesAlign[y1,4,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,4,7]: EdgesAlign[y1,4,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,5,6]: EdgesAlign[y1,5,6]
-   + IsElemFirstInGroup[y1,6] <= 1
- LinkIsElemFirstInGroup1[y1,5,7]: EdgesAlign[y1,5,7]
-   + IsElemFirstInGroup[y1,7] <= 1
- LinkIsElemFirstInGroup1[y1,6,7]: EdgesAlign[y1,6,7]
-   + IsElemFirstInGroup[y1,7] <= 1
+ LinkIsElemFirstInGroup1[x0,0,1]: - EdgesAlign[x0,0,1]
+   + IsElemFirstInGroup[x0,1] <= 0
+ LinkIsElemFirstInGroup1[x0,0,2]: - EdgesAlign[x0,0,2]
+   + IsElemFirstInGroup[x0,2] <= 0
+ LinkIsElemFirstInGroup1[x0,0,3]: - EdgesAlign[x0,0,3]
+   + IsElemFirstInGroup[x0,3] <= 0
+ LinkIsElemFirstInGroup1[x0,0,4]: - EdgesAlign[x0,0,4]
+   + IsElemFirstInGroup[x0,4] <= 0
+ LinkIsElemFirstInGroup1[x0,0,5]: - EdgesAlign[x0,0,5]
+   + IsElemFirstInGroup[x0,5] <= 0
+ LinkIsElemFirstInGroup1[x0,0,6]: - EdgesAlign[x0,0,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,0,7]: - EdgesAlign[x0,0,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,1,2]: - EdgesAlign[x0,1,2]
+   + IsElemFirstInGroup[x0,2] <= 0
+ LinkIsElemFirstInGroup1[x0,1,3]: - EdgesAlign[x0,1,3]
+   + IsElemFirstInGroup[x0,3] <= 0
+ LinkIsElemFirstInGroup1[x0,1,4]: - EdgesAlign[x0,1,4]
+   + IsElemFirstInGroup[x0,4] <= 0
+ LinkIsElemFirstInGroup1[x0,1,5]: - EdgesAlign[x0,1,5]
+   + IsElemFirstInGroup[x0,5] <= 0
+ LinkIsElemFirstInGroup1[x0,1,6]: - EdgesAlign[x0,1,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,1,7]: - EdgesAlign[x0,1,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,2,3]: - EdgesAlign[x0,2,3]
+   + IsElemFirstInGroup[x0,3] <= 0
+ LinkIsElemFirstInGroup1[x0,2,4]: - EdgesAlign[x0,2,4]
+   + IsElemFirstInGroup[x0,4] <= 0
+ LinkIsElemFirstInGroup1[x0,2,5]: - EdgesAlign[x0,2,5]
+   + IsElemFirstInGroup[x0,5] <= 0
+ LinkIsElemFirstInGroup1[x0,2,6]: - EdgesAlign[x0,2,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,2,7]: - EdgesAlign[x0,2,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,3,4]: - EdgesAlign[x0,3,4]
+   + IsElemFirstInGroup[x0,4] <= 0
+ LinkIsElemFirstInGroup1[x0,3,5]: - EdgesAlign[x0,3,5]
+   + IsElemFirstInGroup[x0,5] <= 0
+ LinkIsElemFirstInGroup1[x0,3,6]: - EdgesAlign[x0,3,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,3,7]: - EdgesAlign[x0,3,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,4,5]: - EdgesAlign[x0,4,5]
+   + IsElemFirstInGroup[x0,5] <= 0
+ LinkIsElemFirstInGroup1[x0,4,6]: - EdgesAlign[x0,4,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,4,7]: - EdgesAlign[x0,4,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,5,6]: - EdgesAlign[x0,5,6]
+   + IsElemFirstInGroup[x0,6] <= 0
+ LinkIsElemFirstInGroup1[x0,5,7]: - EdgesAlign[x0,5,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[x0,6,7]: - EdgesAlign[x0,6,7]
+   + IsElemFirstInGroup[x0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,0,1]: - EdgesAlign[y0,0,1]
+   + IsElemFirstInGroup[y0,1] <= 0
+ LinkIsElemFirstInGroup1[y0,0,2]: - EdgesAlign[y0,0,2]
+   + IsElemFirstInGroup[y0,2] <= 0
+ LinkIsElemFirstInGroup1[y0,0,3]: - EdgesAlign[y0,0,3]
+   + IsElemFirstInGroup[y0,3] <= 0
+ LinkIsElemFirstInGroup1[y0,0,4]: - EdgesAlign[y0,0,4]
+   + IsElemFirstInGroup[y0,4] <= 0
+ LinkIsElemFirstInGroup1[y0,0,5]: - EdgesAlign[y0,0,5]
+   + IsElemFirstInGroup[y0,5] <= 0
+ LinkIsElemFirstInGroup1[y0,0,6]: - EdgesAlign[y0,0,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,0,7]: - EdgesAlign[y0,0,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,1,2]: - EdgesAlign[y0,1,2]
+   + IsElemFirstInGroup[y0,2] <= 0
+ LinkIsElemFirstInGroup1[y0,1,3]: - EdgesAlign[y0,1,3]
+   + IsElemFirstInGroup[y0,3] <= 0
+ LinkIsElemFirstInGroup1[y0,1,4]: - EdgesAlign[y0,1,4]
+   + IsElemFirstInGroup[y0,4] <= 0
+ LinkIsElemFirstInGroup1[y0,1,5]: - EdgesAlign[y0,1,5]
+   + IsElemFirstInGroup[y0,5] <= 0
+ LinkIsElemFirstInGroup1[y0,1,6]: - EdgesAlign[y0,1,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,1,7]: - EdgesAlign[y0,1,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,2,3]: - EdgesAlign[y0,2,3]
+   + IsElemFirstInGroup[y0,3] <= 0
+ LinkIsElemFirstInGroup1[y0,2,4]: - EdgesAlign[y0,2,4]
+   + IsElemFirstInGroup[y0,4] <= 0
+ LinkIsElemFirstInGroup1[y0,2,5]: - EdgesAlign[y0,2,5]
+   + IsElemFirstInGroup[y0,5] <= 0
+ LinkIsElemFirstInGroup1[y0,2,6]: - EdgesAlign[y0,2,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,2,7]: - EdgesAlign[y0,2,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,3,4]: - EdgesAlign[y0,3,4]
+   + IsElemFirstInGroup[y0,4] <= 0
+ LinkIsElemFirstInGroup1[y0,3,5]: - EdgesAlign[y0,3,5]
+   + IsElemFirstInGroup[y0,5] <= 0
+ LinkIsElemFirstInGroup1[y0,3,6]: - EdgesAlign[y0,3,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,3,7]: - EdgesAlign[y0,3,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,4,5]: - EdgesAlign[y0,4,5]
+   + IsElemFirstInGroup[y0,5] <= 0
+ LinkIsElemFirstInGroup1[y0,4,6]: - EdgesAlign[y0,4,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,4,7]: - EdgesAlign[y0,4,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,5,6]: - EdgesAlign[y0,5,6]
+   + IsElemFirstInGroup[y0,6] <= 0
+ LinkIsElemFirstInGroup1[y0,5,7]: - EdgesAlign[y0,5,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[y0,6,7]: - EdgesAlign[y0,6,7]
+   + IsElemFirstInGroup[y0,7] <= 0
+ LinkIsElemFirstInGroup1[x1,0,1]: - EdgesAlign[x1,0,1]
+   + IsElemFirstInGroup[x1,1] <= 0
+ LinkIsElemFirstInGroup1[x1,0,2]: - EdgesAlign[x1,0,2]
+   + IsElemFirstInGroup[x1,2] <= 0
+ LinkIsElemFirstInGroup1[x1,0,3]: - EdgesAlign[x1,0,3]
+   + IsElemFirstInGroup[x1,3] <= 0
+ LinkIsElemFirstInGroup1[x1,0,4]: - EdgesAlign[x1,0,4]
+   + IsElemFirstInGroup[x1,4] <= 0
+ LinkIsElemFirstInGroup1[x1,0,5]: - EdgesAlign[x1,0,5]
+   + IsElemFirstInGroup[x1,5] <= 0
+ LinkIsElemFirstInGroup1[x1,0,6]: - EdgesAlign[x1,0,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,0,7]: - EdgesAlign[x1,0,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,1,2]: - EdgesAlign[x1,1,2]
+   + IsElemFirstInGroup[x1,2] <= 0
+ LinkIsElemFirstInGroup1[x1,1,3]: - EdgesAlign[x1,1,3]
+   + IsElemFirstInGroup[x1,3] <= 0
+ LinkIsElemFirstInGroup1[x1,1,4]: - EdgesAlign[x1,1,4]
+   + IsElemFirstInGroup[x1,4] <= 0
+ LinkIsElemFirstInGroup1[x1,1,5]: - EdgesAlign[x1,1,5]
+   + IsElemFirstInGroup[x1,5] <= 0
+ LinkIsElemFirstInGroup1[x1,1,6]: - EdgesAlign[x1,1,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,1,7]: - EdgesAlign[x1,1,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,2,3]: - EdgesAlign[x1,2,3]
+   + IsElemFirstInGroup[x1,3] <= 0
+ LinkIsElemFirstInGroup1[x1,2,4]: - EdgesAlign[x1,2,4]
+   + IsElemFirstInGroup[x1,4] <= 0
+ LinkIsElemFirstInGroup1[x1,2,5]: - EdgesAlign[x1,2,5]
+   + IsElemFirstInGroup[x1,5] <= 0
+ LinkIsElemFirstInGroup1[x1,2,6]: - EdgesAlign[x1,2,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,2,7]: - EdgesAlign[x1,2,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,3,4]: - EdgesAlign[x1,3,4]
+   + IsElemFirstInGroup[x1,4] <= 0
+ LinkIsElemFirstInGroup1[x1,3,5]: - EdgesAlign[x1,3,5]
+   + IsElemFirstInGroup[x1,5] <= 0
+ LinkIsElemFirstInGroup1[x1,3,6]: - EdgesAlign[x1,3,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,3,7]: - EdgesAlign[x1,3,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,4,5]: - EdgesAlign[x1,4,5]
+   + IsElemFirstInGroup[x1,5] <= 0
+ LinkIsElemFirstInGroup1[x1,4,6]: - EdgesAlign[x1,4,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,4,7]: - EdgesAlign[x1,4,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,5,6]: - EdgesAlign[x1,5,6]
+   + IsElemFirstInGroup[x1,6] <= 0
+ LinkIsElemFirstInGroup1[x1,5,7]: - EdgesAlign[x1,5,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[x1,6,7]: - EdgesAlign[x1,6,7]
+   + IsElemFirstInGroup[x1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,0,1]: - EdgesAlign[y1,0,1]
+   + IsElemFirstInGroup[y1,1] <= 0
+ LinkIsElemFirstInGroup1[y1,0,2]: - EdgesAlign[y1,0,2]
+   + IsElemFirstInGroup[y1,2] <= 0
+ LinkIsElemFirstInGroup1[y1,0,3]: - EdgesAlign[y1,0,3]
+   + IsElemFirstInGroup[y1,3] <= 0
+ LinkIsElemFirstInGroup1[y1,0,4]: - EdgesAlign[y1,0,4]
+   + IsElemFirstInGroup[y1,4] <= 0
+ LinkIsElemFirstInGroup1[y1,0,5]: - EdgesAlign[y1,0,5]
+   + IsElemFirstInGroup[y1,5] <= 0
+ LinkIsElemFirstInGroup1[y1,0,6]: - EdgesAlign[y1,0,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,0,7]: - EdgesAlign[y1,0,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,1,2]: - EdgesAlign[y1,1,2]
+   + IsElemFirstInGroup[y1,2] <= 0
+ LinkIsElemFirstInGroup1[y1,1,3]: - EdgesAlign[y1,1,3]
+   + IsElemFirstInGroup[y1,3] <= 0
+ LinkIsElemFirstInGroup1[y1,1,4]: - EdgesAlign[y1,1,4]
+   + IsElemFirstInGroup[y1,4] <= 0
+ LinkIsElemFirstInGroup1[y1,1,5]: - EdgesAlign[y1,1,5]
+   + IsElemFirstInGroup[y1,5] <= 0
+ LinkIsElemFirstInGroup1[y1,1,6]: - EdgesAlign[y1,1,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,1,7]: - EdgesAlign[y1,1,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,2,3]: - EdgesAlign[y1,2,3]
+   + IsElemFirstInGroup[y1,3] <= 0
+ LinkIsElemFirstInGroup1[y1,2,4]: - EdgesAlign[y1,2,4]
+   + IsElemFirstInGroup[y1,4] <= 0
+ LinkIsElemFirstInGroup1[y1,2,5]: - EdgesAlign[y1,2,5]
+   + IsElemFirstInGroup[y1,5] <= 0
+ LinkIsElemFirstInGroup1[y1,2,6]: - EdgesAlign[y1,2,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,2,7]: - EdgesAlign[y1,2,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,3,4]: - EdgesAlign[y1,3,4]
+   + IsElemFirstInGroup[y1,4] <= 0
+ LinkIsElemFirstInGroup1[y1,3,5]: - EdgesAlign[y1,3,5]
+   + IsElemFirstInGroup[y1,5] <= 0
+ LinkIsElemFirstInGroup1[y1,3,6]: - EdgesAlign[y1,3,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,3,7]: - EdgesAlign[y1,3,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,4,5]: - EdgesAlign[y1,4,5]
+   + IsElemFirstInGroup[y1,5] <= 0
+ LinkIsElemFirstInGroup1[y1,4,6]: - EdgesAlign[y1,4,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,4,7]: - EdgesAlign[y1,4,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,5,6]: - EdgesAlign[y1,5,6]
+   + IsElemFirstInGroup[y1,6] <= 0
+ LinkIsElemFirstInGroup1[y1,5,7]: - EdgesAlign[y1,5,7]
+   + IsElemFirstInGroup[y1,7] <= 0
+ LinkIsElemFirstInGroup1[y1,6,7]: - EdgesAlign[y1,6,7]
+   + IsElemFirstInGroup[y1,7] <= 0
  LinkNumberOfGroups[x0]: - IsElemFirstInGroup[x0,0]
    - IsElemFirstInGroup[x0,1] - IsElemFirstInGroup[x0,2]
    - IsElemFirstInGroup[x0,3] - IsElemFirstInGroup[x0,4]
@@ -920,232 +936,88 @@ Subject To
    - IsElemFirstInGroup[y1,3] - IsElemFirstInGroup[y1,4]
    - IsElemFirstInGroup[y1,5] - IsElemFirstInGroup[y1,6]
    - IsElemFirstInGroup[y1,7] + NumberOfGroups[y1] = 0
- R388: NumberOfGroups[x0] + NumberOfGroups[y0] + NumberOfGroups[x1]
-   + NumberOfGroups[y1] >= 12
- LinkIsElemFirstInGroup2[x0,0,1]: IsElemFirstInGroup[x0,1] = 0 ->
-   EdgesAlign[x0,0,1] = -0
- LinkIsElemFirstInGroup2[x0,0,2]: IsElemFirstInGroup[x0,2] = 0 ->
-   EdgesAlign[x0,0,2] = -0
- LinkIsElemFirstInGroup2[x0,0,3]: IsElemFirstInGroup[x0,3] = 0 ->
-   EdgesAlign[x0,0,3] = -0
- LinkIsElemFirstInGroup2[x0,0,4]: IsElemFirstInGroup[x0,4] = 0 ->
-   EdgesAlign[x0,0,4] = -0
- LinkIsElemFirstInGroup2[x0,0,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,0,5] = -0
- LinkIsElemFirstInGroup2[x0,0,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,0,6] = -0
- LinkIsElemFirstInGroup2[x0,0,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,0,7] = -0
- LinkIsElemFirstInGroup2[x0,1,2]: IsElemFirstInGroup[x0,2] = 0 ->
-   EdgesAlign[x0,1,2] = -0
- LinkIsElemFirstInGroup2[x0,1,3]: IsElemFirstInGroup[x0,3] = 0 ->
-   EdgesAlign[x0,1,3] = -0
- LinkIsElemFirstInGroup2[x0,1,4]: IsElemFirstInGroup[x0,4] = 0 ->
-   EdgesAlign[x0,1,4] = -0
- LinkIsElemFirstInGroup2[x0,1,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,1,5] = -0
- LinkIsElemFirstInGroup2[x0,1,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,1,6] = -0
- LinkIsElemFirstInGroup2[x0,1,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,1,7] = -0
- LinkIsElemFirstInGroup2[x0,2,3]: IsElemFirstInGroup[x0,3] = 0 ->
-   EdgesAlign[x0,2,3] = -0
- LinkIsElemFirstInGroup2[x0,2,4]: IsElemFirstInGroup[x0,4] = 0 ->
-   EdgesAlign[x0,2,4] = -0
- LinkIsElemFirstInGroup2[x0,2,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,2,5] = -0
- LinkIsElemFirstInGroup2[x0,2,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,2,6] = -0
- LinkIsElemFirstInGroup2[x0,2,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,2,7] = -0
- LinkIsElemFirstInGroup2[x0,3,4]: IsElemFirstInGroup[x0,4] = 0 ->
-   EdgesAlign[x0,3,4] = -0
- LinkIsElemFirstInGroup2[x0,3,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,3,5] = -0
- LinkIsElemFirstInGroup2[x0,3,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,3,6] = -0
- LinkIsElemFirstInGroup2[x0,3,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,3,7] = -0
- LinkIsElemFirstInGroup2[x0,4,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,4,5] = -0
- LinkIsElemFirstInGroup2[x0,4,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,4,6] = -0
- LinkIsElemFirstInGroup2[x0,4,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,4,7] = -0
- LinkIsElemFirstInGroup2[x0,5,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,5,6] = -0
- LinkIsElemFirstInGroup2[x0,5,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,5,7] = -0
- LinkIsElemFirstInGroup2[x0,6,7]: IsElemFirstInGroup[x0,7] = 0 ->
-   EdgesAlign[x0,6,7] = -0
- LinkIsElemFirstInGroup2[y0,0,1]: IsElemFirstInGroup[y0,1] = 0 ->
-   EdgesAlign[y0,0,1] = -0
- LinkIsElemFirstInGroup2[y0,0,2]: IsElemFirstInGroup[y0,2] = 0 ->
-   EdgesAlign[y0,0,2] = -0
- LinkIsElemFirstInGroup2[y0,0,3]: IsElemFirstInGroup[y0,3] = 0 ->
-   EdgesAlign[y0,0,3] = -0
- LinkIsElemFirstInGroup2[y0,0,4]: IsElemFirstInGroup[y0,4] = 0 ->
-   EdgesAlign[y0,0,4] = -0
- LinkIsElemFirstInGroup2[y0,0,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,0,5] = -0
- LinkIsElemFirstInGroup2[y0,0,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,0,6] = -0
- LinkIsElemFirstInGroup2[y0,0,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,0,7] = -0
- LinkIsElemFirstInGroup2[y0,1,2]: IsElemFirstInGroup[y0,2] = 0 ->
-   EdgesAlign[y0,1,2] = -0
- LinkIsElemFirstInGroup2[y0,1,3]: IsElemFirstInGroup[y0,3] = 0 ->
-   EdgesAlign[y0,1,3] = -0
- LinkIsElemFirstInGroup2[y0,1,4]: IsElemFirstInGroup[y0,4] = 0 ->
-   EdgesAlign[y0,1,4] = -0
- LinkIsElemFirstInGroup2[y0,1,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,1,5] = -0
- LinkIsElemFirstInGroup2[y0,1,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,1,6] = -0
- LinkIsElemFirstInGroup2[y0,1,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,1,7] = -0
- LinkIsElemFirstInGroup2[y0,2,3]: IsElemFirstInGroup[y0,3] = 0 ->
-   EdgesAlign[y0,2,3] = -0
- LinkIsElemFirstInGroup2[y0,2,4]: IsElemFirstInGroup[y0,4] = 0 ->
-   EdgesAlign[y0,2,4] = -0
- LinkIsElemFirstInGroup2[y0,2,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,2,5] = -0
- LinkIsElemFirstInGroup2[y0,2,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,2,6] = -0
- LinkIsElemFirstInGroup2[y0,2,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,2,7] = -0
- LinkIsElemFirstInGroup2[y0,3,4]: IsElemFirstInGroup[y0,4] = 0 ->
-   EdgesAlign[y0,3,4] = -0
- LinkIsElemFirstInGroup2[y0,3,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,3,5] = -0
- LinkIsElemFirstInGroup2[y0,3,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,3,6] = -0
- LinkIsElemFirstInGroup2[y0,3,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,3,7] = -0
- LinkIsElemFirstInGroup2[y0,4,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,4,5] = -0
- LinkIsElemFirstInGroup2[y0,4,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,4,6] = -0
- LinkIsElemFirstInGroup2[y0,4,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,4,7] = -0
- LinkIsElemFirstInGroup2[y0,5,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,5,6] = -0
- LinkIsElemFirstInGroup2[y0,5,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,5,7] = -0
- LinkIsElemFirstInGroup2[y0,6,7]: IsElemFirstInGroup[y0,7] = 0 ->
-   EdgesAlign[y0,6,7] = -0
- LinkIsElemFirstInGroup2[x1,0,1]: IsElemFirstInGroup[x1,1] = 0 ->
-   EdgesAlign[x1,0,1] = -0
- LinkIsElemFirstInGroup2[x1,0,2]: IsElemFirstInGroup[x1,2] = 0 ->
-   EdgesAlign[x1,0,2] = -0
- LinkIsElemFirstInGroup2[x1,0,3]: IsElemFirstInGroup[x1,3] = 0 ->
-   EdgesAlign[x1,0,3] = -0
- LinkIsElemFirstInGroup2[x1,0,4]: IsElemFirstInGroup[x1,4] = 0 ->
-   EdgesAlign[x1,0,4] = -0
- LinkIsElemFirstInGroup2[x1,0,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,0,5] = -0
- LinkIsElemFirstInGroup2[x1,0,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,0,6] = -0
- LinkIsElemFirstInGroup2[x1,0,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,0,7] = -0
- LinkIsElemFirstInGroup2[x1,1,2]: IsElemFirstInGroup[x1,2] = 0 ->
-   EdgesAlign[x1,1,2] = -0
- LinkIsElemFirstInGroup2[x1,1,3]: IsElemFirstInGroup[x1,3] = 0 ->
-   EdgesAlign[x1,1,3] = -0
- LinkIsElemFirstInGroup2[x1,1,4]: IsElemFirstInGroup[x1,4] = 0 ->
-   EdgesAlign[x1,1,4] = -0
- LinkIsElemFirstInGroup2[x1,1,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,1,5] = -0
- LinkIsElemFirstInGroup2[x1,1,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,1,6] = -0
- LinkIsElemFirstInGroup2[x1,1,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,1,7] = -0
- LinkIsElemFirstInGroup2[x1,2,3]: IsElemFirstInGroup[x1,3] = 0 ->
-   EdgesAlign[x1,2,3] = -0
- LinkIsElemFirstInGroup2[x1,2,4]: IsElemFirstInGroup[x1,4] = 0 ->
-   EdgesAlign[x1,2,4] = -0
- LinkIsElemFirstInGroup2[x1,2,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,2,5] = -0
- LinkIsElemFirstInGroup2[x1,2,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,2,6] = -0
- LinkIsElemFirstInGroup2[x1,2,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,2,7] = -0
- LinkIsElemFirstInGroup2[x1,3,4]: IsElemFirstInGroup[x1,4] = 0 ->
-   EdgesAlign[x1,3,4] = -0
- LinkIsElemFirstInGroup2[x1,3,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,3,5] = -0
- LinkIsElemFirstInGroup2[x1,3,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,3,6] = -0
- LinkIsElemFirstInGroup2[x1,3,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,3,7] = -0
- LinkIsElemFirstInGroup2[x1,4,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,4,5] = -0
- LinkIsElemFirstInGroup2[x1,4,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,4,6] = -0
- LinkIsElemFirstInGroup2[x1,4,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,4,7] = -0
- LinkIsElemFirstInGroup2[x1,5,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,5,6] = -0
- LinkIsElemFirstInGroup2[x1,5,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,5,7] = -0
- LinkIsElemFirstInGroup2[x1,6,7]: IsElemFirstInGroup[x1,7] = 0 ->
-   EdgesAlign[x1,6,7] = -0
- LinkIsElemFirstInGroup2[y1,0,1]: IsElemFirstInGroup[y1,1] = 0 ->
-   EdgesAlign[y1,0,1] = -0
- LinkIsElemFirstInGroup2[y1,0,2]: IsElemFirstInGroup[y1,2] = 0 ->
-   EdgesAlign[y1,0,2] = -0
- LinkIsElemFirstInGroup2[y1,0,3]: IsElemFirstInGroup[y1,3] = 0 ->
-   EdgesAlign[y1,0,3] = -0
- LinkIsElemFirstInGroup2[y1,0,4]: IsElemFirstInGroup[y1,4] = 0 ->
-   EdgesAlign[y1,0,4] = -0
- LinkIsElemFirstInGroup2[y1,0,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,0,5] = -0
- LinkIsElemFirstInGroup2[y1,0,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,0,6] = -0
- LinkIsElemFirstInGroup2[y1,0,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,0,7] = -0
- LinkIsElemFirstInGroup2[y1,1,2]: IsElemFirstInGroup[y1,2] = 0 ->
-   EdgesAlign[y1,1,2] = -0
- LinkIsElemFirstInGroup2[y1,1,3]: IsElemFirstInGroup[y1,3] = 0 ->
-   EdgesAlign[y1,1,3] = -0
- LinkIsElemFirstInGroup2[y1,1,4]: IsElemFirstInGroup[y1,4] = 0 ->
-   EdgesAlign[y1,1,4] = -0
- LinkIsElemFirstInGroup2[y1,1,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,1,5] = -0
- LinkIsElemFirstInGroup2[y1,1,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,1,6] = -0
- LinkIsElemFirstInGroup2[y1,1,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,1,7] = -0
- LinkIsElemFirstInGroup2[y1,2,3]: IsElemFirstInGroup[y1,3] = 0 ->
-   EdgesAlign[y1,2,3] = -0
- LinkIsElemFirstInGroup2[y1,2,4]: IsElemFirstInGroup[y1,4] = 0 ->
-   EdgesAlign[y1,2,4] = -0
- LinkIsElemFirstInGroup2[y1,2,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,2,5] = -0
- LinkIsElemFirstInGroup2[y1,2,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,2,6] = -0
- LinkIsElemFirstInGroup2[y1,2,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,2,7] = -0
- LinkIsElemFirstInGroup2[y1,3,4]: IsElemFirstInGroup[y1,4] = 0 ->
-   EdgesAlign[y1,3,4] = -0
- LinkIsElemFirstInGroup2[y1,3,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,3,5] = -0
- LinkIsElemFirstInGroup2[y1,3,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,3,6] = -0
- LinkIsElemFirstInGroup2[y1,3,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,3,7] = -0
- LinkIsElemFirstInGroup2[y1,4,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,4,5] = -0
- LinkIsElemFirstInGroup2[y1,4,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,4,6] = -0
- LinkIsElemFirstInGroup2[y1,4,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,4,7] = -0
- LinkIsElemFirstInGroup2[y1,5,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,5,6] = -0
- LinkIsElemFirstInGroup2[y1,5,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,5,7] = -0
- LinkIsElemFirstInGroup2[y1,6,7]: IsElemFirstInGroup[y1,7] = 0 ->
-   EdgesAlign[y1,6,7] = -0
+ Prevent_over-optimization: NumberOfGroups[x0] + NumberOfGroups[y0]
+   + NumberOfGroups[x1] + NumberOfGroups[y1] >= 12
+ LinkIsElemFirstInGroup2[x0,0]: IsElemFirstInGroup[x0,0] = 0 -> <= -1
+ LinkIsElemFirstInGroup2[x0,1]: IsElemFirstInGroup[x0,1] = 0 ->
+   EdgesAlign[x0,0,1] <= -0
+ LinkIsElemFirstInGroup2[x0,2]: IsElemFirstInGroup[x0,2] = 0 ->
+   EdgesAlign[x0,0,2] + EdgesAlign[x0,1,2] <= 1
+ LinkIsElemFirstInGroup2[x0,3]: IsElemFirstInGroup[x0,3] = 0 ->
+   EdgesAlign[x0,0,3] + EdgesAlign[x0,1,3] + EdgesAlign[x0,2,3] <= 2
+ LinkIsElemFirstInGroup2[x0,4]: IsElemFirstInGroup[x0,4] = 0 ->
+   EdgesAlign[x0,0,4] + EdgesAlign[x0,1,4] + EdgesAlign[x0,2,4]
+   + EdgesAlign[x0,3,4] <= 3
+ LinkIsElemFirstInGroup2[x0,5]: IsElemFirstInGroup[x0,5] = 0 ->
+   EdgesAlign[x0,0,5] + EdgesAlign[x0,1,5] + EdgesAlign[x0,2,5]
+   + EdgesAlign[x0,3,5] + EdgesAlign[x0,4,5] <= 4
+ LinkIsElemFirstInGroup2[x0,6]: IsElemFirstInGroup[x0,6] = 0 ->
+   EdgesAlign[x0,0,6] + EdgesAlign[x0,1,6] + EdgesAlign[x0,2,6]
+   + EdgesAlign[x0,3,6] + EdgesAlign[x0,4,6] + EdgesAlign[x0,5,6] <= 5
+ LinkIsElemFirstInGroup2[x0,7]: IsElemFirstInGroup[x0,7] = 0 ->
+   EdgesAlign[x0,0,7] + EdgesAlign[x0,1,7] + EdgesAlign[x0,2,7]
+   + EdgesAlign[x0,3,7] + EdgesAlign[x0,4,7] + EdgesAlign[x0,5,7]
+   + EdgesAlign[x0,6,7] <= 6
+ LinkIsElemFirstInGroup2[y0,0]: IsElemFirstInGroup[y0,0] = 0 -> <= -1
+ LinkIsElemFirstInGroup2[y0,1]: IsElemFirstInGroup[y0,1] = 0 ->
+   EdgesAlign[y0,0,1] <= -0
+ LinkIsElemFirstInGroup2[y0,2]: IsElemFirstInGroup[y0,2] = 0 ->
+   EdgesAlign[y0,0,2] + EdgesAlign[y0,1,2] <= 1
+ LinkIsElemFirstInGroup2[y0,3]: IsElemFirstInGroup[y0,3] = 0 ->
+   EdgesAlign[y0,0,3] + EdgesAlign[y0,1,3] + EdgesAlign[y0,2,3] <= 2
+ LinkIsElemFirstInGroup2[y0,4]: IsElemFirstInGroup[y0,4] = 0 ->
+   EdgesAlign[y0,0,4] + EdgesAlign[y0,1,4] + EdgesAlign[y0,2,4]
+   + EdgesAlign[y0,3,4] <= 3
+ LinkIsElemFirstInGroup2[y0,5]: IsElemFirstInGroup[y0,5] = 0 ->
+   EdgesAlign[y0,0,5] + EdgesAlign[y0,1,5] + EdgesAlign[y0,2,5]
+   + EdgesAlign[y0,3,5] + EdgesAlign[y0,4,5] <= 4
+ LinkIsElemFirstInGroup2[y0,6]: IsElemFirstInGroup[y0,6] = 0 ->
+   EdgesAlign[y0,0,6] + EdgesAlign[y0,1,6] + EdgesAlign[y0,2,6]
+   + EdgesAlign[y0,3,6] + EdgesAlign[y0,4,6] + EdgesAlign[y0,5,6] <= 5
+ LinkIsElemFirstInGroup2[y0,7]: IsElemFirstInGroup[y0,7] = 0 ->
+   EdgesAlign[y0,0,7] + EdgesAlign[y0,1,7] + EdgesAlign[y0,2,7]
+   + EdgesAlign[y0,3,7] + EdgesAlign[y0,4,7] + EdgesAlign[y0,5,7]
+   + EdgesAlign[y0,6,7] <= 6
+ LinkIsElemFirstInGroup2[x1,0]: IsElemFirstInGroup[x1,0] = 0 -> <= -1
+ LinkIsElemFirstInGroup2[x1,1]: IsElemFirstInGroup[x1,1] = 0 ->
+   EdgesAlign[x1,0,1] <= -0
+ LinkIsElemFirstInGroup2[x1,2]: IsElemFirstInGroup[x1,2] = 0 ->
+   EdgesAlign[x1,0,2] + EdgesAlign[x1,1,2] <= 1
+ LinkIsElemFirstInGroup2[x1,3]: IsElemFirstInGroup[x1,3] = 0 ->
+   EdgesAlign[x1,0,3] + EdgesAlign[x1,1,3] + EdgesAlign[x1,2,3] <= 2
+ LinkIsElemFirstInGroup2[x1,4]: IsElemFirstInGroup[x1,4] = 0 ->
+   EdgesAlign[x1,0,4] + EdgesAlign[x1,1,4] + EdgesAlign[x1,2,4]
+   + EdgesAlign[x1,3,4] <= 3
+ LinkIsElemFirstInGroup2[x1,5]: IsElemFirstInGroup[x1,5] = 0 ->
+   EdgesAlign[x1,0,5] + EdgesAlign[x1,1,5] + EdgesAlign[x1,2,5]
+   + EdgesAlign[x1,3,5] + EdgesAlign[x1,4,5] <= 4
+ LinkIsElemFirstInGroup2[x1,6]: IsElemFirstInGroup[x1,6] = 0 ->
+   EdgesAlign[x1,0,6] + EdgesAlign[x1,1,6] + EdgesAlign[x1,2,6]
+   + EdgesAlign[x1,3,6] + EdgesAlign[x1,4,6] + EdgesAlign[x1,5,6] <= 5
+ LinkIsElemFirstInGroup2[x1,7]: IsElemFirstInGroup[x1,7] = 0 ->
+   EdgesAlign[x1,0,7] + EdgesAlign[x1,1,7] + EdgesAlign[x1,2,7]
+   + EdgesAlign[x1,3,7] + EdgesAlign[x1,4,7] + EdgesAlign[x1,5,7]
+   + EdgesAlign[x1,6,7] <= 6
+ LinkIsElemFirstInGroup2[y1,0]: IsElemFirstInGroup[y1,0] = 0 -> <= -1
+ LinkIsElemFirstInGroup2[y1,1]: IsElemFirstInGroup[y1,1] = 0 ->
+   EdgesAlign[y1,0,1] <= -0
+ LinkIsElemFirstInGroup2[y1,2]: IsElemFirstInGroup[y1,2] = 0 ->
+   EdgesAlign[y1,0,2] + EdgesAlign[y1,1,2] <= 1
+ LinkIsElemFirstInGroup2[y1,3]: IsElemFirstInGroup[y1,3] = 0 ->
+   EdgesAlign[y1,0,3] + EdgesAlign[y1,1,3] + EdgesAlign[y1,2,3] <= 2
+ LinkIsElemFirstInGroup2[y1,4]: IsElemFirstInGroup[y1,4] = 0 ->
+   EdgesAlign[y1,0,4] + EdgesAlign[y1,1,4] + EdgesAlign[y1,2,4]
+   + EdgesAlign[y1,3,4] <= 3
+ LinkIsElemFirstInGroup2[y1,5]: IsElemFirstInGroup[y1,5] = 0 ->
+   EdgesAlign[y1,0,5] + EdgesAlign[y1,1,5] + EdgesAlign[y1,2,5]
+   + EdgesAlign[y1,3,5] + EdgesAlign[y1,4,5] <= 4
+ LinkIsElemFirstInGroup2[y1,6]: IsElemFirstInGroup[y1,6] = 0 ->
+   EdgesAlign[y1,0,6] + EdgesAlign[y1,1,6] + EdgesAlign[y1,2,6]
+   + EdgesAlign[y1,3,6] + EdgesAlign[y1,4,6] + EdgesAlign[y1,5,6] <= 5
+ LinkIsElemFirstInGroup2[y1,7]: IsElemFirstInGroup[y1,7] = 0 ->
+   EdgesAlign[y1,0,7] + EdgesAlign[y1,1,7] + EdgesAlign[y1,2,7]
+   + EdgesAlign[y1,3,7] + EdgesAlign[y1,4,7] + EdgesAlign[y1,5,7]
+   + EdgesAlign[y1,6,7] <= 6
 Bounds
 Binaries
  EdgesAlign[x0,0,0] EdgesAlign[x0,0,1] EdgesAlign[x0,0,2]

@@ -20,6 +20,14 @@ def solve(layout: Layout):
 
         # Element coordinates (in multiples of grid size)
         edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
+        m.addConstrs((
+            edge_coord['x0', i] <= edge_coord['x1', i] - 1
+            for i in elem_indices
+        ), name='X0X1Sanity')
+        m.addConstrs((
+            edge_coord['y0', i] <= edge_coord['y1', i] - 1
+            for i in elem_indices
+        ), name='Y0Y1Sanity')
         '''
         x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
         y0 = m.addVars(n, vtype=GRB.INTEGER, name='Y0')
@@ -45,19 +53,19 @@ def solve(layout: Layout):
 
 
         # VAR element edge distance 4*n*n
-        edge_distance = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistance')
+        edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistance')
         m.addConstrs((
-            edge_distance[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
+            edge_diff[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgeDistance')
-        edge_distance_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
+        edge_diff_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
         m.addConstrs((
-            edge_distance_abs[edge, i1, i2] == abs_(edge_distance[edge, i1, i2])
+            edge_diff_abs[edge, i1, i2] == abs_(edge_diff[edge, i1, i2])
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgeDistanceAbs')
-        edges_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
+        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
         m.addConstrs((
-            edges_align[edge, i1, i2] == min_(1, edge_distance_abs[edge, i1, i2])
+            edges_dont_align[edge, i1, i2] == min_(1, edge_diff_abs[edge, i1, i2])
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgesAlign')
 
@@ -65,13 +73,13 @@ def solve(layout: Layout):
         is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
         m.addConstrs((
             # Forces variable to zero if it is aligned with any previous element
-            is_elem_first_in_group[edge, i2] <= 1 - edges_align[edge, i1, i2]
+            is_elem_first_in_group[edge, i2] <= edges_dont_align[edge, i1, i2]
             for edge, (i1, i2) in product(edge_indices, combinations(elem_indices, 2))
         ), name='LinkIsElemFirstInGroup1')
         m.addConstrs((
-            # Ensures that if variable is zero, the element doesn’t align with any previous one
-            (is_elem_first_in_group[edge, i2] == 0) >> (edges_align[edge, i1, i2] == 0)
-            for edge, (i1, i2) in product(edge_indices, combinations(elem_indices, 2))
+            # Ensures that if variable is zero, the element aligns at least one previous element
+            (is_elem_first_in_group[edge, i] == 0) >> (LinExpr([1]*i, [edges_dont_align[edge, prev, i] for prev in range(i)]) <= i - 1)
+            for edge, i in product(edge_indices, elem_indices)
         ), name='LinkIsElemFirstInGroup2')
 
         number_of_groups = m.addVars(edge_indices, vtype=GRB.INTEGER, name='NumberOfGroups')
@@ -87,7 +95,7 @@ def solve(layout: Layout):
 
         number_of_groups_expr = LinExpr()
         number_of_groups_expr.add(number_of_groups.sum())
-        m.addConstr(number_of_groups_expr >= compute_minimum_grid(n))
+        #m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
         m.setObjective(number_of_groups_expr, GRB.MINIMIZE)
 
         # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
@@ -105,6 +113,8 @@ def solve(layout: Layout):
         m.write("output/SimoPracticeModel.lp")
 
         m.optimize()
+
+        #print('Number of groups', number_of_groups_expr.getValue())
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
