@@ -1,7 +1,7 @@
-from itertools import product
+from itertools import combinations, product
 from math import factorial, sqrt
 
-from gurobipy import GRB, LinExpr, Model, tupledict, max_, min_
+from gurobipy import GRB, LinExpr, Model, tupledict, abs_, max_, min_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
@@ -14,139 +14,130 @@ def solve(layout: Layout):
     elem_indices = range(n)
     edge_indices = ['x0', 'y0', 'x1', 'y1']
 
-    # VARIABLES
+    try:
 
-    # Element coordinates (in multiples of grid size)
-    edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
-    '''
-    x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
-    y0 = m.addVars(n, vtype=GRB.INTEGER, name='Y0')
-    x1 = m.addVars(n, vtype=GRB.INTEGER, name='X1')
-    y1 = m.addVars(n, vtype=GRB.INTEGER, name='Y1')
-    '''
+        # VARIABLES
 
-    # Element size (in multiples of grid size)
-    w = m.addVars(n, vtype=GRB.INTEGER, name='W')
-    h = m.addVars(n, vtype=GRB.INTEGER, name='H')
-    # Bind width and height to the coordinates
-    m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
-    m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
+        # Element coordinates (in multiples of grid size)
+        edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
+        '''
+        x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+        y0 = m.addVars(n, vtype=GRB.INTEGER, name='Y0')
+        x1 = m.addVars(n, vtype=GRB.INTEGER, name='X1')
+        y1 = m.addVars(n, vtype=GRB.INTEGER, name='Y1')
+        '''
 
-    # EXPL: OLD
-    # TODO: 4x *ag [n BOOL]: alignment group enabled
-    # TODO: 4x v_*ag [n INT]: position of alignment group
-    # TODO: 4x at_*ag [n*n BOOL]: whether element is using alignment group
+        # Element size (in multiples of grid size)
+        w = m.addVars(n, vtype=GRB.INTEGER, name='W')
+        h = m.addVars(n, vtype=GRB.INTEGER, name='H')
+        # Bind width and height to the coordinates
+        m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
+        m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
 
-    # EXPL: ALT
-    # 4x sharing_*ag [n*n BOOL]: whether corresponding edges of two elements align
-    # 3D matrix with shape 4*n*n
-    m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='ElementEdgesAlign')
-    m.addConstrs((
-        edge_coord[edge, i1] == edge_coord[edge, i2]
-        for edge, i1, i2
-        in product(edge_indices, elem_indices, elem_indices)
-    ), name='LinkElementEdgesAlign')
+        # EXPL: OLD
+        # TODO: 4x *ag [n BOOL]: alignment group enabled
+        # TODO: 4x v_*ag [n INT]: position of alignment group
+        # TODO: 4x at_*ag [n*n BOOL]: whether element is using alignment group
 
-    # Number of elements sharing an edge
-    count_aligned_elements = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='AlignedElementCount')
+        # EXPL: ALT
+        # 4x sharing_*ag [n*n BOOL]: whether corresponding edges of two elements align
+        # 3D matrix with shape 4*n*n
 
-    # OBJECTIVES
 
-    # Minimize number of grid lines
+        # VAR element edge distance 4*n*n
+        edge_distance = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistance')
+        m.addConstrs((
+            edge_distance[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgeDistance')
+        edge_distance_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
+        m.addConstrs((
+            edge_distance_abs[edge, i1, i2] == abs_(edge_distance[edge, i1, i2])
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgeDistanceAbs')
+        edges_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
+        m.addConstrs((
+            edges_align[edge, i1, i2] == min_(1, edge_distance_abs[edge, i1, i2])
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgesAlign')
 
-    # TODO: check if this needs to multiplied by factorial(n) to keep it as an integer
-    inv_count_aligned_elements = m.addVars(edge_indices, elem_indices, vtype=GRB.CONTINUOUS, name='InverseOfAlignedElementCount')
-    '''m.addConstrs((
-    inv_count_aligned_elements[edge, i] * count_aligned_elements[edge, i] == 1
-    for edge, i
-    in product(edge_indices, elem_indices)
-), name='InvertAlignedElementCount')'''
+        # 0 if element is aligned with another element that comes before it, else 1
+        is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
+        m.addConstrs((
+            # Forces variable to zero if it is aligned with any previous element
+            is_elem_first_in_group[edge, i2] <= 1 - edges_align[edge, i1, i2]
+            for edge, (i1, i2) in product(edge_indices, combinations(elem_indices, 2))
+        ), name='LinkIsElemFirstInGroup1')
+        m.addConstrs((
+            # Ensures that if variable is zero, the element doesn’t align with any previous one
+            (is_elem_first_in_group[edge, i2] == 0) >> (edges_align[edge, i1, i2] == 0)
+            for edge, (i1, i2) in product(edge_indices, combinations(elem_indices, 2))
+        ), name='LinkIsElemFirstInGroup2')
 
-    count_grid_lines = m.addVars(edge_indices, vtype=GRB.INTEGER, name='GridLineCount')
-    m.addConstrs((count_grid_lines[edge] == inv_count_aligned_elements.sum(edge, '*') for edge in edge_indices), name='LinkGridLineCount')
+        number_of_groups = m.addVars(edge_indices, vtype=GRB.INTEGER, name='NumberOfGroups')
+        m.addConstrs((
+            number_of_groups[edge] == is_elem_first_in_group.sum(edge, '*')
+            for edge in edge_indices
+        ), name='LinkNumberOfGroups')
 
-    total_grid_lines_expr = count_grid_lines.sum()
-    # Set a minimum constraint to prevent the optimizer from trying to over-optimize
-    m.addConstr(total_grid_lines_expr >= compute_minimum_grid(layout.n))
+        # OBJECTIVES
 
-    # Minimize overlap
-    # TODO: consider trying to preserve existing overlaps
-    left_overlap = m.addVars(elem_indices, elem_indices, vtype=GRB.INTEGER, name='LeftOverlap')
-    m.addConstrs((
-        left_overlap[i1, i2] == edge_coord['x1', i2] - edge_coord['x0', i1]
-        for i1, i2 in product(elem_indices, elem_indices)
-    ), name='LinkLeftOverlap')
-    horizontal_overlap = m.addVars(elem_indices, elem_indices, vtype=GRB.INTEGER, name='HorizontalOverlap')
-    m.addConstrs((
-        horizontal_overlap[i1, i2] == max_(0, left_overlap[i1, i2], left_overlap[i2, i1])
-        for i1, i2 in product(elem_indices, elem_indices)
-    ), name='LinkHorizontalOverlap')
-    top_overlap = m.addVars(elem_indices, elem_indices, vtype=GRB.INTEGER, name='TopOverlap')
-    m.addConstrs((
-        top_overlap[i1, i2] == edge_coord['y1', i2] - edge_coord['y0', i1]
-        for i1, i2 in product(elem_indices, elem_indices)
-    ), name='LinkLeftOverlap')
-    vertical_overlap = m.addVars(elem_indices, elem_indices, vtype=GRB.INTEGER, name='VerticalOverlap')
-    m.addConstrs((
-        vertical_overlap[i1, i2] == max_(0, top_overlap[i1, i2], top_overlap[i2, i1])
-        for i1, i2 in product(elem_indices, elem_indices)
-    ), name='LinkHorizontalOverlap')
-    overlap = m.addVars(elem_indices, elem_indices, vtype=GRB.INTEGER, name='Overlap')
-    m.addConstrs((
-        overlap[i1, i2] == horizontal_overlap[i1, i2] + vertical_overlap[i1, i2]
-        for i1, i2 in product(elem_indices, elem_indices)
-    ), name='LinkOverlap')
+        # Minimize number of grid lines
+        # Number of elements sharing an edge
 
-    total_overlap_expr = overlap.sum()
+        number_of_groups_expr = LinExpr()
+        number_of_groups_expr.add(number_of_groups.sum())
+        m.addConstr(number_of_groups_expr >= compute_minimum_grid(n))
+        m.setObjective(number_of_groups_expr, GRB.MINIMIZE)
 
-    obj_expr = LinExpr()
-    obj_expr.add(total_grid_lines_expr)
-    obj_expr.add(total_overlap_expr)
+        # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
 
-    m.setObjective(obj_expr, GRB.MINIMIZE)
+        m.Params.MIPFocus = 1
+        m.Params.TimeLimit = 10
 
-    # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
+        m.Params.PoolSearchMode = 2
+        m.Params.PoolSolutions = 1
+        # model.Params.MIPGap = 0.01
 
-    m.Params.MIPFocus = 1
-    m.Params.TimeLimit = 10
+        m.Params.MIPGapAbs = 0.97
+        m.Params.OutputFlag = 1
 
-    m.Params.PoolSearchMode = 2
-    m.Params.PoolSolutions = 1
-    # model.Params.MIPGap = 0.01
+        m.write("output/SimoPracticeModel.lp")
 
-    m.Params.MIPGapAbs = 0.97
-    m.Params.OutputFlag = 1
+        m.optimize()
 
-    m.write("output/SimoPracticeModel.lp")
+        if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
-    m.optimize()
+            elements = [
+                {
+                    'id': element.id,
+                    'x': int(edge_coord['x0', i].X) * m._grid_size,  # ‘X’ is the value of the variable in the current solution
+                    'y': int(edge_coord['y0', i].X) * m._grid_size,
+                    'width': int(w[i].X) * m._grid_size,
+                    'height': int(h[i].X) * m._grid_size,
+                } for i, element in enumerate(layout.elements)
+            ]
 
-    if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
-
-        elements = [
-            {
-                'id': element.id,
-                'x': int(edge_coord['x0', i].X) * m._grid_size,  # ‘X’ is the value of the variable in the current solution
-                'y': int(edge_coord['y0', i].X) * m._grid_size,
-                'width': int(w[i].X) * m._grid_size,
-                'height': int(h[i].X) * m._grid_size,
-            } for i, element in enumerate(layout.elements)
-        ]
-
-        return {
-            'status': 0,
-            'layout': {
-                'canvasWidth': layout.canvas_width,
-                'canvasHeight': layout.canvas_height,
-                'elements': elements
+            return {
+                'status': 0,
+                'layout': {
+                    'canvasWidth': layout.canvas_width,
+                    'canvasHeight': layout.canvas_height,
+                    'elements': elements
+                }
             }
-        }
-    else:
-        if m.Status == GRB.Status.INFEASIBLE:
-            m.computeIIS()
-            m.write("output/SimoPracticeModel.ilp")
-        print('Non-optimal status:', m.Status)
-        return {'status': 1}
+        else:
+            if m.Status == GRB.Status.INFEASIBLE:
+                m.computeIIS()
+                m.write("output/SimoPracticeModel.ilp")
+            print('Non-optimal status:', m.Status)
+            print(n, factorial(n))
+            return {'status': 1}
+
+    except GurobiError as e:
+        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
+        raise e
+
 
 
 def compute_minimum_grid(n: int) -> int:

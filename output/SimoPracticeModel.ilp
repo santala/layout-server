@@ -1,0 +1,591 @@
+\ Model GLayoutQuality_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+  0 AlignmentGroupSizeHelper2[x0,0,8] + 0 AlignmentGroupSizeHelper2[x0,1,8]
+   + 0 AlignmentGroupSizeHelper2[x0,2,8]
+   + 0 AlignmentGroupSizeHelper2[x0,3,8]
+   + 0 AlignmentGroupSizeHelper2[x0,4,8]
+   + 0 AlignmentGroupSizeHelper2[x0,5,8]
+   + 0 AlignmentGroupSizeHelper2[x0,6,8]
+   + 0 AlignmentGroupSizeHelper2[x0,7,8]
+   + 0 AlignmentGroupSizeHelper2[y0,0,8]
+   + 0 AlignmentGroupSizeHelper2[y0,1,8]
+   + 0 AlignmentGroupSizeHelper2[y0,2,8]
+   + 0 AlignmentGroupSizeHelper2[y0,3,8]
+   + 0 AlignmentGroupSizeHelper2[y0,4,8]
+   + 0 AlignmentGroupSizeHelper2[y0,5,8]
+   + 0 AlignmentGroupSizeHelper2[y0,6,8]
+   + 0 AlignmentGroupSizeHelper2[y0,7,8]
+   + 0 AlignmentGroupSizeHelper2[x1,0,8]
+   + 0 AlignmentGroupSizeHelper2[x1,1,8]
+   + 0 AlignmentGroupSizeHelper2[x1,2,8]
+   + 0 AlignmentGroupSizeHelper2[x1,3,8]
+   + 0 AlignmentGroupSizeHelper2[x1,4,8]
+   + 0 AlignmentGroupSizeHelper2[x1,5,8]
+   + 0 AlignmentGroupSizeHelper2[x1,6,8]
+   + 0 AlignmentGroupSizeHelper2[x1,7,8]
+   + 0 AlignmentGroupSizeHelper2[y1,0,8]
+   + 0 AlignmentGroupSizeHelper2[y1,1,8]
+   + 0 AlignmentGroupSizeHelper2[y1,2,8]
+   + 0 AlignmentGroupSizeHelper2[y1,3,8]
+   + 0 AlignmentGroupSizeHelper2[y1,4,8]
+   + 0 AlignmentGroupSizeHelper2[y1,5,8]
+   + 0 AlignmentGroupSizeHelper2[y1,6,8]
+   + 0 AlignmentGroupSizeHelper2[y1,7,8]
+   + 0 AlignmentGroupSizeHelper3[x0,0,8]
+   + 0 AlignmentGroupSizeHelper3[x0,1,8]
+   + 0 AlignmentGroupSizeHelper3[x0,2,8]
+   + 0 AlignmentGroupSizeHelper3[x0,3,8]
+   + 0 AlignmentGroupSizeHelper3[x0,4,8]
+   + 0 AlignmentGroupSizeHelper3[x0,5,8]
+   + 0 AlignmentGroupSizeHelper3[x0,6,8]
+   + 0 AlignmentGroupSizeHelper3[x0,7,8]
+   + 0 AlignmentGroupSizeHelper3[y0,0,8]
+   + 0 AlignmentGroupSizeHelper3[y0,1,8]
+   + 0 AlignmentGroupSizeHelper3[y0,2,8]
+   + 0 AlignmentGroupSizeHelper3[y0,3,8]
+   + 0 AlignmentGroupSizeHelper3[y0,4,8]
+   + 0 AlignmentGroupSizeHelper3[y0,5,8]
+   + 0 AlignmentGroupSizeHelper3[y0,6,8]
+   + 0 AlignmentGroupSizeHelper3[y0,7,8]
+   + 0 AlignmentGroupSizeHelper3[x1,0,8]
+   + 0 AlignmentGroupSizeHelper3[x1,1,8]
+   + 0 AlignmentGroupSizeHelper3[x1,2,8]
+   + 0 AlignmentGroupSizeHelper3[x1,3,8]
+   + 0 AlignmentGroupSizeHelper3[x1,4,8]
+   + 0 AlignmentGroupSizeHelper3[x1,5,8]
+   + 0 AlignmentGroupSizeHelper3[x1,6,8]
+   + 0 AlignmentGroupSizeHelper3[x1,7,8]
+   + 0 AlignmentGroupSizeHelper3[y1,0,8]
+   + 0 AlignmentGroupSizeHelper3[y1,1,8]
+   + 0 AlignmentGroupSizeHelper3[y1,2,8]
+   + 0 AlignmentGroupSizeHelper3[y1,3,8]
+   + 0 AlignmentGroupSizeHelper3[y1,4,8]
+   + 0 AlignmentGroupSizeHelper3[y1,5,8]
+   + 0 AlignmentGroupSizeHelper3[y1,6,8]
+   + 0 AlignmentGroupSizeHelper3[y1,7,8]
+Subject To
+ LinkAlignmentGroupSizeHelper[x0,0,8]: - AlignedElementCount[x0,0]
+   + AlignmentGroupSizeHelper[x0,0,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,1,8]: - AlignedElementCount[x0,1]
+   + AlignmentGroupSizeHelper[x0,1,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,2,8]: - AlignedElementCount[x0,2]
+   + AlignmentGroupSizeHelper[x0,2,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,3,8]: - AlignedElementCount[x0,3]
+   + AlignmentGroupSizeHelper[x0,3,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,4,8]: - AlignedElementCount[x0,4]
+   + AlignmentGroupSizeHelper[x0,4,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,5,8]: - AlignedElementCount[x0,5]
+   + AlignmentGroupSizeHelper[x0,5,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,6,8]: - AlignedElementCount[x0,6]
+   + AlignmentGroupSizeHelper[x0,6,8] = -8
+ LinkAlignmentGroupSizeHelper[x0,7,8]: - AlignedElementCount[x0,7]
+   + AlignmentGroupSizeHelper[x0,7,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,0,8]: - AlignedElementCount[y0,0]
+   + AlignmentGroupSizeHelper[y0,0,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,1,8]: - AlignedElementCount[y0,1]
+   + AlignmentGroupSizeHelper[y0,1,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,2,8]: - AlignedElementCount[y0,2]
+   + AlignmentGroupSizeHelper[y0,2,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,3,8]: - AlignedElementCount[y0,3]
+   + AlignmentGroupSizeHelper[y0,3,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,4,8]: - AlignedElementCount[y0,4]
+   + AlignmentGroupSizeHelper[y0,4,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,5,8]: - AlignedElementCount[y0,5]
+   + AlignmentGroupSizeHelper[y0,5,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,6,8]: - AlignedElementCount[y0,6]
+   + AlignmentGroupSizeHelper[y0,6,8] = -8
+ LinkAlignmentGroupSizeHelper[y0,7,8]: - AlignedElementCount[y0,7]
+   + AlignmentGroupSizeHelper[y0,7,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,0,8]: - AlignedElementCount[x1,0]
+   + AlignmentGroupSizeHelper[x1,0,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,1,8]: - AlignedElementCount[x1,1]
+   + AlignmentGroupSizeHelper[x1,1,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,2,8]: - AlignedElementCount[x1,2]
+   + AlignmentGroupSizeHelper[x1,2,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,3,8]: - AlignedElementCount[x1,3]
+   + AlignmentGroupSizeHelper[x1,3,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,4,8]: - AlignedElementCount[x1,4]
+   + AlignmentGroupSizeHelper[x1,4,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,5,8]: - AlignedElementCount[x1,5]
+   + AlignmentGroupSizeHelper[x1,5,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,6,8]: - AlignedElementCount[x1,6]
+   + AlignmentGroupSizeHelper[x1,6,8] = -8
+ LinkAlignmentGroupSizeHelper[x1,7,8]: - AlignedElementCount[x1,7]
+   + AlignmentGroupSizeHelper[x1,7,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,0,8]: - AlignedElementCount[y1,0]
+   + AlignmentGroupSizeHelper[y1,0,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,1,8]: - AlignedElementCount[y1,1]
+   + AlignmentGroupSizeHelper[y1,1,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,2,8]: - AlignedElementCount[y1,2]
+   + AlignmentGroupSizeHelper[y1,2,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,3,8]: - AlignedElementCount[y1,3]
+   + AlignmentGroupSizeHelper[y1,3,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,4,8]: - AlignedElementCount[y1,4]
+   + AlignmentGroupSizeHelper[y1,4,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,5,8]: - AlignedElementCount[y1,5]
+   + AlignmentGroupSizeHelper[y1,5,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,6,8]: - AlignedElementCount[y1,6]
+   + AlignmentGroupSizeHelper[y1,6,8] = -8
+ LinkAlignmentGroupSizeHelper[y1,7,8]: - AlignedElementCount[y1,7]
+   + AlignmentGroupSizeHelper[y1,7,8] = -8
+ LinkGridLineCount[x0]: - InverseOfAlignedElementCount[x0,0]
+   - InverseOfAlignedElementCount[x0,1]
+   - InverseOfAlignedElementCount[x0,2]
+   - InverseOfAlignedElementCount[x0,3]
+   - InverseOfAlignedElementCount[x0,4]
+   - InverseOfAlignedElementCount[x0,5]
+   - InverseOfAlignedElementCount[x0,6]
+   - InverseOfAlignedElementCount[x0,7] + GridLineCount[x0] = 0
+ LinkGridLineCount[y0]: - InverseOfAlignedElementCount[y0,0]
+   - InverseOfAlignedElementCount[y0,1]
+   - InverseOfAlignedElementCount[y0,2]
+   - InverseOfAlignedElementCount[y0,3]
+   - InverseOfAlignedElementCount[y0,4]
+   - InverseOfAlignedElementCount[y0,5]
+   - InverseOfAlignedElementCount[y0,6]
+   - InverseOfAlignedElementCount[y0,7] + GridLineCount[y0] = 0
+ LinkGridLineCount[x1]: - InverseOfAlignedElementCount[x1,0]
+   - InverseOfAlignedElementCount[x1,1]
+   - InverseOfAlignedElementCount[x1,2]
+   - InverseOfAlignedElementCount[x1,3]
+   - InverseOfAlignedElementCount[x1,4]
+   - InverseOfAlignedElementCount[x1,5]
+   - InverseOfAlignedElementCount[x1,6]
+   - InverseOfAlignedElementCount[x1,7] + GridLineCount[x1] = 0
+ LinkGridLineCount[y1]: - InverseOfAlignedElementCount[y1,0]
+   - InverseOfAlignedElementCount[y1,1]
+   - InverseOfAlignedElementCount[y1,2]
+   - InverseOfAlignedElementCount[y1,3]
+   - InverseOfAlignedElementCount[y1,4]
+   - InverseOfAlignedElementCount[y1,5]
+   - InverseOfAlignedElementCount[y1,6]
+   - InverseOfAlignedElementCount[y1,7] + GridLineCount[y1] = 0
+ R564: GridLineCount[x0] + GridLineCount[y0] + GridLineCount[x1]
+   + GridLineCount[y1] >= 12
+ InvertAlignedElementCountHelper1[x0,0,8]: AlignmentGroupSizeHelper3[x0,0,8] = 0 ->
+   InverseOfAlignedElementCount[x0,0] = 0.125
+ InvertAlignedElementCountHelper1[x0,1,8]: AlignmentGroupSizeHelper3[x0,1,8] = 0 ->
+   InverseOfAlignedElementCount[x0,1] = 0.125
+ InvertAlignedElementCountHelper1[x0,2,8]: AlignmentGroupSizeHelper3[x0,2,8] = 0 ->
+   InverseOfAlignedElementCount[x0,2] = 0.125
+ InvertAlignedElementCountHelper1[x0,3,8]: AlignmentGroupSizeHelper3[x0,3,8] = 0 ->
+   InverseOfAlignedElementCount[x0,3] = 0.125
+ InvertAlignedElementCountHelper1[x0,4,8]: AlignmentGroupSizeHelper3[x0,4,8] = 0 ->
+   InverseOfAlignedElementCount[x0,4] = 0.125
+ InvertAlignedElementCountHelper1[x0,5,8]: AlignmentGroupSizeHelper3[x0,5,8] = 0 ->
+   InverseOfAlignedElementCount[x0,5] = 0.125
+ InvertAlignedElementCountHelper1[x0,6,8]: AlignmentGroupSizeHelper3[x0,6,8] = 0 ->
+   InverseOfAlignedElementCount[x0,6] = 0.125
+ InvertAlignedElementCountHelper1[x0,7,8]: AlignmentGroupSizeHelper3[x0,7,8] = 0 ->
+   InverseOfAlignedElementCount[x0,7] = 0.125
+ InvertAlignedElementCountHelper1[y0,0,8]: AlignmentGroupSizeHelper3[y0,0,8] = 0 ->
+   InverseOfAlignedElementCount[y0,0] = 0.125
+ InvertAlignedElementCountHelper1[y0,1,8]: AlignmentGroupSizeHelper3[y0,1,8] = 0 ->
+   InverseOfAlignedElementCount[y0,1] = 0.125
+ InvertAlignedElementCountHelper1[y0,2,8]: AlignmentGroupSizeHelper3[y0,2,8] = 0 ->
+   InverseOfAlignedElementCount[y0,2] = 0.125
+ InvertAlignedElementCountHelper1[y0,3,8]: AlignmentGroupSizeHelper3[y0,3,8] = 0 ->
+   InverseOfAlignedElementCount[y0,3] = 0.125
+ InvertAlignedElementCountHelper1[y0,4,8]: AlignmentGroupSizeHelper3[y0,4,8] = 0 ->
+   InverseOfAlignedElementCount[y0,4] = 0.125
+ InvertAlignedElementCountHelper1[y0,5,8]: AlignmentGroupSizeHelper3[y0,5,8] = 0 ->
+   InverseOfAlignedElementCount[y0,5] = 0.125
+ InvertAlignedElementCountHelper1[y0,6,8]: AlignmentGroupSizeHelper3[y0,6,8] = 0 ->
+   InverseOfAlignedElementCount[y0,6] = 0.125
+ InvertAlignedElementCountHelper1[y0,7,8]: AlignmentGroupSizeHelper3[y0,7,8] = 0 ->
+   InverseOfAlignedElementCount[y0,7] = 0.125
+ InvertAlignedElementCountHelper1[x1,0,8]: AlignmentGroupSizeHelper3[x1,0,8] = 0 ->
+   InverseOfAlignedElementCount[x1,0] = 0.125
+ InvertAlignedElementCountHelper1[x1,1,8]: AlignmentGroupSizeHelper3[x1,1,8] = 0 ->
+   InverseOfAlignedElementCount[x1,1] = 0.125
+ InvertAlignedElementCountHelper1[x1,2,8]: AlignmentGroupSizeHelper3[x1,2,8] = 0 ->
+   InverseOfAlignedElementCount[x1,2] = 0.125
+ InvertAlignedElementCountHelper1[x1,3,8]: AlignmentGroupSizeHelper3[x1,3,8] = 0 ->
+   InverseOfAlignedElementCount[x1,3] = 0.125
+ InvertAlignedElementCountHelper1[x1,4,8]: AlignmentGroupSizeHelper3[x1,4,8] = 0 ->
+   InverseOfAlignedElementCount[x1,4] = 0.125
+ InvertAlignedElementCountHelper1[x1,5,8]: AlignmentGroupSizeHelper3[x1,5,8] = 0 ->
+   InverseOfAlignedElementCount[x1,5] = 0.125
+ InvertAlignedElementCountHelper1[x1,6,8]: AlignmentGroupSizeHelper3[x1,6,8] = 0 ->
+   InverseOfAlignedElementCount[x1,6] = 0.125
+ InvertAlignedElementCountHelper1[x1,7,8]: AlignmentGroupSizeHelper3[x1,7,8] = 0 ->
+   InverseOfAlignedElementCount[x1,7] = 0.125
+ InvertAlignedElementCountHelper1[y1,0,8]: AlignmentGroupSizeHelper3[y1,0,8] = 0 ->
+   InverseOfAlignedElementCount[y1,0] = 0.125
+ InvertAlignedElementCountHelper1[y1,1,8]: AlignmentGroupSizeHelper3[y1,1,8] = 0 ->
+   InverseOfAlignedElementCount[y1,1] = 0.125
+ InvertAlignedElementCountHelper1[y1,2,8]: AlignmentGroupSizeHelper3[y1,2,8] = 0 ->
+   InverseOfAlignedElementCount[y1,2] = 0.125
+ InvertAlignedElementCountHelper1[y1,3,8]: AlignmentGroupSizeHelper3[y1,3,8] = 0 ->
+   InverseOfAlignedElementCount[y1,3] = 0.125
+ InvertAlignedElementCountHelper1[y1,4,8]: AlignmentGroupSizeHelper3[y1,4,8] = 0 ->
+   InverseOfAlignedElementCount[y1,4] = 0.125
+ InvertAlignedElementCountHelper1[y1,5,8]: AlignmentGroupSizeHelper3[y1,5,8] = 0 ->
+   InverseOfAlignedElementCount[y1,5] = 0.125
+ InvertAlignedElementCountHelper1[y1,6,8]: AlignmentGroupSizeHelper3[y1,6,8] = 0 ->
+   InverseOfAlignedElementCount[y1,6] = 0.125
+ InvertAlignedElementCountHelper1[y1,7,8]: AlignmentGroupSizeHelper3[y1,7,8] = 0 ->
+   InverseOfAlignedElementCount[y1,7] = 0.125
+Bounds
+ -infinity <= AlignedElementCount[x0,0] <= 8
+ -infinity <= AlignedElementCount[x0,1] <= 8
+ -infinity <= AlignedElementCount[x0,2] <= 8
+ -infinity <= AlignedElementCount[x0,3] <= 8
+ -infinity <= AlignedElementCount[x0,4] <= 8
+ -infinity <= AlignedElementCount[x0,5] <= 8
+ -infinity <= AlignedElementCount[x0,6] <= 8
+ -infinity <= AlignedElementCount[x0,7] <= 8
+ -infinity <= AlignedElementCount[y0,0] <= 8
+ -infinity <= AlignedElementCount[y0,1] <= 8
+ -infinity <= AlignedElementCount[y0,2] <= 8
+ -infinity <= AlignedElementCount[y0,3] <= 8
+ -infinity <= AlignedElementCount[y0,4] <= 8
+ -infinity <= AlignedElementCount[y0,5] <= 8
+ -infinity <= AlignedElementCount[y0,6] <= 8
+ -infinity <= AlignedElementCount[y0,7] <= 8
+ -infinity <= AlignedElementCount[x1,0] <= 8
+ -infinity <= AlignedElementCount[x1,1] <= 8
+ -infinity <= AlignedElementCount[x1,2] <= 8
+ -infinity <= AlignedElementCount[x1,3] <= 8
+ -infinity <= AlignedElementCount[x1,4] <= 8
+ -infinity <= AlignedElementCount[x1,5] <= 8
+ -infinity <= AlignedElementCount[x1,6] <= 8
+ -infinity <= AlignedElementCount[x1,7] <= 8
+ -infinity <= AlignedElementCount[y1,0] <= 8
+ -infinity <= AlignedElementCount[y1,1] <= 8
+ -infinity <= AlignedElementCount[y1,2] <= 8
+ -infinity <= AlignedElementCount[y1,3] <= 8
+ -infinity <= AlignedElementCount[y1,4] <= 8
+ -infinity <= AlignedElementCount[y1,5] <= 8
+ -infinity <= AlignedElementCount[y1,6] <= 8
+ -infinity <= AlignedElementCount[y1,7] <= 8
+ AlignmentGroupSizeHelper2[x0,0,8] free
+ AlignmentGroupSizeHelper2[x0,1,8] free
+ AlignmentGroupSizeHelper2[x0,2,8] free
+ AlignmentGroupSizeHelper2[x0,3,8] free
+ AlignmentGroupSizeHelper2[x0,4,8] free
+ AlignmentGroupSizeHelper2[x0,5,8] free
+ AlignmentGroupSizeHelper2[x0,6,8] free
+ AlignmentGroupSizeHelper2[x0,7,8] free
+ AlignmentGroupSizeHelper2[y0,0,8] free
+ AlignmentGroupSizeHelper2[y0,1,8] free
+ AlignmentGroupSizeHelper2[y0,2,8] free
+ AlignmentGroupSizeHelper2[y0,3,8] free
+ AlignmentGroupSizeHelper2[y0,4,8] free
+ AlignmentGroupSizeHelper2[y0,5,8] free
+ AlignmentGroupSizeHelper2[y0,6,8] free
+ AlignmentGroupSizeHelper2[y0,7,8] free
+ AlignmentGroupSizeHelper2[x1,0,8] free
+ AlignmentGroupSizeHelper2[x1,1,8] free
+ AlignmentGroupSizeHelper2[x1,2,8] free
+ AlignmentGroupSizeHelper2[x1,3,8] free
+ AlignmentGroupSizeHelper2[x1,4,8] free
+ AlignmentGroupSizeHelper2[x1,5,8] free
+ AlignmentGroupSizeHelper2[x1,6,8] free
+ AlignmentGroupSizeHelper2[x1,7,8] free
+ AlignmentGroupSizeHelper2[y1,0,8] free
+ AlignmentGroupSizeHelper2[y1,1,8] free
+ AlignmentGroupSizeHelper2[y1,2,8] free
+ AlignmentGroupSizeHelper2[y1,3,8] free
+ AlignmentGroupSizeHelper2[y1,4,8] free
+ AlignmentGroupSizeHelper2[y1,5,8] free
+ AlignmentGroupSizeHelper2[y1,6,8] free
+ AlignmentGroupSizeHelper2[y1,7,8] free
+ InverseOfAlignedElementCount[x0,0] free
+ InverseOfAlignedElementCount[x0,1] free
+ InverseOfAlignedElementCount[x0,2] free
+ InverseOfAlignedElementCount[x0,3] free
+ InverseOfAlignedElementCount[x0,4] free
+ InverseOfAlignedElementCount[x0,5] free
+ InverseOfAlignedElementCount[x0,6] free
+ InverseOfAlignedElementCount[x0,7] free
+ InverseOfAlignedElementCount[y0,0] free
+ InverseOfAlignedElementCount[y0,1] free
+ InverseOfAlignedElementCount[y0,2] free
+ InverseOfAlignedElementCount[y0,3] free
+ InverseOfAlignedElementCount[y0,4] free
+ InverseOfAlignedElementCount[y0,5] free
+ InverseOfAlignedElementCount[y0,6] free
+ InverseOfAlignedElementCount[y0,7] free
+ InverseOfAlignedElementCount[x1,0] free
+ InverseOfAlignedElementCount[x1,1] free
+ InverseOfAlignedElementCount[x1,2] free
+ InverseOfAlignedElementCount[x1,3] free
+ InverseOfAlignedElementCount[x1,4] free
+ InverseOfAlignedElementCount[x1,5] free
+ InverseOfAlignedElementCount[x1,6] free
+ InverseOfAlignedElementCount[x1,7] free
+ InverseOfAlignedElementCount[y1,0] free
+ InverseOfAlignedElementCount[y1,1] free
+ InverseOfAlignedElementCount[y1,2] free
+ InverseOfAlignedElementCount[y1,3] free
+ InverseOfAlignedElementCount[y1,4] free
+ InverseOfAlignedElementCount[y1,5] free
+ InverseOfAlignedElementCount[y1,6] free
+ InverseOfAlignedElementCount[y1,7] free
+ GridLineCount[x0] free
+ GridLineCount[y0] free
+ GridLineCount[x1] free
+ GridLineCount[y1] free
+Binaries
+ AlignmentGroupSizeHelper3[x0,0,8] AlignmentGroupSizeHelper3[x0,1,8]
+ AlignmentGroupSizeHelper3[x0,2,8] AlignmentGroupSizeHelper3[x0,3,8]
+ AlignmentGroupSizeHelper3[x0,4,8] AlignmentGroupSizeHelper3[x0,5,8]
+ AlignmentGroupSizeHelper3[x0,6,8] AlignmentGroupSizeHelper3[x0,7,8]
+ AlignmentGroupSizeHelper3[y0,0,8] AlignmentGroupSizeHelper3[y0,1,8]
+ AlignmentGroupSizeHelper3[y0,2,8] AlignmentGroupSizeHelper3[y0,3,8]
+ AlignmentGroupSizeHelper3[y0,4,8] AlignmentGroupSizeHelper3[y0,5,8]
+ AlignmentGroupSizeHelper3[y0,6,8] AlignmentGroupSizeHelper3[y0,7,8]
+ AlignmentGroupSizeHelper3[x1,0,8] AlignmentGroupSizeHelper3[x1,1,8]
+ AlignmentGroupSizeHelper3[x1,2,8] AlignmentGroupSizeHelper3[x1,3,8]
+ AlignmentGroupSizeHelper3[x1,4,8] AlignmentGroupSizeHelper3[x1,5,8]
+ AlignmentGroupSizeHelper3[x1,6,8] AlignmentGroupSizeHelper3[x1,7,8]
+ AlignmentGroupSizeHelper3[y1,0,8] AlignmentGroupSizeHelper3[y1,1,8]
+ AlignmentGroupSizeHelper3[y1,2,8] AlignmentGroupSizeHelper3[y1,3,8]
+ AlignmentGroupSizeHelper3[y1,4,8] AlignmentGroupSizeHelper3[y1,5,8]
+ AlignmentGroupSizeHelper3[y1,6,8] AlignmentGroupSizeHelper3[y1,7,8]
+Generals
+ AlignedElementCount[x0,0] AlignedElementCount[x0,1]
+ AlignedElementCount[x0,2] AlignedElementCount[x0,3]
+ AlignedElementCount[x0,4] AlignedElementCount[x0,5]
+ AlignedElementCount[x0,6] AlignedElementCount[x0,7]
+ AlignedElementCount[y0,0] AlignedElementCount[y0,1]
+ AlignedElementCount[y0,2] AlignedElementCount[y0,3]
+ AlignedElementCount[y0,4] AlignedElementCount[y0,5]
+ AlignedElementCount[y0,6] AlignedElementCount[y0,7]
+ AlignedElementCount[x1,0] AlignedElementCount[x1,1]
+ AlignedElementCount[x1,2] AlignedElementCount[x1,3]
+ AlignedElementCount[x1,4] AlignedElementCount[x1,5]
+ AlignedElementCount[x1,6] AlignedElementCount[x1,7]
+ AlignedElementCount[y1,0] AlignedElementCount[y1,1]
+ AlignedElementCount[y1,2] AlignedElementCount[y1,3]
+ AlignedElementCount[y1,4] AlignedElementCount[y1,5]
+ AlignedElementCount[y1,6] AlignedElementCount[y1,7]
+ AlignmentGroupSizeHelper[x0,0,8] AlignmentGroupSizeHelper[x0,1,8]
+ AlignmentGroupSizeHelper[x0,2,8] AlignmentGroupSizeHelper[x0,3,8]
+ AlignmentGroupSizeHelper[x0,4,8] AlignmentGroupSizeHelper[x0,5,8]
+ AlignmentGroupSizeHelper[x0,6,8] AlignmentGroupSizeHelper[x0,7,8]
+ AlignmentGroupSizeHelper[y0,0,8] AlignmentGroupSizeHelper[y0,1,8]
+ AlignmentGroupSizeHelper[y0,2,8] AlignmentGroupSizeHelper[y0,3,8]
+ AlignmentGroupSizeHelper[y0,4,8] AlignmentGroupSizeHelper[y0,5,8]
+ AlignmentGroupSizeHelper[y0,6,8] AlignmentGroupSizeHelper[y0,7,8]
+ AlignmentGroupSizeHelper[x1,0,8] AlignmentGroupSizeHelper[x1,1,8]
+ AlignmentGroupSizeHelper[x1,2,8] AlignmentGroupSizeHelper[x1,3,8]
+ AlignmentGroupSizeHelper[x1,4,8] AlignmentGroupSizeHelper[x1,5,8]
+ AlignmentGroupSizeHelper[x1,6,8] AlignmentGroupSizeHelper[x1,7,8]
+ AlignmentGroupSizeHelper[y1,0,8] AlignmentGroupSizeHelper[y1,1,8]
+ AlignmentGroupSizeHelper[y1,2,8] AlignmentGroupSizeHelper[y1,3,8]
+ AlignmentGroupSizeHelper[y1,4,8] AlignmentGroupSizeHelper[y1,5,8]
+ AlignmentGroupSizeHelper[y1,6,8] AlignmentGroupSizeHelper[y1,7,8]
+ AlignmentGroupSizeHelper2[x0,0,8] AlignmentGroupSizeHelper2[x0,1,8]
+ AlignmentGroupSizeHelper2[x0,2,8] AlignmentGroupSizeHelper2[x0,3,8]
+ AlignmentGroupSizeHelper2[x0,4,8] AlignmentGroupSizeHelper2[x0,5,8]
+ AlignmentGroupSizeHelper2[x0,6,8] AlignmentGroupSizeHelper2[x0,7,8]
+ AlignmentGroupSizeHelper2[y0,0,8] AlignmentGroupSizeHelper2[y0,1,8]
+ AlignmentGroupSizeHelper2[y0,2,8] AlignmentGroupSizeHelper2[y0,3,8]
+ AlignmentGroupSizeHelper2[y0,4,8] AlignmentGroupSizeHelper2[y0,5,8]
+ AlignmentGroupSizeHelper2[y0,6,8] AlignmentGroupSizeHelper2[y0,7,8]
+ AlignmentGroupSizeHelper2[x1,0,8] AlignmentGroupSizeHelper2[x1,1,8]
+ AlignmentGroupSizeHelper2[x1,2,8] AlignmentGroupSizeHelper2[x1,3,8]
+ AlignmentGroupSizeHelper2[x1,4,8] AlignmentGroupSizeHelper2[x1,5,8]
+ AlignmentGroupSizeHelper2[x1,6,8] AlignmentGroupSizeHelper2[x1,7,8]
+ AlignmentGroupSizeHelper2[y1,0,8] AlignmentGroupSizeHelper2[y1,1,8]
+ AlignmentGroupSizeHelper2[y1,2,8] AlignmentGroupSizeHelper2[y1,3,8]
+ AlignmentGroupSizeHelper2[y1,4,8] AlignmentGroupSizeHelper2[y1,5,8]
+ AlignmentGroupSizeHelper2[y1,6,8] AlignmentGroupSizeHelper2[y1,7,8]
+ GridLineCount[x0] GridLineCount[y0] GridLineCount[x1] GridLineCount[y1]
+General Constraints
+ LinkAlignmentGroupSizeHelper2[x0,0,8]:
+   AlignmentGroupSizeHelper2[x0,0,8] = ABS (
+   AlignmentGroupSizeHelper[x0,0,8] )
+ LinkAlignmentGroupSizeHelper2[x0,1,8]:
+   AlignmentGroupSizeHelper2[x0,1,8] = ABS (
+   AlignmentGroupSizeHelper[x0,1,8] )
+ LinkAlignmentGroupSizeHelper2[x0,2,8]:
+   AlignmentGroupSizeHelper2[x0,2,8] = ABS (
+   AlignmentGroupSizeHelper[x0,2,8] )
+ LinkAlignmentGroupSizeHelper2[x0,3,8]:
+   AlignmentGroupSizeHelper2[x0,3,8] = ABS (
+   AlignmentGroupSizeHelper[x0,3,8] )
+ LinkAlignmentGroupSizeHelper2[x0,4,8]:
+   AlignmentGroupSizeHelper2[x0,4,8] = ABS (
+   AlignmentGroupSizeHelper[x0,4,8] )
+ LinkAlignmentGroupSizeHelper2[x0,5,8]:
+   AlignmentGroupSizeHelper2[x0,5,8] = ABS (
+   AlignmentGroupSizeHelper[x0,5,8] )
+ LinkAlignmentGroupSizeHelper2[x0,6,8]:
+   AlignmentGroupSizeHelper2[x0,6,8] = ABS (
+   AlignmentGroupSizeHelper[x0,6,8] )
+ LinkAlignmentGroupSizeHelper2[x0,7,8]:
+   AlignmentGroupSizeHelper2[x0,7,8] = ABS (
+   AlignmentGroupSizeHelper[x0,7,8] )
+ LinkAlignmentGroupSizeHelper2[y0,0,8]:
+   AlignmentGroupSizeHelper2[y0,0,8] = ABS (
+   AlignmentGroupSizeHelper[y0,0,8] )
+ LinkAlignmentGroupSizeHelper2[y0,1,8]:
+   AlignmentGroupSizeHelper2[y0,1,8] = ABS (
+   AlignmentGroupSizeHelper[y0,1,8] )
+ LinkAlignmentGroupSizeHelper2[y0,2,8]:
+   AlignmentGroupSizeHelper2[y0,2,8] = ABS (
+   AlignmentGroupSizeHelper[y0,2,8] )
+ LinkAlignmentGroupSizeHelper2[y0,3,8]:
+   AlignmentGroupSizeHelper2[y0,3,8] = ABS (
+   AlignmentGroupSizeHelper[y0,3,8] )
+ LinkAlignmentGroupSizeHelper2[y0,4,8]:
+   AlignmentGroupSizeHelper2[y0,4,8] = ABS (
+   AlignmentGroupSizeHelper[y0,4,8] )
+ LinkAlignmentGroupSizeHelper2[y0,5,8]:
+   AlignmentGroupSizeHelper2[y0,5,8] = ABS (
+   AlignmentGroupSizeHelper[y0,5,8] )
+ LinkAlignmentGroupSizeHelper2[y0,6,8]:
+   AlignmentGroupSizeHelper2[y0,6,8] = ABS (
+   AlignmentGroupSizeHelper[y0,6,8] )
+ LinkAlignmentGroupSizeHelper2[y0,7,8]:
+   AlignmentGroupSizeHelper2[y0,7,8] = ABS (
+   AlignmentGroupSizeHelper[y0,7,8] )
+ LinkAlignmentGroupSizeHelper2[x1,0,8]:
+   AlignmentGroupSizeHelper2[x1,0,8] = ABS (
+   AlignmentGroupSizeHelper[x1,0,8] )
+ LinkAlignmentGroupSizeHelper2[x1,1,8]:
+   AlignmentGroupSizeHelper2[x1,1,8] = ABS (
+   AlignmentGroupSizeHelper[x1,1,8] )
+ LinkAlignmentGroupSizeHelper2[x1,2,8]:
+   AlignmentGroupSizeHelper2[x1,2,8] = ABS (
+   AlignmentGroupSizeHelper[x1,2,8] )
+ LinkAlignmentGroupSizeHelper2[x1,3,8]:
+   AlignmentGroupSizeHelper2[x1,3,8] = ABS (
+   AlignmentGroupSizeHelper[x1,3,8] )
+ LinkAlignmentGroupSizeHelper2[x1,4,8]:
+   AlignmentGroupSizeHelper2[x1,4,8] = ABS (
+   AlignmentGroupSizeHelper[x1,4,8] )
+ LinkAlignmentGroupSizeHelper2[x1,5,8]:
+   AlignmentGroupSizeHelper2[x1,5,8] = ABS (
+   AlignmentGroupSizeHelper[x1,5,8] )
+ LinkAlignmentGroupSizeHelper2[x1,6,8]:
+   AlignmentGroupSizeHelper2[x1,6,8] = ABS (
+   AlignmentGroupSizeHelper[x1,6,8] )
+ LinkAlignmentGroupSizeHelper2[x1,7,8]:
+   AlignmentGroupSizeHelper2[x1,7,8] = ABS (
+   AlignmentGroupSizeHelper[x1,7,8] )
+ LinkAlignmentGroupSizeHelper2[y1,0,8]:
+   AlignmentGroupSizeHelper2[y1,0,8] = ABS (
+   AlignmentGroupSizeHelper[y1,0,8] )
+ LinkAlignmentGroupSizeHelper2[y1,1,8]:
+   AlignmentGroupSizeHelper2[y1,1,8] = ABS (
+   AlignmentGroupSizeHelper[y1,1,8] )
+ LinkAlignmentGroupSizeHelper2[y1,2,8]:
+   AlignmentGroupSizeHelper2[y1,2,8] = ABS (
+   AlignmentGroupSizeHelper[y1,2,8] )
+ LinkAlignmentGroupSizeHelper2[y1,3,8]:
+   AlignmentGroupSizeHelper2[y1,3,8] = ABS (
+   AlignmentGroupSizeHelper[y1,3,8] )
+ LinkAlignmentGroupSizeHelper2[y1,4,8]:
+   AlignmentGroupSizeHelper2[y1,4,8] = ABS (
+   AlignmentGroupSizeHelper[y1,4,8] )
+ LinkAlignmentGroupSizeHelper2[y1,5,8]:
+   AlignmentGroupSizeHelper2[y1,5,8] = ABS (
+   AlignmentGroupSizeHelper[y1,5,8] )
+ LinkAlignmentGroupSizeHelper2[y1,6,8]:
+   AlignmentGroupSizeHelper2[y1,6,8] = ABS (
+   AlignmentGroupSizeHelper[y1,6,8] )
+ LinkAlignmentGroupSizeHelper2[y1,7,8]:
+   AlignmentGroupSizeHelper2[y1,7,8] = ABS (
+   AlignmentGroupSizeHelper[y1,7,8] )
+ LinkAlignmentGroupSizeHelper3[x0,0,8]:
+   AlignmentGroupSizeHelper3[x0,0,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,0,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,1,8]:
+   AlignmentGroupSizeHelper3[x0,1,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,1,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,2,8]:
+   AlignmentGroupSizeHelper3[x0,2,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,2,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,3,8]:
+   AlignmentGroupSizeHelper3[x0,3,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,3,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,4,8]:
+   AlignmentGroupSizeHelper3[x0,4,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,4,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,5,8]:
+   AlignmentGroupSizeHelper3[x0,5,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,5,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,6,8]:
+   AlignmentGroupSizeHelper3[x0,6,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,6,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x0,7,8]:
+   AlignmentGroupSizeHelper3[x0,7,8] = MIN (
+   AlignmentGroupSizeHelper2[x0,7,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,0,8]:
+   AlignmentGroupSizeHelper3[y0,0,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,0,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,1,8]:
+   AlignmentGroupSizeHelper3[y0,1,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,1,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,2,8]:
+   AlignmentGroupSizeHelper3[y0,2,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,2,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,3,8]:
+   AlignmentGroupSizeHelper3[y0,3,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,3,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,4,8]:
+   AlignmentGroupSizeHelper3[y0,4,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,4,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,5,8]:
+   AlignmentGroupSizeHelper3[y0,5,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,5,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,6,8]:
+   AlignmentGroupSizeHelper3[y0,6,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,6,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y0,7,8]:
+   AlignmentGroupSizeHelper3[y0,7,8] = MIN (
+   AlignmentGroupSizeHelper2[y0,7,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,0,8]:
+   AlignmentGroupSizeHelper3[x1,0,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,0,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,1,8]:
+   AlignmentGroupSizeHelper3[x1,1,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,1,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,2,8]:
+   AlignmentGroupSizeHelper3[x1,2,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,2,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,3,8]:
+   AlignmentGroupSizeHelper3[x1,3,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,3,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,4,8]:
+   AlignmentGroupSizeHelper3[x1,4,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,4,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,5,8]:
+   AlignmentGroupSizeHelper3[x1,5,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,5,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,6,8]:
+   AlignmentGroupSizeHelper3[x1,6,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,6,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[x1,7,8]:
+   AlignmentGroupSizeHelper3[x1,7,8] = MIN (
+   AlignmentGroupSizeHelper2[x1,7,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,0,8]:
+   AlignmentGroupSizeHelper3[y1,0,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,0,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,1,8]:
+   AlignmentGroupSizeHelper3[y1,1,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,1,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,2,8]:
+   AlignmentGroupSizeHelper3[y1,2,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,2,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,3,8]:
+   AlignmentGroupSizeHelper3[y1,3,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,3,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,4,8]:
+   AlignmentGroupSizeHelper3[y1,4,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,4,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,5,8]:
+   AlignmentGroupSizeHelper3[y1,5,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,5,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,6,8]:
+   AlignmentGroupSizeHelper3[y1,6,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,6,8] , 1 )
+ LinkAlignmentGroupSizeHelper3[y1,7,8]:
+   AlignmentGroupSizeHelper3[y1,7,8] = MIN (
+   AlignmentGroupSizeHelper2[y1,7,8] , 1 )
+End
