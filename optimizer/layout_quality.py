@@ -145,6 +145,7 @@ def solve(layout: Layout):
 
 
         # VAR element edge distance 4*n*n
+
         edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='EdgeDistance')
         m.addConstrs((
             edge_diff[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
@@ -152,17 +153,37 @@ def solve(layout: Layout):
         ), name='LinkEdgeDistance')
 
 
-        edge_diff_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
+        edge_diff_loose_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
         m.addConstrs((
-            edge_diff_abs[edge, i1, i2] == abs_(edge_diff[edge, i1, i2])
+            edge_diff_loose_abs[edge, i1, i2] >= edge_diff[edge, i1, i2]
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgeDistanceAbs')
-        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
+        ), name='LinkEdgeDistanceLooseAbs1')
         m.addConstrs((
-            edges_dont_align[edge, i1, i2] == min_(1, edge_diff_abs[edge, i1, i2])
+            edge_diff_loose_abs[edge, i1, i2] >= edge_diff[edge, i2, i1]
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgeDistanceLooseAbs2')
+
+
+        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
+
+        m.addConstrs((
+            edges_dont_align[edge, i1, i2] == min_(1, edge_diff_loose_abs[edge, i1, i2])
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgesAlign')
-
+        '''
+        m.addConstrs((
+            (edges_dont_align[edge, i1, i2] == 0) >> (edge_diff[edge, i1, i2] == 0)
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgesAlign1')
+        m.addConstrs((
+            (edge_diff[edge, i1, i2] >= 1) >> (edges_dont_align[edge, i1, i2] == 1)
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgesAlign2')
+        m.addConstrs((
+            (edge_diff[edge, i2, i1] >= 1) >> (edges_dont_align[edge, i1, i2] == 1)
+            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
+        ), name='LinkEdgesAlign3')
+        '''
         # 0 if element is aligned with another element that comes before it, else 1
         is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
         m.addConstrs((
@@ -220,8 +241,8 @@ def solve(layout: Layout):
 
         obj_expr.add(number_of_groups_expr)
 
-        obj_expr.add(move_expr, 100)
-        obj_expr.add(resize_expr, 100)
+        obj_expr.add(move_expr, 1)
+        obj_expr.add(resize_expr, 1)
 
         m.setObjective(obj_expr, GRB.MINIMIZE)
 
