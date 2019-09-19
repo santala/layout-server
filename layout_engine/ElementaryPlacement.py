@@ -189,7 +189,7 @@ def set_control_params(model: Model):
     # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
 
     model.Params.MIPFocus = 1
-    model.Params.TimeLimit = 10
+    model.Params.TimeLimit = 30
 
     model.Params.PoolSearchMode = 2
     model.Params.PoolSolutions = 1
@@ -493,7 +493,7 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
     full_objective = LinExpr(0)
     # EXPL: LinExpr.add( expr, mult=1.0 ): Add one linear expression into another.
     full_objective.add(objective_grid_count, 1)
-    full_objective.add(objective_lt, 0.001)
+    #full_objective.add(objective_lt, 0.001)
 
 
 
@@ -501,8 +501,8 @@ def define_objectives(model: Model, layout: Layout, var: Variables) -> (LinExpr,
     obj_resize = get_resize_expr(model)
     obj_move = get_move_expr(model)
 
-    full_objective.add(obj_move, 10)
-    full_objective.add(obj_resize, 100)
+    full_objective.add(obj_move, 1)
+    full_objective.add(obj_resize, 1)
 
     # EXPL: Maximum number of grid lines is at minimum something
     model.addConstr(objective_grid_count >= (compute_minimum_grid(layout.n)))

@@ -72,6 +72,25 @@ def solve(layout: Layout):
             resize_height_abs[i] == abs_(resize_height[i]) for i in range(n)
         ), name='LinkResizeHAbs')
 
+        # MOVEMENT OF ELEMENTS
+
+        move_x = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveX')
+        m.addConstrs((
+            move_x[i] == edge_coord['x0', i] - round(element.x / m._grid_size) for i, element in enumerate(layout.elements)
+        ), name='LinkMoveX')
+        move_x_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveXAbs')
+        m.addConstrs((
+            move_x_abs[i] == abs_(move_x[i]) for i in range(n)
+        ), name='LinkMoveXAbs')
+
+        move_y = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveY')
+        m.addConstrs((
+            move_y[i] == edge_coord['y0', i] - round(element.y / m._grid_size) for i, element in enumerate(layout.elements)
+        ), name='LinkMoveY')
+        move_y_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveYAbs')
+        m.addConstrs((
+            move_y_abs[i] == abs_(move_y[i]) for i in range(n)
+        ), name='LinkMoveYAbs')
 
         # ABOVE & ON LEFT
 
@@ -175,6 +194,11 @@ def solve(layout: Layout):
             resize_expr.addTerms([element_width_coeffs[i]], [resize_width_abs[i]])
             resize_expr.addTerms([element_height_coeffs[i]], [resize_height_abs[i]])
 
+        move_expr = LinExpr(0.0)
+        for i in range(layout.n):
+            move_expr.addTerms([element_width_coeffs[i]], [move_x_abs[i]])
+            move_expr.addTerms([element_height_coeffs[i]], [move_y_abs[i]])
+
         # Minimize number of grid lines
         # Number of elements sharing an edge
 
@@ -196,15 +220,15 @@ def solve(layout: Layout):
 
         obj_expr.add(number_of_groups_expr)
 
-        #obj_expr.add(move_expr, 10)
-        obj_expr.add(resize_expr)
+        obj_expr.add(move_expr, 100)
+        obj_expr.add(resize_expr, 100)
 
         m.setObjective(obj_expr, GRB.MINIMIZE)
 
         # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
 
         m.Params.MIPFocus = 1
-        m.Params.TimeLimit = 30
+        m.Params.TimeLimit = 20
 
         m.Params.PoolSearchMode = 2
         m.Params.PoolSolutions = 1

@@ -60,6 +60,7 @@ class Variables:
         # Use the current layout as the starting solution
 
         for i, element in enumerate(layout.elements):
+            break
             if element.x > 0:
                 self.l[i].Start = element.x / model._grid_size + 1
             if element.y > 0:

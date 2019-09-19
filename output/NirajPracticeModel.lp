@@ -1,30 +1,21 @@
 \ Model GLayout
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
-  0.001 L[0] + 0.001 L[1] + 0.001 L[2] + 0.001 L[3] + 0.001 L[4]
-   + 0.001 L[5] + 0.001 L[6] + 0.001 L[7] + 0.002 R[0] + 0.002 R[1]
-   + 0.002 R[2] + 0.002 R[3] + 0.002 R[4] + 0.002 R[5] + 0.002 R[6]
-   + 0.002 R[7] + 0.001 T[0] + 0.001 T[1] + 0.001 T[2] + 0.001 T[3]
-   + 0.001 T[4] + 0.001 T[5] + 0.001 T[6] + 0.001 T[7] + 0.002 B[0]
-   + 0.002 B[1] + 0.002 B[2] + 0.002 B[3] + 0.002 B[4] + 0.002 B[5]
-   + 0.002 B[6] + 0.002 B[7] - 0.001 H[0] - 0.001 H[1] - 0.001 H[2]
-   - 0.001 H[3] - 0.001 H[4] - 0.001 H[5] - 0.001 H[6] - 0.001 H[7]
-   - 0.001 W[0] - 0.001 W[1] - 0.001 W[2] - 0.001 W[3] - 0.001 W[4]
-   - 0.001 W[5] - 0.001 W[6] - 0.001 W[7] + 0.1 resizeWAbsVar[0]
-   + 0.5 resizeWAbsVar[1] + 0.25 resizeWAbsVar[2] + 0.25 resizeWAbsVar[3]
-   + 0.25 resizeWAbsVar[4] + 0.25 resizeWAbsVar[5] + 0.25 resizeWAbsVar[6]
-   + 0.1 resizeWAbsVar[7] + resizeHAbsVar[0]
-   + 0.1428571428571428 resizeHAbsVar[1]
-   + 0.3333333333333334 resizeHAbsVar[2]
-   + 0.3333333333333334 resizeHAbsVar[3] + 0.25 resizeHAbsVar[4]
-   + 0.5 resizeHAbsVar[5] + 0.5 resizeHAbsVar[6]
-   + 0.6666666666666667 resizeHAbsVar[7] + 0.01 moveXAbs[0]
-   + 0.05 moveXAbs[1] + 0.025 moveXAbs[2] + 0.025 moveXAbs[3]
-   + 0.025 moveXAbs[4] + 0.025 moveXAbs[5] + 0.025 moveXAbs[6]
-   + 0.01 moveXAbs[7] + 0.1 moveYAbs[0] + 0.0142857142857143 moveYAbs[1]
-   + 0.0333333333333333 moveYAbs[2] + 0.0333333333333333 moveYAbs[3]
-   + 0.025 moveYAbs[4] + 0.05 moveYAbs[5] + 0.05 moveYAbs[6]
-   + 0.0666666666666667 moveYAbs[7] + 0 ABOVE[0,0] + 0 ABOVE[1,1]
+  0.001 resizeWAbsVar[0] + 0.005 resizeWAbsVar[1] + 0.0025 resizeWAbsVar[2]
+   + 0.0025 resizeWAbsVar[3] + 0.0025 resizeWAbsVar[4]
+   + 0.0025 resizeWAbsVar[5] + 0.0025 resizeWAbsVar[6]
+   + 0.001 resizeWAbsVar[7] + 0.01 resizeHAbsVar[0]
+   + 0.00142857142857143 resizeHAbsVar[1]
+   + 0.00333333333333333 resizeHAbsVar[2]
+   + 0.00333333333333333 resizeHAbsVar[3] + 0.0025 resizeHAbsVar[4]
+   + 0.005 resizeHAbsVar[5] + 0.005 resizeHAbsVar[6]
+   + 0.00666666666666667 resizeHAbsVar[7] + 0.001 moveXAbs[0]
+   + 0.005 moveXAbs[1] + 0.0025 moveXAbs[2] + 0.0025 moveXAbs[3]
+   + 0.0025 moveXAbs[4] + 0.0025 moveXAbs[5] + 0.0025 moveXAbs[6]
+   + 0.001 moveXAbs[7] + 0.01 moveYAbs[0] + 0.00142857142857143 moveYAbs[1]
+   + 0.00333333333333333 moveYAbs[2] + 0.00333333333333333 moveYAbs[3]
+   + 0.0025 moveYAbs[4] + 0.005 moveYAbs[5] + 0.005 moveYAbs[6]
+   + 0.00666666666666667 moveYAbs[7] + 0 ABOVE[0,0] + 0 ABOVE[1,1]
    + 0 ABOVE[2,2] + 0 ABOVE[3,3] + 0 ABOVE[4,4] + 0 ABOVE[5,5]
    + 0 ABOVE[6,6] + 0 ABOVE[7,7] + 0 LEFT[0,0] + 0 LEFT[1,1] + 0 LEFT[2,2]
    + 0 LEFT[3,3] + 0 LEFT[4,4] + 0 LEFT[5,5] + 0 LEFT[6,6] + 0 LEFT[7,7]
@@ -39,28 +30,28 @@ Subject To
  moveY: - T[0] + moveY[0] = 0
  resizeW: - W[1] + resizeWVar[1] = -25
  resizeH: - H[1] + resizeHVar[1] = -88
- moveX: - L[1] + moveX[1] = 0
+ moveX: - L[1] + moveX[1] = -100
  moveY: - T[1] + moveY[1] = -12
  resizeW: - W[2] + resizeWVar[2] = -50
  resizeH: - H[2] + resizeHVar[2] = -38
- moveX: - L[2] + moveX[2] = -75
+ moveX: - L[2] + moveX[2] = 0
  moveY: - T[2] + moveY[2] = -62
  resizeW: - W[3] + resizeWVar[3] = -50
  resizeH: - H[3] + resizeHVar[3] = -38
- moveX: - L[3] + moveX[3] = -25
+ moveX: - L[3] + moveX[3] = -50
  moveY: - T[3] + moveY[3] = -62
  resizeW: - W[4] + resizeWVar[4] = -50
  resizeH: - H[4] + resizeHVar[4] = -50
- moveX: - L[4] + moveX[4] = -25
+ moveX: - L[4] + moveX[4] = -50
  moveY: - T[4] + moveY[4] = -12
  resizeW: - W[5] + resizeWVar[5] = -50
  resizeH: - H[5] + resizeHVar[5] = -25
- moveX: - L[5] + moveX[5] = -75
- moveY: - T[5] + moveY[5] = -12
+ moveX: - L[5] + moveX[5] = 0
+ moveY: - T[5] + moveY[5] = -38
  resizeW: - W[6] + resizeWVar[6] = -50
  resizeH: - H[6] + resizeHVar[6] = -25
- moveX: - L[6] + moveX[6] = -75
- moveY: - T[6] + moveY[6] = -38
+ moveX: - L[6] + moveX[6] = 0
+ moveY: - T[6] + moveY[6] = -12
  resizeW: - W[7] + resizeWVar[7] = -125
  resizeH: - H[7] + resizeHVar[7] = -19
  moveX: - L[7] + moveX[7] = 0

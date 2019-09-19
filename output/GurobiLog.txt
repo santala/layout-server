@@ -398,3 +398,23 @@ Gurobi 8.1.0 (mac64) logging started Tue Sep 17 16:54:20 2019
 
 Changed value of parameter LogFile to output/GurobiLog.txt
    Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Thu Sep 19 11:05:30 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Thu Sep 19 11:07:01 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Thu Sep 19 11:08:46 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
+
+Gurobi 8.1.0 (mac64) logging started Thu Sep 19 11:10:36 2019
+
+Changed value of parameter LogFile to output/GurobiLog.txt
+   Prev: gurobi.log  Default: 
