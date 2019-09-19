@@ -19,7 +19,7 @@ def solve(layout: Layout):
         # VARIABLES
 
         # Element coordinates (in multiples of grid size)
-        edge_coord = m.addVars(edge_indices, elem_indices, ub=n, vtype=GRB.INTEGER, name='EdgeCoord')
+        edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
         m.addConstrs((
             edge_coord['x0', i] <= edge_coord['x1', i] - 1
             for i in elem_indices
@@ -28,22 +28,49 @@ def solve(layout: Layout):
             edge_coord['y0', i] <= edge_coord['y1', i] - 1
             for i in elem_indices
         ), name='Y0Y1Sanity')
-        '''
-        x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
-        y0 = m.addVars(n, vtype=GRB.INTEGER, name='Y0')
-        x1 = m.addVars(n, vtype=GRB.INTEGER, name='X1')
-        y1 = m.addVars(n, vtype=GRB.INTEGER, name='Y1')
-        '''
-        for i in range(n):
-            edge_coord['x0', i].start = i
-            edge_coord['y0', i].start = i
+        m.addConstrs((
+            edge_coord['x1', i] <= round(layout.canvas_width / m._grid_size)
+            for i in elem_indices
+        ), name='LimitToCanvasWidth')
+        m.addConstrs((
+            edge_coord['y1', i] <= round(layout.canvas_height / m._grid_size)
+            for i in elem_indices
+        ), name='LimitToCanvasHeight')
 
         # Element size (in multiples of grid size)
-        w = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='W')
-        h = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='H')
+        w = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='W')
+        h = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='H')
         # Bind width and height to the coordinates
         m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
         m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
+
+
+        for i, element in enumerate(layout.elements):
+            break
+            edge_coord['x0', i].start = round(element.x / m._grid_size)
+            edge_coord['y0', i].start = round(element.y / m._grid_size)
+            w[i].start = round(element.width / m._grid_size)
+            h[i].start = round(element.height / m._grid_size)
+
+
+        # SCALING OF ELEMENTS
+
+        resize_width = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='ResizeW')
+        m.addConstrs((
+            resize_width[i] == w[i] - round(element.width / m._grid_size) for i, element in enumerate(layout.elements)
+        ), name='LinkResizeW')
+        resize_width_abs = m.addVars(n, vtype=GRB.INTEGER, name='ResizeWAbs')
+        m.addConstrs((
+            resize_width_abs[i] == abs_(resize_width[i]) for i in range(n)
+        ), name='LinkResizeWAbs')
+        resize_height = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='ResizeH')
+        m.addConstrs((
+            resize_height[i] == h[i] - round(element.height / m._grid_size) for i, element in enumerate(layout.elements)
+        ), name='LinkResizeH')
+        resize_height_abs = m.addVars(n, vtype=GRB.INTEGER, name='ResizeHAbs')
+        m.addConstrs((
+            resize_height_abs[i] == abs_(resize_height[i]) for i in range(n)
+        ), name='LinkResizeHAbs')
 
 
         # ABOVE & ON LEFT
@@ -138,6 +165,16 @@ def solve(layout: Layout):
 
         # OBJECTIVES
 
+        # Minimize scaling of elements
+
+        element_width_coeffs = [1 / e.width for e in layout.elements]
+        element_height_coeffs = [1 / e.height for e in layout.elements]
+
+        resize_expr = LinExpr(0.0)
+        for i in range(layout.n):
+            resize_expr.addTerms([element_width_coeffs[i]], [resize_width_abs[i]])
+            resize_expr.addTerms([element_height_coeffs[i]], [resize_height_abs[i]])
+
         # Minimize number of grid lines
         # Number of elements sharing an edge
 
@@ -145,14 +182,24 @@ def solve(layout: Layout):
         v_overlap_expr = v_overlap.sum()
         overlap_expr = overlap.sum()
 
-        m.addConstr(overlap_expr == 0)
-        #m.setObjective(overlap_expr, GRB.MINIMIZE)
 
 
         number_of_groups_expr = LinExpr()
         number_of_groups_expr.add(number_of_groups.sum())
         m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
-        m.setObjective(number_of_groups_expr, GRB.MINIMIZE)
+
+
+        obj_expr = LinExpr()
+
+        #obj_expr.add(overlap_expr, 100)
+        m.addConstr(overlap_expr == 0)
+
+        obj_expr.add(number_of_groups_expr)
+
+        #obj_expr.add(move_expr, 10)
+        obj_expr.add(resize_expr)
+
+        m.setObjective(obj_expr, GRB.MINIMIZE)
 
         # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
 
@@ -170,10 +217,10 @@ def solve(layout: Layout):
 
         m.optimize()
 
-        print('Number of groups', number_of_groups_expr.getValue(), 'Minimum:', compute_minimum_grid(n))
-        print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
+            print('Number of groups', number_of_groups_expr.getValue(), 'Minimum:', compute_minimum_grid(n))
+            print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
 
             elements = [
                 {
@@ -221,3 +268,32 @@ def compute_minimum_grid(n: int) -> int:
         else:
             result = (4 * min_grid_width) + (2 * extra_columns) + 2
     return result
+
+def get_resize_expr(model: Model):
+    layout: Layout = model._layout
+    var: Variables = model._var
+
+    element_width_coeffs = [1 / e.width for e in layout.elements]
+    element_height_coeffs = [1 / e.height for e in layout.elements]
+
+    resize_expr = LinExpr(0.0)
+    for i in range(layout.n):
+        resize_expr.addTerms([element_width_coeffs[i]], [var.resize_width_abs[i]])
+        resize_expr.addTerms([element_height_coeffs[i]], [var.resize_height_abs[i]])
+
+    return resize_expr
+
+
+def get_move_expr(model: Model):
+    layout: Layout = model._layout
+    var: Variables = model._var
+
+    element_width_coeffs = [1 / e.width for e in layout.elements]
+    element_height_coeffs = [1 / e.height for e in layout.elements]
+
+    move_expr = LinExpr(0.0)
+    for i in range(layout.n):
+        move_expr.addTerms([element_width_coeffs[i]], [var.move_x_abs[i]])
+        move_expr.addTerms([element_height_coeffs[i]], [var.move_y_abs[i]])
+
+    return move_expr

@@ -1,196 +1,202 @@
 \ Model GLayoutQuality
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
-  0 Above[0,0] + 0 Above[1,1] + 0 Above[2,2] + 0 Above[3,3] + 0 Above[4,4]
-   + 0 Above[5,5] + 0 Above[6,6] + 0 Above[7,7] + 0 OnLeft[0,0]
-   + 0 OnLeft[1,1] + 0 OnLeft[2,2] + 0 OnLeft[3,3] + 0 OnLeft[4,4]
-   + 0 OnLeft[5,5] + 0 OnLeft[6,6] + 0 OnLeft[7,7]
-   + 0 HorizontalOverlap[0,0] + 0 HorizontalOverlap[1,1]
-   + 0 HorizontalOverlap[2,2] + 0 HorizontalOverlap[3,3]
-   + 0 HorizontalOverlap[4,4] + 0 HorizontalOverlap[5,5]
-   + 0 HorizontalOverlap[6,6] + 0 HorizontalOverlap[7,7]
-   + 0 VerticalOverlap[0,0] + 0 VerticalOverlap[1,1]
-   + 0 VerticalOverlap[2,2] + 0 VerticalOverlap[3,3]
-   + 0 VerticalOverlap[4,4] + 0 VerticalOverlap[5,5]
-   + 0 VerticalOverlap[6,6] + 0 VerticalOverlap[7,7]
-   + 0 EdgeDistanceAbs[x0,0,0] + 0 EdgeDistanceAbs[x0,0,1]
-   + 0 EdgeDistanceAbs[x0,0,2] + 0 EdgeDistanceAbs[x0,0,3]
-   + 0 EdgeDistanceAbs[x0,0,4] + 0 EdgeDistanceAbs[x0,0,5]
-   + 0 EdgeDistanceAbs[x0,0,6] + 0 EdgeDistanceAbs[x0,0,7]
-   + 0 EdgeDistanceAbs[x0,1,0] + 0 EdgeDistanceAbs[x0,1,1]
-   + 0 EdgeDistanceAbs[x0,1,2] + 0 EdgeDistanceAbs[x0,1,3]
-   + 0 EdgeDistanceAbs[x0,1,4] + 0 EdgeDistanceAbs[x0,1,5]
-   + 0 EdgeDistanceAbs[x0,1,6] + 0 EdgeDistanceAbs[x0,1,7]
-   + 0 EdgeDistanceAbs[x0,2,0] + 0 EdgeDistanceAbs[x0,2,1]
-   + 0 EdgeDistanceAbs[x0,2,2] + 0 EdgeDistanceAbs[x0,2,3]
-   + 0 EdgeDistanceAbs[x0,2,4] + 0 EdgeDistanceAbs[x0,2,5]
-   + 0 EdgeDistanceAbs[x0,2,6] + 0 EdgeDistanceAbs[x0,2,7]
-   + 0 EdgeDistanceAbs[x0,3,0] + 0 EdgeDistanceAbs[x0,3,1]
-   + 0 EdgeDistanceAbs[x0,3,2] + 0 EdgeDistanceAbs[x0,3,3]
-   + 0 EdgeDistanceAbs[x0,3,4] + 0 EdgeDistanceAbs[x0,3,5]
-   + 0 EdgeDistanceAbs[x0,3,6] + 0 EdgeDistanceAbs[x0,3,7]
-   + 0 EdgeDistanceAbs[x0,4,0] + 0 EdgeDistanceAbs[x0,4,1]
-   + 0 EdgeDistanceAbs[x0,4,2] + 0 EdgeDistanceAbs[x0,4,3]
-   + 0 EdgeDistanceAbs[x0,4,4] + 0 EdgeDistanceAbs[x0,4,5]
-   + 0 EdgeDistanceAbs[x0,4,6] + 0 EdgeDistanceAbs[x0,4,7]
-   + 0 EdgeDistanceAbs[x0,5,0] + 0 EdgeDistanceAbs[x0,5,1]
-   + 0 EdgeDistanceAbs[x0,5,2] + 0 EdgeDistanceAbs[x0,5,3]
-   + 0 EdgeDistanceAbs[x0,5,4] + 0 EdgeDistanceAbs[x0,5,5]
-   + 0 EdgeDistanceAbs[x0,5,6] + 0 EdgeDistanceAbs[x0,5,7]
-   + 0 EdgeDistanceAbs[x0,6,0] + 0 EdgeDistanceAbs[x0,6,1]
-   + 0 EdgeDistanceAbs[x0,6,2] + 0 EdgeDistanceAbs[x0,6,3]
-   + 0 EdgeDistanceAbs[x0,6,4] + 0 EdgeDistanceAbs[x0,6,5]
-   + 0 EdgeDistanceAbs[x0,6,6] + 0 EdgeDistanceAbs[x0,6,7]
-   + 0 EdgeDistanceAbs[x0,7,0] + 0 EdgeDistanceAbs[x0,7,1]
-   + 0 EdgeDistanceAbs[x0,7,2] + 0 EdgeDistanceAbs[x0,7,3]
-   + 0 EdgeDistanceAbs[x0,7,4] + 0 EdgeDistanceAbs[x0,7,5]
-   + 0 EdgeDistanceAbs[x0,7,6] + 0 EdgeDistanceAbs[x0,7,7]
-   + 0 EdgeDistanceAbs[y0,0,0] + 0 EdgeDistanceAbs[y0,0,1]
-   + 0 EdgeDistanceAbs[y0,0,2] + 0 EdgeDistanceAbs[y0,0,3]
-   + 0 EdgeDistanceAbs[y0,0,4] + 0 EdgeDistanceAbs[y0,0,5]
-   + 0 EdgeDistanceAbs[y0,0,6] + 0 EdgeDistanceAbs[y0,0,7]
-   + 0 EdgeDistanceAbs[y0,1,0] + 0 EdgeDistanceAbs[y0,1,1]
-   + 0 EdgeDistanceAbs[y0,1,2] + 0 EdgeDistanceAbs[y0,1,3]
-   + 0 EdgeDistanceAbs[y0,1,4] + 0 EdgeDistanceAbs[y0,1,5]
-   + 0 EdgeDistanceAbs[y0,1,6] + 0 EdgeDistanceAbs[y0,1,7]
-   + 0 EdgeDistanceAbs[y0,2,0] + 0 EdgeDistanceAbs[y0,2,1]
-   + 0 EdgeDistanceAbs[y0,2,2] + 0 EdgeDistanceAbs[y0,2,3]
-   + 0 EdgeDistanceAbs[y0,2,4] + 0 EdgeDistanceAbs[y0,2,5]
-   + 0 EdgeDistanceAbs[y0,2,6] + 0 EdgeDistanceAbs[y0,2,7]
-   + 0 EdgeDistanceAbs[y0,3,0] + 0 EdgeDistanceAbs[y0,3,1]
-   + 0 EdgeDistanceAbs[y0,3,2] + 0 EdgeDistanceAbs[y0,3,3]
-   + 0 EdgeDistanceAbs[y0,3,4] + 0 EdgeDistanceAbs[y0,3,5]
-   + 0 EdgeDistanceAbs[y0,3,6] + 0 EdgeDistanceAbs[y0,3,7]
-   + 0 EdgeDistanceAbs[y0,4,0] + 0 EdgeDistanceAbs[y0,4,1]
-   + 0 EdgeDistanceAbs[y0,4,2] + 0 EdgeDistanceAbs[y0,4,3]
-   + 0 EdgeDistanceAbs[y0,4,4] + 0 EdgeDistanceAbs[y0,4,5]
-   + 0 EdgeDistanceAbs[y0,4,6] + 0 EdgeDistanceAbs[y0,4,7]
-   + 0 EdgeDistanceAbs[y0,5,0] + 0 EdgeDistanceAbs[y0,5,1]
-   + 0 EdgeDistanceAbs[y0,5,2] + 0 EdgeDistanceAbs[y0,5,3]
-   + 0 EdgeDistanceAbs[y0,5,4] + 0 EdgeDistanceAbs[y0,5,5]
-   + 0 EdgeDistanceAbs[y0,5,6] + 0 EdgeDistanceAbs[y0,5,7]
-   + 0 EdgeDistanceAbs[y0,6,0] + 0 EdgeDistanceAbs[y0,6,1]
-   + 0 EdgeDistanceAbs[y0,6,2] + 0 EdgeDistanceAbs[y0,6,3]
-   + 0 EdgeDistanceAbs[y0,6,4] + 0 EdgeDistanceAbs[y0,6,5]
-   + 0 EdgeDistanceAbs[y0,6,6] + 0 EdgeDistanceAbs[y0,6,7]
-   + 0 EdgeDistanceAbs[y0,7,0] + 0 EdgeDistanceAbs[y0,7,1]
-   + 0 EdgeDistanceAbs[y0,7,2] + 0 EdgeDistanceAbs[y0,7,3]
-   + 0 EdgeDistanceAbs[y0,7,4] + 0 EdgeDistanceAbs[y0,7,5]
-   + 0 EdgeDistanceAbs[y0,7,6] + 0 EdgeDistanceAbs[y0,7,7]
-   + 0 EdgeDistanceAbs[x1,0,0] + 0 EdgeDistanceAbs[x1,0,1]
-   + 0 EdgeDistanceAbs[x1,0,2] + 0 EdgeDistanceAbs[x1,0,3]
-   + 0 EdgeDistanceAbs[x1,0,4] + 0 EdgeDistanceAbs[x1,0,5]
-   + 0 EdgeDistanceAbs[x1,0,6] + 0 EdgeDistanceAbs[x1,0,7]
-   + 0 EdgeDistanceAbs[x1,1,0] + 0 EdgeDistanceAbs[x1,1,1]
-   + 0 EdgeDistanceAbs[x1,1,2] + 0 EdgeDistanceAbs[x1,1,3]
-   + 0 EdgeDistanceAbs[x1,1,4] + 0 EdgeDistanceAbs[x1,1,5]
-   + 0 EdgeDistanceAbs[x1,1,6] + 0 EdgeDistanceAbs[x1,1,7]
-   + 0 EdgeDistanceAbs[x1,2,0] + 0 EdgeDistanceAbs[x1,2,1]
-   + 0 EdgeDistanceAbs[x1,2,2] + 0 EdgeDistanceAbs[x1,2,3]
-   + 0 EdgeDistanceAbs[x1,2,4] + 0 EdgeDistanceAbs[x1,2,5]
-   + 0 EdgeDistanceAbs[x1,2,6] + 0 EdgeDistanceAbs[x1,2,7]
-   + 0 EdgeDistanceAbs[x1,3,0] + 0 EdgeDistanceAbs[x1,3,1]
-   + 0 EdgeDistanceAbs[x1,3,2] + 0 EdgeDistanceAbs[x1,3,3]
-   + 0 EdgeDistanceAbs[x1,3,4] + 0 EdgeDistanceAbs[x1,3,5]
-   + 0 EdgeDistanceAbs[x1,3,6] + 0 EdgeDistanceAbs[x1,3,7]
-   + 0 EdgeDistanceAbs[x1,4,0] + 0 EdgeDistanceAbs[x1,4,1]
-   + 0 EdgeDistanceAbs[x1,4,2] + 0 EdgeDistanceAbs[x1,4,3]
-   + 0 EdgeDistanceAbs[x1,4,4] + 0 EdgeDistanceAbs[x1,4,5]
-   + 0 EdgeDistanceAbs[x1,4,6] + 0 EdgeDistanceAbs[x1,4,7]
-   + 0 EdgeDistanceAbs[x1,5,0] + 0 EdgeDistanceAbs[x1,5,1]
-   + 0 EdgeDistanceAbs[x1,5,2] + 0 EdgeDistanceAbs[x1,5,3]
-   + 0 EdgeDistanceAbs[x1,5,4] + 0 EdgeDistanceAbs[x1,5,5]
-   + 0 EdgeDistanceAbs[x1,5,6] + 0 EdgeDistanceAbs[x1,5,7]
-   + 0 EdgeDistanceAbs[x1,6,0] + 0 EdgeDistanceAbs[x1,6,1]
-   + 0 EdgeDistanceAbs[x1,6,2] + 0 EdgeDistanceAbs[x1,6,3]
-   + 0 EdgeDistanceAbs[x1,6,4] + 0 EdgeDistanceAbs[x1,6,5]
-   + 0 EdgeDistanceAbs[x1,6,6] + 0 EdgeDistanceAbs[x1,6,7]
-   + 0 EdgeDistanceAbs[x1,7,0] + 0 EdgeDistanceAbs[x1,7,1]
-   + 0 EdgeDistanceAbs[x1,7,2] + 0 EdgeDistanceAbs[x1,7,3]
-   + 0 EdgeDistanceAbs[x1,7,4] + 0 EdgeDistanceAbs[x1,7,5]
-   + 0 EdgeDistanceAbs[x1,7,6] + 0 EdgeDistanceAbs[x1,7,7]
-   + 0 EdgeDistanceAbs[y1,0,0] + 0 EdgeDistanceAbs[y1,0,1]
-   + 0 EdgeDistanceAbs[y1,0,2] + 0 EdgeDistanceAbs[y1,0,3]
-   + 0 EdgeDistanceAbs[y1,0,4] + 0 EdgeDistanceAbs[y1,0,5]
-   + 0 EdgeDistanceAbs[y1,0,6] + 0 EdgeDistanceAbs[y1,0,7]
-   + 0 EdgeDistanceAbs[y1,1,0] + 0 EdgeDistanceAbs[y1,1,1]
-   + 0 EdgeDistanceAbs[y1,1,2] + 0 EdgeDistanceAbs[y1,1,3]
-   + 0 EdgeDistanceAbs[y1,1,4] + 0 EdgeDistanceAbs[y1,1,5]
-   + 0 EdgeDistanceAbs[y1,1,6] + 0 EdgeDistanceAbs[y1,1,7]
-   + 0 EdgeDistanceAbs[y1,2,0] + 0 EdgeDistanceAbs[y1,2,1]
-   + 0 EdgeDistanceAbs[y1,2,2] + 0 EdgeDistanceAbs[y1,2,3]
-   + 0 EdgeDistanceAbs[y1,2,4] + 0 EdgeDistanceAbs[y1,2,5]
-   + 0 EdgeDistanceAbs[y1,2,6] + 0 EdgeDistanceAbs[y1,2,7]
-   + 0 EdgeDistanceAbs[y1,3,0] + 0 EdgeDistanceAbs[y1,3,1]
-   + 0 EdgeDistanceAbs[y1,3,2] + 0 EdgeDistanceAbs[y1,3,3]
-   + 0 EdgeDistanceAbs[y1,3,4] + 0 EdgeDistanceAbs[y1,3,5]
-   + 0 EdgeDistanceAbs[y1,3,6] + 0 EdgeDistanceAbs[y1,3,7]
-   + 0 EdgeDistanceAbs[y1,4,0] + 0 EdgeDistanceAbs[y1,4,1]
-   + 0 EdgeDistanceAbs[y1,4,2] + 0 EdgeDistanceAbs[y1,4,3]
-   + 0 EdgeDistanceAbs[y1,4,4] + 0 EdgeDistanceAbs[y1,4,5]
-   + 0 EdgeDistanceAbs[y1,4,6] + 0 EdgeDistanceAbs[y1,4,7]
-   + 0 EdgeDistanceAbs[y1,5,0] + 0 EdgeDistanceAbs[y1,5,1]
-   + 0 EdgeDistanceAbs[y1,5,2] + 0 EdgeDistanceAbs[y1,5,3]
-   + 0 EdgeDistanceAbs[y1,5,4] + 0 EdgeDistanceAbs[y1,5,5]
-   + 0 EdgeDistanceAbs[y1,5,6] + 0 EdgeDistanceAbs[y1,5,7]
-   + 0 EdgeDistanceAbs[y1,6,0] + 0 EdgeDistanceAbs[y1,6,1]
-   + 0 EdgeDistanceAbs[y1,6,2] + 0 EdgeDistanceAbs[y1,6,3]
-   + 0 EdgeDistanceAbs[y1,6,4] + 0 EdgeDistanceAbs[y1,6,5]
-   + 0 EdgeDistanceAbs[y1,6,6] + 0 EdgeDistanceAbs[y1,6,7]
-   + 0 EdgeDistanceAbs[y1,7,0] + 0 EdgeDistanceAbs[y1,7,1]
-   + 0 EdgeDistanceAbs[y1,7,2] + 0 EdgeDistanceAbs[y1,7,3]
-   + 0 EdgeDistanceAbs[y1,7,4] + 0 EdgeDistanceAbs[y1,7,5]
-   + 0 EdgeDistanceAbs[y1,7,6] + 0 EdgeDistanceAbs[y1,7,7]
-   + 0 EdgesAlign[x0,0,0] + 0 EdgesAlign[x0,1,0] + 0 EdgesAlign[x0,1,1]
-   + 0 EdgesAlign[x0,2,0] + 0 EdgesAlign[x0,2,1] + 0 EdgesAlign[x0,2,2]
-   + 0 EdgesAlign[x0,3,0] + 0 EdgesAlign[x0,3,1] + 0 EdgesAlign[x0,3,2]
-   + 0 EdgesAlign[x0,3,3] + 0 EdgesAlign[x0,4,0] + 0 EdgesAlign[x0,4,1]
-   + 0 EdgesAlign[x0,4,2] + 0 EdgesAlign[x0,4,3] + 0 EdgesAlign[x0,4,4]
-   + 0 EdgesAlign[x0,5,0] + 0 EdgesAlign[x0,5,1] + 0 EdgesAlign[x0,5,2]
-   + 0 EdgesAlign[x0,5,3] + 0 EdgesAlign[x0,5,4] + 0 EdgesAlign[x0,5,5]
-   + 0 EdgesAlign[x0,6,0] + 0 EdgesAlign[x0,6,1] + 0 EdgesAlign[x0,6,2]
-   + 0 EdgesAlign[x0,6,3] + 0 EdgesAlign[x0,6,4] + 0 EdgesAlign[x0,6,5]
-   + 0 EdgesAlign[x0,6,6] + 0 EdgesAlign[x0,7,0] + 0 EdgesAlign[x0,7,1]
-   + 0 EdgesAlign[x0,7,2] + 0 EdgesAlign[x0,7,3] + 0 EdgesAlign[x0,7,4]
-   + 0 EdgesAlign[x0,7,5] + 0 EdgesAlign[x0,7,6] + 0 EdgesAlign[x0,7,7]
-   + 0 EdgesAlign[y0,0,0] + 0 EdgesAlign[y0,1,0] + 0 EdgesAlign[y0,1,1]
-   + 0 EdgesAlign[y0,2,0] + 0 EdgesAlign[y0,2,1] + 0 EdgesAlign[y0,2,2]
-   + 0 EdgesAlign[y0,3,0] + 0 EdgesAlign[y0,3,1] + 0 EdgesAlign[y0,3,2]
-   + 0 EdgesAlign[y0,3,3] + 0 EdgesAlign[y0,4,0] + 0 EdgesAlign[y0,4,1]
-   + 0 EdgesAlign[y0,4,2] + 0 EdgesAlign[y0,4,3] + 0 EdgesAlign[y0,4,4]
-   + 0 EdgesAlign[y0,5,0] + 0 EdgesAlign[y0,5,1] + 0 EdgesAlign[y0,5,2]
-   + 0 EdgesAlign[y0,5,3] + 0 EdgesAlign[y0,5,4] + 0 EdgesAlign[y0,5,5]
-   + 0 EdgesAlign[y0,6,0] + 0 EdgesAlign[y0,6,1] + 0 EdgesAlign[y0,6,2]
-   + 0 EdgesAlign[y0,6,3] + 0 EdgesAlign[y0,6,4] + 0 EdgesAlign[y0,6,5]
-   + 0 EdgesAlign[y0,6,6] + 0 EdgesAlign[y0,7,0] + 0 EdgesAlign[y0,7,1]
-   + 0 EdgesAlign[y0,7,2] + 0 EdgesAlign[y0,7,3] + 0 EdgesAlign[y0,7,4]
-   + 0 EdgesAlign[y0,7,5] + 0 EdgesAlign[y0,7,6] + 0 EdgesAlign[y0,7,7]
-   + 0 EdgesAlign[x1,0,0] + 0 EdgesAlign[x1,1,0] + 0 EdgesAlign[x1,1,1]
-   + 0 EdgesAlign[x1,2,0] + 0 EdgesAlign[x1,2,1] + 0 EdgesAlign[x1,2,2]
-   + 0 EdgesAlign[x1,3,0] + 0 EdgesAlign[x1,3,1] + 0 EdgesAlign[x1,3,2]
-   + 0 EdgesAlign[x1,3,3] + 0 EdgesAlign[x1,4,0] + 0 EdgesAlign[x1,4,1]
-   + 0 EdgesAlign[x1,4,2] + 0 EdgesAlign[x1,4,3] + 0 EdgesAlign[x1,4,4]
-   + 0 EdgesAlign[x1,5,0] + 0 EdgesAlign[x1,5,1] + 0 EdgesAlign[x1,5,2]
-   + 0 EdgesAlign[x1,5,3] + 0 EdgesAlign[x1,5,4] + 0 EdgesAlign[x1,5,5]
-   + 0 EdgesAlign[x1,6,0] + 0 EdgesAlign[x1,6,1] + 0 EdgesAlign[x1,6,2]
-   + 0 EdgesAlign[x1,6,3] + 0 EdgesAlign[x1,6,4] + 0 EdgesAlign[x1,6,5]
-   + 0 EdgesAlign[x1,6,6] + 0 EdgesAlign[x1,7,0] + 0 EdgesAlign[x1,7,1]
-   + 0 EdgesAlign[x1,7,2] + 0 EdgesAlign[x1,7,3] + 0 EdgesAlign[x1,7,4]
-   + 0 EdgesAlign[x1,7,5] + 0 EdgesAlign[x1,7,6] + 0 EdgesAlign[x1,7,7]
-   + 0 EdgesAlign[y1,0,0] + 0 EdgesAlign[y1,1,0] + 0 EdgesAlign[y1,1,1]
-   + 0 EdgesAlign[y1,2,0] + 0 EdgesAlign[y1,2,1] + 0 EdgesAlign[y1,2,2]
-   + 0 EdgesAlign[y1,3,0] + 0 EdgesAlign[y1,3,1] + 0 EdgesAlign[y1,3,2]
-   + 0 EdgesAlign[y1,3,3] + 0 EdgesAlign[y1,4,0] + 0 EdgesAlign[y1,4,1]
-   + 0 EdgesAlign[y1,4,2] + 0 EdgesAlign[y1,4,3] + 0 EdgesAlign[y1,4,4]
-   + 0 EdgesAlign[y1,5,0] + 0 EdgesAlign[y1,5,1] + 0 EdgesAlign[y1,5,2]
-   + 0 EdgesAlign[y1,5,3] + 0 EdgesAlign[y1,5,4] + 0 EdgesAlign[y1,5,5]
-   + 0 EdgesAlign[y1,6,0] + 0 EdgesAlign[y1,6,1] + 0 EdgesAlign[y1,6,2]
-   + 0 EdgesAlign[y1,6,3] + 0 EdgesAlign[y1,6,4] + 0 EdgesAlign[y1,6,5]
-   + 0 EdgesAlign[y1,6,6] + 0 EdgesAlign[y1,7,0] + 0 EdgesAlign[y1,7,1]
-   + 0 EdgesAlign[y1,7,2] + 0 EdgesAlign[y1,7,3] + 0 EdgesAlign[y1,7,4]
-   + 0 EdgesAlign[y1,7,5] + 0 EdgesAlign[y1,7,6] + 0 EdgesAlign[y1,7,7]
-   + NumberOfGroups[x0] + NumberOfGroups[y0] + NumberOfGroups[x1]
-   + NumberOfGroups[y1]
+  0.001 ResizeWAbs[0] + 0.005 ResizeWAbs[1] + 0.0025 ResizeWAbs[2]
+   + 0.0025 ResizeWAbs[3] + 0.0025 ResizeWAbs[4] + 0.0025 ResizeWAbs[5]
+   + 0.0025 ResizeWAbs[6] + 0.001 ResizeWAbs[7] + 0.01 ResizeHAbs[0]
+   + 0.00142857142857143 ResizeHAbs[1] + 0.00333333333333333 ResizeHAbs[2]
+   + 0.00333333333333333 ResizeHAbs[3] + 0.0025 ResizeHAbs[4]
+   + 0.005 ResizeHAbs[5] + 0.005 ResizeHAbs[6]
+   + 0.00666666666666667 ResizeHAbs[7] + 0 Above[0,0] + 0 Above[1,1]
+   + 0 Above[2,2] + 0 Above[3,3] + 0 Above[4,4] + 0 Above[5,5]
+   + 0 Above[6,6] + 0 Above[7,7] + 0 OnLeft[0,0] + 0 OnLeft[1,1]
+   + 0 OnLeft[2,2] + 0 OnLeft[3,3] + 0 OnLeft[4,4] + 0 OnLeft[5,5]
+   + 0 OnLeft[6,6] + 0 OnLeft[7,7] + 0 HorizontalOverlap[0,0]
+   + 0 HorizontalOverlap[1,1] + 0 HorizontalOverlap[2,2]
+   + 0 HorizontalOverlap[3,3] + 0 HorizontalOverlap[4,4]
+   + 0 HorizontalOverlap[5,5] + 0 HorizontalOverlap[6,6]
+   + 0 HorizontalOverlap[7,7] + 0 VerticalOverlap[0,0]
+   + 0 VerticalOverlap[1,1] + 0 VerticalOverlap[2,2]
+   + 0 VerticalOverlap[3,3] + 0 VerticalOverlap[4,4]
+   + 0 VerticalOverlap[5,5] + 0 VerticalOverlap[6,6]
+   + 0 VerticalOverlap[7,7] + 0 EdgeDistanceAbs[x0,0,0]
+   + 0 EdgeDistanceAbs[x0,0,1] + 0 EdgeDistanceAbs[x0,0,2]
+   + 0 EdgeDistanceAbs[x0,0,3] + 0 EdgeDistanceAbs[x0,0,4]
+   + 0 EdgeDistanceAbs[x0,0,5] + 0 EdgeDistanceAbs[x0,0,6]
+   + 0 EdgeDistanceAbs[x0,0,7] + 0 EdgeDistanceAbs[x0,1,0]
+   + 0 EdgeDistanceAbs[x0,1,1] + 0 EdgeDistanceAbs[x0,1,2]
+   + 0 EdgeDistanceAbs[x0,1,3] + 0 EdgeDistanceAbs[x0,1,4]
+   + 0 EdgeDistanceAbs[x0,1,5] + 0 EdgeDistanceAbs[x0,1,6]
+   + 0 EdgeDistanceAbs[x0,1,7] + 0 EdgeDistanceAbs[x0,2,0]
+   + 0 EdgeDistanceAbs[x0,2,1] + 0 EdgeDistanceAbs[x0,2,2]
+   + 0 EdgeDistanceAbs[x0,2,3] + 0 EdgeDistanceAbs[x0,2,4]
+   + 0 EdgeDistanceAbs[x0,2,5] + 0 EdgeDistanceAbs[x0,2,6]
+   + 0 EdgeDistanceAbs[x0,2,7] + 0 EdgeDistanceAbs[x0,3,0]
+   + 0 EdgeDistanceAbs[x0,3,1] + 0 EdgeDistanceAbs[x0,3,2]
+   + 0 EdgeDistanceAbs[x0,3,3] + 0 EdgeDistanceAbs[x0,3,4]
+   + 0 EdgeDistanceAbs[x0,3,5] + 0 EdgeDistanceAbs[x0,3,6]
+   + 0 EdgeDistanceAbs[x0,3,7] + 0 EdgeDistanceAbs[x0,4,0]
+   + 0 EdgeDistanceAbs[x0,4,1] + 0 EdgeDistanceAbs[x0,4,2]
+   + 0 EdgeDistanceAbs[x0,4,3] + 0 EdgeDistanceAbs[x0,4,4]
+   + 0 EdgeDistanceAbs[x0,4,5] + 0 EdgeDistanceAbs[x0,4,6]
+   + 0 EdgeDistanceAbs[x0,4,7] + 0 EdgeDistanceAbs[x0,5,0]
+   + 0 EdgeDistanceAbs[x0,5,1] + 0 EdgeDistanceAbs[x0,5,2]
+   + 0 EdgeDistanceAbs[x0,5,3] + 0 EdgeDistanceAbs[x0,5,4]
+   + 0 EdgeDistanceAbs[x0,5,5] + 0 EdgeDistanceAbs[x0,5,6]
+   + 0 EdgeDistanceAbs[x0,5,7] + 0 EdgeDistanceAbs[x0,6,0]
+   + 0 EdgeDistanceAbs[x0,6,1] + 0 EdgeDistanceAbs[x0,6,2]
+   + 0 EdgeDistanceAbs[x0,6,3] + 0 EdgeDistanceAbs[x0,6,4]
+   + 0 EdgeDistanceAbs[x0,6,5] + 0 EdgeDistanceAbs[x0,6,6]
+   + 0 EdgeDistanceAbs[x0,6,7] + 0 EdgeDistanceAbs[x0,7,0]
+   + 0 EdgeDistanceAbs[x0,7,1] + 0 EdgeDistanceAbs[x0,7,2]
+   + 0 EdgeDistanceAbs[x0,7,3] + 0 EdgeDistanceAbs[x0,7,4]
+   + 0 EdgeDistanceAbs[x0,7,5] + 0 EdgeDistanceAbs[x0,7,6]
+   + 0 EdgeDistanceAbs[x0,7,7] + 0 EdgeDistanceAbs[y0,0,0]
+   + 0 EdgeDistanceAbs[y0,0,1] + 0 EdgeDistanceAbs[y0,0,2]
+   + 0 EdgeDistanceAbs[y0,0,3] + 0 EdgeDistanceAbs[y0,0,4]
+   + 0 EdgeDistanceAbs[y0,0,5] + 0 EdgeDistanceAbs[y0,0,6]
+   + 0 EdgeDistanceAbs[y0,0,7] + 0 EdgeDistanceAbs[y0,1,0]
+   + 0 EdgeDistanceAbs[y0,1,1] + 0 EdgeDistanceAbs[y0,1,2]
+   + 0 EdgeDistanceAbs[y0,1,3] + 0 EdgeDistanceAbs[y0,1,4]
+   + 0 EdgeDistanceAbs[y0,1,5] + 0 EdgeDistanceAbs[y0,1,6]
+   + 0 EdgeDistanceAbs[y0,1,7] + 0 EdgeDistanceAbs[y0,2,0]
+   + 0 EdgeDistanceAbs[y0,2,1] + 0 EdgeDistanceAbs[y0,2,2]
+   + 0 EdgeDistanceAbs[y0,2,3] + 0 EdgeDistanceAbs[y0,2,4]
+   + 0 EdgeDistanceAbs[y0,2,5] + 0 EdgeDistanceAbs[y0,2,6]
+   + 0 EdgeDistanceAbs[y0,2,7] + 0 EdgeDistanceAbs[y0,3,0]
+   + 0 EdgeDistanceAbs[y0,3,1] + 0 EdgeDistanceAbs[y0,3,2]
+   + 0 EdgeDistanceAbs[y0,3,3] + 0 EdgeDistanceAbs[y0,3,4]
+   + 0 EdgeDistanceAbs[y0,3,5] + 0 EdgeDistanceAbs[y0,3,6]
+   + 0 EdgeDistanceAbs[y0,3,7] + 0 EdgeDistanceAbs[y0,4,0]
+   + 0 EdgeDistanceAbs[y0,4,1] + 0 EdgeDistanceAbs[y0,4,2]
+   + 0 EdgeDistanceAbs[y0,4,3] + 0 EdgeDistanceAbs[y0,4,4]
+   + 0 EdgeDistanceAbs[y0,4,5] + 0 EdgeDistanceAbs[y0,4,6]
+   + 0 EdgeDistanceAbs[y0,4,7] + 0 EdgeDistanceAbs[y0,5,0]
+   + 0 EdgeDistanceAbs[y0,5,1] + 0 EdgeDistanceAbs[y0,5,2]
+   + 0 EdgeDistanceAbs[y0,5,3] + 0 EdgeDistanceAbs[y0,5,4]
+   + 0 EdgeDistanceAbs[y0,5,5] + 0 EdgeDistanceAbs[y0,5,6]
+   + 0 EdgeDistanceAbs[y0,5,7] + 0 EdgeDistanceAbs[y0,6,0]
+   + 0 EdgeDistanceAbs[y0,6,1] + 0 EdgeDistanceAbs[y0,6,2]
+   + 0 EdgeDistanceAbs[y0,6,3] + 0 EdgeDistanceAbs[y0,6,4]
+   + 0 EdgeDistanceAbs[y0,6,5] + 0 EdgeDistanceAbs[y0,6,6]
+   + 0 EdgeDistanceAbs[y0,6,7] + 0 EdgeDistanceAbs[y0,7,0]
+   + 0 EdgeDistanceAbs[y0,7,1] + 0 EdgeDistanceAbs[y0,7,2]
+   + 0 EdgeDistanceAbs[y0,7,3] + 0 EdgeDistanceAbs[y0,7,4]
+   + 0 EdgeDistanceAbs[y0,7,5] + 0 EdgeDistanceAbs[y0,7,6]
+   + 0 EdgeDistanceAbs[y0,7,7] + 0 EdgeDistanceAbs[x1,0,0]
+   + 0 EdgeDistanceAbs[x1,0,1] + 0 EdgeDistanceAbs[x1,0,2]
+   + 0 EdgeDistanceAbs[x1,0,3] + 0 EdgeDistanceAbs[x1,0,4]
+   + 0 EdgeDistanceAbs[x1,0,5] + 0 EdgeDistanceAbs[x1,0,6]
+   + 0 EdgeDistanceAbs[x1,0,7] + 0 EdgeDistanceAbs[x1,1,0]
+   + 0 EdgeDistanceAbs[x1,1,1] + 0 EdgeDistanceAbs[x1,1,2]
+   + 0 EdgeDistanceAbs[x1,1,3] + 0 EdgeDistanceAbs[x1,1,4]
+   + 0 EdgeDistanceAbs[x1,1,5] + 0 EdgeDistanceAbs[x1,1,6]
+   + 0 EdgeDistanceAbs[x1,1,7] + 0 EdgeDistanceAbs[x1,2,0]
+   + 0 EdgeDistanceAbs[x1,2,1] + 0 EdgeDistanceAbs[x1,2,2]
+   + 0 EdgeDistanceAbs[x1,2,3] + 0 EdgeDistanceAbs[x1,2,4]
+   + 0 EdgeDistanceAbs[x1,2,5] + 0 EdgeDistanceAbs[x1,2,6]
+   + 0 EdgeDistanceAbs[x1,2,7] + 0 EdgeDistanceAbs[x1,3,0]
+   + 0 EdgeDistanceAbs[x1,3,1] + 0 EdgeDistanceAbs[x1,3,2]
+   + 0 EdgeDistanceAbs[x1,3,3] + 0 EdgeDistanceAbs[x1,3,4]
+   + 0 EdgeDistanceAbs[x1,3,5] + 0 EdgeDistanceAbs[x1,3,6]
+   + 0 EdgeDistanceAbs[x1,3,7] + 0 EdgeDistanceAbs[x1,4,0]
+   + 0 EdgeDistanceAbs[x1,4,1] + 0 EdgeDistanceAbs[x1,4,2]
+   + 0 EdgeDistanceAbs[x1,4,3] + 0 EdgeDistanceAbs[x1,4,4]
+   + 0 EdgeDistanceAbs[x1,4,5] + 0 EdgeDistanceAbs[x1,4,6]
+   + 0 EdgeDistanceAbs[x1,4,7] + 0 EdgeDistanceAbs[x1,5,0]
+   + 0 EdgeDistanceAbs[x1,5,1] + 0 EdgeDistanceAbs[x1,5,2]
+   + 0 EdgeDistanceAbs[x1,5,3] + 0 EdgeDistanceAbs[x1,5,4]
+   + 0 EdgeDistanceAbs[x1,5,5] + 0 EdgeDistanceAbs[x1,5,6]
+   + 0 EdgeDistanceAbs[x1,5,7] + 0 EdgeDistanceAbs[x1,6,0]
+   + 0 EdgeDistanceAbs[x1,6,1] + 0 EdgeDistanceAbs[x1,6,2]
+   + 0 EdgeDistanceAbs[x1,6,3] + 0 EdgeDistanceAbs[x1,6,4]
+   + 0 EdgeDistanceAbs[x1,6,5] + 0 EdgeDistanceAbs[x1,6,6]
+   + 0 EdgeDistanceAbs[x1,6,7] + 0 EdgeDistanceAbs[x1,7,0]
+   + 0 EdgeDistanceAbs[x1,7,1] + 0 EdgeDistanceAbs[x1,7,2]
+   + 0 EdgeDistanceAbs[x1,7,3] + 0 EdgeDistanceAbs[x1,7,4]
+   + 0 EdgeDistanceAbs[x1,7,5] + 0 EdgeDistanceAbs[x1,7,6]
+   + 0 EdgeDistanceAbs[x1,7,7] + 0 EdgeDistanceAbs[y1,0,0]
+   + 0 EdgeDistanceAbs[y1,0,1] + 0 EdgeDistanceAbs[y1,0,2]
+   + 0 EdgeDistanceAbs[y1,0,3] + 0 EdgeDistanceAbs[y1,0,4]
+   + 0 EdgeDistanceAbs[y1,0,5] + 0 EdgeDistanceAbs[y1,0,6]
+   + 0 EdgeDistanceAbs[y1,0,7] + 0 EdgeDistanceAbs[y1,1,0]
+   + 0 EdgeDistanceAbs[y1,1,1] + 0 EdgeDistanceAbs[y1,1,2]
+   + 0 EdgeDistanceAbs[y1,1,3] + 0 EdgeDistanceAbs[y1,1,4]
+   + 0 EdgeDistanceAbs[y1,1,5] + 0 EdgeDistanceAbs[y1,1,6]
+   + 0 EdgeDistanceAbs[y1,1,7] + 0 EdgeDistanceAbs[y1,2,0]
+   + 0 EdgeDistanceAbs[y1,2,1] + 0 EdgeDistanceAbs[y1,2,2]
+   + 0 EdgeDistanceAbs[y1,2,3] + 0 EdgeDistanceAbs[y1,2,4]
+   + 0 EdgeDistanceAbs[y1,2,5] + 0 EdgeDistanceAbs[y1,2,6]
+   + 0 EdgeDistanceAbs[y1,2,7] + 0 EdgeDistanceAbs[y1,3,0]
+   + 0 EdgeDistanceAbs[y1,3,1] + 0 EdgeDistanceAbs[y1,3,2]
+   + 0 EdgeDistanceAbs[y1,3,3] + 0 EdgeDistanceAbs[y1,3,4]
+   + 0 EdgeDistanceAbs[y1,3,5] + 0 EdgeDistanceAbs[y1,3,6]
+   + 0 EdgeDistanceAbs[y1,3,7] + 0 EdgeDistanceAbs[y1,4,0]
+   + 0 EdgeDistanceAbs[y1,4,1] + 0 EdgeDistanceAbs[y1,4,2]
+   + 0 EdgeDistanceAbs[y1,4,3] + 0 EdgeDistanceAbs[y1,4,4]
+   + 0 EdgeDistanceAbs[y1,4,5] + 0 EdgeDistanceAbs[y1,4,6]
+   + 0 EdgeDistanceAbs[y1,4,7] + 0 EdgeDistanceAbs[y1,5,0]
+   + 0 EdgeDistanceAbs[y1,5,1] + 0 EdgeDistanceAbs[y1,5,2]
+   + 0 EdgeDistanceAbs[y1,5,3] + 0 EdgeDistanceAbs[y1,5,4]
+   + 0 EdgeDistanceAbs[y1,5,5] + 0 EdgeDistanceAbs[y1,5,6]
+   + 0 EdgeDistanceAbs[y1,5,7] + 0 EdgeDistanceAbs[y1,6,0]
+   + 0 EdgeDistanceAbs[y1,6,1] + 0 EdgeDistanceAbs[y1,6,2]
+   + 0 EdgeDistanceAbs[y1,6,3] + 0 EdgeDistanceAbs[y1,6,4]
+   + 0 EdgeDistanceAbs[y1,6,5] + 0 EdgeDistanceAbs[y1,6,6]
+   + 0 EdgeDistanceAbs[y1,6,7] + 0 EdgeDistanceAbs[y1,7,0]
+   + 0 EdgeDistanceAbs[y1,7,1] + 0 EdgeDistanceAbs[y1,7,2]
+   + 0 EdgeDistanceAbs[y1,7,3] + 0 EdgeDistanceAbs[y1,7,4]
+   + 0 EdgeDistanceAbs[y1,7,5] + 0 EdgeDistanceAbs[y1,7,6]
+   + 0 EdgeDistanceAbs[y1,7,7] + 0 EdgesAlign[x0,0,0]
+   + 0 EdgesAlign[x0,1,0] + 0 EdgesAlign[x0,1,1] + 0 EdgesAlign[x0,2,0]
+   + 0 EdgesAlign[x0,2,1] + 0 EdgesAlign[x0,2,2] + 0 EdgesAlign[x0,3,0]
+   + 0 EdgesAlign[x0,3,1] + 0 EdgesAlign[x0,3,2] + 0 EdgesAlign[x0,3,3]
+   + 0 EdgesAlign[x0,4,0] + 0 EdgesAlign[x0,4,1] + 0 EdgesAlign[x0,4,2]
+   + 0 EdgesAlign[x0,4,3] + 0 EdgesAlign[x0,4,4] + 0 EdgesAlign[x0,5,0]
+   + 0 EdgesAlign[x0,5,1] + 0 EdgesAlign[x0,5,2] + 0 EdgesAlign[x0,5,3]
+   + 0 EdgesAlign[x0,5,4] + 0 EdgesAlign[x0,5,5] + 0 EdgesAlign[x0,6,0]
+   + 0 EdgesAlign[x0,6,1] + 0 EdgesAlign[x0,6,2] + 0 EdgesAlign[x0,6,3]
+   + 0 EdgesAlign[x0,6,4] + 0 EdgesAlign[x0,6,5] + 0 EdgesAlign[x0,6,6]
+   + 0 EdgesAlign[x0,7,0] + 0 EdgesAlign[x0,7,1] + 0 EdgesAlign[x0,7,2]
+   + 0 EdgesAlign[x0,7,3] + 0 EdgesAlign[x0,7,4] + 0 EdgesAlign[x0,7,5]
+   + 0 EdgesAlign[x0,7,6] + 0 EdgesAlign[x0,7,7] + 0 EdgesAlign[y0,0,0]
+   + 0 EdgesAlign[y0,1,0] + 0 EdgesAlign[y0,1,1] + 0 EdgesAlign[y0,2,0]
+   + 0 EdgesAlign[y0,2,1] + 0 EdgesAlign[y0,2,2] + 0 EdgesAlign[y0,3,0]
+   + 0 EdgesAlign[y0,3,1] + 0 EdgesAlign[y0,3,2] + 0 EdgesAlign[y0,3,3]
+   + 0 EdgesAlign[y0,4,0] + 0 EdgesAlign[y0,4,1] + 0 EdgesAlign[y0,4,2]
+   + 0 EdgesAlign[y0,4,3] + 0 EdgesAlign[y0,4,4] + 0 EdgesAlign[y0,5,0]
+   + 0 EdgesAlign[y0,5,1] + 0 EdgesAlign[y0,5,2] + 0 EdgesAlign[y0,5,3]
+   + 0 EdgesAlign[y0,5,4] + 0 EdgesAlign[y0,5,5] + 0 EdgesAlign[y0,6,0]
+   + 0 EdgesAlign[y0,6,1] + 0 EdgesAlign[y0,6,2] + 0 EdgesAlign[y0,6,3]
+   + 0 EdgesAlign[y0,6,4] + 0 EdgesAlign[y0,6,5] + 0 EdgesAlign[y0,6,6]
+   + 0 EdgesAlign[y0,7,0] + 0 EdgesAlign[y0,7,1] + 0 EdgesAlign[y0,7,2]
+   + 0 EdgesAlign[y0,7,3] + 0 EdgesAlign[y0,7,4] + 0 EdgesAlign[y0,7,5]
+   + 0 EdgesAlign[y0,7,6] + 0 EdgesAlign[y0,7,7] + 0 EdgesAlign[x1,0,0]
+   + 0 EdgesAlign[x1,1,0] + 0 EdgesAlign[x1,1,1] + 0 EdgesAlign[x1,2,0]
+   + 0 EdgesAlign[x1,2,1] + 0 EdgesAlign[x1,2,2] + 0 EdgesAlign[x1,3,0]
+   + 0 EdgesAlign[x1,3,1] + 0 EdgesAlign[x1,3,2] + 0 EdgesAlign[x1,3,3]
+   + 0 EdgesAlign[x1,4,0] + 0 EdgesAlign[x1,4,1] + 0 EdgesAlign[x1,4,2]
+   + 0 EdgesAlign[x1,4,3] + 0 EdgesAlign[x1,4,4] + 0 EdgesAlign[x1,5,0]
+   + 0 EdgesAlign[x1,5,1] + 0 EdgesAlign[x1,5,2] + 0 EdgesAlign[x1,5,3]
+   + 0 EdgesAlign[x1,5,4] + 0 EdgesAlign[x1,5,5] + 0 EdgesAlign[x1,6,0]
+   + 0 EdgesAlign[x1,6,1] + 0 EdgesAlign[x1,6,2] + 0 EdgesAlign[x1,6,3]
+   + 0 EdgesAlign[x1,6,4] + 0 EdgesAlign[x1,6,5] + 0 EdgesAlign[x1,6,6]
+   + 0 EdgesAlign[x1,7,0] + 0 EdgesAlign[x1,7,1] + 0 EdgesAlign[x1,7,2]
+   + 0 EdgesAlign[x1,7,3] + 0 EdgesAlign[x1,7,4] + 0 EdgesAlign[x1,7,5]
+   + 0 EdgesAlign[x1,7,6] + 0 EdgesAlign[x1,7,7] + 0 EdgesAlign[y1,0,0]
+   + 0 EdgesAlign[y1,1,0] + 0 EdgesAlign[y1,1,1] + 0 EdgesAlign[y1,2,0]
+   + 0 EdgesAlign[y1,2,1] + 0 EdgesAlign[y1,2,2] + 0 EdgesAlign[y1,3,0]
+   + 0 EdgesAlign[y1,3,1] + 0 EdgesAlign[y1,3,2] + 0 EdgesAlign[y1,3,3]
+   + 0 EdgesAlign[y1,4,0] + 0 EdgesAlign[y1,4,1] + 0 EdgesAlign[y1,4,2]
+   + 0 EdgesAlign[y1,4,3] + 0 EdgesAlign[y1,4,4] + 0 EdgesAlign[y1,5,0]
+   + 0 EdgesAlign[y1,5,1] + 0 EdgesAlign[y1,5,2] + 0 EdgesAlign[y1,5,3]
+   + 0 EdgesAlign[y1,5,4] + 0 EdgesAlign[y1,5,5] + 0 EdgesAlign[y1,6,0]
+   + 0 EdgesAlign[y1,6,1] + 0 EdgesAlign[y1,6,2] + 0 EdgesAlign[y1,6,3]
+   + 0 EdgesAlign[y1,6,4] + 0 EdgesAlign[y1,6,5] + 0 EdgesAlign[y1,6,6]
+   + 0 EdgesAlign[y1,7,0] + 0 EdgesAlign[y1,7,1] + 0 EdgesAlign[y1,7,2]
+   + 0 EdgesAlign[y1,7,3] + 0 EdgesAlign[y1,7,4] + 0 EdgesAlign[y1,7,5]
+   + 0 EdgesAlign[y1,7,6] + 0 EdgesAlign[y1,7,7] + NumberOfGroups[x0]
+   + NumberOfGroups[y0] + NumberOfGroups[x1] + NumberOfGroups[y1]
 Subject To
  X0X1Sanity[0]: EdgeCoord[x0,0] - EdgeCoord[x1,0] <= -1
  X0X1Sanity[1]: EdgeCoord[x0,1] - EdgeCoord[x1,1] <= -1
@@ -208,6 +214,22 @@ Subject To
  Y0Y1Sanity[5]: EdgeCoord[y0,5] - EdgeCoord[y1,5] <= -1
  Y0Y1Sanity[6]: EdgeCoord[y0,6] - EdgeCoord[y1,6] <= -1
  Y0Y1Sanity[7]: EdgeCoord[y0,7] - EdgeCoord[y1,7] <= -1
+ LimitToCanvasWidth[0]: EdgeCoord[x1,0] <= 125
+ LimitToCanvasWidth[1]: EdgeCoord[x1,1] <= 125
+ LimitToCanvasWidth[2]: EdgeCoord[x1,2] <= 125
+ LimitToCanvasWidth[3]: EdgeCoord[x1,3] <= 125
+ LimitToCanvasWidth[4]: EdgeCoord[x1,4] <= 125
+ LimitToCanvasWidth[5]: EdgeCoord[x1,5] <= 125
+ LimitToCanvasWidth[6]: EdgeCoord[x1,6] <= 125
+ LimitToCanvasWidth[7]: EdgeCoord[x1,7] <= 125
+ LimitToCanvasHeight[0]: EdgeCoord[y1,0] <= 119
+ LimitToCanvasHeight[1]: EdgeCoord[y1,1] <= 119
+ LimitToCanvasHeight[2]: EdgeCoord[y1,2] <= 119
+ LimitToCanvasHeight[3]: EdgeCoord[y1,3] <= 119
+ LimitToCanvasHeight[4]: EdgeCoord[y1,4] <= 119
+ LimitToCanvasHeight[5]: EdgeCoord[y1,5] <= 119
+ LimitToCanvasHeight[6]: EdgeCoord[y1,6] <= 119
+ LimitToCanvasHeight[7]: EdgeCoord[y1,7] <= 119
  X1-X0=W[0]: - EdgeCoord[x0,0] + EdgeCoord[x1,0] - W[0] = 0
  X1-X0=W[1]: - EdgeCoord[x0,1] + EdgeCoord[x1,1] - W[1] = 0
  X1-X0=W[2]: - EdgeCoord[x0,2] + EdgeCoord[x1,2] - W[2] = 0
@@ -224,6 +246,38 @@ Subject To
  Y1-Y0=H[5]: - EdgeCoord[y0,5] + EdgeCoord[y1,5] - H[5] = 0
  Y1-Y0=H[6]: - EdgeCoord[y0,6] + EdgeCoord[y1,6] - H[6] = 0
  Y1-Y0=H[7]: - EdgeCoord[y0,7] + EdgeCoord[y1,7] - H[7] = 0
+ LinkResizeW[0,<tools.JSONLoader.Element_object_at_0x10fcfccc0>]: - W[0]
+   + ResizeW[0] = -125
+ LinkResizeW[1,<tools.JSONLoader.Element_object_at_0x10fcfccf8>]: - W[1]
+   + ResizeW[1] = -25
+ LinkResizeW[2,<tools.JSONLoader.Element_object_at_0x10fcfcd30>]: - W[2]
+   + ResizeW[2] = -50
+ LinkResizeW[3,<tools.JSONLoader.Element_object_at_0x10fcfcd68>]: - W[3]
+   + ResizeW[3] = -50
+ LinkResizeW[4,<tools.JSONLoader.Element_object_at_0x10fcfcda0>]: - W[4]
+   + ResizeW[4] = -50
+ LinkResizeW[5,<tools.JSONLoader.Element_object_at_0x10fcfcdd8>]: - W[5]
+   + ResizeW[5] = -50
+ LinkResizeW[6,<tools.JSONLoader.Element_object_at_0x10fcfce10>]: - W[6]
+   + ResizeW[6] = -50
+ LinkResizeW[7,<tools.JSONLoader.Element_object_at_0x10fcfce48>]: - W[7]
+   + ResizeW[7] = -125
+ LinkResizeH[0,<tools.JSONLoader.Element_object_at_0x10fcfccc0>]: - H[0]
+   + ResizeH[0] = -12
+ LinkResizeH[1,<tools.JSONLoader.Element_object_at_0x10fcfccf8>]: - H[1]
+   + ResizeH[1] = -88
+ LinkResizeH[2,<tools.JSONLoader.Element_object_at_0x10fcfcd30>]: - H[2]
+   + ResizeH[2] = -38
+ LinkResizeH[3,<tools.JSONLoader.Element_object_at_0x10fcfcd68>]: - H[3]
+   + ResizeH[3] = -38
+ LinkResizeH[4,<tools.JSONLoader.Element_object_at_0x10fcfcda0>]: - H[4]
+   + ResizeH[4] = -50
+ LinkResizeH[5,<tools.JSONLoader.Element_object_at_0x10fcfcdd8>]: - H[5]
+   + ResizeH[5] = -25
+ LinkResizeH[6,<tools.JSONLoader.Element_object_at_0x10fcfce10>]: - H[6]
+   + ResizeH[6] = -25
+ LinkResizeH[7,<tools.JSONLoader.Element_object_at_0x10fcfce48>]: - H[7]
+   + ResizeH[7] = -19
  LinkHorizontalOverlap[0,1]: OnLeft[0,1] + OnLeft[1,0]
    + HorizontalOverlap[0,1] = 1
  LinkHorizontalOverlap[0,2]: OnLeft[0,2] + OnLeft[2,0]
@@ -1172,7 +1226,9 @@ Subject To
    - IsElemFirstInGroup[y1,3] - IsElemFirstInGroup[y1,4]
    - IsElemFirstInGroup[y1,5] - IsElemFirstInGroup[y1,6]
    - IsElemFirstInGroup[y1,7] + NumberOfGroups[y1] = 0
- R516: Overlap[0,0] + Overlap[0,1] + Overlap[0,2] + Overlap[0,3]
+ PreventOvertOptimization: NumberOfGroups[x0] + NumberOfGroups[y0]
+   + NumberOfGroups[x1] + NumberOfGroups[y1] >= 12
+ R549: Overlap[0,0] + Overlap[0,1] + Overlap[0,2] + Overlap[0,3]
    + Overlap[0,4] + Overlap[0,5] + Overlap[0,6] + Overlap[0,7]
    + Overlap[1,0] + Overlap[1,1] + Overlap[1,2] + Overlap[1,3]
    + Overlap[1,4] + Overlap[1,5] + Overlap[1,6] + Overlap[1,7]
@@ -1188,8 +1244,6 @@ Subject To
    + Overlap[6,4] + Overlap[6,5] + Overlap[6,6] + Overlap[6,7]
    + Overlap[7,0] + Overlap[7,1] + Overlap[7,2] + Overlap[7,3]
    + Overlap[7,4] + Overlap[7,5] + Overlap[7,6] + Overlap[7,7] = 0
- PreventOvertOptimization: NumberOfGroups[x0] + NumberOfGroups[y0]
-   + NumberOfGroups[x1] + NumberOfGroups[y1] >= 12
  LinkAbove1[0,1]: Above[0,1] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,1]
    <= -0
  LinkAbove1[0,2]: Above[0,2] = 1 -> EdgeCoord[y1,0] - EdgeCoord[y0,2]
@@ -1719,54 +1773,38 @@ Subject To
    + EdgesAlign[y1,3,7] + EdgesAlign[y1,4,7] + EdgesAlign[y1,5,7]
    + EdgesAlign[y1,6,7] <= 6
 Bounds
- EdgeCoord[x0,0] <= 8
- EdgeCoord[x0,1] <= 8
- EdgeCoord[x0,2] <= 8
- EdgeCoord[x0,3] <= 8
- EdgeCoord[x0,4] <= 8
- EdgeCoord[x0,5] <= 8
- EdgeCoord[x0,6] <= 8
- EdgeCoord[x0,7] <= 8
- EdgeCoord[y0,0] <= 8
- EdgeCoord[y0,1] <= 8
- EdgeCoord[y0,2] <= 8
- EdgeCoord[y0,3] <= 8
- EdgeCoord[y0,4] <= 8
- EdgeCoord[y0,5] <= 8
- EdgeCoord[y0,6] <= 8
- EdgeCoord[y0,7] <= 8
- EdgeCoord[x1,0] <= 8
- EdgeCoord[x1,1] <= 8
- EdgeCoord[x1,2] <= 8
- EdgeCoord[x1,3] <= 8
- EdgeCoord[x1,4] <= 8
- EdgeCoord[x1,5] <= 8
- EdgeCoord[x1,6] <= 8
- EdgeCoord[x1,7] <= 8
- EdgeCoord[y1,0] <= 8
- EdgeCoord[y1,1] <= 8
- EdgeCoord[y1,2] <= 8
- EdgeCoord[y1,3] <= 8
- EdgeCoord[y1,4] <= 8
- EdgeCoord[y1,5] <= 8
- EdgeCoord[y1,6] <= 8
- EdgeCoord[y1,7] <= 8
- 1 <= W[0] <= 8
- 1 <= W[1] <= 8
- 1 <= W[2] <= 8
- 1 <= W[3] <= 8
- 1 <= W[4] <= 8
- 1 <= W[5] <= 8
- 1 <= W[6] <= 8
- 1 <= W[7] <= 8
- 1 <= H[0] <= 8
- 1 <= H[1] <= 8
- 1 <= H[2] <= 8
- 1 <= H[3] <= 8
- 1 <= H[4] <= 8
- 1 <= H[5] <= 8
- 1 <= H[6] <= 8
- 1 <= H[7] <= 8
+ W[0] >= 1
+ W[1] >= 1
+ W[2] >= 1
+ W[3] >= 1
+ W[4] >= 1
+ W[5] >= 1
+ W[6] >= 1
+ W[7] >= 1
+ H[0] >= 1
+ H[1] >= 1
+ H[2] >= 1
+ H[3] >= 1
+ H[4] >= 1
+ H[5] >= 1
+ H[6] >= 1
+ H[7] >= 1
+ ResizeW[0] free
+ ResizeW[1] free
+ ResizeW[2] free
+ ResizeW[3] free
+ ResizeW[4] free
+ ResizeW[5] free
+ ResizeW[6] free
+ ResizeW[7] free
+ ResizeH[0] free
+ ResizeH[1] free
+ ResizeH[2] free
+ ResizeH[3] free
+ ResizeH[4] free
+ ResizeH[5] free
+ ResizeH[6] free
+ ResizeH[7] free
  EdgeDistance[x0,0,0] free
  EdgeDistance[x0,0,1] free
  EdgeDistance[x0,0,2] free
@@ -2207,6 +2245,12 @@ Generals
  EdgeCoord[y1,0] EdgeCoord[y1,1] EdgeCoord[y1,2] EdgeCoord[y1,3]
  EdgeCoord[y1,4] EdgeCoord[y1,5] EdgeCoord[y1,6] EdgeCoord[y1,7] W[0] W[1]
  W[2] W[3] W[4] W[5] W[6] W[7] H[0] H[1] H[2] H[3] H[4] H[5] H[6] H[7]
+ ResizeW[0] ResizeW[1] ResizeW[2] ResizeW[3] ResizeW[4] ResizeW[5]
+ ResizeW[6] ResizeW[7] ResizeWAbs[0] ResizeWAbs[1] ResizeWAbs[2]
+ ResizeWAbs[3] ResizeWAbs[4] ResizeWAbs[5] ResizeWAbs[6] ResizeWAbs[7]
+ ResizeH[0] ResizeH[1] ResizeH[2] ResizeH[3] ResizeH[4] ResizeH[5]
+ ResizeH[6] ResizeH[7] ResizeHAbs[0] ResizeHAbs[1] ResizeHAbs[2]
+ ResizeHAbs[3] ResizeHAbs[4] ResizeHAbs[5] ResizeHAbs[6] ResizeHAbs[7]
  EdgeDistance[x0,0,0] EdgeDistance[x0,0,1] EdgeDistance[x0,0,2]
  EdgeDistance[x0,0,3] EdgeDistance[x0,0,4] EdgeDistance[x0,0,5]
  EdgeDistance[x0,0,6] EdgeDistance[x0,0,7] EdgeDistance[x0,1,0]
@@ -2380,6 +2424,22 @@ Generals
  EdgeDistanceAbs[y1,7,6] EdgeDistanceAbs[y1,7,7] NumberOfGroups[x0]
  NumberOfGroups[y0] NumberOfGroups[x1] NumberOfGroups[y1]
 General Constraints
+ LinkResizeWAbs[0]: ResizeWAbs[0] = ABS ( ResizeW[0] )
+ LinkResizeWAbs[1]: ResizeWAbs[1] = ABS ( ResizeW[1] )
+ LinkResizeWAbs[2]: ResizeWAbs[2] = ABS ( ResizeW[2] )
+ LinkResizeWAbs[3]: ResizeWAbs[3] = ABS ( ResizeW[3] )
+ LinkResizeWAbs[4]: ResizeWAbs[4] = ABS ( ResizeW[4] )
+ LinkResizeWAbs[5]: ResizeWAbs[5] = ABS ( ResizeW[5] )
+ LinkResizeWAbs[6]: ResizeWAbs[6] = ABS ( ResizeW[6] )
+ LinkResizeWAbs[7]: ResizeWAbs[7] = ABS ( ResizeW[7] )
+ LinkResizeHAbs[0]: ResizeHAbs[0] = ABS ( ResizeH[0] )
+ LinkResizeHAbs[1]: ResizeHAbs[1] = ABS ( ResizeH[1] )
+ LinkResizeHAbs[2]: ResizeHAbs[2] = ABS ( ResizeH[2] )
+ LinkResizeHAbs[3]: ResizeHAbs[3] = ABS ( ResizeH[3] )
+ LinkResizeHAbs[4]: ResizeHAbs[4] = ABS ( ResizeH[4] )
+ LinkResizeHAbs[5]: ResizeHAbs[5] = ABS ( ResizeH[5] )
+ LinkResizeHAbs[6]: ResizeHAbs[6] = ABS ( ResizeH[6] )
+ LinkResizeHAbs[7]: ResizeHAbs[7] = ABS ( ResizeH[7] )
  LinkOverlap[0,1]: Overlap[0,1] = AND ( HorizontalOverlap[0,1] ,
    VerticalOverlap[0,1] )
  LinkOverlap[0,2]: Overlap[0,2] = AND ( HorizontalOverlap[0,2] ,
