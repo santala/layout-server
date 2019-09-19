@@ -19,36 +19,33 @@ def solve(layout: Layout):
         # VARIABLES
 
         # Element coordinates (in multiples of grid size)
-        edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
-        m.addConstrs((
-            edge_coord['x0', i] <= edge_coord['x1', i] - 1
-            for i in elem_indices
-        ), name='X0X1Sanity')
-        m.addConstrs((
-            edge_coord['y0', i] <= edge_coord['y1', i] - 1
-            for i in elem_indices
-        ), name='Y0Y1Sanity')
-        m.addConstrs((
-            edge_coord['x1', i] <= round(layout.canvas_width / m._grid_size)
-            for i in elem_indices
-        ), name='LimitToCanvasWidth')
-        m.addConstrs((
-            edge_coord['y1', i] <= round(layout.canvas_height / m._grid_size)
-            for i in elem_indices
-        ), name='LimitToCanvasHeight')
+        #edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
+        x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+        y0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+        x1 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+        y1 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+
+        m.addConstrs((x0[i] <= x1[i] - 1 for i in range(n)), name='X0X1Sanity')
+        m.addConstrs((y0[i] <= y1[i] - 1 for i in range(n)), name='X0X1Sanity')
+        m.addConstrs((x1[i] <= round(layout.canvas_width / m._grid_size) for i in range(n)), name='LimitToCanvasW')
+        m.addConstrs((y1[i] <= round(layout.canvas_height / m._grid_size) for i in range(n)), name='LimitToCanvasH')
+
 
         # Element size (in multiples of grid size)
         w = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='W')
         h = m.addVars(n, lb=1, vtype=GRB.INTEGER, name='H')
         # Bind width and height to the coordinates
-        m.addConstrs((edge_coord['x1', i] - edge_coord['x0', i] == w[i] for i in range(n)), 'X1-X0=W')
-        m.addConstrs((edge_coord['y1', i] - edge_coord['y0', i] == h[i] for i in range(n)), 'Y1-Y0=H')
+        m.addConstrs((x1[i] - x0[i] == w[i] for i in range(n)), 'X1-X0=W')
+        m.addConstrs((y1[i] - y0[i] == h[i] for i in range(n)), 'Y1-Y0=H')
+
+
+
 
 
         for i, element in enumerate(layout.elements):
             break
-            edge_coord['x0', i].start = round(element.x / m._grid_size)
-            edge_coord['y0', i].start = round(element.y / m._grid_size)
+            x0[i].start = round(element.x / m._grid_size)
+            y0[i].start = round(element.y / m._grid_size)
             w[i].start = round(element.width / m._grid_size)
             h[i].start = round(element.height / m._grid_size)
 
@@ -76,7 +73,7 @@ def solve(layout: Layout):
 
         move_x = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveX')
         m.addConstrs((
-            move_x[i] == edge_coord['x0', i] - round(element.x / m._grid_size) for i, element in enumerate(layout.elements)
+            move_x[i] == x0[i] - round(element.x / m._grid_size) for i, element in enumerate(layout.elements)
         ), name='LinkMoveX')
         move_x_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveXAbs')
         m.addConstrs((
@@ -85,7 +82,7 @@ def solve(layout: Layout):
 
         move_y = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveY')
         m.addConstrs((
-            move_y[i] == edge_coord['y0', i] - round(element.y / m._grid_size) for i, element in enumerate(layout.elements)
+            move_y[i] == y0[i] - round(element.y / m._grid_size) for i, element in enumerate(layout.elements)
         ), name='LinkMoveY')
         move_y_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveYAbs')
         m.addConstrs((
@@ -96,62 +93,56 @@ def solve(layout: Layout):
 
         above = m.addVars(n, n, vtype=GRB.BINARY, name='Above')
         m.addConstrs((
-            (above[i1, i2] == 1) >> (edge_coord['y1', i1] <= edge_coord['y0', i2])
+            (above[i1, i2] == 1) >> (y1[i1] <= y0[i2])
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkAbove1')
         m.addConstrs((
-            (above[i1, i2] == 0) >> (edge_coord['y1', i1] >= edge_coord['y0', i2] - 1)
+            (above[i1, i2] == 0) >> (y1[i1] >= y0[i2] - 1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkAbove2')
 
         on_left = m.addVars(n, n, vtype=GRB.BINARY, name='OnLeft')
         m.addConstrs((
-            (on_left[i1, i2] == 1) >> (edge_coord['x1', i1] <= edge_coord['x0', i2])
+            (on_left[i1, i2] == 1) >> (x1[i1] <= x0[i2])
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkOnLeft1')
         m.addConstrs((
-            (on_left[i1, i2] == 0) >> (edge_coord['x1', i1] >= edge_coord['x0', i2] - 1)
+            (on_left[i1, i2] == 0) >> (x1[i1] >= x0[i2] - 1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkOnLeft2')
 
         # OVERLAP
 
-        h_overlap = m.addVars(n, n, vtype=GRB.BINARY, name='HorizontalOverlap')
+        element_pairs = [(i1, i2) for i1, i2 in product(range(n), range(n)) if i1 != i2]
+
+        h_overlap = m.addVars(element_pairs, vtype=GRB.BINARY, name='HorizontalOverlap')
         m.addConstrs((
             h_overlap[i1, i2] == 1 - (on_left[i1, i2] + on_left[i2, i1])
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in element_pairs
         ), name='LinkHorizontalOverlap')
 
         v_overlap = m.addVars(n, n, vtype=GRB.BINARY, name='VerticalOverlap')
         m.addConstrs((
             v_overlap[i1, i2] == 1 - (above[i1, i2] + above[i2, i1])
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in element_pairs
         ), name='LinkVerticalOverlap')
 
         overlap = m.addVars(n, n, vtype=GRB.BINARY, name='Overlap')
         m.addConstrs((
             overlap[i1, i2] == and_(h_overlap[i1, i2], v_overlap[i1, i2])
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in element_pairs
         ), name='LinkOverlap')
 
-        # EXPL: OLD
-        # TODO: 4x *ag [n BOOL]: alignment group enabled
-        # TODO: 4x v_*ag [n INT]: position of alignment group
-        # TODO: 4x at_*ag [n*n BOOL]: whether element is using alignment group
-
-        # EXPL: ALT
-        # 4x sharing_*ag [n*n BOOL]: whether corresponding edges of two elements align
-        # 3D matrix with shape 4*n*n
 
 
         # VAR element edge distance 4*n*n
 
         edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='EdgeDistance')
-        m.addConstrs((
-            edge_diff[edge, i1, i2] == edge_coord[edge, i1] - edge_coord[edge, i2]
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgeDistance')
-
+        for edge, edge_var in zip(edge_indices, [x0, y0, x1, y1]):
+            m.addConstrs((
+                edge_diff[edge, i1, i2] == edge_var[i1] - edge_var[i2]
+                for i1, i2 in product(elem_indices, elem_indices)
+            ), name='Link'+str(edge)+'Diff')
 
         edge_diff_loose_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
         m.addConstrs((
@@ -170,20 +161,7 @@ def solve(layout: Layout):
             edges_dont_align[edge, i1, i2] == min_(1, edge_diff_loose_abs[edge, i1, i2])
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
         ), name='LinkEdgesAlign')
-        '''
-        m.addConstrs((
-            (edges_dont_align[edge, i1, i2] == 0) >> (edge_diff[edge, i1, i2] == 0)
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgesAlign1')
-        m.addConstrs((
-            (edge_diff[edge, i1, i2] >= 1) >> (edges_dont_align[edge, i1, i2] == 1)
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgesAlign2')
-        m.addConstrs((
-            (edge_diff[edge, i2, i1] >= 1) >> (edges_dont_align[edge, i1, i2] == 1)
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgesAlign3')
-        '''
+
         # 0 if element is aligned with another element that comes before it, else 1
         is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
         m.addConstrs((
@@ -204,6 +182,22 @@ def solve(layout: Layout):
         ), name='LinkNumberOfGroups')
 
         # OBJECTIVES
+
+        # BALANCE
+
+        elem_areas = [QuadExpr(w[i] * h[i]) for i in range(n)]
+        elem_d_x = [LinExpr(0.5 * (w[i] * m._grid_size + layout.canvas_width) - x0[i] * m._grid_size) for i in range(n)]
+        elem_d_y = [LinExpr(0.5 * (h[i] * m._grid_size + layout.canvas_height) - y0[i] * m._grid_size) for i in range(n)]
+
+
+        # B = 1 - (Bh + Bv) / 2
+        # Bh = |Wr-Wl|/max(|Wl|,|Wr|)
+        # Wr = sum( ar*d )
+        # Wl = sum( al*-d ) = -sum( al*d )
+        # |Wr-Wl| = |Wr+Wl| = sum(a*d)
+
+        # EXPL: If the objective is to maximize Balance, it helps to maximize the denominator, i.e. max(|Wl|,|Wr|)
+        # EXPL: therefore, it should be enough to define: denominator <= [-Wl, Wl, -Wr, Wr]
 
         # Minimize scaling of elements
 
@@ -270,8 +264,8 @@ def solve(layout: Layout):
             elements = [
                 {
                     'id': element.id,
-                    'x': int(edge_coord['x0', i].X) * m._grid_size,  # ‘X’ is the value of the variable in the current solution
-                    'y': int(edge_coord['y0', i].X) * m._grid_size,
+                    'x': int(x0[i].X) * m._grid_size,  # ‘X’ is the value of the variable in the current solution
+                    'y': int(y0[i].X) * m._grid_size,
                     'width': int(w[i].X) * m._grid_size,
                     'height': int(h[i].X) * m._grid_size,
                 } for i, element in enumerate(layout.elements)
