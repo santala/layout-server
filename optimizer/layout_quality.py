@@ -1,7 +1,7 @@
 from itertools import combinations, product
-from math import factorial, sqrt
+from math import factorial, floor, sqrt
 
-from gurobipy import GRB, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
+from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
@@ -21,9 +21,9 @@ def solve(layout: Layout):
         # Element coordinates (in multiples of grid size)
         #edge_coord = m.addVars(edge_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeCoord')
         x0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
-        y0 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
-        x1 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
-        y1 = m.addVars(n, vtype=GRB.INTEGER, name='X0')
+        y0 = m.addVars(n, vtype=GRB.INTEGER, name='Y0')
+        x1 = m.addVars(n, vtype=GRB.INTEGER, name='X1')
+        y1 = m.addVars(n, vtype=GRB.INTEGER, name='Y1')
 
         m.addConstrs((x0[i] <= x1[i] - 1 for i in range(n)), name='X0X1Sanity')
         m.addConstrs((y0[i] <= y1[i] - 1 for i in range(n)), name='X0X1Sanity')
@@ -103,7 +103,7 @@ def solve(layout: Layout):
         m.addConstrs((
             above[i1, i2] + above[i2, i1] <= 1
             for i1, i2 in product(range(n), range(n)) if i1 != i2
-        ), name='AboveSanity')
+        ), name='AboveSanity') # TODO: check if sanity checks are necessary
 
         on_left = m.addVars(n, n, vtype=GRB.BINARY, name='OnLeft')
         m.addConstrs((
@@ -118,6 +118,7 @@ def solve(layout: Layout):
             on_left[i1, i2] + on_left[i2, i1] <= 1
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='OnLeftSanity')
+
 
         # OVERLAP
 
@@ -141,10 +142,101 @@ def solve(layout: Layout):
             for i1, i2 in element_pairs
         ), name='LinkOverlap')
 
+        # IN PREV COL
 
+        x0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X0LessThan')
+        m.addConstrs((
+            (x0_less_than[i1, i2] == 1) >> (x0[i1] <= x0[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX0LessThan1')
+        m.addConstrs((
+            (x0_less_than[i1, i2] == 0) >> (x0[i1] >= x0[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX0LessThan2')
+
+        x1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X1LessThan')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 1) >> (x1[i1] <= x1[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1LessThan1')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 0) >> (x1[i1] >= x1[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1LessThan2')
+
+        y0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y0LessThan')
+        m.addConstrs((
+            (y0_less_than[i1, i2] == 1) >> (y0[i1] <= y0[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY0LessThan1')
+        m.addConstrs((
+            (y0_less_than[i1, i2] == 0) >> (y0[i1] >= y0[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY0LessThan2')
+
+        y1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y1LessThan')
+        m.addConstrs((
+            (y1_less_than[i1, i2] == 1) >> (y1[i1] <= y1[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY1LessThan1')
+        m.addConstrs((
+            (y1_less_than[i1, i2] == 0) >> (y1[i1] >= y1[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY1LessThan2')
+
+
+
+        # ALT NUMBER OF GROUPS
+        x0_group = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='X0Group')
+        y0_group = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='Y0Group')
+        x1_group = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='X1Group')
+        y1_group = m.addVars(n, lb=1, ub=n, vtype=GRB.INTEGER, name='Y1Group')
+        m.addConstrs((
+            (x0_less_than[i1, i2] == 1) >> (x0_group[i1] <= x0_group[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX0Group1')
+        m.addConstrs((
+            (x0_less_than[i1, i2] == 0) >> (x0_group[i1] >= x0_group[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX0Group2')
+        m.addConstrs((
+            (y0_less_than[i1, i2] == 1) >> (y0_group[i1] <= y0_group[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY0Group1')
+        m.addConstrs((
+            (y0_less_than[i1, i2] == 0) >> (y0_group[i1] >= y0_group[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY0Group2')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 1) >> (x1_group[i1] <= x1_group[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1Group1')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 0) >> (x1_group[i1] >= x1_group[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1Group2')
+        m.addConstrs((
+            (y1_less_than[i1, i2] == 1) >> (y1_group[i1] <= y1_group[i2] - 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY1Group1')
+        m.addConstrs((
+            (y1_less_than[i1, i2] == 0) >> (y1_group[i1] >= y1_group[i2])
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkY1Group2')
+
+        x0_group_count = m.addVar(lb=1, ub=n, vtype=GRB.INTEGER, name='X0GroupCount')
+        y0_group_count = m.addVar(lb=1, ub=n, vtype=GRB.INTEGER, name='Y0GroupCount')
+        x1_group_count = m.addVar(lb=1, ub=n, vtype=GRB.INTEGER, name='X1GroupCount')
+        y1_group_count = m.addVar(lb=1, ub=n, vtype=GRB.INTEGER, name='Y1GroupCount')
+        m.addConstr(x0_group_count == max_(x0_group))
+        m.addConstr(y0_group_count == max_(y0_group))
+        m.addConstr(y0_group_count == max_(x1_group))
+        m.addConstr(y1_group_count == max_(y1_group))
 
         # VAR element edge distance 4*n*n
 
+
+        # EXPL: the existence of below variable speeds up the optimizer, even if the variable isn’t used
         edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='EdgeDistance')
         for edge, edge_var in zip(edge_indices, [x0, y0, x1, y1]):
             m.addConstrs((
@@ -152,41 +244,12 @@ def solve(layout: Layout):
                 for i1, i2 in product(elem_indices, elem_indices)
             ), name='Link'+str(edge)+'Diff')
 
-        edge_diff_loose_abs = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.INTEGER, name='EdgeDistanceAbs')
-        m.addConstrs((
-            edge_diff_loose_abs[edge, i1, i2] >= edge_diff[edge, i1, i2]
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgeDistanceLooseAbs1')
-        m.addConstrs((
-            edge_diff_loose_abs[edge, i1, i2] >= edge_diff[edge, i2, i1]
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgeDistanceLooseAbs2')
 
 
-        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesDontAlign')
-        m.addConstrs((
-            edges_dont_align[edge, i1, i2] == min_(1, edge_diff_loose_abs[edge, i1, i2])
-            for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgesDontAlign')
 
-        # 0 if element is aligned with another element that comes before it, else 1
-        is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
-        m.addConstrs((
-            # Forces variable to zero if it is aligned with any previous element
-            is_elem_first_in_group[edge, i2] <= edges_dont_align[edge, i1, i2]
-            for edge, (i1, i2) in product(edge_indices, combinations(elem_indices, 2))
-        ), name='LinkIsElemFirstInGroup1')
-        m.addConstrs((
-            # Ensures that if variable is zero, the element aligns at least one previous element
-            (is_elem_first_in_group[edge, i] == 0) >> (LinExpr([1]*i, [edges_dont_align[edge, prev, i] for prev in range(i)]) <= i - 1)
-            for edge, i in product(edge_indices, elem_indices)
-        ), name='LinkIsElemFirstInGroup2')
 
-        number_of_groups = m.addVars(edge_indices, vtype=GRB.INTEGER, name='NumberOfGroups')
-        m.addConstrs((
-            number_of_groups[edge] == is_elem_first_in_group.sum(edge, '*')
-            for edge in edge_indices
-        ), name='LinkNumberOfGroups')
+
+
 
         # OBJECTIVES
 
@@ -231,7 +294,10 @@ def solve(layout: Layout):
 
 
         number_of_groups_expr = LinExpr()
-        number_of_groups_expr.add(number_of_groups.sum())
+        number_of_groups_expr.add(x0_group_count)
+        number_of_groups_expr.add(y0_group_count)
+        number_of_groups_expr.add(x1_group_count)
+        number_of_groups_expr.add(y1_group_count)
         m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
 
 
@@ -257,14 +323,6 @@ def solve(layout: Layout):
                 e2: Element = layout.elements[i2]
                 print(e1.elementType, e2.elementType, do_overlap(e1, e2))
                 if do_overlap(e1, e2):
-                    '''
-                    for edge, v1, v2 in zip(edge_indices, [e1.x0, e1.y0, e1.x1, e1.y1], [e2.x0, e2.y0, e2.x1, e2.y1]):
-                        print(v1, v2, int(v1 != v2))
-                    m.addConstrs((
-                        edges_dont_align[edge, i1, i2] == int(v1 != v2)
-                        for edge, v1, v2 in zip(edge_indices, [e1.x0, e1.y0, e1.x1, e1.y1], [e2.x0, e2.y0, e2.x1, e2.y1])
-                    ), name='PreserveEdgeAlignmentStatus')
-                    '''
                     # x0
                     if e1.x0 < e2.x0:
                         m.addConstr(x0[i1] <= x0[i2] - 1, 'DontAlignOverlappingX0'+str(i1)+','+str(i2))
@@ -286,7 +344,28 @@ def solve(layout: Layout):
                     elif e1.y1 > e2.y1:
                         m.addConstr(y1[i1] >= y1[i2] + 1, 'DontAlignOverlappingY1' + str(i1) + ',' + str(i2))
 
+        # MINIMIZE LAYOUT COLUMNS
+        # TODO: what about preferred number of columns?
 
+
+        # MINIMIZE DIFFERENCE BETWEEN LEFT AND RIGHT MARGINS
+        left_margin = m.addVar(lb=0, vtype=GRB.INTEGER, name='LeftMargin')
+        m.addConstr(left_margin == min_(x0), name='LinkLeftMargin')
+
+        max_x1 = m.addVar(lb=0, vtype=GRB.INTEGER, name='MaxX1')
+        m.addConstr(max_x1 == max_(x1), name='LinkMaxX1')
+
+        right_margin = m.addVar(lb=0, vtype=GRB.INTEGER, name='MaxX1')
+        m.addConstr(right_margin == floor(layout.canvas_width / 8) - max_x1, name='LinkRightMargin')
+
+        margin_diff_loose_abs = m.addVar(lb=0, vtype=GRB.INTEGER, name='MarginDiffLooseAbs')
+        m.addConstr(margin_diff_loose_abs >= left_margin - right_margin, name='LinkMarginDiffLooseAbs1')
+        m.addConstr(margin_diff_loose_abs >= right_margin - left_margin, name='LinkMarginDiffLooseAbs2')
+
+        margin_diff_abs_expr = LinExpr()
+        margin_diff_abs_expr.add(margin_diff_loose_abs)
+
+        obj_expr.add(margin_diff_abs_expr)
 
         obj_expr.add(number_of_groups_expr)
 
