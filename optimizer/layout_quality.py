@@ -257,14 +257,11 @@ def solve(layout: Layout):
 
 
 
-
-
-
-
-
-
-
         # OBJECTIVES
+
+        # FIXED COLUMN WIDTH
+
+
 
         # BALANCE
 
@@ -380,6 +377,58 @@ def solve(layout: Layout):
 
         obj_expr.add(margin_diff_abs_expr)
 
+        col_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+
+        # COLUMN INDICES
+        '''
+        max_col_count = 12
+
+        idx_names = ['BeginColumnIndex', 'EndColumnIndex']
+        col_indices = [
+            m.addVars(n, lb=0, ub=max_col_count - 1, vtype=GRB.INTEGER, name=idx_name)
+            for idx_name in idx_names
+        ]
+        bgn_col_idx, end_col_idx = col_indices
+
+        for col_idx, idx_name in zip(col_indices, idx_names):
+            m.addConstrs((
+                (x0_less_than[i1, i2] == 1) >> (col_idx[i1] <= col_idx[i2] - 1)
+                for i1, i2 in product(range(n), range(n)) if i1 != i2
+            ), name='Link' + idx_name + '1')
+            m.addConstrs((
+                (x0_less_than[i1, i2] == 0) >> (col_idx[i1] >= col_idx[i2])
+                for i1, i2 in product(range(n), range(n)) if i1 != i2
+            ), name='Link' + idx_name + '2')
+
+        starts_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='StartsInColumn')
+        m.addConstrs((
+            (starts_in_col[i, c] == 1) >> (bgn_col_idx[i] == c)
+            for i, c in product(range(n), range(max_col_count))
+        ), name='LinkStartsInColumn')
+        m.addConstrs((
+            starts_in_col.sum(i, '*') == 1
+            for i in range(n)
+        ), name='MustStartInSomeColumn')
+
+        ends_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='EndsInColumn')
+        m.addConstrs((
+            (ends_in_col[i, c] == 1) >> (end_col_idx[i] == c)
+            for i, c in product(range(n), range(max_col_count))
+        ), name='LinkStartsInColumn')
+        m.addConstrs((
+            ends_in_col.sum(i, '*') == 1
+            for i in range(n)
+        ), name='MustEndInSomeColumn')
+
+        m.addConstrs((
+            (starts_in_col[i, c] == 1) >> (x0[i] == left_margin + c * col_width)
+            for i, c in product(range(n), range(max_col_count))
+        ))
+        m.addConstrs((
+            (ends_in_col[i, c] == 1) >> (x1[i] == right_margin - c * col_width)
+            for i, c in product(range(n), range(max_col_count))
+        ))
+        '''
         obj_expr.add(number_of_groups_expr)
 
         obj_expr.add(move_expr, 1)
@@ -407,6 +456,7 @@ def solve(layout: Layout):
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
             print('Number of groups', number_of_groups_expr.getValue(), 'Minimum:', compute_minimum_grid(n))
             print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
+            print('Column width', col_width.X)
 
             elements = [
                 {
