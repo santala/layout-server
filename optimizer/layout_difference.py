@@ -115,8 +115,8 @@ def get_prod_coeff(coeff_func: Callable[[Element, Element], float], layout1: Lay
     }
 
 def euclidean_distance(e1: Element, e2: Element):
-    delta_x = abs(e1.x - e2.x)
-    delta_y = abs(e1.y - e2.y)
+    delta_x = abs(e1.x0 - e2.x0)
+    delta_y = abs(e1.y0 - e2.y0)
     return ((delta_x / (e1.layout.x_sum + e2.layout.x_sum)) + (delta_y / (e1.layout.y_sum + e2.layout.y_sum))) \
         * ((e1.area + e2.area) / (e1.layout.area_sum + e2.layout.area_sum))
 

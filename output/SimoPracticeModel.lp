@@ -1,17 +1,17 @@
 \ Model GLayoutQuality
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
-  0.00416666666666667 ResizeWAbs[0] + 0.00416666666666667 ResizeWAbs[1]
+  0.00595238095238095 ResizeWAbs[0] + 0.00416666666666667 ResizeWAbs[1]
    + 0.00595238095238095 ResizeWAbs[2] + 0.00595238095238095 ResizeWAbs[3]
-   + 0.00520833333333333 ResizeWAbs[4] + 0.00416666666666667 ResizeWAbs[5]
-   + 0.00219298245614035 ResizeWAbs[6] + 0.00735294117647059 ResizeHAbs[0]
+   + 0.00595238095238095 ResizeWAbs[4] + 0.00416666666666667 ResizeWAbs[5]
+   + 0.00189393939393939 ResizeWAbs[6] + 0.00735294117647059 ResizeHAbs[0]
    + 0.00735294117647059 ResizeHAbs[1] + 0.00595238095238095 ResizeHAbs[2]
    + 0.00735294117647059 ResizeHAbs[3] + 0.00595238095238095 ResizeHAbs[4]
    + 0.00595238095238095 ResizeHAbs[5] + 0.00347222222222222 ResizeHAbs[6]
-   + 0.00416666666666667 MoveXAbs[0] + 0.00416666666666667 MoveXAbs[1]
+   + 0.00595238095238095 MoveXAbs[0] + 0.00416666666666667 MoveXAbs[1]
    + 0.00595238095238095 MoveXAbs[2] + 0.00595238095238095 MoveXAbs[3]
-   + 0.00520833333333333 MoveXAbs[4] + 0.00416666666666667 MoveXAbs[5]
-   + 0.00219298245614035 MoveXAbs[6] + 0.00735294117647059 MoveYAbs[0]
+   + 0.00595238095238095 MoveXAbs[4] + 0.00416666666666667 MoveXAbs[5]
+   + 0.00189393939393939 MoveXAbs[6] + 0.00735294117647059 MoveYAbs[0]
    + 0.00735294117647059 MoveYAbs[1] + 0.00595238095238095 MoveYAbs[2]
    + 0.00735294117647059 MoveYAbs[3] + 0.00595238095238095 MoveYAbs[4]
    + 0.00595238095238095 MoveYAbs[5] + 0.00347222222222222 MoveYAbs[6]
@@ -23,46 +23,64 @@ Minimize
    + 0 VerticalOverlap[3,3] + 0 VerticalOverlap[4,4]
    + 0 VerticalOverlap[5,5] + 0 VerticalOverlap[6,6] + 0 Overlap[0,0]
    + 0 Overlap[1,1] + 0 Overlap[2,2] + 0 Overlap[3,3] + 0 Overlap[4,4]
-   + 0 Overlap[5,5] + 0 Overlap[6,6] + 0 EdgesAlign[x0,0,0]
-   + 0 EdgesAlign[x0,1,0] + 0 EdgesAlign[x0,1,1] + 0 EdgesAlign[x0,2,0]
-   + 0 EdgesAlign[x0,2,1] + 0 EdgesAlign[x0,2,2] + 0 EdgesAlign[x0,3,0]
-   + 0 EdgesAlign[x0,3,1] + 0 EdgesAlign[x0,3,2] + 0 EdgesAlign[x0,3,3]
-   + 0 EdgesAlign[x0,4,0] + 0 EdgesAlign[x0,4,1] + 0 EdgesAlign[x0,4,2]
-   + 0 EdgesAlign[x0,4,3] + 0 EdgesAlign[x0,4,4] + 0 EdgesAlign[x0,5,0]
-   + 0 EdgesAlign[x0,5,1] + 0 EdgesAlign[x0,5,2] + 0 EdgesAlign[x0,5,3]
-   + 0 EdgesAlign[x0,5,4] + 0 EdgesAlign[x0,5,5] + 0 EdgesAlign[x0,6,0]
-   + 0 EdgesAlign[x0,6,1] + 0 EdgesAlign[x0,6,2] + 0 EdgesAlign[x0,6,3]
-   + 0 EdgesAlign[x0,6,4] + 0 EdgesAlign[x0,6,5] + 0 EdgesAlign[x0,6,6]
-   + 0 EdgesAlign[y0,0,0] + 0 EdgesAlign[y0,1,0] + 0 EdgesAlign[y0,1,1]
-   + 0 EdgesAlign[y0,2,0] + 0 EdgesAlign[y0,2,1] + 0 EdgesAlign[y0,2,2]
-   + 0 EdgesAlign[y0,3,0] + 0 EdgesAlign[y0,3,1] + 0 EdgesAlign[y0,3,2]
-   + 0 EdgesAlign[y0,3,3] + 0 EdgesAlign[y0,4,0] + 0 EdgesAlign[y0,4,1]
-   + 0 EdgesAlign[y0,4,2] + 0 EdgesAlign[y0,4,3] + 0 EdgesAlign[y0,4,4]
-   + 0 EdgesAlign[y0,5,0] + 0 EdgesAlign[y0,5,1] + 0 EdgesAlign[y0,5,2]
-   + 0 EdgesAlign[y0,5,3] + 0 EdgesAlign[y0,5,4] + 0 EdgesAlign[y0,5,5]
-   + 0 EdgesAlign[y0,6,0] + 0 EdgesAlign[y0,6,1] + 0 EdgesAlign[y0,6,2]
-   + 0 EdgesAlign[y0,6,3] + 0 EdgesAlign[y0,6,4] + 0 EdgesAlign[y0,6,5]
-   + 0 EdgesAlign[y0,6,6] + 0 EdgesAlign[x1,0,0] + 0 EdgesAlign[x1,1,0]
-   + 0 EdgesAlign[x1,1,1] + 0 EdgesAlign[x1,2,0] + 0 EdgesAlign[x1,2,1]
-   + 0 EdgesAlign[x1,2,2] + 0 EdgesAlign[x1,3,0] + 0 EdgesAlign[x1,3,1]
-   + 0 EdgesAlign[x1,3,2] + 0 EdgesAlign[x1,3,3] + 0 EdgesAlign[x1,4,0]
-   + 0 EdgesAlign[x1,4,1] + 0 EdgesAlign[x1,4,2] + 0 EdgesAlign[x1,4,3]
-   + 0 EdgesAlign[x1,4,4] + 0 EdgesAlign[x1,5,0] + 0 EdgesAlign[x1,5,1]
-   + 0 EdgesAlign[x1,5,2] + 0 EdgesAlign[x1,5,3] + 0 EdgesAlign[x1,5,4]
-   + 0 EdgesAlign[x1,5,5] + 0 EdgesAlign[x1,6,0] + 0 EdgesAlign[x1,6,1]
-   + 0 EdgesAlign[x1,6,2] + 0 EdgesAlign[x1,6,3] + 0 EdgesAlign[x1,6,4]
-   + 0 EdgesAlign[x1,6,5] + 0 EdgesAlign[x1,6,6] + 0 EdgesAlign[y1,0,0]
-   + 0 EdgesAlign[y1,1,0] + 0 EdgesAlign[y1,1,1] + 0 EdgesAlign[y1,2,0]
-   + 0 EdgesAlign[y1,2,1] + 0 EdgesAlign[y1,2,2] + 0 EdgesAlign[y1,3,0]
-   + 0 EdgesAlign[y1,3,1] + 0 EdgesAlign[y1,3,2] + 0 EdgesAlign[y1,3,3]
-   + 0 EdgesAlign[y1,4,0] + 0 EdgesAlign[y1,4,1] + 0 EdgesAlign[y1,4,2]
-   + 0 EdgesAlign[y1,4,3] + 0 EdgesAlign[y1,4,4] + 0 EdgesAlign[y1,5,0]
-   + 0 EdgesAlign[y1,5,1] + 0 EdgesAlign[y1,5,2] + 0 EdgesAlign[y1,5,3]
-   + 0 EdgesAlign[y1,5,4] + 0 EdgesAlign[y1,5,5] + 0 EdgesAlign[y1,6,0]
-   + 0 EdgesAlign[y1,6,1] + 0 EdgesAlign[y1,6,2] + 0 EdgesAlign[y1,6,3]
-   + 0 EdgesAlign[y1,6,4] + 0 EdgesAlign[y1,6,5] + 0 EdgesAlign[y1,6,6]
-   + NumberOfGroups[x0] + NumberOfGroups[y0] + NumberOfGroups[x1]
-   + NumberOfGroups[y1]
+   + 0 Overlap[5,5] + 0 Overlap[6,6] + 0 EdgesDontAlign[x0,0,0]
+   + 0 EdgesDontAlign[x0,1,0] + 0 EdgesDontAlign[x0,1,1]
+   + 0 EdgesDontAlign[x0,2,0] + 0 EdgesDontAlign[x0,2,1]
+   + 0 EdgesDontAlign[x0,2,2] + 0 EdgesDontAlign[x0,3,0]
+   + 0 EdgesDontAlign[x0,3,1] + 0 EdgesDontAlign[x0,3,2]
+   + 0 EdgesDontAlign[x0,3,3] + 0 EdgesDontAlign[x0,4,0]
+   + 0 EdgesDontAlign[x0,4,1] + 0 EdgesDontAlign[x0,4,2]
+   + 0 EdgesDontAlign[x0,4,3] + 0 EdgesDontAlign[x0,4,4]
+   + 0 EdgesDontAlign[x0,5,0] + 0 EdgesDontAlign[x0,5,1]
+   + 0 EdgesDontAlign[x0,5,2] + 0 EdgesDontAlign[x0,5,3]
+   + 0 EdgesDontAlign[x0,5,4] + 0 EdgesDontAlign[x0,5,5]
+   + 0 EdgesDontAlign[x0,6,0] + 0 EdgesDontAlign[x0,6,1]
+   + 0 EdgesDontAlign[x0,6,2] + 0 EdgesDontAlign[x0,6,3]
+   + 0 EdgesDontAlign[x0,6,4] + 0 EdgesDontAlign[x0,6,5]
+   + 0 EdgesDontAlign[x0,6,6] + 0 EdgesDontAlign[y0,0,0]
+   + 0 EdgesDontAlign[y0,1,0] + 0 EdgesDontAlign[y0,1,1]
+   + 0 EdgesDontAlign[y0,2,0] + 0 EdgesDontAlign[y0,2,1]
+   + 0 EdgesDontAlign[y0,2,2] + 0 EdgesDontAlign[y0,3,0]
+   + 0 EdgesDontAlign[y0,3,1] + 0 EdgesDontAlign[y0,3,2]
+   + 0 EdgesDontAlign[y0,3,3] + 0 EdgesDontAlign[y0,4,0]
+   + 0 EdgesDontAlign[y0,4,1] + 0 EdgesDontAlign[y0,4,2]
+   + 0 EdgesDontAlign[y0,4,3] + 0 EdgesDontAlign[y0,4,4]
+   + 0 EdgesDontAlign[y0,5,0] + 0 EdgesDontAlign[y0,5,1]
+   + 0 EdgesDontAlign[y0,5,2] + 0 EdgesDontAlign[y0,5,3]
+   + 0 EdgesDontAlign[y0,5,4] + 0 EdgesDontAlign[y0,5,5]
+   + 0 EdgesDontAlign[y0,6,0] + 0 EdgesDontAlign[y0,6,1]
+   + 0 EdgesDontAlign[y0,6,2] + 0 EdgesDontAlign[y0,6,3]
+   + 0 EdgesDontAlign[y0,6,4] + 0 EdgesDontAlign[y0,6,5]
+   + 0 EdgesDontAlign[y0,6,6] + 0 EdgesDontAlign[x1,0,0]
+   + 0 EdgesDontAlign[x1,1,0] + 0 EdgesDontAlign[x1,1,1]
+   + 0 EdgesDontAlign[x1,2,0] + 0 EdgesDontAlign[x1,2,1]
+   + 0 EdgesDontAlign[x1,2,2] + 0 EdgesDontAlign[x1,3,0]
+   + 0 EdgesDontAlign[x1,3,1] + 0 EdgesDontAlign[x1,3,2]
+   + 0 EdgesDontAlign[x1,3,3] + 0 EdgesDontAlign[x1,4,0]
+   + 0 EdgesDontAlign[x1,4,1] + 0 EdgesDontAlign[x1,4,2]
+   + 0 EdgesDontAlign[x1,4,3] + 0 EdgesDontAlign[x1,4,4]
+   + 0 EdgesDontAlign[x1,5,0] + 0 EdgesDontAlign[x1,5,1]
+   + 0 EdgesDontAlign[x1,5,2] + 0 EdgesDontAlign[x1,5,3]
+   + 0 EdgesDontAlign[x1,5,4] + 0 EdgesDontAlign[x1,5,5]
+   + 0 EdgesDontAlign[x1,6,0] + 0 EdgesDontAlign[x1,6,1]
+   + 0 EdgesDontAlign[x1,6,2] + 0 EdgesDontAlign[x1,6,3]
+   + 0 EdgesDontAlign[x1,6,4] + 0 EdgesDontAlign[x1,6,5]
+   + 0 EdgesDontAlign[x1,6,6] + 0 EdgesDontAlign[y1,0,0]
+   + 0 EdgesDontAlign[y1,1,0] + 0 EdgesDontAlign[y1,1,1]
+   + 0 EdgesDontAlign[y1,2,0] + 0 EdgesDontAlign[y1,2,1]
+   + 0 EdgesDontAlign[y1,2,2] + 0 EdgesDontAlign[y1,3,0]
+   + 0 EdgesDontAlign[y1,3,1] + 0 EdgesDontAlign[y1,3,2]
+   + 0 EdgesDontAlign[y1,3,3] + 0 EdgesDontAlign[y1,4,0]
+   + 0 EdgesDontAlign[y1,4,1] + 0 EdgesDontAlign[y1,4,2]
+   + 0 EdgesDontAlign[y1,4,3] + 0 EdgesDontAlign[y1,4,4]
+   + 0 EdgesDontAlign[y1,5,0] + 0 EdgesDontAlign[y1,5,1]
+   + 0 EdgesDontAlign[y1,5,2] + 0 EdgesDontAlign[y1,5,3]
+   + 0 EdgesDontAlign[y1,5,4] + 0 EdgesDontAlign[y1,5,5]
+   + 0 EdgesDontAlign[y1,6,0] + 0 EdgesDontAlign[y1,6,1]
+   + 0 EdgesDontAlign[y1,6,2] + 0 EdgesDontAlign[y1,6,3]
+   + 0 EdgesDontAlign[y1,6,4] + 0 EdgesDontAlign[y1,6,5]
+   + 0 EdgesDontAlign[y1,6,6] + NumberOfGroups[x0] + NumberOfGroups[y0]
+   + NumberOfGroups[x1] + NumberOfGroups[y1]
 Subject To
  X0X1Sanity[0]: X0[0] - X0[0] <= -1
  X0X1Sanity[1]: X0[1] - X0[1] <= -1
@@ -106,61 +124,61 @@ Subject To
  Y1-Y0=H[4]: - X0[4] + X0[4] - H[4] = 0
  Y1-Y0=H[5]: - X0[5] + X0[5] - H[5] = 0
  Y1-Y0=H[6]: - X0[6] + X0[6] - H[6] = 0
- LinkResizeW[0,<tools.JSONLoader.Element_object_at_0x106690668>]: - W[0]
-   + ResizeW[0] = -30
- LinkResizeW[1,<tools.JSONLoader.Element_object_at_0x1066906a0>]: - W[1]
+ LinkResizeW[0,<optimizer.classes.Element_object_at_0x1096a6208>]: - W[0]
+   + ResizeW[0] = -21
+ LinkResizeW[1,<optimizer.classes.Element_object_at_0x1096a6240>]: - W[1]
    + ResizeW[1] = -30
- LinkResizeW[2,<tools.JSONLoader.Element_object_at_0x106690fd0>]: - W[2]
+ LinkResizeW[2,<optimizer.classes.Element_object_at_0x1096a6278>]: - W[2]
    + ResizeW[2] = -21
- LinkResizeW[3,<tools.JSONLoader.Element_object_at_0x106690f98>]: - W[3]
+ LinkResizeW[3,<optimizer.classes.Element_object_at_0x1096a62b0>]: - W[3]
    + ResizeW[3] = -21
- LinkResizeW[4,<tools.JSONLoader.Element_object_at_0x106690f60>]: - W[4]
-   + ResizeW[4] = -24
- LinkResizeW[5,<tools.JSONLoader.Element_object_at_0x106690eb8>]: - W[5]
+ LinkResizeW[4,<optimizer.classes.Element_object_at_0x1096a62e8>]: - W[4]
+   + ResizeW[4] = -21
+ LinkResizeW[5,<optimizer.classes.Element_object_at_0x1096a6320>]: - W[5]
    + ResizeW[5] = -30
- LinkResizeW[6,<tools.JSONLoader.Element_object_at_0x106690e80>]: - W[6]
-   + ResizeW[6] = -57
- LinkResizeH[0,<tools.JSONLoader.Element_object_at_0x106690668>]: - H[0]
+ LinkResizeW[6,<optimizer.classes.Element_object_at_0x1096a6358>]: - W[6]
+   + ResizeW[6] = -66
+ LinkResizeH[0,<optimizer.classes.Element_object_at_0x1096a6208>]: - H[0]
    + ResizeH[0] = -17
- LinkResizeH[1,<tools.JSONLoader.Element_object_at_0x1066906a0>]: - H[1]
+ LinkResizeH[1,<optimizer.classes.Element_object_at_0x1096a6240>]: - H[1]
    + ResizeH[1] = -17
- LinkResizeH[2,<tools.JSONLoader.Element_object_at_0x106690fd0>]: - H[2]
+ LinkResizeH[2,<optimizer.classes.Element_object_at_0x1096a6278>]: - H[2]
    + ResizeH[2] = -21
- LinkResizeH[3,<tools.JSONLoader.Element_object_at_0x106690f98>]: - H[3]
+ LinkResizeH[3,<optimizer.classes.Element_object_at_0x1096a62b0>]: - H[3]
    + ResizeH[3] = -17
- LinkResizeH[4,<tools.JSONLoader.Element_object_at_0x106690f60>]: - H[4]
+ LinkResizeH[4,<optimizer.classes.Element_object_at_0x1096a62e8>]: - H[4]
    + ResizeH[4] = -21
- LinkResizeH[5,<tools.JSONLoader.Element_object_at_0x106690eb8>]: - H[5]
+ LinkResizeH[5,<optimizer.classes.Element_object_at_0x1096a6320>]: - H[5]
    + ResizeH[5] = -21
- LinkResizeH[6,<tools.JSONLoader.Element_object_at_0x106690e80>]: - H[6]
+ LinkResizeH[6,<optimizer.classes.Element_object_at_0x1096a6358>]: - H[6]
    + ResizeH[6] = -36
- LinkMoveX[0,<tools.JSONLoader.Element_object_at_0x106690668>]: - X0[0]
-   + MoveX[0] = -4
- LinkMoveX[1,<tools.JSONLoader.Element_object_at_0x1066906a0>]: - X0[1]
+ LinkMoveX[0,<optimizer.classes.Element_object_at_0x1096a6208>]: - X0[0]
+   + MoveX[0] = -2
+ LinkMoveX[1,<optimizer.classes.Element_object_at_0x1096a6240>]: - X0[1]
    + MoveX[1] = -62
- LinkMoveX[2,<tools.JSONLoader.Element_object_at_0x106690fd0>]: - X0[2]
-   + MoveX[2] = -30
- LinkMoveX[3,<tools.JSONLoader.Element_object_at_0x106690f98>]: - X0[3]
-   + MoveX[3] = -20
- LinkMoveX[4,<tools.JSONLoader.Element_object_at_0x106690f60>]: - X0[4]
-   + MoveX[4] = -26
- LinkMoveX[5,<tools.JSONLoader.Element_object_at_0x106690eb8>]: - X0[5]
-   + MoveX[5] = -62
- LinkMoveX[6,<tools.JSONLoader.Element_object_at_0x106690e80>]: - X0[6]
-   + MoveX[6] = -35
- LinkMoveY[0,<tools.JSONLoader.Element_object_at_0x106690668>]: - X0[0]
-   + MoveY[0] = -14
- LinkMoveY[1,<tools.JSONLoader.Element_object_at_0x1066906a0>]: - X0[1]
+ LinkMoveX[2,<optimizer.classes.Element_object_at_0x1096a6278>]: - X0[2]
+   + MoveX[2] = -16
+ LinkMoveX[3,<optimizer.classes.Element_object_at_0x1096a62b0>]: - X0[3]
+   + MoveX[3] = -32
+ LinkMoveX[4,<optimizer.classes.Element_object_at_0x1096a62e8>]: - X0[4]
+   + MoveX[4] = -22
+ LinkMoveX[5,<optimizer.classes.Element_object_at_0x1096a6320>]: - X0[5]
+   + MoveX[5] = -50
+ LinkMoveX[6,<optimizer.classes.Element_object_at_0x1096a6358>]: - X0[6]
+   + MoveX[6] = -26
+ LinkMoveY[0,<optimizer.classes.Element_object_at_0x1096a6208>]: - X0[0]
+   + MoveY[0] = -22
+ LinkMoveY[1,<optimizer.classes.Element_object_at_0x1096a6240>]: - X0[1]
    + MoveY[1] = -14
- LinkMoveY[2,<tools.JSONLoader.Element_object_at_0x106690fd0>]: - X0[2]
-   + MoveY[2] = -81
- LinkMoveY[3,<tools.JSONLoader.Element_object_at_0x106690f98>]: - X0[3]
-   + MoveY[3] = -26
- LinkMoveY[4,<tools.JSONLoader.Element_object_at_0x106690f60>]: - X0[4]
+ LinkMoveY[2,<optimizer.classes.Element_object_at_0x1096a6278>]: - X0[2]
+   + MoveY[2] = -92
+ LinkMoveY[3,<optimizer.classes.Element_object_at_0x1096a62b0>]: - X0[3]
+   + MoveY[3] = -16
+ LinkMoveY[4,<optimizer.classes.Element_object_at_0x1096a62e8>]: - X0[4]
    + MoveY[4] = -52
- LinkMoveY[5,<tools.JSONLoader.Element_object_at_0x106690eb8>]: - X0[5]
-   + MoveY[5] = -81
- LinkMoveY[6,<tools.JSONLoader.Element_object_at_0x106690e80>]: - X0[6]
+ LinkMoveY[5,<optimizer.classes.Element_object_at_0x1096a6320>]: - X0[5]
+   + MoveY[5] = -70
+ LinkMoveY[6,<optimizer.classes.Element_object_at_0x1096a6358>]: - X0[6]
    + MoveY[6] = -44
  AboveSanity[0,1]: Above[0,1] + Above[1,0] <= 1
  AboveSanity[0,2]: Above[0,2] + Above[2,0] <= 1
@@ -1394,173 +1412,173 @@ Subject To
    + EdgeDistanceAbs[y1,6,5] >= 0
  LinkEdgeDistanceLooseAbs2[y1,6,6]: - EdgeDistance[y1,6,6]
    + EdgeDistanceAbs[y1,6,6] >= 0
- LinkIsElemFirstInGroup1[x0,0,1]: - EdgesAlign[x0,0,1]
+ LinkIsElemFirstInGroup1[x0,0,1]: - EdgesDontAlign[x0,0,1]
    + IsElemFirstInGroup[x0,1] <= 0
- LinkIsElemFirstInGroup1[x0,0,2]: - EdgesAlign[x0,0,2]
+ LinkIsElemFirstInGroup1[x0,0,2]: - EdgesDontAlign[x0,0,2]
    + IsElemFirstInGroup[x0,2] <= 0
- LinkIsElemFirstInGroup1[x0,0,3]: - EdgesAlign[x0,0,3]
+ LinkIsElemFirstInGroup1[x0,0,3]: - EdgesDontAlign[x0,0,3]
    + IsElemFirstInGroup[x0,3] <= 0
- LinkIsElemFirstInGroup1[x0,0,4]: - EdgesAlign[x0,0,4]
+ LinkIsElemFirstInGroup1[x0,0,4]: - EdgesDontAlign[x0,0,4]
    + IsElemFirstInGroup[x0,4] <= 0
- LinkIsElemFirstInGroup1[x0,0,5]: - EdgesAlign[x0,0,5]
+ LinkIsElemFirstInGroup1[x0,0,5]: - EdgesDontAlign[x0,0,5]
    + IsElemFirstInGroup[x0,5] <= 0
- LinkIsElemFirstInGroup1[x0,0,6]: - EdgesAlign[x0,0,6]
+ LinkIsElemFirstInGroup1[x0,0,6]: - EdgesDontAlign[x0,0,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[x0,1,2]: - EdgesAlign[x0,1,2]
+ LinkIsElemFirstInGroup1[x0,1,2]: - EdgesDontAlign[x0,1,2]
    + IsElemFirstInGroup[x0,2] <= 0
- LinkIsElemFirstInGroup1[x0,1,3]: - EdgesAlign[x0,1,3]
+ LinkIsElemFirstInGroup1[x0,1,3]: - EdgesDontAlign[x0,1,3]
    + IsElemFirstInGroup[x0,3] <= 0
- LinkIsElemFirstInGroup1[x0,1,4]: - EdgesAlign[x0,1,4]
+ LinkIsElemFirstInGroup1[x0,1,4]: - EdgesDontAlign[x0,1,4]
    + IsElemFirstInGroup[x0,4] <= 0
- LinkIsElemFirstInGroup1[x0,1,5]: - EdgesAlign[x0,1,5]
+ LinkIsElemFirstInGroup1[x0,1,5]: - EdgesDontAlign[x0,1,5]
    + IsElemFirstInGroup[x0,5] <= 0
- LinkIsElemFirstInGroup1[x0,1,6]: - EdgesAlign[x0,1,6]
+ LinkIsElemFirstInGroup1[x0,1,6]: - EdgesDontAlign[x0,1,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[x0,2,3]: - EdgesAlign[x0,2,3]
+ LinkIsElemFirstInGroup1[x0,2,3]: - EdgesDontAlign[x0,2,3]
    + IsElemFirstInGroup[x0,3] <= 0
- LinkIsElemFirstInGroup1[x0,2,4]: - EdgesAlign[x0,2,4]
+ LinkIsElemFirstInGroup1[x0,2,4]: - EdgesDontAlign[x0,2,4]
    + IsElemFirstInGroup[x0,4] <= 0
- LinkIsElemFirstInGroup1[x0,2,5]: - EdgesAlign[x0,2,5]
+ LinkIsElemFirstInGroup1[x0,2,5]: - EdgesDontAlign[x0,2,5]
    + IsElemFirstInGroup[x0,5] <= 0
- LinkIsElemFirstInGroup1[x0,2,6]: - EdgesAlign[x0,2,6]
+ LinkIsElemFirstInGroup1[x0,2,6]: - EdgesDontAlign[x0,2,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[x0,3,4]: - EdgesAlign[x0,3,4]
+ LinkIsElemFirstInGroup1[x0,3,4]: - EdgesDontAlign[x0,3,4]
    + IsElemFirstInGroup[x0,4] <= 0
- LinkIsElemFirstInGroup1[x0,3,5]: - EdgesAlign[x0,3,5]
+ LinkIsElemFirstInGroup1[x0,3,5]: - EdgesDontAlign[x0,3,5]
    + IsElemFirstInGroup[x0,5] <= 0
- LinkIsElemFirstInGroup1[x0,3,6]: - EdgesAlign[x0,3,6]
+ LinkIsElemFirstInGroup1[x0,3,6]: - EdgesDontAlign[x0,3,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[x0,4,5]: - EdgesAlign[x0,4,5]
+ LinkIsElemFirstInGroup1[x0,4,5]: - EdgesDontAlign[x0,4,5]
    + IsElemFirstInGroup[x0,5] <= 0
- LinkIsElemFirstInGroup1[x0,4,6]: - EdgesAlign[x0,4,6]
+ LinkIsElemFirstInGroup1[x0,4,6]: - EdgesDontAlign[x0,4,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[x0,5,6]: - EdgesAlign[x0,5,6]
+ LinkIsElemFirstInGroup1[x0,5,6]: - EdgesDontAlign[x0,5,6]
    + IsElemFirstInGroup[x0,6] <= 0
- LinkIsElemFirstInGroup1[y0,0,1]: - EdgesAlign[y0,0,1]
+ LinkIsElemFirstInGroup1[y0,0,1]: - EdgesDontAlign[y0,0,1]
    + IsElemFirstInGroup[y0,1] <= 0
- LinkIsElemFirstInGroup1[y0,0,2]: - EdgesAlign[y0,0,2]
+ LinkIsElemFirstInGroup1[y0,0,2]: - EdgesDontAlign[y0,0,2]
    + IsElemFirstInGroup[y0,2] <= 0
- LinkIsElemFirstInGroup1[y0,0,3]: - EdgesAlign[y0,0,3]
+ LinkIsElemFirstInGroup1[y0,0,3]: - EdgesDontAlign[y0,0,3]
    + IsElemFirstInGroup[y0,3] <= 0
- LinkIsElemFirstInGroup1[y0,0,4]: - EdgesAlign[y0,0,4]
+ LinkIsElemFirstInGroup1[y0,0,4]: - EdgesDontAlign[y0,0,4]
    + IsElemFirstInGroup[y0,4] <= 0
- LinkIsElemFirstInGroup1[y0,0,5]: - EdgesAlign[y0,0,5]
+ LinkIsElemFirstInGroup1[y0,0,5]: - EdgesDontAlign[y0,0,5]
    + IsElemFirstInGroup[y0,5] <= 0
- LinkIsElemFirstInGroup1[y0,0,6]: - EdgesAlign[y0,0,6]
+ LinkIsElemFirstInGroup1[y0,0,6]: - EdgesDontAlign[y0,0,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[y0,1,2]: - EdgesAlign[y0,1,2]
+ LinkIsElemFirstInGroup1[y0,1,2]: - EdgesDontAlign[y0,1,2]
    + IsElemFirstInGroup[y0,2] <= 0
- LinkIsElemFirstInGroup1[y0,1,3]: - EdgesAlign[y0,1,3]
+ LinkIsElemFirstInGroup1[y0,1,3]: - EdgesDontAlign[y0,1,3]
    + IsElemFirstInGroup[y0,3] <= 0
- LinkIsElemFirstInGroup1[y0,1,4]: - EdgesAlign[y0,1,4]
+ LinkIsElemFirstInGroup1[y0,1,4]: - EdgesDontAlign[y0,1,4]
    + IsElemFirstInGroup[y0,4] <= 0
- LinkIsElemFirstInGroup1[y0,1,5]: - EdgesAlign[y0,1,5]
+ LinkIsElemFirstInGroup1[y0,1,5]: - EdgesDontAlign[y0,1,5]
    + IsElemFirstInGroup[y0,5] <= 0
- LinkIsElemFirstInGroup1[y0,1,6]: - EdgesAlign[y0,1,6]
+ LinkIsElemFirstInGroup1[y0,1,6]: - EdgesDontAlign[y0,1,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[y0,2,3]: - EdgesAlign[y0,2,3]
+ LinkIsElemFirstInGroup1[y0,2,3]: - EdgesDontAlign[y0,2,3]
    + IsElemFirstInGroup[y0,3] <= 0
- LinkIsElemFirstInGroup1[y0,2,4]: - EdgesAlign[y0,2,4]
+ LinkIsElemFirstInGroup1[y0,2,4]: - EdgesDontAlign[y0,2,4]
    + IsElemFirstInGroup[y0,4] <= 0
- LinkIsElemFirstInGroup1[y0,2,5]: - EdgesAlign[y0,2,5]
+ LinkIsElemFirstInGroup1[y0,2,5]: - EdgesDontAlign[y0,2,5]
    + IsElemFirstInGroup[y0,5] <= 0
- LinkIsElemFirstInGroup1[y0,2,6]: - EdgesAlign[y0,2,6]
+ LinkIsElemFirstInGroup1[y0,2,6]: - EdgesDontAlign[y0,2,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[y0,3,4]: - EdgesAlign[y0,3,4]
+ LinkIsElemFirstInGroup1[y0,3,4]: - EdgesDontAlign[y0,3,4]
    + IsElemFirstInGroup[y0,4] <= 0
- LinkIsElemFirstInGroup1[y0,3,5]: - EdgesAlign[y0,3,5]
+ LinkIsElemFirstInGroup1[y0,3,5]: - EdgesDontAlign[y0,3,5]
    + IsElemFirstInGroup[y0,5] <= 0
- LinkIsElemFirstInGroup1[y0,3,6]: - EdgesAlign[y0,3,6]
+ LinkIsElemFirstInGroup1[y0,3,6]: - EdgesDontAlign[y0,3,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[y0,4,5]: - EdgesAlign[y0,4,5]
+ LinkIsElemFirstInGroup1[y0,4,5]: - EdgesDontAlign[y0,4,5]
    + IsElemFirstInGroup[y0,5] <= 0
- LinkIsElemFirstInGroup1[y0,4,6]: - EdgesAlign[y0,4,6]
+ LinkIsElemFirstInGroup1[y0,4,6]: - EdgesDontAlign[y0,4,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[y0,5,6]: - EdgesAlign[y0,5,6]
+ LinkIsElemFirstInGroup1[y0,5,6]: - EdgesDontAlign[y0,5,6]
    + IsElemFirstInGroup[y0,6] <= 0
- LinkIsElemFirstInGroup1[x1,0,1]: - EdgesAlign[x1,0,1]
+ LinkIsElemFirstInGroup1[x1,0,1]: - EdgesDontAlign[x1,0,1]
    + IsElemFirstInGroup[x1,1] <= 0
- LinkIsElemFirstInGroup1[x1,0,2]: - EdgesAlign[x1,0,2]
+ LinkIsElemFirstInGroup1[x1,0,2]: - EdgesDontAlign[x1,0,2]
    + IsElemFirstInGroup[x1,2] <= 0
- LinkIsElemFirstInGroup1[x1,0,3]: - EdgesAlign[x1,0,3]
+ LinkIsElemFirstInGroup1[x1,0,3]: - EdgesDontAlign[x1,0,3]
    + IsElemFirstInGroup[x1,3] <= 0
- LinkIsElemFirstInGroup1[x1,0,4]: - EdgesAlign[x1,0,4]
+ LinkIsElemFirstInGroup1[x1,0,4]: - EdgesDontAlign[x1,0,4]
    + IsElemFirstInGroup[x1,4] <= 0
- LinkIsElemFirstInGroup1[x1,0,5]: - EdgesAlign[x1,0,5]
+ LinkIsElemFirstInGroup1[x1,0,5]: - EdgesDontAlign[x1,0,5]
    + IsElemFirstInGroup[x1,5] <= 0
- LinkIsElemFirstInGroup1[x1,0,6]: - EdgesAlign[x1,0,6]
+ LinkIsElemFirstInGroup1[x1,0,6]: - EdgesDontAlign[x1,0,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[x1,1,2]: - EdgesAlign[x1,1,2]
+ LinkIsElemFirstInGroup1[x1,1,2]: - EdgesDontAlign[x1,1,2]
    + IsElemFirstInGroup[x1,2] <= 0
- LinkIsElemFirstInGroup1[x1,1,3]: - EdgesAlign[x1,1,3]
+ LinkIsElemFirstInGroup1[x1,1,3]: - EdgesDontAlign[x1,1,3]
    + IsElemFirstInGroup[x1,3] <= 0
- LinkIsElemFirstInGroup1[x1,1,4]: - EdgesAlign[x1,1,4]
+ LinkIsElemFirstInGroup1[x1,1,4]: - EdgesDontAlign[x1,1,4]
    + IsElemFirstInGroup[x1,4] <= 0
- LinkIsElemFirstInGroup1[x1,1,5]: - EdgesAlign[x1,1,5]
+ LinkIsElemFirstInGroup1[x1,1,5]: - EdgesDontAlign[x1,1,5]
    + IsElemFirstInGroup[x1,5] <= 0
- LinkIsElemFirstInGroup1[x1,1,6]: - EdgesAlign[x1,1,6]
+ LinkIsElemFirstInGroup1[x1,1,6]: - EdgesDontAlign[x1,1,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[x1,2,3]: - EdgesAlign[x1,2,3]
+ LinkIsElemFirstInGroup1[x1,2,3]: - EdgesDontAlign[x1,2,3]
    + IsElemFirstInGroup[x1,3] <= 0
- LinkIsElemFirstInGroup1[x1,2,4]: - EdgesAlign[x1,2,4]
+ LinkIsElemFirstInGroup1[x1,2,4]: - EdgesDontAlign[x1,2,4]
    + IsElemFirstInGroup[x1,4] <= 0
- LinkIsElemFirstInGroup1[x1,2,5]: - EdgesAlign[x1,2,5]
+ LinkIsElemFirstInGroup1[x1,2,5]: - EdgesDontAlign[x1,2,5]
    + IsElemFirstInGroup[x1,5] <= 0
- LinkIsElemFirstInGroup1[x1,2,6]: - EdgesAlign[x1,2,6]
+ LinkIsElemFirstInGroup1[x1,2,6]: - EdgesDontAlign[x1,2,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[x1,3,4]: - EdgesAlign[x1,3,4]
+ LinkIsElemFirstInGroup1[x1,3,4]: - EdgesDontAlign[x1,3,4]
    + IsElemFirstInGroup[x1,4] <= 0
- LinkIsElemFirstInGroup1[x1,3,5]: - EdgesAlign[x1,3,5]
+ LinkIsElemFirstInGroup1[x1,3,5]: - EdgesDontAlign[x1,3,5]
    + IsElemFirstInGroup[x1,5] <= 0
- LinkIsElemFirstInGroup1[x1,3,6]: - EdgesAlign[x1,3,6]
+ LinkIsElemFirstInGroup1[x1,3,6]: - EdgesDontAlign[x1,3,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[x1,4,5]: - EdgesAlign[x1,4,5]
+ LinkIsElemFirstInGroup1[x1,4,5]: - EdgesDontAlign[x1,4,5]
    + IsElemFirstInGroup[x1,5] <= 0
- LinkIsElemFirstInGroup1[x1,4,6]: - EdgesAlign[x1,4,6]
+ LinkIsElemFirstInGroup1[x1,4,6]: - EdgesDontAlign[x1,4,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[x1,5,6]: - EdgesAlign[x1,5,6]
+ LinkIsElemFirstInGroup1[x1,5,6]: - EdgesDontAlign[x1,5,6]
    + IsElemFirstInGroup[x1,6] <= 0
- LinkIsElemFirstInGroup1[y1,0,1]: - EdgesAlign[y1,0,1]
+ LinkIsElemFirstInGroup1[y1,0,1]: - EdgesDontAlign[y1,0,1]
    + IsElemFirstInGroup[y1,1] <= 0
- LinkIsElemFirstInGroup1[y1,0,2]: - EdgesAlign[y1,0,2]
+ LinkIsElemFirstInGroup1[y1,0,2]: - EdgesDontAlign[y1,0,2]
    + IsElemFirstInGroup[y1,2] <= 0
- LinkIsElemFirstInGroup1[y1,0,3]: - EdgesAlign[y1,0,3]
+ LinkIsElemFirstInGroup1[y1,0,3]: - EdgesDontAlign[y1,0,3]
    + IsElemFirstInGroup[y1,3] <= 0
- LinkIsElemFirstInGroup1[y1,0,4]: - EdgesAlign[y1,0,4]
+ LinkIsElemFirstInGroup1[y1,0,4]: - EdgesDontAlign[y1,0,4]
    + IsElemFirstInGroup[y1,4] <= 0
- LinkIsElemFirstInGroup1[y1,0,5]: - EdgesAlign[y1,0,5]
+ LinkIsElemFirstInGroup1[y1,0,5]: - EdgesDontAlign[y1,0,5]
    + IsElemFirstInGroup[y1,5] <= 0
- LinkIsElemFirstInGroup1[y1,0,6]: - EdgesAlign[y1,0,6]
+ LinkIsElemFirstInGroup1[y1,0,6]: - EdgesDontAlign[y1,0,6]
    + IsElemFirstInGroup[y1,6] <= 0
- LinkIsElemFirstInGroup1[y1,1,2]: - EdgesAlign[y1,1,2]
+ LinkIsElemFirstInGroup1[y1,1,2]: - EdgesDontAlign[y1,1,2]
    + IsElemFirstInGroup[y1,2] <= 0
- LinkIsElemFirstInGroup1[y1,1,3]: - EdgesAlign[y1,1,3]
+ LinkIsElemFirstInGroup1[y1,1,3]: - EdgesDontAlign[y1,1,3]
    + IsElemFirstInGroup[y1,3] <= 0
- LinkIsElemFirstInGroup1[y1,1,4]: - EdgesAlign[y1,1,4]
+ LinkIsElemFirstInGroup1[y1,1,4]: - EdgesDontAlign[y1,1,4]
    + IsElemFirstInGroup[y1,4] <= 0
- LinkIsElemFirstInGroup1[y1,1,5]: - EdgesAlign[y1,1,5]
+ LinkIsElemFirstInGroup1[y1,1,5]: - EdgesDontAlign[y1,1,5]
    + IsElemFirstInGroup[y1,5] <= 0
- LinkIsElemFirstInGroup1[y1,1,6]: - EdgesAlign[y1,1,6]
+ LinkIsElemFirstInGroup1[y1,1,6]: - EdgesDontAlign[y1,1,6]
    + IsElemFirstInGroup[y1,6] <= 0
- LinkIsElemFirstInGroup1[y1,2,3]: - EdgesAlign[y1,2,3]
+ LinkIsElemFirstInGroup1[y1,2,3]: - EdgesDontAlign[y1,2,3]
    + IsElemFirstInGroup[y1,3] <= 0
- LinkIsElemFirstInGroup1[y1,2,4]: - EdgesAlign[y1,2,4]
+ LinkIsElemFirstInGroup1[y1,2,4]: - EdgesDontAlign[y1,2,4]
    + IsElemFirstInGroup[y1,4] <= 0
- LinkIsElemFirstInGroup1[y1,2,5]: - EdgesAlign[y1,2,5]
+ LinkIsElemFirstInGroup1[y1,2,5]: - EdgesDontAlign[y1,2,5]
    + IsElemFirstInGroup[y1,5] <= 0
- LinkIsElemFirstInGroup1[y1,2,6]: - EdgesAlign[y1,2,6]
+ LinkIsElemFirstInGroup1[y1,2,6]: - EdgesDontAlign[y1,2,6]
    + IsElemFirstInGroup[y1,6] <= 0
- LinkIsElemFirstInGroup1[y1,3,4]: - EdgesAlign[y1,3,4]
+ LinkIsElemFirstInGroup1[y1,3,4]: - EdgesDontAlign[y1,3,4]
    + IsElemFirstInGroup[y1,4] <= 0
- LinkIsElemFirstInGroup1[y1,3,5]: - EdgesAlign[y1,3,5]
+ LinkIsElemFirstInGroup1[y1,3,5]: - EdgesDontAlign[y1,3,5]
    + IsElemFirstInGroup[y1,5] <= 0
- LinkIsElemFirstInGroup1[y1,3,6]: - EdgesAlign[y1,3,6]
+ LinkIsElemFirstInGroup1[y1,3,6]: - EdgesDontAlign[y1,3,6]
    + IsElemFirstInGroup[y1,6] <= 0
- LinkIsElemFirstInGroup1[y1,4,5]: - EdgesAlign[y1,4,5]
+ LinkIsElemFirstInGroup1[y1,4,5]: - EdgesDontAlign[y1,4,5]
    + IsElemFirstInGroup[y1,5] <= 0
- LinkIsElemFirstInGroup1[y1,4,6]: - EdgesAlign[y1,4,6]
+ LinkIsElemFirstInGroup1[y1,4,6]: - EdgesDontAlign[y1,4,6]
    + IsElemFirstInGroup[y1,6] <= 0
- LinkIsElemFirstInGroup1[y1,5,6]: - EdgesAlign[y1,5,6]
+ LinkIsElemFirstInGroup1[y1,5,6]: - EdgesDontAlign[y1,5,6]
    + IsElemFirstInGroup[y1,6] <= 0
  LinkNumberOfGroups[x0]: - IsElemFirstInGroup[x0,0]
    - IsElemFirstInGroup[x0,1] - IsElemFirstInGroup[x0,2]
@@ -1586,7 +1604,7 @@ Subject To
    + NumberOfGroups[x1] + NumberOfGroups[y1] >= 12
  PreserveOverlap[0,1]: Overlap[0,1] = 0
  PreserveOverlap[0,2]: Overlap[0,2] = 0
- PreserveOverlap[0,3]: Overlap[0,3] = 1
+ PreserveOverlap[0,3]: Overlap[0,3] = 0
  PreserveOverlap[0,4]: Overlap[0,4] = 0
  PreserveOverlap[0,5]: Overlap[0,5] = 0
  PreserveOverlap[0,6]: Overlap[0,6] = 0
@@ -1602,7 +1620,7 @@ Subject To
  PreserveOverlap[2,4]: Overlap[2,4] = 0
  PreserveOverlap[2,5]: Overlap[2,5] = 0
  PreserveOverlap[2,6]: Overlap[2,6] = 0
- PreserveOverlap[3,0]: Overlap[3,0] = 1
+ PreserveOverlap[3,0]: Overlap[3,0] = 0
  PreserveOverlap[3,1]: Overlap[3,1] = 0
  PreserveOverlap[3,2]: Overlap[3,2] = 0
  PreserveOverlap[3,4]: Overlap[3,4] = 0
@@ -1619,29 +1637,29 @@ Subject To
  PreserveOverlap[5,2]: Overlap[5,2] = 0
  PreserveOverlap[5,3]: Overlap[5,3] = 0
  PreserveOverlap[5,4]: Overlap[5,4] = 0
- PreserveOverlap[5,6]: Overlap[5,6] = 0
+ PreserveOverlap[5,6]: Overlap[5,6] = 1
  PreserveOverlap[6,0]: Overlap[6,0] = 0
  PreserveOverlap[6,1]: Overlap[6,1] = 0
  PreserveOverlap[6,2]: Overlap[6,2] = 0
  PreserveOverlap[6,3]: Overlap[6,3] = 0
  PreserveOverlap[6,4]: Overlap[6,4] = 1
- PreserveOverlap[6,5]: Overlap[6,5] = 0
- DontAlignOverlappingX00,3: X0[0] - X0[3] <= -1
- DontAlignOverlappingX10,3: X0[0] - X0[3] <= -1
- DontAlignOverlappingY0,3: X0[0] - X0[3] <= -1
- DontAlignOverlappingY10,3: X0[0] - X0[3] <= -1
- DontAlignOverlappingX03,0: - X0[0] + X0[3] >= 1
- DontAlignOverlappingX13,0: - X0[0] + X0[3] >= 1
- DontAlignOverlappingY3,0: - X0[0] + X0[3] >= 1
- DontAlignOverlappingY13,0: - X0[0] + X0[3] >= 1
+ PreserveOverlap[6,5]: Overlap[6,5] = 1
  DontAlignOverlappingX04,6: X0[4] - X0[6] <= -1
  DontAlignOverlappingX14,6: X0[4] - X0[6] <= -1
  DontAlignOverlappingY4,6: X0[4] - X0[6] >= 1
  DontAlignOverlappingY14,6: X0[4] - X0[6] <= -1
+ DontAlignOverlappingX05,6: X0[5] - X0[6] >= 1
+ DontAlignOverlappingX15,6: X0[5] - X0[6] <= -1
+ DontAlignOverlappingY5,6: X0[5] - X0[6] >= 1
+ DontAlignOverlappingY15,6: X0[5] - X0[6] >= 1
  DontAlignOverlappingX06,4: - X0[4] + X0[6] >= 1
  DontAlignOverlappingX16,4: - X0[4] + X0[6] >= 1
  DontAlignOverlappingY6,4: - X0[4] + X0[6] <= -1
  DontAlignOverlappingY16,4: - X0[4] + X0[6] >= 1
+ DontAlignOverlappingX06,5: - X0[5] + X0[6] <= -1
+ DontAlignOverlappingX16,5: - X0[5] + X0[6] >= 1
+ DontAlignOverlappingY6,5: - X0[5] + X0[6] <= -1
+ DontAlignOverlappingY16,5: - X0[5] + X0[6] <= -1
  LinkAbove1[0,1]: Above[0,1] = 1 -> X0[0] - X0[1] <= -0
  LinkAbove1[0,2]: Above[0,2] = 1 -> X0[0] - X0[2] <= -0
  LinkAbove1[0,3]: Above[0,3] = 1 -> X0[0] - X0[3] <= -0
@@ -1812,68 +1830,76 @@ Subject To
  LinkOnLeft2[6,5]: OnLeft[6,5] = 0 -> X0[6] - X0[5] >= 1
  LinkIsElemFirstInGroup2[x0,0]: IsElemFirstInGroup[x0,0] = 0 -> <= -1
  LinkIsElemFirstInGroup2[x0,1]: IsElemFirstInGroup[x0,1] = 0 ->
-   EdgesAlign[x0,0,1] <= -0
+   EdgesDontAlign[x0,0,1] <= -0
  LinkIsElemFirstInGroup2[x0,2]: IsElemFirstInGroup[x0,2] = 0 ->
-   EdgesAlign[x0,0,2] + EdgesAlign[x0,1,2] <= 1
+   EdgesDontAlign[x0,0,2] + EdgesDontAlign[x0,1,2] <= 1
  LinkIsElemFirstInGroup2[x0,3]: IsElemFirstInGroup[x0,3] = 0 ->
-   EdgesAlign[x0,0,3] + EdgesAlign[x0,1,3] + EdgesAlign[x0,2,3] <= 2
+   EdgesDontAlign[x0,0,3] + EdgesDontAlign[x0,1,3] + EdgesDontAlign[x0,2,3]
+   <= 2
  LinkIsElemFirstInGroup2[x0,4]: IsElemFirstInGroup[x0,4] = 0 ->
-   EdgesAlign[x0,0,4] + EdgesAlign[x0,1,4] + EdgesAlign[x0,2,4]
-   + EdgesAlign[x0,3,4] <= 3
+   EdgesDontAlign[x0,0,4] + EdgesDontAlign[x0,1,4] + EdgesDontAlign[x0,2,4]
+   + EdgesDontAlign[x0,3,4] <= 3
  LinkIsElemFirstInGroup2[x0,5]: IsElemFirstInGroup[x0,5] = 0 ->
-   EdgesAlign[x0,0,5] + EdgesAlign[x0,1,5] + EdgesAlign[x0,2,5]
-   + EdgesAlign[x0,3,5] + EdgesAlign[x0,4,5] <= 4
+   EdgesDontAlign[x0,0,5] + EdgesDontAlign[x0,1,5] + EdgesDontAlign[x0,2,5]
+   + EdgesDontAlign[x0,3,5] + EdgesDontAlign[x0,4,5] <= 4
  LinkIsElemFirstInGroup2[x0,6]: IsElemFirstInGroup[x0,6] = 0 ->
-   EdgesAlign[x0,0,6] + EdgesAlign[x0,1,6] + EdgesAlign[x0,2,6]
-   + EdgesAlign[x0,3,6] + EdgesAlign[x0,4,6] + EdgesAlign[x0,5,6] <= 5
+   EdgesDontAlign[x0,0,6] + EdgesDontAlign[x0,1,6] + EdgesDontAlign[x0,2,6]
+   + EdgesDontAlign[x0,3,6] + EdgesDontAlign[x0,4,6]
+   + EdgesDontAlign[x0,5,6] <= 5
  LinkIsElemFirstInGroup2[y0,0]: IsElemFirstInGroup[y0,0] = 0 -> <= -1
  LinkIsElemFirstInGroup2[y0,1]: IsElemFirstInGroup[y0,1] = 0 ->
-   EdgesAlign[y0,0,1] <= -0
+   EdgesDontAlign[y0,0,1] <= -0
  LinkIsElemFirstInGroup2[y0,2]: IsElemFirstInGroup[y0,2] = 0 ->
-   EdgesAlign[y0,0,2] + EdgesAlign[y0,1,2] <= 1
+   EdgesDontAlign[y0,0,2] + EdgesDontAlign[y0,1,2] <= 1
  LinkIsElemFirstInGroup2[y0,3]: IsElemFirstInGroup[y0,3] = 0 ->
-   EdgesAlign[y0,0,3] + EdgesAlign[y0,1,3] + EdgesAlign[y0,2,3] <= 2
+   EdgesDontAlign[y0,0,3] + EdgesDontAlign[y0,1,3] + EdgesDontAlign[y0,2,3]
+   <= 2
  LinkIsElemFirstInGroup2[y0,4]: IsElemFirstInGroup[y0,4] = 0 ->
-   EdgesAlign[y0,0,4] + EdgesAlign[y0,1,4] + EdgesAlign[y0,2,4]
-   + EdgesAlign[y0,3,4] <= 3
+   EdgesDontAlign[y0,0,4] + EdgesDontAlign[y0,1,4] + EdgesDontAlign[y0,2,4]
+   + EdgesDontAlign[y0,3,4] <= 3
  LinkIsElemFirstInGroup2[y0,5]: IsElemFirstInGroup[y0,5] = 0 ->
-   EdgesAlign[y0,0,5] + EdgesAlign[y0,1,5] + EdgesAlign[y0,2,5]
-   + EdgesAlign[y0,3,5] + EdgesAlign[y0,4,5] <= 4
+   EdgesDontAlign[y0,0,5] + EdgesDontAlign[y0,1,5] + EdgesDontAlign[y0,2,5]
+   + EdgesDontAlign[y0,3,5] + EdgesDontAlign[y0,4,5] <= 4
  LinkIsElemFirstInGroup2[y0,6]: IsElemFirstInGroup[y0,6] = 0 ->
-   EdgesAlign[y0,0,6] + EdgesAlign[y0,1,6] + EdgesAlign[y0,2,6]
-   + EdgesAlign[y0,3,6] + EdgesAlign[y0,4,6] + EdgesAlign[y0,5,6] <= 5
+   EdgesDontAlign[y0,0,6] + EdgesDontAlign[y0,1,6] + EdgesDontAlign[y0,2,6]
+   + EdgesDontAlign[y0,3,6] + EdgesDontAlign[y0,4,6]
+   + EdgesDontAlign[y0,5,6] <= 5
  LinkIsElemFirstInGroup2[x1,0]: IsElemFirstInGroup[x1,0] = 0 -> <= -1
  LinkIsElemFirstInGroup2[x1,1]: IsElemFirstInGroup[x1,1] = 0 ->
-   EdgesAlign[x1,0,1] <= -0
+   EdgesDontAlign[x1,0,1] <= -0
  LinkIsElemFirstInGroup2[x1,2]: IsElemFirstInGroup[x1,2] = 0 ->
-   EdgesAlign[x1,0,2] + EdgesAlign[x1,1,2] <= 1
+   EdgesDontAlign[x1,0,2] + EdgesDontAlign[x1,1,2] <= 1
  LinkIsElemFirstInGroup2[x1,3]: IsElemFirstInGroup[x1,3] = 0 ->
-   EdgesAlign[x1,0,3] + EdgesAlign[x1,1,3] + EdgesAlign[x1,2,3] <= 2
+   EdgesDontAlign[x1,0,3] + EdgesDontAlign[x1,1,3] + EdgesDontAlign[x1,2,3]
+   <= 2
  LinkIsElemFirstInGroup2[x1,4]: IsElemFirstInGroup[x1,4] = 0 ->
-   EdgesAlign[x1,0,4] + EdgesAlign[x1,1,4] + EdgesAlign[x1,2,4]
-   + EdgesAlign[x1,3,4] <= 3
+   EdgesDontAlign[x1,0,4] + EdgesDontAlign[x1,1,4] + EdgesDontAlign[x1,2,4]
+   + EdgesDontAlign[x1,3,4] <= 3
  LinkIsElemFirstInGroup2[x1,5]: IsElemFirstInGroup[x1,5] = 0 ->
-   EdgesAlign[x1,0,5] + EdgesAlign[x1,1,5] + EdgesAlign[x1,2,5]
-   + EdgesAlign[x1,3,5] + EdgesAlign[x1,4,5] <= 4
+   EdgesDontAlign[x1,0,5] + EdgesDontAlign[x1,1,5] + EdgesDontAlign[x1,2,5]
+   + EdgesDontAlign[x1,3,5] + EdgesDontAlign[x1,4,5] <= 4
  LinkIsElemFirstInGroup2[x1,6]: IsElemFirstInGroup[x1,6] = 0 ->
-   EdgesAlign[x1,0,6] + EdgesAlign[x1,1,6] + EdgesAlign[x1,2,6]
-   + EdgesAlign[x1,3,6] + EdgesAlign[x1,4,6] + EdgesAlign[x1,5,6] <= 5
+   EdgesDontAlign[x1,0,6] + EdgesDontAlign[x1,1,6] + EdgesDontAlign[x1,2,6]
+   + EdgesDontAlign[x1,3,6] + EdgesDontAlign[x1,4,6]
+   + EdgesDontAlign[x1,5,6] <= 5
  LinkIsElemFirstInGroup2[y1,0]: IsElemFirstInGroup[y1,0] = 0 -> <= -1
  LinkIsElemFirstInGroup2[y1,1]: IsElemFirstInGroup[y1,1] = 0 ->
-   EdgesAlign[y1,0,1] <= -0
+   EdgesDontAlign[y1,0,1] <= -0
  LinkIsElemFirstInGroup2[y1,2]: IsElemFirstInGroup[y1,2] = 0 ->
-   EdgesAlign[y1,0,2] + EdgesAlign[y1,1,2] <= 1
+   EdgesDontAlign[y1,0,2] + EdgesDontAlign[y1,1,2] <= 1
  LinkIsElemFirstInGroup2[y1,3]: IsElemFirstInGroup[y1,3] = 0 ->
-   EdgesAlign[y1,0,3] + EdgesAlign[y1,1,3] + EdgesAlign[y1,2,3] <= 2
+   EdgesDontAlign[y1,0,3] + EdgesDontAlign[y1,1,3] + EdgesDontAlign[y1,2,3]
+   <= 2
  LinkIsElemFirstInGroup2[y1,4]: IsElemFirstInGroup[y1,4] = 0 ->
-   EdgesAlign[y1,0,4] + EdgesAlign[y1,1,4] + EdgesAlign[y1,2,4]
-   + EdgesAlign[y1,3,4] <= 3
+   EdgesDontAlign[y1,0,4] + EdgesDontAlign[y1,1,4] + EdgesDontAlign[y1,2,4]
+   + EdgesDontAlign[y1,3,4] <= 3
  LinkIsElemFirstInGroup2[y1,5]: IsElemFirstInGroup[y1,5] = 0 ->
-   EdgesAlign[y1,0,5] + EdgesAlign[y1,1,5] + EdgesAlign[y1,2,5]
-   + EdgesAlign[y1,3,5] + EdgesAlign[y1,4,5] <= 4
+   EdgesDontAlign[y1,0,5] + EdgesDontAlign[y1,1,5] + EdgesDontAlign[y1,2,5]
+   + EdgesDontAlign[y1,3,5] + EdgesDontAlign[y1,4,5] <= 4
  LinkIsElemFirstInGroup2[y1,6]: IsElemFirstInGroup[y1,6] = 0 ->
-   EdgesAlign[y1,0,6] + EdgesAlign[y1,1,6] + EdgesAlign[y1,2,6]
-   + EdgesAlign[y1,3,6] + EdgesAlign[y1,4,6] + EdgesAlign[y1,5,6] <= 5
+   EdgesDontAlign[y1,0,6] + EdgesDontAlign[y1,1,6] + EdgesDontAlign[y1,2,6]
+   + EdgesDontAlign[y1,3,6] + EdgesDontAlign[y1,4,6]
+   + EdgesDontAlign[y1,5,6] <= 5
 Bounds
  W[0] >= 1
  W[1] >= 1
@@ -2170,72 +2196,72 @@ Binaries
  Overlap[4,4] Overlap[4,5] Overlap[4,6] Overlap[5,0] Overlap[5,1]
  Overlap[5,2] Overlap[5,3] Overlap[5,4] Overlap[5,5] Overlap[5,6]
  Overlap[6,0] Overlap[6,1] Overlap[6,2] Overlap[6,3] Overlap[6,4]
- Overlap[6,5] Overlap[6,6] EdgesAlign[x0,0,0] EdgesAlign[x0,0,1]
- EdgesAlign[x0,0,2] EdgesAlign[x0,0,3] EdgesAlign[x0,0,4]
- EdgesAlign[x0,0,5] EdgesAlign[x0,0,6] EdgesAlign[x0,1,0]
- EdgesAlign[x0,1,1] EdgesAlign[x0,1,2] EdgesAlign[x0,1,3]
- EdgesAlign[x0,1,4] EdgesAlign[x0,1,5] EdgesAlign[x0,1,6]
- EdgesAlign[x0,2,0] EdgesAlign[x0,2,1] EdgesAlign[x0,2,2]
- EdgesAlign[x0,2,3] EdgesAlign[x0,2,4] EdgesAlign[x0,2,5]
- EdgesAlign[x0,2,6] EdgesAlign[x0,3,0] EdgesAlign[x0,3,1]
- EdgesAlign[x0,3,2] EdgesAlign[x0,3,3] EdgesAlign[x0,3,4]
- EdgesAlign[x0,3,5] EdgesAlign[x0,3,6] EdgesAlign[x0,4,0]
- EdgesAlign[x0,4,1] EdgesAlign[x0,4,2] EdgesAlign[x0,4,3]
- EdgesAlign[x0,4,4] EdgesAlign[x0,4,5] EdgesAlign[x0,4,6]
- EdgesAlign[x0,5,0] EdgesAlign[x0,5,1] EdgesAlign[x0,5,2]
- EdgesAlign[x0,5,3] EdgesAlign[x0,5,4] EdgesAlign[x0,5,5]
- EdgesAlign[x0,5,6] EdgesAlign[x0,6,0] EdgesAlign[x0,6,1]
- EdgesAlign[x0,6,2] EdgesAlign[x0,6,3] EdgesAlign[x0,6,4]
- EdgesAlign[x0,6,5] EdgesAlign[x0,6,6] EdgesAlign[y0,0,0]
- EdgesAlign[y0,0,1] EdgesAlign[y0,0,2] EdgesAlign[y0,0,3]
- EdgesAlign[y0,0,4] EdgesAlign[y0,0,5] EdgesAlign[y0,0,6]
- EdgesAlign[y0,1,0] EdgesAlign[y0,1,1] EdgesAlign[y0,1,2]
- EdgesAlign[y0,1,3] EdgesAlign[y0,1,4] EdgesAlign[y0,1,5]
- EdgesAlign[y0,1,6] EdgesAlign[y0,2,0] EdgesAlign[y0,2,1]
- EdgesAlign[y0,2,2] EdgesAlign[y0,2,3] EdgesAlign[y0,2,4]
- EdgesAlign[y0,2,5] EdgesAlign[y0,2,6] EdgesAlign[y0,3,0]
- EdgesAlign[y0,3,1] EdgesAlign[y0,3,2] EdgesAlign[y0,3,3]
- EdgesAlign[y0,3,4] EdgesAlign[y0,3,5] EdgesAlign[y0,3,6]
- EdgesAlign[y0,4,0] EdgesAlign[y0,4,1] EdgesAlign[y0,4,2]
- EdgesAlign[y0,4,3] EdgesAlign[y0,4,4] EdgesAlign[y0,4,5]
- EdgesAlign[y0,4,6] EdgesAlign[y0,5,0] EdgesAlign[y0,5,1]
- EdgesAlign[y0,5,2] EdgesAlign[y0,5,3] EdgesAlign[y0,5,4]
- EdgesAlign[y0,5,5] EdgesAlign[y0,5,6] EdgesAlign[y0,6,0]
- EdgesAlign[y0,6,1] EdgesAlign[y0,6,2] EdgesAlign[y0,6,3]
- EdgesAlign[y0,6,4] EdgesAlign[y0,6,5] EdgesAlign[y0,6,6]
- EdgesAlign[x1,0,0] EdgesAlign[x1,0,1] EdgesAlign[x1,0,2]
- EdgesAlign[x1,0,3] EdgesAlign[x1,0,4] EdgesAlign[x1,0,5]
- EdgesAlign[x1,0,6] EdgesAlign[x1,1,0] EdgesAlign[x1,1,1]
- EdgesAlign[x1,1,2] EdgesAlign[x1,1,3] EdgesAlign[x1,1,4]
- EdgesAlign[x1,1,5] EdgesAlign[x1,1,6] EdgesAlign[x1,2,0]
- EdgesAlign[x1,2,1] EdgesAlign[x1,2,2] EdgesAlign[x1,2,3]
- EdgesAlign[x1,2,4] EdgesAlign[x1,2,5] EdgesAlign[x1,2,6]
- EdgesAlign[x1,3,0] EdgesAlign[x1,3,1] EdgesAlign[x1,3,2]
- EdgesAlign[x1,3,3] EdgesAlign[x1,3,4] EdgesAlign[x1,3,5]
- EdgesAlign[x1,3,6] EdgesAlign[x1,4,0] EdgesAlign[x1,4,1]
- EdgesAlign[x1,4,2] EdgesAlign[x1,4,3] EdgesAlign[x1,4,4]
- EdgesAlign[x1,4,5] EdgesAlign[x1,4,6] EdgesAlign[x1,5,0]
- EdgesAlign[x1,5,1] EdgesAlign[x1,5,2] EdgesAlign[x1,5,3]
- EdgesAlign[x1,5,4] EdgesAlign[x1,5,5] EdgesAlign[x1,5,6]
- EdgesAlign[x1,6,0] EdgesAlign[x1,6,1] EdgesAlign[x1,6,2]
- EdgesAlign[x1,6,3] EdgesAlign[x1,6,4] EdgesAlign[x1,6,5]
- EdgesAlign[x1,6,6] EdgesAlign[y1,0,0] EdgesAlign[y1,0,1]
- EdgesAlign[y1,0,2] EdgesAlign[y1,0,3] EdgesAlign[y1,0,4]
- EdgesAlign[y1,0,5] EdgesAlign[y1,0,6] EdgesAlign[y1,1,0]
- EdgesAlign[y1,1,1] EdgesAlign[y1,1,2] EdgesAlign[y1,1,3]
- EdgesAlign[y1,1,4] EdgesAlign[y1,1,5] EdgesAlign[y1,1,6]
- EdgesAlign[y1,2,0] EdgesAlign[y1,2,1] EdgesAlign[y1,2,2]
- EdgesAlign[y1,2,3] EdgesAlign[y1,2,4] EdgesAlign[y1,2,5]
- EdgesAlign[y1,2,6] EdgesAlign[y1,3,0] EdgesAlign[y1,3,1]
- EdgesAlign[y1,3,2] EdgesAlign[y1,3,3] EdgesAlign[y1,3,4]
- EdgesAlign[y1,3,5] EdgesAlign[y1,3,6] EdgesAlign[y1,4,0]
- EdgesAlign[y1,4,1] EdgesAlign[y1,4,2] EdgesAlign[y1,4,3]
- EdgesAlign[y1,4,4] EdgesAlign[y1,4,5] EdgesAlign[y1,4,6]
- EdgesAlign[y1,5,0] EdgesAlign[y1,5,1] EdgesAlign[y1,5,2]
- EdgesAlign[y1,5,3] EdgesAlign[y1,5,4] EdgesAlign[y1,5,5]
- EdgesAlign[y1,5,6] EdgesAlign[y1,6,0] EdgesAlign[y1,6,1]
- EdgesAlign[y1,6,2] EdgesAlign[y1,6,3] EdgesAlign[y1,6,4]
- EdgesAlign[y1,6,5] EdgesAlign[y1,6,6] IsElemFirstInGroup[x0,0]
+ Overlap[6,5] Overlap[6,6] EdgesDontAlign[x0,0,0] EdgesDontAlign[x0,0,1]
+ EdgesDontAlign[x0,0,2] EdgesDontAlign[x0,0,3] EdgesDontAlign[x0,0,4]
+ EdgesDontAlign[x0,0,5] EdgesDontAlign[x0,0,6] EdgesDontAlign[x0,1,0]
+ EdgesDontAlign[x0,1,1] EdgesDontAlign[x0,1,2] EdgesDontAlign[x0,1,3]
+ EdgesDontAlign[x0,1,4] EdgesDontAlign[x0,1,5] EdgesDontAlign[x0,1,6]
+ EdgesDontAlign[x0,2,0] EdgesDontAlign[x0,2,1] EdgesDontAlign[x0,2,2]
+ EdgesDontAlign[x0,2,3] EdgesDontAlign[x0,2,4] EdgesDontAlign[x0,2,5]
+ EdgesDontAlign[x0,2,6] EdgesDontAlign[x0,3,0] EdgesDontAlign[x0,3,1]
+ EdgesDontAlign[x0,3,2] EdgesDontAlign[x0,3,3] EdgesDontAlign[x0,3,4]
+ EdgesDontAlign[x0,3,5] EdgesDontAlign[x0,3,6] EdgesDontAlign[x0,4,0]
+ EdgesDontAlign[x0,4,1] EdgesDontAlign[x0,4,2] EdgesDontAlign[x0,4,3]
+ EdgesDontAlign[x0,4,4] EdgesDontAlign[x0,4,5] EdgesDontAlign[x0,4,6]
+ EdgesDontAlign[x0,5,0] EdgesDontAlign[x0,5,1] EdgesDontAlign[x0,5,2]
+ EdgesDontAlign[x0,5,3] EdgesDontAlign[x0,5,4] EdgesDontAlign[x0,5,5]
+ EdgesDontAlign[x0,5,6] EdgesDontAlign[x0,6,0] EdgesDontAlign[x0,6,1]
+ EdgesDontAlign[x0,6,2] EdgesDontAlign[x0,6,3] EdgesDontAlign[x0,6,4]
+ EdgesDontAlign[x0,6,5] EdgesDontAlign[x0,6,6] EdgesDontAlign[y0,0,0]
+ EdgesDontAlign[y0,0,1] EdgesDontAlign[y0,0,2] EdgesDontAlign[y0,0,3]
+ EdgesDontAlign[y0,0,4] EdgesDontAlign[y0,0,5] EdgesDontAlign[y0,0,6]
+ EdgesDontAlign[y0,1,0] EdgesDontAlign[y0,1,1] EdgesDontAlign[y0,1,2]
+ EdgesDontAlign[y0,1,3] EdgesDontAlign[y0,1,4] EdgesDontAlign[y0,1,5]
+ EdgesDontAlign[y0,1,6] EdgesDontAlign[y0,2,0] EdgesDontAlign[y0,2,1]
+ EdgesDontAlign[y0,2,2] EdgesDontAlign[y0,2,3] EdgesDontAlign[y0,2,4]
+ EdgesDontAlign[y0,2,5] EdgesDontAlign[y0,2,6] EdgesDontAlign[y0,3,0]
+ EdgesDontAlign[y0,3,1] EdgesDontAlign[y0,3,2] EdgesDontAlign[y0,3,3]
+ EdgesDontAlign[y0,3,4] EdgesDontAlign[y0,3,5] EdgesDontAlign[y0,3,6]
+ EdgesDontAlign[y0,4,0] EdgesDontAlign[y0,4,1] EdgesDontAlign[y0,4,2]
+ EdgesDontAlign[y0,4,3] EdgesDontAlign[y0,4,4] EdgesDontAlign[y0,4,5]
+ EdgesDontAlign[y0,4,6] EdgesDontAlign[y0,5,0] EdgesDontAlign[y0,5,1]
+ EdgesDontAlign[y0,5,2] EdgesDontAlign[y0,5,3] EdgesDontAlign[y0,5,4]
+ EdgesDontAlign[y0,5,5] EdgesDontAlign[y0,5,6] EdgesDontAlign[y0,6,0]
+ EdgesDontAlign[y0,6,1] EdgesDontAlign[y0,6,2] EdgesDontAlign[y0,6,3]
+ EdgesDontAlign[y0,6,4] EdgesDontAlign[y0,6,5] EdgesDontAlign[y0,6,6]
+ EdgesDontAlign[x1,0,0] EdgesDontAlign[x1,0,1] EdgesDontAlign[x1,0,2]
+ EdgesDontAlign[x1,0,3] EdgesDontAlign[x1,0,4] EdgesDontAlign[x1,0,5]
+ EdgesDontAlign[x1,0,6] EdgesDontAlign[x1,1,0] EdgesDontAlign[x1,1,1]
+ EdgesDontAlign[x1,1,2] EdgesDontAlign[x1,1,3] EdgesDontAlign[x1,1,4]
+ EdgesDontAlign[x1,1,5] EdgesDontAlign[x1,1,6] EdgesDontAlign[x1,2,0]
+ EdgesDontAlign[x1,2,1] EdgesDontAlign[x1,2,2] EdgesDontAlign[x1,2,3]
+ EdgesDontAlign[x1,2,4] EdgesDontAlign[x1,2,5] EdgesDontAlign[x1,2,6]
+ EdgesDontAlign[x1,3,0] EdgesDontAlign[x1,3,1] EdgesDontAlign[x1,3,2]
+ EdgesDontAlign[x1,3,3] EdgesDontAlign[x1,3,4] EdgesDontAlign[x1,3,5]
+ EdgesDontAlign[x1,3,6] EdgesDontAlign[x1,4,0] EdgesDontAlign[x1,4,1]
+ EdgesDontAlign[x1,4,2] EdgesDontAlign[x1,4,3] EdgesDontAlign[x1,4,4]
+ EdgesDontAlign[x1,4,5] EdgesDontAlign[x1,4,6] EdgesDontAlign[x1,5,0]
+ EdgesDontAlign[x1,5,1] EdgesDontAlign[x1,5,2] EdgesDontAlign[x1,5,3]
+ EdgesDontAlign[x1,5,4] EdgesDontAlign[x1,5,5] EdgesDontAlign[x1,5,6]
+ EdgesDontAlign[x1,6,0] EdgesDontAlign[x1,6,1] EdgesDontAlign[x1,6,2]
+ EdgesDontAlign[x1,6,3] EdgesDontAlign[x1,6,4] EdgesDontAlign[x1,6,5]
+ EdgesDontAlign[x1,6,6] EdgesDontAlign[y1,0,0] EdgesDontAlign[y1,0,1]
+ EdgesDontAlign[y1,0,2] EdgesDontAlign[y1,0,3] EdgesDontAlign[y1,0,4]
+ EdgesDontAlign[y1,0,5] EdgesDontAlign[y1,0,6] EdgesDontAlign[y1,1,0]
+ EdgesDontAlign[y1,1,1] EdgesDontAlign[y1,1,2] EdgesDontAlign[y1,1,3]
+ EdgesDontAlign[y1,1,4] EdgesDontAlign[y1,1,5] EdgesDontAlign[y1,1,6]
+ EdgesDontAlign[y1,2,0] EdgesDontAlign[y1,2,1] EdgesDontAlign[y1,2,2]
+ EdgesDontAlign[y1,2,3] EdgesDontAlign[y1,2,4] EdgesDontAlign[y1,2,5]
+ EdgesDontAlign[y1,2,6] EdgesDontAlign[y1,3,0] EdgesDontAlign[y1,3,1]
+ EdgesDontAlign[y1,3,2] EdgesDontAlign[y1,3,3] EdgesDontAlign[y1,3,4]
+ EdgesDontAlign[y1,3,5] EdgesDontAlign[y1,3,6] EdgesDontAlign[y1,4,0]
+ EdgesDontAlign[y1,4,1] EdgesDontAlign[y1,4,2] EdgesDontAlign[y1,4,3]
+ EdgesDontAlign[y1,4,4] EdgesDontAlign[y1,4,5] EdgesDontAlign[y1,4,6]
+ EdgesDontAlign[y1,5,0] EdgesDontAlign[y1,5,1] EdgesDontAlign[y1,5,2]
+ EdgesDontAlign[y1,5,3] EdgesDontAlign[y1,5,4] EdgesDontAlign[y1,5,5]
+ EdgesDontAlign[y1,5,6] EdgesDontAlign[y1,6,0] EdgesDontAlign[y1,6,1]
+ EdgesDontAlign[y1,6,2] EdgesDontAlign[y1,6,3] EdgesDontAlign[y1,6,4]
+ EdgesDontAlign[y1,6,5] EdgesDontAlign[y1,6,6] IsElemFirstInGroup[x0,0]
  IsElemFirstInGroup[x0,1] IsElemFirstInGroup[x0,2] IsElemFirstInGroup[x0,3]
  IsElemFirstInGroup[x0,4] IsElemFirstInGroup[x0,5] IsElemFirstInGroup[x0,6]
  IsElemFirstInGroup[y0,0] IsElemFirstInGroup[y0,1] IsElemFirstInGroup[y0,2]
@@ -2504,396 +2530,396 @@ General Constraints
    VerticalOverlap[6,4] )
  LinkOverlap[6,5]: Overlap[6,5] = AND ( HorizontalOverlap[6,5] ,
    VerticalOverlap[6,5] )
- LinkEdgesAlign[x0,0,0]: EdgesAlign[x0,0,0] = MIN ( EdgeDistanceAbs[x0,0,0]
-   , 1 )
- LinkEdgesAlign[x0,0,1]: EdgesAlign[x0,0,1] = MIN ( EdgeDistanceAbs[x0,0,1]
-   , 1 )
- LinkEdgesAlign[x0,0,2]: EdgesAlign[x0,0,2] = MIN ( EdgeDistanceAbs[x0,0,2]
-   , 1 )
- LinkEdgesAlign[x0,0,3]: EdgesAlign[x0,0,3] = MIN ( EdgeDistanceAbs[x0,0,3]
-   , 1 )
- LinkEdgesAlign[x0,0,4]: EdgesAlign[x0,0,4] = MIN ( EdgeDistanceAbs[x0,0,4]
-   , 1 )
- LinkEdgesAlign[x0,0,5]: EdgesAlign[x0,0,5] = MIN ( EdgeDistanceAbs[x0,0,5]
-   , 1 )
- LinkEdgesAlign[x0,0,6]: EdgesAlign[x0,0,6] = MIN ( EdgeDistanceAbs[x0,0,6]
-   , 1 )
- LinkEdgesAlign[x0,1,0]: EdgesAlign[x0,1,0] = MIN ( EdgeDistanceAbs[x0,1,0]
-   , 1 )
- LinkEdgesAlign[x0,1,1]: EdgesAlign[x0,1,1] = MIN ( EdgeDistanceAbs[x0,1,1]
-   , 1 )
- LinkEdgesAlign[x0,1,2]: EdgesAlign[x0,1,2] = MIN ( EdgeDistanceAbs[x0,1,2]
-   , 1 )
- LinkEdgesAlign[x0,1,3]: EdgesAlign[x0,1,3] = MIN ( EdgeDistanceAbs[x0,1,3]
-   , 1 )
- LinkEdgesAlign[x0,1,4]: EdgesAlign[x0,1,4] = MIN ( EdgeDistanceAbs[x0,1,4]
-   , 1 )
- LinkEdgesAlign[x0,1,5]: EdgesAlign[x0,1,5] = MIN ( EdgeDistanceAbs[x0,1,5]
-   , 1 )
- LinkEdgesAlign[x0,1,6]: EdgesAlign[x0,1,6] = MIN ( EdgeDistanceAbs[x0,1,6]
-   , 1 )
- LinkEdgesAlign[x0,2,0]: EdgesAlign[x0,2,0] = MIN ( EdgeDistanceAbs[x0,2,0]
-   , 1 )
- LinkEdgesAlign[x0,2,1]: EdgesAlign[x0,2,1] = MIN ( EdgeDistanceAbs[x0,2,1]
-   , 1 )
- LinkEdgesAlign[x0,2,2]: EdgesAlign[x0,2,2] = MIN ( EdgeDistanceAbs[x0,2,2]
-   , 1 )
- LinkEdgesAlign[x0,2,3]: EdgesAlign[x0,2,3] = MIN ( EdgeDistanceAbs[x0,2,3]
-   , 1 )
- LinkEdgesAlign[x0,2,4]: EdgesAlign[x0,2,4] = MIN ( EdgeDistanceAbs[x0,2,4]
-   , 1 )
- LinkEdgesAlign[x0,2,5]: EdgesAlign[x0,2,5] = MIN ( EdgeDistanceAbs[x0,2,5]
-   , 1 )
- LinkEdgesAlign[x0,2,6]: EdgesAlign[x0,2,6] = MIN ( EdgeDistanceAbs[x0,2,6]
-   , 1 )
- LinkEdgesAlign[x0,3,0]: EdgesAlign[x0,3,0] = MIN ( EdgeDistanceAbs[x0,3,0]
-   , 1 )
- LinkEdgesAlign[x0,3,1]: EdgesAlign[x0,3,1] = MIN ( EdgeDistanceAbs[x0,3,1]
-   , 1 )
- LinkEdgesAlign[x0,3,2]: EdgesAlign[x0,3,2] = MIN ( EdgeDistanceAbs[x0,3,2]
-   , 1 )
- LinkEdgesAlign[x0,3,3]: EdgesAlign[x0,3,3] = MIN ( EdgeDistanceAbs[x0,3,3]
-   , 1 )
- LinkEdgesAlign[x0,3,4]: EdgesAlign[x0,3,4] = MIN ( EdgeDistanceAbs[x0,3,4]
-   , 1 )
- LinkEdgesAlign[x0,3,5]: EdgesAlign[x0,3,5] = MIN ( EdgeDistanceAbs[x0,3,5]
-   , 1 )
- LinkEdgesAlign[x0,3,6]: EdgesAlign[x0,3,6] = MIN ( EdgeDistanceAbs[x0,3,6]
-   , 1 )
- LinkEdgesAlign[x0,4,0]: EdgesAlign[x0,4,0] = MIN ( EdgeDistanceAbs[x0,4,0]
-   , 1 )
- LinkEdgesAlign[x0,4,1]: EdgesAlign[x0,4,1] = MIN ( EdgeDistanceAbs[x0,4,1]
-   , 1 )
- LinkEdgesAlign[x0,4,2]: EdgesAlign[x0,4,2] = MIN ( EdgeDistanceAbs[x0,4,2]
-   , 1 )
- LinkEdgesAlign[x0,4,3]: EdgesAlign[x0,4,3] = MIN ( EdgeDistanceAbs[x0,4,3]
-   , 1 )
- LinkEdgesAlign[x0,4,4]: EdgesAlign[x0,4,4] = MIN ( EdgeDistanceAbs[x0,4,4]
-   , 1 )
- LinkEdgesAlign[x0,4,5]: EdgesAlign[x0,4,5] = MIN ( EdgeDistanceAbs[x0,4,5]
-   , 1 )
- LinkEdgesAlign[x0,4,6]: EdgesAlign[x0,4,6] = MIN ( EdgeDistanceAbs[x0,4,6]
-   , 1 )
- LinkEdgesAlign[x0,5,0]: EdgesAlign[x0,5,0] = MIN ( EdgeDistanceAbs[x0,5,0]
-   , 1 )
- LinkEdgesAlign[x0,5,1]: EdgesAlign[x0,5,1] = MIN ( EdgeDistanceAbs[x0,5,1]
-   , 1 )
- LinkEdgesAlign[x0,5,2]: EdgesAlign[x0,5,2] = MIN ( EdgeDistanceAbs[x0,5,2]
-   , 1 )
- LinkEdgesAlign[x0,5,3]: EdgesAlign[x0,5,3] = MIN ( EdgeDistanceAbs[x0,5,3]
-   , 1 )
- LinkEdgesAlign[x0,5,4]: EdgesAlign[x0,5,4] = MIN ( EdgeDistanceAbs[x0,5,4]
-   , 1 )
- LinkEdgesAlign[x0,5,5]: EdgesAlign[x0,5,5] = MIN ( EdgeDistanceAbs[x0,5,5]
-   , 1 )
- LinkEdgesAlign[x0,5,6]: EdgesAlign[x0,5,6] = MIN ( EdgeDistanceAbs[x0,5,6]
-   , 1 )
- LinkEdgesAlign[x0,6,0]: EdgesAlign[x0,6,0] = MIN ( EdgeDistanceAbs[x0,6,0]
-   , 1 )
- LinkEdgesAlign[x0,6,1]: EdgesAlign[x0,6,1] = MIN ( EdgeDistanceAbs[x0,6,1]
-   , 1 )
- LinkEdgesAlign[x0,6,2]: EdgesAlign[x0,6,2] = MIN ( EdgeDistanceAbs[x0,6,2]
-   , 1 )
- LinkEdgesAlign[x0,6,3]: EdgesAlign[x0,6,3] = MIN ( EdgeDistanceAbs[x0,6,3]
-   , 1 )
- LinkEdgesAlign[x0,6,4]: EdgesAlign[x0,6,4] = MIN ( EdgeDistanceAbs[x0,6,4]
-   , 1 )
- LinkEdgesAlign[x0,6,5]: EdgesAlign[x0,6,5] = MIN ( EdgeDistanceAbs[x0,6,5]
-   , 1 )
- LinkEdgesAlign[x0,6,6]: EdgesAlign[x0,6,6] = MIN ( EdgeDistanceAbs[x0,6,6]
-   , 1 )
- LinkEdgesAlign[y0,0,0]: EdgesAlign[y0,0,0] = MIN ( EdgeDistanceAbs[y0,0,0]
-   , 1 )
- LinkEdgesAlign[y0,0,1]: EdgesAlign[y0,0,1] = MIN ( EdgeDistanceAbs[y0,0,1]
-   , 1 )
- LinkEdgesAlign[y0,0,2]: EdgesAlign[y0,0,2] = MIN ( EdgeDistanceAbs[y0,0,2]
-   , 1 )
- LinkEdgesAlign[y0,0,3]: EdgesAlign[y0,0,3] = MIN ( EdgeDistanceAbs[y0,0,3]
-   , 1 )
- LinkEdgesAlign[y0,0,4]: EdgesAlign[y0,0,4] = MIN ( EdgeDistanceAbs[y0,0,4]
-   , 1 )
- LinkEdgesAlign[y0,0,5]: EdgesAlign[y0,0,5] = MIN ( EdgeDistanceAbs[y0,0,5]
-   , 1 )
- LinkEdgesAlign[y0,0,6]: EdgesAlign[y0,0,6] = MIN ( EdgeDistanceAbs[y0,0,6]
-   , 1 )
- LinkEdgesAlign[y0,1,0]: EdgesAlign[y0,1,0] = MIN ( EdgeDistanceAbs[y0,1,0]
-   , 1 )
- LinkEdgesAlign[y0,1,1]: EdgesAlign[y0,1,1] = MIN ( EdgeDistanceAbs[y0,1,1]
-   , 1 )
- LinkEdgesAlign[y0,1,2]: EdgesAlign[y0,1,2] = MIN ( EdgeDistanceAbs[y0,1,2]
-   , 1 )
- LinkEdgesAlign[y0,1,3]: EdgesAlign[y0,1,3] = MIN ( EdgeDistanceAbs[y0,1,3]
-   , 1 )
- LinkEdgesAlign[y0,1,4]: EdgesAlign[y0,1,4] = MIN ( EdgeDistanceAbs[y0,1,4]
-   , 1 )
- LinkEdgesAlign[y0,1,5]: EdgesAlign[y0,1,5] = MIN ( EdgeDistanceAbs[y0,1,5]
-   , 1 )
- LinkEdgesAlign[y0,1,6]: EdgesAlign[y0,1,6] = MIN ( EdgeDistanceAbs[y0,1,6]
-   , 1 )
- LinkEdgesAlign[y0,2,0]: EdgesAlign[y0,2,0] = MIN ( EdgeDistanceAbs[y0,2,0]
-   , 1 )
- LinkEdgesAlign[y0,2,1]: EdgesAlign[y0,2,1] = MIN ( EdgeDistanceAbs[y0,2,1]
-   , 1 )
- LinkEdgesAlign[y0,2,2]: EdgesAlign[y0,2,2] = MIN ( EdgeDistanceAbs[y0,2,2]
-   , 1 )
- LinkEdgesAlign[y0,2,3]: EdgesAlign[y0,2,3] = MIN ( EdgeDistanceAbs[y0,2,3]
-   , 1 )
- LinkEdgesAlign[y0,2,4]: EdgesAlign[y0,2,4] = MIN ( EdgeDistanceAbs[y0,2,4]
-   , 1 )
- LinkEdgesAlign[y0,2,5]: EdgesAlign[y0,2,5] = MIN ( EdgeDistanceAbs[y0,2,5]
-   , 1 )
- LinkEdgesAlign[y0,2,6]: EdgesAlign[y0,2,6] = MIN ( EdgeDistanceAbs[y0,2,6]
-   , 1 )
- LinkEdgesAlign[y0,3,0]: EdgesAlign[y0,3,0] = MIN ( EdgeDistanceAbs[y0,3,0]
-   , 1 )
- LinkEdgesAlign[y0,3,1]: EdgesAlign[y0,3,1] = MIN ( EdgeDistanceAbs[y0,3,1]
-   , 1 )
- LinkEdgesAlign[y0,3,2]: EdgesAlign[y0,3,2] = MIN ( EdgeDistanceAbs[y0,3,2]
-   , 1 )
- LinkEdgesAlign[y0,3,3]: EdgesAlign[y0,3,3] = MIN ( EdgeDistanceAbs[y0,3,3]
-   , 1 )
- LinkEdgesAlign[y0,3,4]: EdgesAlign[y0,3,4] = MIN ( EdgeDistanceAbs[y0,3,4]
-   , 1 )
- LinkEdgesAlign[y0,3,5]: EdgesAlign[y0,3,5] = MIN ( EdgeDistanceAbs[y0,3,5]
-   , 1 )
- LinkEdgesAlign[y0,3,6]: EdgesAlign[y0,3,6] = MIN ( EdgeDistanceAbs[y0,3,6]
-   , 1 )
- LinkEdgesAlign[y0,4,0]: EdgesAlign[y0,4,0] = MIN ( EdgeDistanceAbs[y0,4,0]
-   , 1 )
- LinkEdgesAlign[y0,4,1]: EdgesAlign[y0,4,1] = MIN ( EdgeDistanceAbs[y0,4,1]
-   , 1 )
- LinkEdgesAlign[y0,4,2]: EdgesAlign[y0,4,2] = MIN ( EdgeDistanceAbs[y0,4,2]
-   , 1 )
- LinkEdgesAlign[y0,4,3]: EdgesAlign[y0,4,3] = MIN ( EdgeDistanceAbs[y0,4,3]
-   , 1 )
- LinkEdgesAlign[y0,4,4]: EdgesAlign[y0,4,4] = MIN ( EdgeDistanceAbs[y0,4,4]
-   , 1 )
- LinkEdgesAlign[y0,4,5]: EdgesAlign[y0,4,5] = MIN ( EdgeDistanceAbs[y0,4,5]
-   , 1 )
- LinkEdgesAlign[y0,4,6]: EdgesAlign[y0,4,6] = MIN ( EdgeDistanceAbs[y0,4,6]
-   , 1 )
- LinkEdgesAlign[y0,5,0]: EdgesAlign[y0,5,0] = MIN ( EdgeDistanceAbs[y0,5,0]
-   , 1 )
- LinkEdgesAlign[y0,5,1]: EdgesAlign[y0,5,1] = MIN ( EdgeDistanceAbs[y0,5,1]
-   , 1 )
- LinkEdgesAlign[y0,5,2]: EdgesAlign[y0,5,2] = MIN ( EdgeDistanceAbs[y0,5,2]
-   , 1 )
- LinkEdgesAlign[y0,5,3]: EdgesAlign[y0,5,3] = MIN ( EdgeDistanceAbs[y0,5,3]
-   , 1 )
- LinkEdgesAlign[y0,5,4]: EdgesAlign[y0,5,4] = MIN ( EdgeDistanceAbs[y0,5,4]
-   , 1 )
- LinkEdgesAlign[y0,5,5]: EdgesAlign[y0,5,5] = MIN ( EdgeDistanceAbs[y0,5,5]
-   , 1 )
- LinkEdgesAlign[y0,5,6]: EdgesAlign[y0,5,6] = MIN ( EdgeDistanceAbs[y0,5,6]
-   , 1 )
- LinkEdgesAlign[y0,6,0]: EdgesAlign[y0,6,0] = MIN ( EdgeDistanceAbs[y0,6,0]
-   , 1 )
- LinkEdgesAlign[y0,6,1]: EdgesAlign[y0,6,1] = MIN ( EdgeDistanceAbs[y0,6,1]
-   , 1 )
- LinkEdgesAlign[y0,6,2]: EdgesAlign[y0,6,2] = MIN ( EdgeDistanceAbs[y0,6,2]
-   , 1 )
- LinkEdgesAlign[y0,6,3]: EdgesAlign[y0,6,3] = MIN ( EdgeDistanceAbs[y0,6,3]
-   , 1 )
- LinkEdgesAlign[y0,6,4]: EdgesAlign[y0,6,4] = MIN ( EdgeDistanceAbs[y0,6,4]
-   , 1 )
- LinkEdgesAlign[y0,6,5]: EdgesAlign[y0,6,5] = MIN ( EdgeDistanceAbs[y0,6,5]
-   , 1 )
- LinkEdgesAlign[y0,6,6]: EdgesAlign[y0,6,6] = MIN ( EdgeDistanceAbs[y0,6,6]
-   , 1 )
- LinkEdgesAlign[x1,0,0]: EdgesAlign[x1,0,0] = MIN ( EdgeDistanceAbs[x1,0,0]
-   , 1 )
- LinkEdgesAlign[x1,0,1]: EdgesAlign[x1,0,1] = MIN ( EdgeDistanceAbs[x1,0,1]
-   , 1 )
- LinkEdgesAlign[x1,0,2]: EdgesAlign[x1,0,2] = MIN ( EdgeDistanceAbs[x1,0,2]
-   , 1 )
- LinkEdgesAlign[x1,0,3]: EdgesAlign[x1,0,3] = MIN ( EdgeDistanceAbs[x1,0,3]
-   , 1 )
- LinkEdgesAlign[x1,0,4]: EdgesAlign[x1,0,4] = MIN ( EdgeDistanceAbs[x1,0,4]
-   , 1 )
- LinkEdgesAlign[x1,0,5]: EdgesAlign[x1,0,5] = MIN ( EdgeDistanceAbs[x1,0,5]
-   , 1 )
- LinkEdgesAlign[x1,0,6]: EdgesAlign[x1,0,6] = MIN ( EdgeDistanceAbs[x1,0,6]
-   , 1 )
- LinkEdgesAlign[x1,1,0]: EdgesAlign[x1,1,0] = MIN ( EdgeDistanceAbs[x1,1,0]
-   , 1 )
- LinkEdgesAlign[x1,1,1]: EdgesAlign[x1,1,1] = MIN ( EdgeDistanceAbs[x1,1,1]
-   , 1 )
- LinkEdgesAlign[x1,1,2]: EdgesAlign[x1,1,2] = MIN ( EdgeDistanceAbs[x1,1,2]
-   , 1 )
- LinkEdgesAlign[x1,1,3]: EdgesAlign[x1,1,3] = MIN ( EdgeDistanceAbs[x1,1,3]
-   , 1 )
- LinkEdgesAlign[x1,1,4]: EdgesAlign[x1,1,4] = MIN ( EdgeDistanceAbs[x1,1,4]
-   , 1 )
- LinkEdgesAlign[x1,1,5]: EdgesAlign[x1,1,5] = MIN ( EdgeDistanceAbs[x1,1,5]
-   , 1 )
- LinkEdgesAlign[x1,1,6]: EdgesAlign[x1,1,6] = MIN ( EdgeDistanceAbs[x1,1,6]
-   , 1 )
- LinkEdgesAlign[x1,2,0]: EdgesAlign[x1,2,0] = MIN ( EdgeDistanceAbs[x1,2,0]
-   , 1 )
- LinkEdgesAlign[x1,2,1]: EdgesAlign[x1,2,1] = MIN ( EdgeDistanceAbs[x1,2,1]
-   , 1 )
- LinkEdgesAlign[x1,2,2]: EdgesAlign[x1,2,2] = MIN ( EdgeDistanceAbs[x1,2,2]
-   , 1 )
- LinkEdgesAlign[x1,2,3]: EdgesAlign[x1,2,3] = MIN ( EdgeDistanceAbs[x1,2,3]
-   , 1 )
- LinkEdgesAlign[x1,2,4]: EdgesAlign[x1,2,4] = MIN ( EdgeDistanceAbs[x1,2,4]
-   , 1 )
- LinkEdgesAlign[x1,2,5]: EdgesAlign[x1,2,5] = MIN ( EdgeDistanceAbs[x1,2,5]
-   , 1 )
- LinkEdgesAlign[x1,2,6]: EdgesAlign[x1,2,6] = MIN ( EdgeDistanceAbs[x1,2,6]
-   , 1 )
- LinkEdgesAlign[x1,3,0]: EdgesAlign[x1,3,0] = MIN ( EdgeDistanceAbs[x1,3,0]
-   , 1 )
- LinkEdgesAlign[x1,3,1]: EdgesAlign[x1,3,1] = MIN ( EdgeDistanceAbs[x1,3,1]
-   , 1 )
- LinkEdgesAlign[x1,3,2]: EdgesAlign[x1,3,2] = MIN ( EdgeDistanceAbs[x1,3,2]
-   , 1 )
- LinkEdgesAlign[x1,3,3]: EdgesAlign[x1,3,3] = MIN ( EdgeDistanceAbs[x1,3,3]
-   , 1 )
- LinkEdgesAlign[x1,3,4]: EdgesAlign[x1,3,4] = MIN ( EdgeDistanceAbs[x1,3,4]
-   , 1 )
- LinkEdgesAlign[x1,3,5]: EdgesAlign[x1,3,5] = MIN ( EdgeDistanceAbs[x1,3,5]
-   , 1 )
- LinkEdgesAlign[x1,3,6]: EdgesAlign[x1,3,6] = MIN ( EdgeDistanceAbs[x1,3,6]
-   , 1 )
- LinkEdgesAlign[x1,4,0]: EdgesAlign[x1,4,0] = MIN ( EdgeDistanceAbs[x1,4,0]
-   , 1 )
- LinkEdgesAlign[x1,4,1]: EdgesAlign[x1,4,1] = MIN ( EdgeDistanceAbs[x1,4,1]
-   , 1 )
- LinkEdgesAlign[x1,4,2]: EdgesAlign[x1,4,2] = MIN ( EdgeDistanceAbs[x1,4,2]
-   , 1 )
- LinkEdgesAlign[x1,4,3]: EdgesAlign[x1,4,3] = MIN ( EdgeDistanceAbs[x1,4,3]
-   , 1 )
- LinkEdgesAlign[x1,4,4]: EdgesAlign[x1,4,4] = MIN ( EdgeDistanceAbs[x1,4,4]
-   , 1 )
- LinkEdgesAlign[x1,4,5]: EdgesAlign[x1,4,5] = MIN ( EdgeDistanceAbs[x1,4,5]
-   , 1 )
- LinkEdgesAlign[x1,4,6]: EdgesAlign[x1,4,6] = MIN ( EdgeDistanceAbs[x1,4,6]
-   , 1 )
- LinkEdgesAlign[x1,5,0]: EdgesAlign[x1,5,0] = MIN ( EdgeDistanceAbs[x1,5,0]
-   , 1 )
- LinkEdgesAlign[x1,5,1]: EdgesAlign[x1,5,1] = MIN ( EdgeDistanceAbs[x1,5,1]
-   , 1 )
- LinkEdgesAlign[x1,5,2]: EdgesAlign[x1,5,2] = MIN ( EdgeDistanceAbs[x1,5,2]
-   , 1 )
- LinkEdgesAlign[x1,5,3]: EdgesAlign[x1,5,3] = MIN ( EdgeDistanceAbs[x1,5,3]
-   , 1 )
- LinkEdgesAlign[x1,5,4]: EdgesAlign[x1,5,4] = MIN ( EdgeDistanceAbs[x1,5,4]
-   , 1 )
- LinkEdgesAlign[x1,5,5]: EdgesAlign[x1,5,5] = MIN ( EdgeDistanceAbs[x1,5,5]
-   , 1 )
- LinkEdgesAlign[x1,5,6]: EdgesAlign[x1,5,6] = MIN ( EdgeDistanceAbs[x1,5,6]
-   , 1 )
- LinkEdgesAlign[x1,6,0]: EdgesAlign[x1,6,0] = MIN ( EdgeDistanceAbs[x1,6,0]
-   , 1 )
- LinkEdgesAlign[x1,6,1]: EdgesAlign[x1,6,1] = MIN ( EdgeDistanceAbs[x1,6,1]
-   , 1 )
- LinkEdgesAlign[x1,6,2]: EdgesAlign[x1,6,2] = MIN ( EdgeDistanceAbs[x1,6,2]
-   , 1 )
- LinkEdgesAlign[x1,6,3]: EdgesAlign[x1,6,3] = MIN ( EdgeDistanceAbs[x1,6,3]
-   , 1 )
- LinkEdgesAlign[x1,6,4]: EdgesAlign[x1,6,4] = MIN ( EdgeDistanceAbs[x1,6,4]
-   , 1 )
- LinkEdgesAlign[x1,6,5]: EdgesAlign[x1,6,5] = MIN ( EdgeDistanceAbs[x1,6,5]
-   , 1 )
- LinkEdgesAlign[x1,6,6]: EdgesAlign[x1,6,6] = MIN ( EdgeDistanceAbs[x1,6,6]
-   , 1 )
- LinkEdgesAlign[y1,0,0]: EdgesAlign[y1,0,0] = MIN ( EdgeDistanceAbs[y1,0,0]
-   , 1 )
- LinkEdgesAlign[y1,0,1]: EdgesAlign[y1,0,1] = MIN ( EdgeDistanceAbs[y1,0,1]
-   , 1 )
- LinkEdgesAlign[y1,0,2]: EdgesAlign[y1,0,2] = MIN ( EdgeDistanceAbs[y1,0,2]
-   , 1 )
- LinkEdgesAlign[y1,0,3]: EdgesAlign[y1,0,3] = MIN ( EdgeDistanceAbs[y1,0,3]
-   , 1 )
- LinkEdgesAlign[y1,0,4]: EdgesAlign[y1,0,4] = MIN ( EdgeDistanceAbs[y1,0,4]
-   , 1 )
- LinkEdgesAlign[y1,0,5]: EdgesAlign[y1,0,5] = MIN ( EdgeDistanceAbs[y1,0,5]
-   , 1 )
- LinkEdgesAlign[y1,0,6]: EdgesAlign[y1,0,6] = MIN ( EdgeDistanceAbs[y1,0,6]
-   , 1 )
- LinkEdgesAlign[y1,1,0]: EdgesAlign[y1,1,0] = MIN ( EdgeDistanceAbs[y1,1,0]
-   , 1 )
- LinkEdgesAlign[y1,1,1]: EdgesAlign[y1,1,1] = MIN ( EdgeDistanceAbs[y1,1,1]
-   , 1 )
- LinkEdgesAlign[y1,1,2]: EdgesAlign[y1,1,2] = MIN ( EdgeDistanceAbs[y1,1,2]
-   , 1 )
- LinkEdgesAlign[y1,1,3]: EdgesAlign[y1,1,3] = MIN ( EdgeDistanceAbs[y1,1,3]
-   , 1 )
- LinkEdgesAlign[y1,1,4]: EdgesAlign[y1,1,4] = MIN ( EdgeDistanceAbs[y1,1,4]
-   , 1 )
- LinkEdgesAlign[y1,1,5]: EdgesAlign[y1,1,5] = MIN ( EdgeDistanceAbs[y1,1,5]
-   , 1 )
- LinkEdgesAlign[y1,1,6]: EdgesAlign[y1,1,6] = MIN ( EdgeDistanceAbs[y1,1,6]
-   , 1 )
- LinkEdgesAlign[y1,2,0]: EdgesAlign[y1,2,0] = MIN ( EdgeDistanceAbs[y1,2,0]
-   , 1 )
- LinkEdgesAlign[y1,2,1]: EdgesAlign[y1,2,1] = MIN ( EdgeDistanceAbs[y1,2,1]
-   , 1 )
- LinkEdgesAlign[y1,2,2]: EdgesAlign[y1,2,2] = MIN ( EdgeDistanceAbs[y1,2,2]
-   , 1 )
- LinkEdgesAlign[y1,2,3]: EdgesAlign[y1,2,3] = MIN ( EdgeDistanceAbs[y1,2,3]
-   , 1 )
- LinkEdgesAlign[y1,2,4]: EdgesAlign[y1,2,4] = MIN ( EdgeDistanceAbs[y1,2,4]
-   , 1 )
- LinkEdgesAlign[y1,2,5]: EdgesAlign[y1,2,5] = MIN ( EdgeDistanceAbs[y1,2,5]
-   , 1 )
- LinkEdgesAlign[y1,2,6]: EdgesAlign[y1,2,6] = MIN ( EdgeDistanceAbs[y1,2,6]
-   , 1 )
- LinkEdgesAlign[y1,3,0]: EdgesAlign[y1,3,0] = MIN ( EdgeDistanceAbs[y1,3,0]
-   , 1 )
- LinkEdgesAlign[y1,3,1]: EdgesAlign[y1,3,1] = MIN ( EdgeDistanceAbs[y1,3,1]
-   , 1 )
- LinkEdgesAlign[y1,3,2]: EdgesAlign[y1,3,2] = MIN ( EdgeDistanceAbs[y1,3,2]
-   , 1 )
- LinkEdgesAlign[y1,3,3]: EdgesAlign[y1,3,3] = MIN ( EdgeDistanceAbs[y1,3,3]
-   , 1 )
- LinkEdgesAlign[y1,3,4]: EdgesAlign[y1,3,4] = MIN ( EdgeDistanceAbs[y1,3,4]
-   , 1 )
- LinkEdgesAlign[y1,3,5]: EdgesAlign[y1,3,5] = MIN ( EdgeDistanceAbs[y1,3,5]
-   , 1 )
- LinkEdgesAlign[y1,3,6]: EdgesAlign[y1,3,6] = MIN ( EdgeDistanceAbs[y1,3,6]
-   , 1 )
- LinkEdgesAlign[y1,4,0]: EdgesAlign[y1,4,0] = MIN ( EdgeDistanceAbs[y1,4,0]
-   , 1 )
- LinkEdgesAlign[y1,4,1]: EdgesAlign[y1,4,1] = MIN ( EdgeDistanceAbs[y1,4,1]
-   , 1 )
- LinkEdgesAlign[y1,4,2]: EdgesAlign[y1,4,2] = MIN ( EdgeDistanceAbs[y1,4,2]
-   , 1 )
- LinkEdgesAlign[y1,4,3]: EdgesAlign[y1,4,3] = MIN ( EdgeDistanceAbs[y1,4,3]
-   , 1 )
- LinkEdgesAlign[y1,4,4]: EdgesAlign[y1,4,4] = MIN ( EdgeDistanceAbs[y1,4,4]
-   , 1 )
- LinkEdgesAlign[y1,4,5]: EdgesAlign[y1,4,5] = MIN ( EdgeDistanceAbs[y1,4,5]
-   , 1 )
- LinkEdgesAlign[y1,4,6]: EdgesAlign[y1,4,6] = MIN ( EdgeDistanceAbs[y1,4,6]
-   , 1 )
- LinkEdgesAlign[y1,5,0]: EdgesAlign[y1,5,0] = MIN ( EdgeDistanceAbs[y1,5,0]
-   , 1 )
- LinkEdgesAlign[y1,5,1]: EdgesAlign[y1,5,1] = MIN ( EdgeDistanceAbs[y1,5,1]
-   , 1 )
- LinkEdgesAlign[y1,5,2]: EdgesAlign[y1,5,2] = MIN ( EdgeDistanceAbs[y1,5,2]
-   , 1 )
- LinkEdgesAlign[y1,5,3]: EdgesAlign[y1,5,3] = MIN ( EdgeDistanceAbs[y1,5,3]
-   , 1 )
- LinkEdgesAlign[y1,5,4]: EdgesAlign[y1,5,4] = MIN ( EdgeDistanceAbs[y1,5,4]
-   , 1 )
- LinkEdgesAlign[y1,5,5]: EdgesAlign[y1,5,5] = MIN ( EdgeDistanceAbs[y1,5,5]
-   , 1 )
- LinkEdgesAlign[y1,5,6]: EdgesAlign[y1,5,6] = MIN ( EdgeDistanceAbs[y1,5,6]
-   , 1 )
- LinkEdgesAlign[y1,6,0]: EdgesAlign[y1,6,0] = MIN ( EdgeDistanceAbs[y1,6,0]
-   , 1 )
- LinkEdgesAlign[y1,6,1]: EdgesAlign[y1,6,1] = MIN ( EdgeDistanceAbs[y1,6,1]
-   , 1 )
- LinkEdgesAlign[y1,6,2]: EdgesAlign[y1,6,2] = MIN ( EdgeDistanceAbs[y1,6,2]
-   , 1 )
- LinkEdgesAlign[y1,6,3]: EdgesAlign[y1,6,3] = MIN ( EdgeDistanceAbs[y1,6,3]
-   , 1 )
- LinkEdgesAlign[y1,6,4]: EdgesAlign[y1,6,4] = MIN ( EdgeDistanceAbs[y1,6,4]
-   , 1 )
- LinkEdgesAlign[y1,6,5]: EdgesAlign[y1,6,5] = MIN ( EdgeDistanceAbs[y1,6,5]
-   , 1 )
- LinkEdgesAlign[y1,6,6]: EdgesAlign[y1,6,6] = MIN ( EdgeDistanceAbs[y1,6,6]
-   , 1 )
+ LinkEdgesDontAlign[x0,0,0]: EdgesDontAlign[x0,0,0] = MIN (
+   EdgeDistanceAbs[x0,0,0] , 1 )
+ LinkEdgesDontAlign[x0,0,1]: EdgesDontAlign[x0,0,1] = MIN (
+   EdgeDistanceAbs[x0,0,1] , 1 )
+ LinkEdgesDontAlign[x0,0,2]: EdgesDontAlign[x0,0,2] = MIN (
+   EdgeDistanceAbs[x0,0,2] , 1 )
+ LinkEdgesDontAlign[x0,0,3]: EdgesDontAlign[x0,0,3] = MIN (
+   EdgeDistanceAbs[x0,0,3] , 1 )
+ LinkEdgesDontAlign[x0,0,4]: EdgesDontAlign[x0,0,4] = MIN (
+   EdgeDistanceAbs[x0,0,4] , 1 )
+ LinkEdgesDontAlign[x0,0,5]: EdgesDontAlign[x0,0,5] = MIN (
+   EdgeDistanceAbs[x0,0,5] , 1 )
+ LinkEdgesDontAlign[x0,0,6]: EdgesDontAlign[x0,0,6] = MIN (
+   EdgeDistanceAbs[x0,0,6] , 1 )
+ LinkEdgesDontAlign[x0,1,0]: EdgesDontAlign[x0,1,0] = MIN (
+   EdgeDistanceAbs[x0,1,0] , 1 )
+ LinkEdgesDontAlign[x0,1,1]: EdgesDontAlign[x0,1,1] = MIN (
+   EdgeDistanceAbs[x0,1,1] , 1 )
+ LinkEdgesDontAlign[x0,1,2]: EdgesDontAlign[x0,1,2] = MIN (
+   EdgeDistanceAbs[x0,1,2] , 1 )
+ LinkEdgesDontAlign[x0,1,3]: EdgesDontAlign[x0,1,3] = MIN (
+   EdgeDistanceAbs[x0,1,3] , 1 )
+ LinkEdgesDontAlign[x0,1,4]: EdgesDontAlign[x0,1,4] = MIN (
+   EdgeDistanceAbs[x0,1,4] , 1 )
+ LinkEdgesDontAlign[x0,1,5]: EdgesDontAlign[x0,1,5] = MIN (
+   EdgeDistanceAbs[x0,1,5] , 1 )
+ LinkEdgesDontAlign[x0,1,6]: EdgesDontAlign[x0,1,6] = MIN (
+   EdgeDistanceAbs[x0,1,6] , 1 )
+ LinkEdgesDontAlign[x0,2,0]: EdgesDontAlign[x0,2,0] = MIN (
+   EdgeDistanceAbs[x0,2,0] , 1 )
+ LinkEdgesDontAlign[x0,2,1]: EdgesDontAlign[x0,2,1] = MIN (
+   EdgeDistanceAbs[x0,2,1] , 1 )
+ LinkEdgesDontAlign[x0,2,2]: EdgesDontAlign[x0,2,2] = MIN (
+   EdgeDistanceAbs[x0,2,2] , 1 )
+ LinkEdgesDontAlign[x0,2,3]: EdgesDontAlign[x0,2,3] = MIN (
+   EdgeDistanceAbs[x0,2,3] , 1 )
+ LinkEdgesDontAlign[x0,2,4]: EdgesDontAlign[x0,2,4] = MIN (
+   EdgeDistanceAbs[x0,2,4] , 1 )
+ LinkEdgesDontAlign[x0,2,5]: EdgesDontAlign[x0,2,5] = MIN (
+   EdgeDistanceAbs[x0,2,5] , 1 )
+ LinkEdgesDontAlign[x0,2,6]: EdgesDontAlign[x0,2,6] = MIN (
+   EdgeDistanceAbs[x0,2,6] , 1 )
+ LinkEdgesDontAlign[x0,3,0]: EdgesDontAlign[x0,3,0] = MIN (
+   EdgeDistanceAbs[x0,3,0] , 1 )
+ LinkEdgesDontAlign[x0,3,1]: EdgesDontAlign[x0,3,1] = MIN (
+   EdgeDistanceAbs[x0,3,1] , 1 )
+ LinkEdgesDontAlign[x0,3,2]: EdgesDontAlign[x0,3,2] = MIN (
+   EdgeDistanceAbs[x0,3,2] , 1 )
+ LinkEdgesDontAlign[x0,3,3]: EdgesDontAlign[x0,3,3] = MIN (
+   EdgeDistanceAbs[x0,3,3] , 1 )
+ LinkEdgesDontAlign[x0,3,4]: EdgesDontAlign[x0,3,4] = MIN (
+   EdgeDistanceAbs[x0,3,4] , 1 )
+ LinkEdgesDontAlign[x0,3,5]: EdgesDontAlign[x0,3,5] = MIN (
+   EdgeDistanceAbs[x0,3,5] , 1 )
+ LinkEdgesDontAlign[x0,3,6]: EdgesDontAlign[x0,3,6] = MIN (
+   EdgeDistanceAbs[x0,3,6] , 1 )
+ LinkEdgesDontAlign[x0,4,0]: EdgesDontAlign[x0,4,0] = MIN (
+   EdgeDistanceAbs[x0,4,0] , 1 )
+ LinkEdgesDontAlign[x0,4,1]: EdgesDontAlign[x0,4,1] = MIN (
+   EdgeDistanceAbs[x0,4,1] , 1 )
+ LinkEdgesDontAlign[x0,4,2]: EdgesDontAlign[x0,4,2] = MIN (
+   EdgeDistanceAbs[x0,4,2] , 1 )
+ LinkEdgesDontAlign[x0,4,3]: EdgesDontAlign[x0,4,3] = MIN (
+   EdgeDistanceAbs[x0,4,3] , 1 )
+ LinkEdgesDontAlign[x0,4,4]: EdgesDontAlign[x0,4,4] = MIN (
+   EdgeDistanceAbs[x0,4,4] , 1 )
+ LinkEdgesDontAlign[x0,4,5]: EdgesDontAlign[x0,4,5] = MIN (
+   EdgeDistanceAbs[x0,4,5] , 1 )
+ LinkEdgesDontAlign[x0,4,6]: EdgesDontAlign[x0,4,6] = MIN (
+   EdgeDistanceAbs[x0,4,6] , 1 )
+ LinkEdgesDontAlign[x0,5,0]: EdgesDontAlign[x0,5,0] = MIN (
+   EdgeDistanceAbs[x0,5,0] , 1 )
+ LinkEdgesDontAlign[x0,5,1]: EdgesDontAlign[x0,5,1] = MIN (
+   EdgeDistanceAbs[x0,5,1] , 1 )
+ LinkEdgesDontAlign[x0,5,2]: EdgesDontAlign[x0,5,2] = MIN (
+   EdgeDistanceAbs[x0,5,2] , 1 )
+ LinkEdgesDontAlign[x0,5,3]: EdgesDontAlign[x0,5,3] = MIN (
+   EdgeDistanceAbs[x0,5,3] , 1 )
+ LinkEdgesDontAlign[x0,5,4]: EdgesDontAlign[x0,5,4] = MIN (
+   EdgeDistanceAbs[x0,5,4] , 1 )
+ LinkEdgesDontAlign[x0,5,5]: EdgesDontAlign[x0,5,5] = MIN (
+   EdgeDistanceAbs[x0,5,5] , 1 )
+ LinkEdgesDontAlign[x0,5,6]: EdgesDontAlign[x0,5,6] = MIN (
+   EdgeDistanceAbs[x0,5,6] , 1 )
+ LinkEdgesDontAlign[x0,6,0]: EdgesDontAlign[x0,6,0] = MIN (
+   EdgeDistanceAbs[x0,6,0] , 1 )
+ LinkEdgesDontAlign[x0,6,1]: EdgesDontAlign[x0,6,1] = MIN (
+   EdgeDistanceAbs[x0,6,1] , 1 )
+ LinkEdgesDontAlign[x0,6,2]: EdgesDontAlign[x0,6,2] = MIN (
+   EdgeDistanceAbs[x0,6,2] , 1 )
+ LinkEdgesDontAlign[x0,6,3]: EdgesDontAlign[x0,6,3] = MIN (
+   EdgeDistanceAbs[x0,6,3] , 1 )
+ LinkEdgesDontAlign[x0,6,4]: EdgesDontAlign[x0,6,4] = MIN (
+   EdgeDistanceAbs[x0,6,4] , 1 )
+ LinkEdgesDontAlign[x0,6,5]: EdgesDontAlign[x0,6,5] = MIN (
+   EdgeDistanceAbs[x0,6,5] , 1 )
+ LinkEdgesDontAlign[x0,6,6]: EdgesDontAlign[x0,6,6] = MIN (
+   EdgeDistanceAbs[x0,6,6] , 1 )
+ LinkEdgesDontAlign[y0,0,0]: EdgesDontAlign[y0,0,0] = MIN (
+   EdgeDistanceAbs[y0,0,0] , 1 )
+ LinkEdgesDontAlign[y0,0,1]: EdgesDontAlign[y0,0,1] = MIN (
+   EdgeDistanceAbs[y0,0,1] , 1 )
+ LinkEdgesDontAlign[y0,0,2]: EdgesDontAlign[y0,0,2] = MIN (
+   EdgeDistanceAbs[y0,0,2] , 1 )
+ LinkEdgesDontAlign[y0,0,3]: EdgesDontAlign[y0,0,3] = MIN (
+   EdgeDistanceAbs[y0,0,3] , 1 )
+ LinkEdgesDontAlign[y0,0,4]: EdgesDontAlign[y0,0,4] = MIN (
+   EdgeDistanceAbs[y0,0,4] , 1 )
+ LinkEdgesDontAlign[y0,0,5]: EdgesDontAlign[y0,0,5] = MIN (
+   EdgeDistanceAbs[y0,0,5] , 1 )
+ LinkEdgesDontAlign[y0,0,6]: EdgesDontAlign[y0,0,6] = MIN (
+   EdgeDistanceAbs[y0,0,6] , 1 )
+ LinkEdgesDontAlign[y0,1,0]: EdgesDontAlign[y0,1,0] = MIN (
+   EdgeDistanceAbs[y0,1,0] , 1 )
+ LinkEdgesDontAlign[y0,1,1]: EdgesDontAlign[y0,1,1] = MIN (
+   EdgeDistanceAbs[y0,1,1] , 1 )
+ LinkEdgesDontAlign[y0,1,2]: EdgesDontAlign[y0,1,2] = MIN (
+   EdgeDistanceAbs[y0,1,2] , 1 )
+ LinkEdgesDontAlign[y0,1,3]: EdgesDontAlign[y0,1,3] = MIN (
+   EdgeDistanceAbs[y0,1,3] , 1 )
+ LinkEdgesDontAlign[y0,1,4]: EdgesDontAlign[y0,1,4] = MIN (
+   EdgeDistanceAbs[y0,1,4] , 1 )
+ LinkEdgesDontAlign[y0,1,5]: EdgesDontAlign[y0,1,5] = MIN (
+   EdgeDistanceAbs[y0,1,5] , 1 )
+ LinkEdgesDontAlign[y0,1,6]: EdgesDontAlign[y0,1,6] = MIN (
+   EdgeDistanceAbs[y0,1,6] , 1 )
+ LinkEdgesDontAlign[y0,2,0]: EdgesDontAlign[y0,2,0] = MIN (
+   EdgeDistanceAbs[y0,2,0] , 1 )
+ LinkEdgesDontAlign[y0,2,1]: EdgesDontAlign[y0,2,1] = MIN (
+   EdgeDistanceAbs[y0,2,1] , 1 )
+ LinkEdgesDontAlign[y0,2,2]: EdgesDontAlign[y0,2,2] = MIN (
+   EdgeDistanceAbs[y0,2,2] , 1 )
+ LinkEdgesDontAlign[y0,2,3]: EdgesDontAlign[y0,2,3] = MIN (
+   EdgeDistanceAbs[y0,2,3] , 1 )
+ LinkEdgesDontAlign[y0,2,4]: EdgesDontAlign[y0,2,4] = MIN (
+   EdgeDistanceAbs[y0,2,4] , 1 )
+ LinkEdgesDontAlign[y0,2,5]: EdgesDontAlign[y0,2,5] = MIN (
+   EdgeDistanceAbs[y0,2,5] , 1 )
+ LinkEdgesDontAlign[y0,2,6]: EdgesDontAlign[y0,2,6] = MIN (
+   EdgeDistanceAbs[y0,2,6] , 1 )
+ LinkEdgesDontAlign[y0,3,0]: EdgesDontAlign[y0,3,0] = MIN (
+   EdgeDistanceAbs[y0,3,0] , 1 )
+ LinkEdgesDontAlign[y0,3,1]: EdgesDontAlign[y0,3,1] = MIN (
+   EdgeDistanceAbs[y0,3,1] , 1 )
+ LinkEdgesDontAlign[y0,3,2]: EdgesDontAlign[y0,3,2] = MIN (
+   EdgeDistanceAbs[y0,3,2] , 1 )
+ LinkEdgesDontAlign[y0,3,3]: EdgesDontAlign[y0,3,3] = MIN (
+   EdgeDistanceAbs[y0,3,3] , 1 )
+ LinkEdgesDontAlign[y0,3,4]: EdgesDontAlign[y0,3,4] = MIN (
+   EdgeDistanceAbs[y0,3,4] , 1 )
+ LinkEdgesDontAlign[y0,3,5]: EdgesDontAlign[y0,3,5] = MIN (
+   EdgeDistanceAbs[y0,3,5] , 1 )
+ LinkEdgesDontAlign[y0,3,6]: EdgesDontAlign[y0,3,6] = MIN (
+   EdgeDistanceAbs[y0,3,6] , 1 )
+ LinkEdgesDontAlign[y0,4,0]: EdgesDontAlign[y0,4,0] = MIN (
+   EdgeDistanceAbs[y0,4,0] , 1 )
+ LinkEdgesDontAlign[y0,4,1]: EdgesDontAlign[y0,4,1] = MIN (
+   EdgeDistanceAbs[y0,4,1] , 1 )
+ LinkEdgesDontAlign[y0,4,2]: EdgesDontAlign[y0,4,2] = MIN (
+   EdgeDistanceAbs[y0,4,2] , 1 )
+ LinkEdgesDontAlign[y0,4,3]: EdgesDontAlign[y0,4,3] = MIN (
+   EdgeDistanceAbs[y0,4,3] , 1 )
+ LinkEdgesDontAlign[y0,4,4]: EdgesDontAlign[y0,4,4] = MIN (
+   EdgeDistanceAbs[y0,4,4] , 1 )
+ LinkEdgesDontAlign[y0,4,5]: EdgesDontAlign[y0,4,5] = MIN (
+   EdgeDistanceAbs[y0,4,5] , 1 )
+ LinkEdgesDontAlign[y0,4,6]: EdgesDontAlign[y0,4,6] = MIN (
+   EdgeDistanceAbs[y0,4,6] , 1 )
+ LinkEdgesDontAlign[y0,5,0]: EdgesDontAlign[y0,5,0] = MIN (
+   EdgeDistanceAbs[y0,5,0] , 1 )
+ LinkEdgesDontAlign[y0,5,1]: EdgesDontAlign[y0,5,1] = MIN (
+   EdgeDistanceAbs[y0,5,1] , 1 )
+ LinkEdgesDontAlign[y0,5,2]: EdgesDontAlign[y0,5,2] = MIN (
+   EdgeDistanceAbs[y0,5,2] , 1 )
+ LinkEdgesDontAlign[y0,5,3]: EdgesDontAlign[y0,5,3] = MIN (
+   EdgeDistanceAbs[y0,5,3] , 1 )
+ LinkEdgesDontAlign[y0,5,4]: EdgesDontAlign[y0,5,4] = MIN (
+   EdgeDistanceAbs[y0,5,4] , 1 )
+ LinkEdgesDontAlign[y0,5,5]: EdgesDontAlign[y0,5,5] = MIN (
+   EdgeDistanceAbs[y0,5,5] , 1 )
+ LinkEdgesDontAlign[y0,5,6]: EdgesDontAlign[y0,5,6] = MIN (
+   EdgeDistanceAbs[y0,5,6] , 1 )
+ LinkEdgesDontAlign[y0,6,0]: EdgesDontAlign[y0,6,0] = MIN (
+   EdgeDistanceAbs[y0,6,0] , 1 )
+ LinkEdgesDontAlign[y0,6,1]: EdgesDontAlign[y0,6,1] = MIN (
+   EdgeDistanceAbs[y0,6,1] , 1 )
+ LinkEdgesDontAlign[y0,6,2]: EdgesDontAlign[y0,6,2] = MIN (
+   EdgeDistanceAbs[y0,6,2] , 1 )
+ LinkEdgesDontAlign[y0,6,3]: EdgesDontAlign[y0,6,3] = MIN (
+   EdgeDistanceAbs[y0,6,3] , 1 )
+ LinkEdgesDontAlign[y0,6,4]: EdgesDontAlign[y0,6,4] = MIN (
+   EdgeDistanceAbs[y0,6,4] , 1 )
+ LinkEdgesDontAlign[y0,6,5]: EdgesDontAlign[y0,6,5] = MIN (
+   EdgeDistanceAbs[y0,6,5] , 1 )
+ LinkEdgesDontAlign[y0,6,6]: EdgesDontAlign[y0,6,6] = MIN (
+   EdgeDistanceAbs[y0,6,6] , 1 )
+ LinkEdgesDontAlign[x1,0,0]: EdgesDontAlign[x1,0,0] = MIN (
+   EdgeDistanceAbs[x1,0,0] , 1 )
+ LinkEdgesDontAlign[x1,0,1]: EdgesDontAlign[x1,0,1] = MIN (
+   EdgeDistanceAbs[x1,0,1] , 1 )
+ LinkEdgesDontAlign[x1,0,2]: EdgesDontAlign[x1,0,2] = MIN (
+   EdgeDistanceAbs[x1,0,2] , 1 )
+ LinkEdgesDontAlign[x1,0,3]: EdgesDontAlign[x1,0,3] = MIN (
+   EdgeDistanceAbs[x1,0,3] , 1 )
+ LinkEdgesDontAlign[x1,0,4]: EdgesDontAlign[x1,0,4] = MIN (
+   EdgeDistanceAbs[x1,0,4] , 1 )
+ LinkEdgesDontAlign[x1,0,5]: EdgesDontAlign[x1,0,5] = MIN (
+   EdgeDistanceAbs[x1,0,5] , 1 )
+ LinkEdgesDontAlign[x1,0,6]: EdgesDontAlign[x1,0,6] = MIN (
+   EdgeDistanceAbs[x1,0,6] , 1 )
+ LinkEdgesDontAlign[x1,1,0]: EdgesDontAlign[x1,1,0] = MIN (
+   EdgeDistanceAbs[x1,1,0] , 1 )
+ LinkEdgesDontAlign[x1,1,1]: EdgesDontAlign[x1,1,1] = MIN (
+   EdgeDistanceAbs[x1,1,1] , 1 )
+ LinkEdgesDontAlign[x1,1,2]: EdgesDontAlign[x1,1,2] = MIN (
+   EdgeDistanceAbs[x1,1,2] , 1 )
+ LinkEdgesDontAlign[x1,1,3]: EdgesDontAlign[x1,1,3] = MIN (
+   EdgeDistanceAbs[x1,1,3] , 1 )
+ LinkEdgesDontAlign[x1,1,4]: EdgesDontAlign[x1,1,4] = MIN (
+   EdgeDistanceAbs[x1,1,4] , 1 )
+ LinkEdgesDontAlign[x1,1,5]: EdgesDontAlign[x1,1,5] = MIN (
+   EdgeDistanceAbs[x1,1,5] , 1 )
+ LinkEdgesDontAlign[x1,1,6]: EdgesDontAlign[x1,1,6] = MIN (
+   EdgeDistanceAbs[x1,1,6] , 1 )
+ LinkEdgesDontAlign[x1,2,0]: EdgesDontAlign[x1,2,0] = MIN (
+   EdgeDistanceAbs[x1,2,0] , 1 )
+ LinkEdgesDontAlign[x1,2,1]: EdgesDontAlign[x1,2,1] = MIN (
+   EdgeDistanceAbs[x1,2,1] , 1 )
+ LinkEdgesDontAlign[x1,2,2]: EdgesDontAlign[x1,2,2] = MIN (
+   EdgeDistanceAbs[x1,2,2] , 1 )
+ LinkEdgesDontAlign[x1,2,3]: EdgesDontAlign[x1,2,3] = MIN (
+   EdgeDistanceAbs[x1,2,3] , 1 )
+ LinkEdgesDontAlign[x1,2,4]: EdgesDontAlign[x1,2,4] = MIN (
+   EdgeDistanceAbs[x1,2,4] , 1 )
+ LinkEdgesDontAlign[x1,2,5]: EdgesDontAlign[x1,2,5] = MIN (
+   EdgeDistanceAbs[x1,2,5] , 1 )
+ LinkEdgesDontAlign[x1,2,6]: EdgesDontAlign[x1,2,6] = MIN (
+   EdgeDistanceAbs[x1,2,6] , 1 )
+ LinkEdgesDontAlign[x1,3,0]: EdgesDontAlign[x1,3,0] = MIN (
+   EdgeDistanceAbs[x1,3,0] , 1 )
+ LinkEdgesDontAlign[x1,3,1]: EdgesDontAlign[x1,3,1] = MIN (
+   EdgeDistanceAbs[x1,3,1] , 1 )
+ LinkEdgesDontAlign[x1,3,2]: EdgesDontAlign[x1,3,2] = MIN (
+   EdgeDistanceAbs[x1,3,2] , 1 )
+ LinkEdgesDontAlign[x1,3,3]: EdgesDontAlign[x1,3,3] = MIN (
+   EdgeDistanceAbs[x1,3,3] , 1 )
+ LinkEdgesDontAlign[x1,3,4]: EdgesDontAlign[x1,3,4] = MIN (
+   EdgeDistanceAbs[x1,3,4] , 1 )
+ LinkEdgesDontAlign[x1,3,5]: EdgesDontAlign[x1,3,5] = MIN (
+   EdgeDistanceAbs[x1,3,5] , 1 )
+ LinkEdgesDontAlign[x1,3,6]: EdgesDontAlign[x1,3,6] = MIN (
+   EdgeDistanceAbs[x1,3,6] , 1 )
+ LinkEdgesDontAlign[x1,4,0]: EdgesDontAlign[x1,4,0] = MIN (
+   EdgeDistanceAbs[x1,4,0] , 1 )
+ LinkEdgesDontAlign[x1,4,1]: EdgesDontAlign[x1,4,1] = MIN (
+   EdgeDistanceAbs[x1,4,1] , 1 )
+ LinkEdgesDontAlign[x1,4,2]: EdgesDontAlign[x1,4,2] = MIN (
+   EdgeDistanceAbs[x1,4,2] , 1 )
+ LinkEdgesDontAlign[x1,4,3]: EdgesDontAlign[x1,4,3] = MIN (
+   EdgeDistanceAbs[x1,4,3] , 1 )
+ LinkEdgesDontAlign[x1,4,4]: EdgesDontAlign[x1,4,4] = MIN (
+   EdgeDistanceAbs[x1,4,4] , 1 )
+ LinkEdgesDontAlign[x1,4,5]: EdgesDontAlign[x1,4,5] = MIN (
+   EdgeDistanceAbs[x1,4,5] , 1 )
+ LinkEdgesDontAlign[x1,4,6]: EdgesDontAlign[x1,4,6] = MIN (
+   EdgeDistanceAbs[x1,4,6] , 1 )
+ LinkEdgesDontAlign[x1,5,0]: EdgesDontAlign[x1,5,0] = MIN (
+   EdgeDistanceAbs[x1,5,0] , 1 )
+ LinkEdgesDontAlign[x1,5,1]: EdgesDontAlign[x1,5,1] = MIN (
+   EdgeDistanceAbs[x1,5,1] , 1 )
+ LinkEdgesDontAlign[x1,5,2]: EdgesDontAlign[x1,5,2] = MIN (
+   EdgeDistanceAbs[x1,5,2] , 1 )
+ LinkEdgesDontAlign[x1,5,3]: EdgesDontAlign[x1,5,3] = MIN (
+   EdgeDistanceAbs[x1,5,3] , 1 )
+ LinkEdgesDontAlign[x1,5,4]: EdgesDontAlign[x1,5,4] = MIN (
+   EdgeDistanceAbs[x1,5,4] , 1 )
+ LinkEdgesDontAlign[x1,5,5]: EdgesDontAlign[x1,5,5] = MIN (
+   EdgeDistanceAbs[x1,5,5] , 1 )
+ LinkEdgesDontAlign[x1,5,6]: EdgesDontAlign[x1,5,6] = MIN (
+   EdgeDistanceAbs[x1,5,6] , 1 )
+ LinkEdgesDontAlign[x1,6,0]: EdgesDontAlign[x1,6,0] = MIN (
+   EdgeDistanceAbs[x1,6,0] , 1 )
+ LinkEdgesDontAlign[x1,6,1]: EdgesDontAlign[x1,6,1] = MIN (
+   EdgeDistanceAbs[x1,6,1] , 1 )
+ LinkEdgesDontAlign[x1,6,2]: EdgesDontAlign[x1,6,2] = MIN (
+   EdgeDistanceAbs[x1,6,2] , 1 )
+ LinkEdgesDontAlign[x1,6,3]: EdgesDontAlign[x1,6,3] = MIN (
+   EdgeDistanceAbs[x1,6,3] , 1 )
+ LinkEdgesDontAlign[x1,6,4]: EdgesDontAlign[x1,6,4] = MIN (
+   EdgeDistanceAbs[x1,6,4] , 1 )
+ LinkEdgesDontAlign[x1,6,5]: EdgesDontAlign[x1,6,5] = MIN (
+   EdgeDistanceAbs[x1,6,5] , 1 )
+ LinkEdgesDontAlign[x1,6,6]: EdgesDontAlign[x1,6,6] = MIN (
+   EdgeDistanceAbs[x1,6,6] , 1 )
+ LinkEdgesDontAlign[y1,0,0]: EdgesDontAlign[y1,0,0] = MIN (
+   EdgeDistanceAbs[y1,0,0] , 1 )
+ LinkEdgesDontAlign[y1,0,1]: EdgesDontAlign[y1,0,1] = MIN (
+   EdgeDistanceAbs[y1,0,1] , 1 )
+ LinkEdgesDontAlign[y1,0,2]: EdgesDontAlign[y1,0,2] = MIN (
+   EdgeDistanceAbs[y1,0,2] , 1 )
+ LinkEdgesDontAlign[y1,0,3]: EdgesDontAlign[y1,0,3] = MIN (
+   EdgeDistanceAbs[y1,0,3] , 1 )
+ LinkEdgesDontAlign[y1,0,4]: EdgesDontAlign[y1,0,4] = MIN (
+   EdgeDistanceAbs[y1,0,4] , 1 )
+ LinkEdgesDontAlign[y1,0,5]: EdgesDontAlign[y1,0,5] = MIN (
+   EdgeDistanceAbs[y1,0,5] , 1 )
+ LinkEdgesDontAlign[y1,0,6]: EdgesDontAlign[y1,0,6] = MIN (
+   EdgeDistanceAbs[y1,0,6] , 1 )
+ LinkEdgesDontAlign[y1,1,0]: EdgesDontAlign[y1,1,0] = MIN (
+   EdgeDistanceAbs[y1,1,0] , 1 )
+ LinkEdgesDontAlign[y1,1,1]: EdgesDontAlign[y1,1,1] = MIN (
+   EdgeDistanceAbs[y1,1,1] , 1 )
+ LinkEdgesDontAlign[y1,1,2]: EdgesDontAlign[y1,1,2] = MIN (
+   EdgeDistanceAbs[y1,1,2] , 1 )
+ LinkEdgesDontAlign[y1,1,3]: EdgesDontAlign[y1,1,3] = MIN (
+   EdgeDistanceAbs[y1,1,3] , 1 )
+ LinkEdgesDontAlign[y1,1,4]: EdgesDontAlign[y1,1,4] = MIN (
+   EdgeDistanceAbs[y1,1,4] , 1 )
+ LinkEdgesDontAlign[y1,1,5]: EdgesDontAlign[y1,1,5] = MIN (
+   EdgeDistanceAbs[y1,1,5] , 1 )
+ LinkEdgesDontAlign[y1,1,6]: EdgesDontAlign[y1,1,6] = MIN (
+   EdgeDistanceAbs[y1,1,6] , 1 )
+ LinkEdgesDontAlign[y1,2,0]: EdgesDontAlign[y1,2,0] = MIN (
+   EdgeDistanceAbs[y1,2,0] , 1 )
+ LinkEdgesDontAlign[y1,2,1]: EdgesDontAlign[y1,2,1] = MIN (
+   EdgeDistanceAbs[y1,2,1] , 1 )
+ LinkEdgesDontAlign[y1,2,2]: EdgesDontAlign[y1,2,2] = MIN (
+   EdgeDistanceAbs[y1,2,2] , 1 )
+ LinkEdgesDontAlign[y1,2,3]: EdgesDontAlign[y1,2,3] = MIN (
+   EdgeDistanceAbs[y1,2,3] , 1 )
+ LinkEdgesDontAlign[y1,2,4]: EdgesDontAlign[y1,2,4] = MIN (
+   EdgeDistanceAbs[y1,2,4] , 1 )
+ LinkEdgesDontAlign[y1,2,5]: EdgesDontAlign[y1,2,5] = MIN (
+   EdgeDistanceAbs[y1,2,5] , 1 )
+ LinkEdgesDontAlign[y1,2,6]: EdgesDontAlign[y1,2,6] = MIN (
+   EdgeDistanceAbs[y1,2,6] , 1 )
+ LinkEdgesDontAlign[y1,3,0]: EdgesDontAlign[y1,3,0] = MIN (
+   EdgeDistanceAbs[y1,3,0] , 1 )
+ LinkEdgesDontAlign[y1,3,1]: EdgesDontAlign[y1,3,1] = MIN (
+   EdgeDistanceAbs[y1,3,1] , 1 )
+ LinkEdgesDontAlign[y1,3,2]: EdgesDontAlign[y1,3,2] = MIN (
+   EdgeDistanceAbs[y1,3,2] , 1 )
+ LinkEdgesDontAlign[y1,3,3]: EdgesDontAlign[y1,3,3] = MIN (
+   EdgeDistanceAbs[y1,3,3] , 1 )
+ LinkEdgesDontAlign[y1,3,4]: EdgesDontAlign[y1,3,4] = MIN (
+   EdgeDistanceAbs[y1,3,4] , 1 )
+ LinkEdgesDontAlign[y1,3,5]: EdgesDontAlign[y1,3,5] = MIN (
+   EdgeDistanceAbs[y1,3,5] , 1 )
+ LinkEdgesDontAlign[y1,3,6]: EdgesDontAlign[y1,3,6] = MIN (
+   EdgeDistanceAbs[y1,3,6] , 1 )
+ LinkEdgesDontAlign[y1,4,0]: EdgesDontAlign[y1,4,0] = MIN (
+   EdgeDistanceAbs[y1,4,0] , 1 )
+ LinkEdgesDontAlign[y1,4,1]: EdgesDontAlign[y1,4,1] = MIN (
+   EdgeDistanceAbs[y1,4,1] , 1 )
+ LinkEdgesDontAlign[y1,4,2]: EdgesDontAlign[y1,4,2] = MIN (
+   EdgeDistanceAbs[y1,4,2] , 1 )
+ LinkEdgesDontAlign[y1,4,3]: EdgesDontAlign[y1,4,3] = MIN (
+   EdgeDistanceAbs[y1,4,3] , 1 )
+ LinkEdgesDontAlign[y1,4,4]: EdgesDontAlign[y1,4,4] = MIN (
+   EdgeDistanceAbs[y1,4,4] , 1 )
+ LinkEdgesDontAlign[y1,4,5]: EdgesDontAlign[y1,4,5] = MIN (
+   EdgeDistanceAbs[y1,4,5] , 1 )
+ LinkEdgesDontAlign[y1,4,6]: EdgesDontAlign[y1,4,6] = MIN (
+   EdgeDistanceAbs[y1,4,6] , 1 )
+ LinkEdgesDontAlign[y1,5,0]: EdgesDontAlign[y1,5,0] = MIN (
+   EdgeDistanceAbs[y1,5,0] , 1 )
+ LinkEdgesDontAlign[y1,5,1]: EdgesDontAlign[y1,5,1] = MIN (
+   EdgeDistanceAbs[y1,5,1] , 1 )
+ LinkEdgesDontAlign[y1,5,2]: EdgesDontAlign[y1,5,2] = MIN (
+   EdgeDistanceAbs[y1,5,2] , 1 )
+ LinkEdgesDontAlign[y1,5,3]: EdgesDontAlign[y1,5,3] = MIN (
+   EdgeDistanceAbs[y1,5,3] , 1 )
+ LinkEdgesDontAlign[y1,5,4]: EdgesDontAlign[y1,5,4] = MIN (
+   EdgeDistanceAbs[y1,5,4] , 1 )
+ LinkEdgesDontAlign[y1,5,5]: EdgesDontAlign[y1,5,5] = MIN (
+   EdgeDistanceAbs[y1,5,5] , 1 )
+ LinkEdgesDontAlign[y1,5,6]: EdgesDontAlign[y1,5,6] = MIN (
+   EdgeDistanceAbs[y1,5,6] , 1 )
+ LinkEdgesDontAlign[y1,6,0]: EdgesDontAlign[y1,6,0] = MIN (
+   EdgeDistanceAbs[y1,6,0] , 1 )
+ LinkEdgesDontAlign[y1,6,1]: EdgesDontAlign[y1,6,1] = MIN (
+   EdgeDistanceAbs[y1,6,1] , 1 )
+ LinkEdgesDontAlign[y1,6,2]: EdgesDontAlign[y1,6,2] = MIN (
+   EdgeDistanceAbs[y1,6,2] , 1 )
+ LinkEdgesDontAlign[y1,6,3]: EdgesDontAlign[y1,6,3] = MIN (
+   EdgeDistanceAbs[y1,6,3] , 1 )
+ LinkEdgesDontAlign[y1,6,4]: EdgesDontAlign[y1,6,4] = MIN (
+   EdgeDistanceAbs[y1,6,4] , 1 )
+ LinkEdgesDontAlign[y1,6,5]: EdgesDontAlign[y1,6,5] = MIN (
+   EdgeDistanceAbs[y1,6,5] , 1 )
+ LinkEdgesDontAlign[y1,6,6]: EdgesDontAlign[y1,6,6] = MIN (
+   EdgeDistanceAbs[y1,6,6] , 1 )
 End

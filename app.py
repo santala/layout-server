@@ -4,7 +4,8 @@ from flask import Flask, abort, jsonify, render_template, request, Response
 
 # from tools.JSONDisplay import actualDisplay
 from layout_engine import ElementaryPlacement
-from tools.JSONLoader import Layout
+import optimizer.classes as classes
+from tools import JSONLoader
 
 from optimizer import classes, layout_difference, layout_quality
 
@@ -25,7 +26,7 @@ def hello_world() -> Response:
 @app.route('/api/v1.0/layout-difference/', methods=['POST'])
 def upload() -> Response:
     # TODO: consider adding checks for security
-    first_layout, second_layout = map(Layout, json.loads(request.data))
+    first_layout, second_layout = map(JSONLoader.Layout, json.loads(request.data))
 
     first_layout, second_layout = map(classes.Layout, json.loads(request.data))
 
@@ -39,7 +40,7 @@ def upload() -> Response:
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
     # TODO: consider adding checks for security
-    layout = Layout(json.loads(request.data))
+    layout = classes.Layout(json.loads(request.data))
     return jsonify(layout_quality.solve(layout))
     #return jsonify(ElementaryPlacement.solve(layout))
 
@@ -48,5 +49,5 @@ def apply_template() -> Response:
     # TODO: consider adding checks for security
     request_props = json.loads(request.data)
 
-    return jsonify(ElementaryPlacement.solve(Layout(request_props['layout']), Layout(request_props['template']), request_props['results']))
+    return jsonify(ElementaryPlacement.solve(classes.Layout(request_props['layout']), classes.Layout(request_props['template']), request_props['results']))
 

@@ -21,8 +21,8 @@ class Layout:
         # The following are for the layout difference algorithm
         # TODO: consider making this a separate method
 
-        self.x_sum = sum([abs(element.x) for element in self.elements])
-        self.y_sum = sum([abs(element.y) for element in self.elements])
+        self.x_sum = sum([abs(element.x0) for element in self.elements])
+        self.y_sum = sum([abs(element.y0) for element in self.elements])
         self.w_sum = sum([abs(element.width) for element in self.elements])
         self.h_sum = sum([abs(element.height) for element in self.elements])
         self.area_sum = sum([element.area for element in self.elements])
@@ -35,10 +35,12 @@ class Element:
         self.layout = layout
 
         self.id = str(props.get('id'))
-        self.x = int(props.get('x'))
-        self.y = int(props.get('y'))
-        self.width = props.get('width', None)
+        self.x0 = int(props.get('x'))
+        self.y0 = int(props.get('y'))
+        self.width = props.get('width', None)   # TODO: choose default number values and/or validate input
         self.height = props.get('height', None)
+        self.x1 = self.x0 + self.width
+        self.y1 = self.y0 + self.height
         self.area = self.width * self.height \
             if self.width is not None and self.height is not None \
                and self.width > 0 and self.height > 0 \

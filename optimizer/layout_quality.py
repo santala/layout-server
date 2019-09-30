@@ -73,7 +73,7 @@ def solve(layout: Layout):
 
         move_x = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveX')
         m.addConstrs((
-            move_x[i] == x0[i] - round(element.x / m._grid_size) for i, element in enumerate(layout.elements)
+            move_x[i] == x0[i] - round(element.x0 / m._grid_size) for i, element in enumerate(layout.elements)
         ), name='LinkMoveX')
         move_x_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveXAbs')
         m.addConstrs((
@@ -82,7 +82,7 @@ def solve(layout: Layout):
 
         move_y = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveY')
         m.addConstrs((
-            move_y[i] == y0[i] - round(element.y / m._grid_size) for i, element in enumerate(layout.elements)
+            move_y[i] == y0[i] - round(element.y0 / m._grid_size) for i, element in enumerate(layout.elements)
         ), name='LinkMoveY')
         move_y_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveYAbs')
         m.addConstrs((
@@ -163,12 +163,11 @@ def solve(layout: Layout):
         ), name='LinkEdgeDistanceLooseAbs2')
 
 
-        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesAlign')
-
+        edges_dont_align = m.addVars(edge_indices, elem_indices, elem_indices, vtype=GRB.BINARY, name='EdgesDontAlign')
         m.addConstrs((
             edges_dont_align[edge, i1, i2] == min_(1, edge_diff_loose_abs[edge, i1, i2])
             for edge, i1, i2 in product(edge_indices, elem_indices, elem_indices)
-        ), name='LinkEdgesAlign')
+        ), name='LinkEdgesDontAlign')
 
         # 0 if element is aligned with another element that comes before it, else 1
         is_elem_first_in_group = m.addVars(edge_indices, elem_indices, vtype=GRB.BINARY, name='IsElemFirstInGroup')
@@ -254,36 +253,39 @@ def solve(layout: Layout):
 
             for i1, i2 in element_pairs:
 
-                e1 = layout.elements[i1]
-                e2 = layout.elements[i2]
+                e1: Element = layout.elements[i1]
+                e2: Element = layout.elements[i2]
                 print(e1.elementType, e2.elementType, do_overlap(e1, e2))
                 if do_overlap(e1, e2):
                     '''
+                    for edge, v1, v2 in zip(edge_indices, [e1.x0, e1.y0, e1.x1, e1.y1], [e2.x0, e2.y0, e2.x1, e2.y1]):
+                        print(v1, v2, int(v1 != v2))
                     m.addConstrs((
                         edges_dont_align[edge, i1, i2] == int(v1 != v2)
-                        for edge, v1, v2 in zip(edge_indices, [e1.x, e1.y, e1.x+e1.width, e1.y+e1.height], [e2.x, e2.y, e2.x+e2.width, e2.y+e2.height])
+                        for edge, v1, v2 in zip(edge_indices, [e1.x0, e1.y0, e1.x1, e1.y1], [e2.x0, e2.y0, e2.x1, e2.y1])
                     ), name='PreserveEdgeAlignmentStatus')
                     '''
                     # x0
-                    if e1.x < e2.x:
+                    if e1.x0 < e2.x0:
                         m.addConstr(x0[i1] <= x0[i2] - 1, 'DontAlignOverlappingX0'+str(i1)+','+str(i2))
-                    elif e1.x > e2.x:
+                    elif e1.x0 > e2.x0:
                         m.addConstr(x0[i1] >= x0[i2] + 1, 'DontAlignOverlappingX0'+str(i1)+','+str(i2))
                     # x1
-                    if e1.x + e1.width < e2.x + e2.width:
+                    if e1.x1 < e2.x1:
                         m.addConstr(x1[i1] <= x1[i2] - 1, 'DontAlignOverlappingX1' + str(i1) + ',' + str(i2))
-                    elif e1.x + e1.width > e2.x + e2.width:
+                    elif e1.x1 > e2.x1:
                         m.addConstr(x1[i1] >= x1[i2] + 1, 'DontAlignOverlappingX1' + str(i1) + ',' + str(i2))
                     # y0
-                    if e1.y < e2.y:
+                    if e1.y0 < e2.y0:
                         m.addConstr(y0[i1] <= y0[i2] - 1, 'DontAlignOverlappingY'+str(i1)+','+str(i2))
-                    elif e1.y > e2.y:
+                    elif e1.y0 > e2.y0:
                         m.addConstr(y0[i1] >= y0[i2] + 1, 'DontAlignOverlappingY'+str(i1)+','+str(i2))
                     # y1
-                    if e1.y + e1.height < e2.y + e2.height:
+                    if e1.y1 < e2.y1:
                         m.addConstr(y1[i1] <= y1[i2] - 1, 'DontAlignOverlappingY1' + str(i1) + ',' + str(i2))
-                    elif e1.y + e1.height > e2.y + e2.height:
+                    elif e1.y1 > e2.y1:
                         m.addConstr(y1[i1] >= y1[i2] + 1, 'DontAlignOverlappingY1' + str(i1) + ',' + str(i2))
+
 
 
         obj_expr.add(number_of_groups_expr)
@@ -345,10 +347,10 @@ def solve(layout: Layout):
         raise e
 
 def overlap_width(e1: Element, e2: Element):
-    return (e1.width + e2.width) - (max(e1.x + e1.width, e2.x + e2.width) - min(e1.x, e2.x))
+    return (e1.width + e2.width) - (max(e1.x0 + e1.width, e2.x0 + e2.width) - min(e1.x0, e2.x0))
 
 def overlap_height(e1: Element, e2: Element):
-    return (e1.height + e2.height) - (max(e1.y + e1.height, e2.y + e2.height) - min(e1.y, e2.y))
+    return (e1.height + e2.height) - (max(e1.y0 + e1.height, e2.y0 + e2.height) - min(e1.y0, e2.y0))
 
 def overlap_area(e1: Element, e2: Element):
     return overlap_width(e1, e2) * overlap_height(e1, e2)
