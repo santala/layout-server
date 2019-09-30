@@ -40,39 +40,39 @@ Minimize
    + 0 X0LessThan[5,5] + 0 X0LessThan[5,6] + 0 X0LessThan[6,0]
    + 0 X0LessThan[6,1] + 0 X0LessThan[6,2] + 0 X0LessThan[6,3]
    + 0 X0LessThan[6,4] + 0 X0LessThan[6,5] + 0 X0LessThan[6,6]
-   + 0 X1LessThan[0,0] + 0 X1LessThan[0,1] + 0 X1LessThan[0,2]
-   + 0 X1LessThan[0,3] + 0 X1LessThan[0,4] + 0 X1LessThan[0,5]
-   + 0 X1LessThan[0,6] + 0 X1LessThan[1,0] + 0 X1LessThan[1,1]
-   + 0 X1LessThan[1,2] + 0 X1LessThan[1,3] + 0 X1LessThan[1,4]
-   + 0 X1LessThan[1,5] + 0 X1LessThan[1,6] + 0 X1LessThan[2,0]
-   + 0 X1LessThan[2,1] + 0 X1LessThan[2,2] + 0 X1LessThan[2,3]
-   + 0 X1LessThan[2,4] + 0 X1LessThan[2,5] + 0 X1LessThan[2,6]
-   + 0 X1LessThan[3,0] + 0 X1LessThan[3,1] + 0 X1LessThan[3,2]
-   + 0 X1LessThan[3,3] + 0 X1LessThan[3,4] + 0 X1LessThan[3,5]
-   + 0 X1LessThan[3,6] + 0 X1LessThan[4,0] + 0 X1LessThan[4,1]
-   + 0 X1LessThan[4,2] + 0 X1LessThan[4,3] + 0 X1LessThan[4,4]
-   + 0 X1LessThan[4,5] + 0 X1LessThan[4,6] + 0 X1LessThan[5,0]
-   + 0 X1LessThan[5,1] + 0 X1LessThan[5,2] + 0 X1LessThan[5,3]
-   + 0 X1LessThan[5,4] + 0 X1LessThan[5,5] + 0 X1LessThan[5,6]
-   + 0 X1LessThan[6,0] + 0 X1LessThan[6,1] + 0 X1LessThan[6,2]
-   + 0 X1LessThan[6,3] + 0 X1LessThan[6,4] + 0 X1LessThan[6,5]
-   + 0 X1LessThan[6,6] + 0 Y0LessThan[0,0] + 0 Y0LessThan[0,1]
-   + 0 Y0LessThan[0,2] + 0 Y0LessThan[0,3] + 0 Y0LessThan[0,4]
-   + 0 Y0LessThan[0,5] + 0 Y0LessThan[0,6] + 0 Y0LessThan[1,0]
-   + 0 Y0LessThan[1,1] + 0 Y0LessThan[1,2] + 0 Y0LessThan[1,3]
-   + 0 Y0LessThan[1,4] + 0 Y0LessThan[1,5] + 0 Y0LessThan[1,6]
-   + 0 Y0LessThan[2,0] + 0 Y0LessThan[2,1] + 0 Y0LessThan[2,2]
-   + 0 Y0LessThan[2,3] + 0 Y0LessThan[2,4] + 0 Y0LessThan[2,5]
-   + 0 Y0LessThan[2,6] + 0 Y0LessThan[3,0] + 0 Y0LessThan[3,1]
-   + 0 Y0LessThan[3,2] + 0 Y0LessThan[3,3] + 0 Y0LessThan[3,4]
-   + 0 Y0LessThan[3,5] + 0 Y0LessThan[3,6] + 0 Y0LessThan[4,0]
-   + 0 Y0LessThan[4,1] + 0 Y0LessThan[4,2] + 0 Y0LessThan[4,3]
-   + 0 Y0LessThan[4,4] + 0 Y0LessThan[4,5] + 0 Y0LessThan[4,6]
-   + 0 Y0LessThan[5,0] + 0 Y0LessThan[5,1] + 0 Y0LessThan[5,2]
-   + 0 Y0LessThan[5,3] + 0 Y0LessThan[5,4] + 0 Y0LessThan[5,5]
-   + 0 Y0LessThan[5,6] + 0 Y0LessThan[6,0] + 0 Y0LessThan[6,1]
-   + 0 Y0LessThan[6,2] + 0 Y0LessThan[6,3] + 0 Y0LessThan[6,4]
-   + 0 Y0LessThan[6,5] + 0 Y0LessThan[6,6] + 0 Y1LessThan[0,0]
+   + 0 Y0LessThan[0,0] + 0 Y0LessThan[0,1] + 0 Y0LessThan[0,2]
+   + 0 Y0LessThan[0,3] + 0 Y0LessThan[0,4] + 0 Y0LessThan[0,5]
+   + 0 Y0LessThan[0,6] + 0 Y0LessThan[1,0] + 0 Y0LessThan[1,1]
+   + 0 Y0LessThan[1,2] + 0 Y0LessThan[1,3] + 0 Y0LessThan[1,4]
+   + 0 Y0LessThan[1,5] + 0 Y0LessThan[1,6] + 0 Y0LessThan[2,0]
+   + 0 Y0LessThan[2,1] + 0 Y0LessThan[2,2] + 0 Y0LessThan[2,3]
+   + 0 Y0LessThan[2,4] + 0 Y0LessThan[2,5] + 0 Y0LessThan[2,6]
+   + 0 Y0LessThan[3,0] + 0 Y0LessThan[3,1] + 0 Y0LessThan[3,2]
+   + 0 Y0LessThan[3,3] + 0 Y0LessThan[3,4] + 0 Y0LessThan[3,5]
+   + 0 Y0LessThan[3,6] + 0 Y0LessThan[4,0] + 0 Y0LessThan[4,1]
+   + 0 Y0LessThan[4,2] + 0 Y0LessThan[4,3] + 0 Y0LessThan[4,4]
+   + 0 Y0LessThan[4,5] + 0 Y0LessThan[4,6] + 0 Y0LessThan[5,0]
+   + 0 Y0LessThan[5,1] + 0 Y0LessThan[5,2] + 0 Y0LessThan[5,3]
+   + 0 Y0LessThan[5,4] + 0 Y0LessThan[5,5] + 0 Y0LessThan[5,6]
+   + 0 Y0LessThan[6,0] + 0 Y0LessThan[6,1] + 0 Y0LessThan[6,2]
+   + 0 Y0LessThan[6,3] + 0 Y0LessThan[6,4] + 0 Y0LessThan[6,5]
+   + 0 Y0LessThan[6,6] + 0 X1LessThan[0,0] + 0 X1LessThan[0,1]
+   + 0 X1LessThan[0,2] + 0 X1LessThan[0,3] + 0 X1LessThan[0,4]
+   + 0 X1LessThan[0,5] + 0 X1LessThan[0,6] + 0 X1LessThan[1,0]
+   + 0 X1LessThan[1,1] + 0 X1LessThan[1,2] + 0 X1LessThan[1,3]
+   + 0 X1LessThan[1,4] + 0 X1LessThan[1,5] + 0 X1LessThan[1,6]
+   + 0 X1LessThan[2,0] + 0 X1LessThan[2,1] + 0 X1LessThan[2,2]
+   + 0 X1LessThan[2,3] + 0 X1LessThan[2,4] + 0 X1LessThan[2,5]
+   + 0 X1LessThan[2,6] + 0 X1LessThan[3,0] + 0 X1LessThan[3,1]
+   + 0 X1LessThan[3,2] + 0 X1LessThan[3,3] + 0 X1LessThan[3,4]
+   + 0 X1LessThan[3,5] + 0 X1LessThan[3,6] + 0 X1LessThan[4,0]
+   + 0 X1LessThan[4,1] + 0 X1LessThan[4,2] + 0 X1LessThan[4,3]
+   + 0 X1LessThan[4,4] + 0 X1LessThan[4,5] + 0 X1LessThan[4,6]
+   + 0 X1LessThan[5,0] + 0 X1LessThan[5,1] + 0 X1LessThan[5,2]
+   + 0 X1LessThan[5,3] + 0 X1LessThan[5,4] + 0 X1LessThan[5,5]
+   + 0 X1LessThan[5,6] + 0 X1LessThan[6,0] + 0 X1LessThan[6,1]
+   + 0 X1LessThan[6,2] + 0 X1LessThan[6,3] + 0 X1LessThan[6,4]
+   + 0 X1LessThan[6,5] + 0 X1LessThan[6,6] + 0 Y1LessThan[0,0]
    + 0 Y1LessThan[0,1] + 0 Y1LessThan[0,2] + 0 Y1LessThan[0,3]
    + 0 Y1LessThan[0,4] + 0 Y1LessThan[0,5] + 0 Y1LessThan[0,6]
    + 0 Y1LessThan[1,0] + 0 Y1LessThan[1,1] + 0 Y1LessThan[1,2]
@@ -141,61 +141,61 @@ Subject To
  Y1-Y0=H[4]: - Y0[4] + Y1[4] - H[4] = 0
  Y1-Y0=H[5]: - Y0[5] + Y1[5] - H[5] = 0
  Y1-Y0=H[6]: - Y0[6] + Y1[6] - H[6] = 0
- LinkResizeW[0,<optimizer.classes.Element_object_at_0x1060712e8>]: - W[0]
+ LinkResizeW[0,<optimizer.classes.Element_object_at_0x108755780>]: - W[0]
    + ResizeW[0] = -21
- LinkResizeW[1,<optimizer.classes.Element_object_at_0x106071320>]: - W[1]
+ LinkResizeW[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - W[1]
    + ResizeW[1] = -30
- LinkResizeW[2,<optimizer.classes.Element_object_at_0x106071358>]: - W[2]
+ LinkResizeW[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - W[2]
    + ResizeW[2] = -21
- LinkResizeW[3,<optimizer.classes.Element_object_at_0x106071390>]: - W[3]
+ LinkResizeW[3,<optimizer.classes.Element_object_at_0x108755f98>]: - W[3]
    + ResizeW[3] = -21
- LinkResizeW[4,<optimizer.classes.Element_object_at_0x1060713c8>]: - W[4]
+ LinkResizeW[4,<optimizer.classes.Element_object_at_0x108755e48>]: - W[4]
    + ResizeW[4] = -21
- LinkResizeW[5,<optimizer.classes.Element_object_at_0x106071400>]: - W[5]
+ LinkResizeW[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - W[5]
    + ResizeW[5] = -30
- LinkResizeW[6,<optimizer.classes.Element_object_at_0x106071438>]: - W[6]
+ LinkResizeW[6,<optimizer.classes.Element_object_at_0x108755d30>]: - W[6]
    + ResizeW[6] = -66
- LinkResizeH[0,<optimizer.classes.Element_object_at_0x1060712e8>]: - H[0]
+ LinkResizeH[0,<optimizer.classes.Element_object_at_0x108755780>]: - H[0]
    + ResizeH[0] = -17
- LinkResizeH[1,<optimizer.classes.Element_object_at_0x106071320>]: - H[1]
+ LinkResizeH[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - H[1]
    + ResizeH[1] = -17
- LinkResizeH[2,<optimizer.classes.Element_object_at_0x106071358>]: - H[2]
+ LinkResizeH[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - H[2]
    + ResizeH[2] = -21
- LinkResizeH[3,<optimizer.classes.Element_object_at_0x106071390>]: - H[3]
+ LinkResizeH[3,<optimizer.classes.Element_object_at_0x108755f98>]: - H[3]
    + ResizeH[3] = -17
- LinkResizeH[4,<optimizer.classes.Element_object_at_0x1060713c8>]: - H[4]
+ LinkResizeH[4,<optimizer.classes.Element_object_at_0x108755e48>]: - H[4]
    + ResizeH[4] = -21
- LinkResizeH[5,<optimizer.classes.Element_object_at_0x106071400>]: - H[5]
+ LinkResizeH[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - H[5]
    + ResizeH[5] = -21
- LinkResizeH[6,<optimizer.classes.Element_object_at_0x106071438>]: - H[6]
+ LinkResizeH[6,<optimizer.classes.Element_object_at_0x108755d30>]: - H[6]
    + ResizeH[6] = -36
- LinkMoveX[0,<optimizer.classes.Element_object_at_0x1060712e8>]: - X0[0]
+ LinkMoveX[0,<optimizer.classes.Element_object_at_0x108755780>]: - X0[0]
    + MoveX[0] = -2
- LinkMoveX[1,<optimizer.classes.Element_object_at_0x106071320>]: - X0[1]
+ LinkMoveX[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - X0[1]
    + MoveX[1] = -62
- LinkMoveX[2,<optimizer.classes.Element_object_at_0x106071358>]: - X0[2]
+ LinkMoveX[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - X0[2]
    + MoveX[2] = -16
- LinkMoveX[3,<optimizer.classes.Element_object_at_0x106071390>]: - X0[3]
+ LinkMoveX[3,<optimizer.classes.Element_object_at_0x108755f98>]: - X0[3]
    + MoveX[3] = -32
- LinkMoveX[4,<optimizer.classes.Element_object_at_0x1060713c8>]: - X0[4]
+ LinkMoveX[4,<optimizer.classes.Element_object_at_0x108755e48>]: - X0[4]
    + MoveX[4] = -22
- LinkMoveX[5,<optimizer.classes.Element_object_at_0x106071400>]: - X0[5]
+ LinkMoveX[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - X0[5]
    + MoveX[5] = -50
- LinkMoveX[6,<optimizer.classes.Element_object_at_0x106071438>]: - X0[6]
+ LinkMoveX[6,<optimizer.classes.Element_object_at_0x108755d30>]: - X0[6]
    + MoveX[6] = -26
- LinkMoveY[0,<optimizer.classes.Element_object_at_0x1060712e8>]: - Y0[0]
+ LinkMoveY[0,<optimizer.classes.Element_object_at_0x108755780>]: - Y0[0]
    + MoveY[0] = -22
- LinkMoveY[1,<optimizer.classes.Element_object_at_0x106071320>]: - Y0[1]
+ LinkMoveY[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - Y0[1]
    + MoveY[1] = -14
- LinkMoveY[2,<optimizer.classes.Element_object_at_0x106071358>]: - Y0[2]
+ LinkMoveY[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - Y0[2]
    + MoveY[2] = -92
- LinkMoveY[3,<optimizer.classes.Element_object_at_0x106071390>]: - Y0[3]
+ LinkMoveY[3,<optimizer.classes.Element_object_at_0x108755f98>]: - Y0[3]
    + MoveY[3] = -16
- LinkMoveY[4,<optimizer.classes.Element_object_at_0x1060713c8>]: - Y0[4]
+ LinkMoveY[4,<optimizer.classes.Element_object_at_0x108755e48>]: - Y0[4]
    + MoveY[4] = -52
- LinkMoveY[5,<optimizer.classes.Element_object_at_0x106071400>]: - Y0[5]
+ LinkMoveY[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - Y0[5]
    + MoveY[5] = -70
- LinkMoveY[6,<optimizer.classes.Element_object_at_0x106071438>]: - Y0[6]
+ LinkMoveY[6,<optimizer.classes.Element_object_at_0x108755d30>]: - Y0[6]
    + MoveY[6] = -44
  AboveSanity[0,1]: Above[0,1] + Above[1,0] <= 1
  AboveSanity[0,2]: Above[0,2] + Above[2,0] <= 1
@@ -645,6 +645,202 @@ Subject To
  Linky1Diff[6,4]: Y1[4] - Y1[6] + EdgeDistance[y1,6,4] = 0
  Linky1Diff[6,5]: Y1[5] - Y1[6] + EdgeDistance[y1,6,5] = 0
  Linky1Diff[6,6]: EdgeDistance[y1,6,6] = 0
+ R434: X0Diff[0,0] = 0
+ R435: - X0[0] + X0[1] + X0Diff[0,1] = 0
+ R436: - X0[0] + X0[2] + X0Diff[0,2] = 0
+ R437: - X0[0] + X0[3] + X0Diff[0,3] = 0
+ R438: - X0[0] + X0[4] + X0Diff[0,4] = 0
+ R439: - X0[0] + X0[5] + X0Diff[0,5] = 0
+ R440: - X0[0] + X0[6] + X0Diff[0,6] = 0
+ R441: X0[0] - X0[1] + X0Diff[1,0] = 0
+ R442: X0Diff[1,1] = 0
+ R443: - X0[1] + X0[2] + X0Diff[1,2] = 0
+ R444: - X0[1] + X0[3] + X0Diff[1,3] = 0
+ R445: - X0[1] + X0[4] + X0Diff[1,4] = 0
+ R446: - X0[1] + X0[5] + X0Diff[1,5] = 0
+ R447: - X0[1] + X0[6] + X0Diff[1,6] = 0
+ R448: X0[0] - X0[2] + X0Diff[2,0] = 0
+ R449: X0[1] - X0[2] + X0Diff[2,1] = 0
+ R450: X0Diff[2,2] = 0
+ R451: - X0[2] + X0[3] + X0Diff[2,3] = 0
+ R452: - X0[2] + X0[4] + X0Diff[2,4] = 0
+ R453: - X0[2] + X0[5] + X0Diff[2,5] = 0
+ R454: - X0[2] + X0[6] + X0Diff[2,6] = 0
+ R455: X0[0] - X0[3] + X0Diff[3,0] = 0
+ R456: X0[1] - X0[3] + X0Diff[3,1] = 0
+ R457: X0[2] - X0[3] + X0Diff[3,2] = 0
+ R458: X0Diff[3,3] = 0
+ R459: - X0[3] + X0[4] + X0Diff[3,4] = 0
+ R460: - X0[3] + X0[5] + X0Diff[3,5] = 0
+ R461: - X0[3] + X0[6] + X0Diff[3,6] = 0
+ R462: X0[0] - X0[4] + X0Diff[4,0] = 0
+ R463: X0[1] - X0[4] + X0Diff[4,1] = 0
+ R464: X0[2] - X0[4] + X0Diff[4,2] = 0
+ R465: X0[3] - X0[4] + X0Diff[4,3] = 0
+ R466: X0Diff[4,4] = 0
+ R467: - X0[4] + X0[5] + X0Diff[4,5] = 0
+ R468: - X0[4] + X0[6] + X0Diff[4,6] = 0
+ R469: X0[0] - X0[5] + X0Diff[5,0] = 0
+ R470: X0[1] - X0[5] + X0Diff[5,1] = 0
+ R471: X0[2] - X0[5] + X0Diff[5,2] = 0
+ R472: X0[3] - X0[5] + X0Diff[5,3] = 0
+ R473: X0[4] - X0[5] + X0Diff[5,4] = 0
+ R474: X0Diff[5,5] = 0
+ R475: - X0[5] + X0[6] + X0Diff[5,6] = 0
+ R476: X0[0] - X0[6] + X0Diff[6,0] = 0
+ R477: X0[1] - X0[6] + X0Diff[6,1] = 0
+ R478: X0[2] - X0[6] + X0Diff[6,2] = 0
+ R479: X0[3] - X0[6] + X0Diff[6,3] = 0
+ R480: X0[4] - X0[6] + X0Diff[6,4] = 0
+ R481: X0[5] - X0[6] + X0Diff[6,5] = 0
+ R482: X0Diff[6,6] = 0
+ R483: Y0Diff[0,0] = 0
+ R484: - Y0[0] + Y0[1] + Y0Diff[0,1] = 0
+ R485: - Y0[0] + Y0[2] + Y0Diff[0,2] = 0
+ R486: - Y0[0] + Y0[3] + Y0Diff[0,3] = 0
+ R487: - Y0[0] + Y0[4] + Y0Diff[0,4] = 0
+ R488: - Y0[0] + Y0[5] + Y0Diff[0,5] = 0
+ R489: - Y0[0] + Y0[6] + Y0Diff[0,6] = 0
+ R490: Y0[0] - Y0[1] + Y0Diff[1,0] = 0
+ R491: Y0Diff[1,1] = 0
+ R492: - Y0[1] + Y0[2] + Y0Diff[1,2] = 0
+ R493: - Y0[1] + Y0[3] + Y0Diff[1,3] = 0
+ R494: - Y0[1] + Y0[4] + Y0Diff[1,4] = 0
+ R495: - Y0[1] + Y0[5] + Y0Diff[1,5] = 0
+ R496: - Y0[1] + Y0[6] + Y0Diff[1,6] = 0
+ R497: Y0[0] - Y0[2] + Y0Diff[2,0] = 0
+ R498: Y0[1] - Y0[2] + Y0Diff[2,1] = 0
+ R499: Y0Diff[2,2] = 0
+ R500: - Y0[2] + Y0[3] + Y0Diff[2,3] = 0
+ R501: - Y0[2] + Y0[4] + Y0Diff[2,4] = 0
+ R502: - Y0[2] + Y0[5] + Y0Diff[2,5] = 0
+ R503: - Y0[2] + Y0[6] + Y0Diff[2,6] = 0
+ R504: Y0[0] - Y0[3] + Y0Diff[3,0] = 0
+ R505: Y0[1] - Y0[3] + Y0Diff[3,1] = 0
+ R506: Y0[2] - Y0[3] + Y0Diff[3,2] = 0
+ R507: Y0Diff[3,3] = 0
+ R508: - Y0[3] + Y0[4] + Y0Diff[3,4] = 0
+ R509: - Y0[3] + Y0[5] + Y0Diff[3,5] = 0
+ R510: - Y0[3] + Y0[6] + Y0Diff[3,6] = 0
+ R511: Y0[0] - Y0[4] + Y0Diff[4,0] = 0
+ R512: Y0[1] - Y0[4] + Y0Diff[4,1] = 0
+ R513: Y0[2] - Y0[4] + Y0Diff[4,2] = 0
+ R514: Y0[3] - Y0[4] + Y0Diff[4,3] = 0
+ R515: Y0Diff[4,4] = 0
+ R516: - Y0[4] + Y0[5] + Y0Diff[4,5] = 0
+ R517: - Y0[4] + Y0[6] + Y0Diff[4,6] = 0
+ R518: Y0[0] - Y0[5] + Y0Diff[5,0] = 0
+ R519: Y0[1] - Y0[5] + Y0Diff[5,1] = 0
+ R520: Y0[2] - Y0[5] + Y0Diff[5,2] = 0
+ R521: Y0[3] - Y0[5] + Y0Diff[5,3] = 0
+ R522: Y0[4] - Y0[5] + Y0Diff[5,4] = 0
+ R523: Y0Diff[5,5] = 0
+ R524: - Y0[5] + Y0[6] + Y0Diff[5,6] = 0
+ R525: Y0[0] - Y0[6] + Y0Diff[6,0] = 0
+ R526: Y0[1] - Y0[6] + Y0Diff[6,1] = 0
+ R527: Y0[2] - Y0[6] + Y0Diff[6,2] = 0
+ R528: Y0[3] - Y0[6] + Y0Diff[6,3] = 0
+ R529: Y0[4] - Y0[6] + Y0Diff[6,4] = 0
+ R530: Y0[5] - Y0[6] + Y0Diff[6,5] = 0
+ R531: Y0Diff[6,6] = 0
+ R532: X1Diff[0,0] = 0
+ R533: - X1[0] + X1[1] + X1Diff[0,1] = 0
+ R534: - X1[0] + X1[2] + X1Diff[0,2] = 0
+ R535: - X1[0] + X1[3] + X1Diff[0,3] = 0
+ R536: - X1[0] + X1[4] + X1Diff[0,4] = 0
+ R537: - X1[0] + X1[5] + X1Diff[0,5] = 0
+ R538: - X1[0] + X1[6] + X1Diff[0,6] = 0
+ R539: X1[0] - X1[1] + X1Diff[1,0] = 0
+ R540: X1Diff[1,1] = 0
+ R541: - X1[1] + X1[2] + X1Diff[1,2] = 0
+ R542: - X1[1] + X1[3] + X1Diff[1,3] = 0
+ R543: - X1[1] + X1[4] + X1Diff[1,4] = 0
+ R544: - X1[1] + X1[5] + X1Diff[1,5] = 0
+ R545: - X1[1] + X1[6] + X1Diff[1,6] = 0
+ R546: X1[0] - X1[2] + X1Diff[2,0] = 0
+ R547: X1[1] - X1[2] + X1Diff[2,1] = 0
+ R548: X1Diff[2,2] = 0
+ R549: - X1[2] + X1[3] + X1Diff[2,3] = 0
+ R550: - X1[2] + X1[4] + X1Diff[2,4] = 0
+ R551: - X1[2] + X1[5] + X1Diff[2,5] = 0
+ R552: - X1[2] + X1[6] + X1Diff[2,6] = 0
+ R553: X1[0] - X1[3] + X1Diff[3,0] = 0
+ R554: X1[1] - X1[3] + X1Diff[3,1] = 0
+ R555: X1[2] - X1[3] + X1Diff[3,2] = 0
+ R556: X1Diff[3,3] = 0
+ R557: - X1[3] + X1[4] + X1Diff[3,4] = 0
+ R558: - X1[3] + X1[5] + X1Diff[3,5] = 0
+ R559: - X1[3] + X1[6] + X1Diff[3,6] = 0
+ R560: X1[0] - X1[4] + X1Diff[4,0] = 0
+ R561: X1[1] - X1[4] + X1Diff[4,1] = 0
+ R562: X1[2] - X1[4] + X1Diff[4,2] = 0
+ R563: X1[3] - X1[4] + X1Diff[4,3] = 0
+ R564: X1Diff[4,4] = 0
+ R565: - X1[4] + X1[5] + X1Diff[4,5] = 0
+ R566: - X1[4] + X1[6] + X1Diff[4,6] = 0
+ R567: X1[0] - X1[5] + X1Diff[5,0] = 0
+ R568: X1[1] - X1[5] + X1Diff[5,1] = 0
+ R569: X1[2] - X1[5] + X1Diff[5,2] = 0
+ R570: X1[3] - X1[5] + X1Diff[5,3] = 0
+ R571: X1[4] - X1[5] + X1Diff[5,4] = 0
+ R572: X1Diff[5,5] = 0
+ R573: - X1[5] + X1[6] + X1Diff[5,6] = 0
+ R574: X1[0] - X1[6] + X1Diff[6,0] = 0
+ R575: X1[1] - X1[6] + X1Diff[6,1] = 0
+ R576: X1[2] - X1[6] + X1Diff[6,2] = 0
+ R577: X1[3] - X1[6] + X1Diff[6,3] = 0
+ R578: X1[4] - X1[6] + X1Diff[6,4] = 0
+ R579: X1[5] - X1[6] + X1Diff[6,5] = 0
+ R580: X1Diff[6,6] = 0
+ R581: Y1Diff[0,0] = 0
+ R582: - Y1[0] + Y1[1] + Y1Diff[0,1] = 0
+ R583: - Y1[0] + Y1[2] + Y1Diff[0,2] = 0
+ R584: - Y1[0] + Y1[3] + Y1Diff[0,3] = 0
+ R585: - Y1[0] + Y1[4] + Y1Diff[0,4] = 0
+ R586: - Y1[0] + Y1[5] + Y1Diff[0,5] = 0
+ R587: - Y1[0] + Y1[6] + Y1Diff[0,6] = 0
+ R588: Y1[0] - Y1[1] + Y1Diff[1,0] = 0
+ R589: Y1Diff[1,1] = 0
+ R590: - Y1[1] + Y1[2] + Y1Diff[1,2] = 0
+ R591: - Y1[1] + Y1[3] + Y1Diff[1,3] = 0
+ R592: - Y1[1] + Y1[4] + Y1Diff[1,4] = 0
+ R593: - Y1[1] + Y1[5] + Y1Diff[1,5] = 0
+ R594: - Y1[1] + Y1[6] + Y1Diff[1,6] = 0
+ R595: Y1[0] - Y1[2] + Y1Diff[2,0] = 0
+ R596: Y1[1] - Y1[2] + Y1Diff[2,1] = 0
+ R597: Y1Diff[2,2] = 0
+ R598: - Y1[2] + Y1[3] + Y1Diff[2,3] = 0
+ R599: - Y1[2] + Y1[4] + Y1Diff[2,4] = 0
+ R600: - Y1[2] + Y1[5] + Y1Diff[2,5] = 0
+ R601: - Y1[2] + Y1[6] + Y1Diff[2,6] = 0
+ R602: Y1[0] - Y1[3] + Y1Diff[3,0] = 0
+ R603: Y1[1] - Y1[3] + Y1Diff[3,1] = 0
+ R604: Y1[2] - Y1[3] + Y1Diff[3,2] = 0
+ R605: Y1Diff[3,3] = 0
+ R606: - Y1[3] + Y1[4] + Y1Diff[3,4] = 0
+ R607: - Y1[3] + Y1[5] + Y1Diff[3,5] = 0
+ R608: - Y1[3] + Y1[6] + Y1Diff[3,6] = 0
+ R609: Y1[0] - Y1[4] + Y1Diff[4,0] = 0
+ R610: Y1[1] - Y1[4] + Y1Diff[4,1] = 0
+ R611: Y1[2] - Y1[4] + Y1Diff[4,2] = 0
+ R612: Y1[3] - Y1[4] + Y1Diff[4,3] = 0
+ R613: Y1Diff[4,4] = 0
+ R614: - Y1[4] + Y1[5] + Y1Diff[4,5] = 0
+ R615: - Y1[4] + Y1[6] + Y1Diff[4,6] = 0
+ R616: Y1[0] - Y1[5] + Y1Diff[5,0] = 0
+ R617: Y1[1] - Y1[5] + Y1Diff[5,1] = 0
+ R618: Y1[2] - Y1[5] + Y1Diff[5,2] = 0
+ R619: Y1[3] - Y1[5] + Y1Diff[5,3] = 0
+ R620: Y1[4] - Y1[5] + Y1Diff[5,4] = 0
+ R621: Y1Diff[5,5] = 0
+ R622: - Y1[5] + Y1[6] + Y1Diff[5,6] = 0
+ R623: Y1[0] - Y1[6] + Y1Diff[6,0] = 0
+ R624: Y1[1] - Y1[6] + Y1Diff[6,1] = 0
+ R625: Y1[2] - Y1[6] + Y1Diff[6,2] = 0
+ R626: Y1[3] - Y1[6] + Y1Diff[6,3] = 0
+ R627: Y1[4] - Y1[6] + Y1Diff[6,4] = 0
+ R628: Y1[5] - Y1[6] + Y1Diff[6,5] = 0
+ R629: Y1Diff[6,6] = 0
  PreventOvertOptimization: X0GroupCount + Y0GroupCount + X1GroupCount
    + Y1GroupCount >= 12
  PreserveOverlap[0,1]: Overlap[0,1] = 0
@@ -876,342 +1072,342 @@ Subject To
  LinkOnLeft2[6,3]: OnLeft[6,3] = 0 -> X1[6] - X0[3] >= 1
  LinkOnLeft2[6,4]: OnLeft[6,4] = 0 -> X1[6] - X0[4] >= 1
  LinkOnLeft2[6,5]: OnLeft[6,5] = 0 -> X1[6] - X0[5] >= 1
- LinkX0LessThan1[0,1]: X0LessThan[0,1] = 1 -> X0[0] - X0[1] <= -1
- LinkX0LessThan1[0,2]: X0LessThan[0,2] = 1 -> X0[0] - X0[2] <= -1
- LinkX0LessThan1[0,3]: X0LessThan[0,3] = 1 -> X0[0] - X0[3] <= -1
- LinkX0LessThan1[0,4]: X0LessThan[0,4] = 1 -> X0[0] - X0[4] <= -1
- LinkX0LessThan1[0,5]: X0LessThan[0,5] = 1 -> X0[0] - X0[5] <= -1
- LinkX0LessThan1[0,6]: X0LessThan[0,6] = 1 -> X0[0] - X0[6] <= -1
- LinkX0LessThan1[1,0]: X0LessThan[1,0] = 1 -> X0[1] - X0[0] <= -1
- LinkX0LessThan1[1,2]: X0LessThan[1,2] = 1 -> X0[1] - X0[2] <= -1
- LinkX0LessThan1[1,3]: X0LessThan[1,3] = 1 -> X0[1] - X0[3] <= -1
- LinkX0LessThan1[1,4]: X0LessThan[1,4] = 1 -> X0[1] - X0[4] <= -1
- LinkX0LessThan1[1,5]: X0LessThan[1,5] = 1 -> X0[1] - X0[5] <= -1
- LinkX0LessThan1[1,6]: X0LessThan[1,6] = 1 -> X0[1] - X0[6] <= -1
- LinkX0LessThan1[2,0]: X0LessThan[2,0] = 1 -> X0[2] - X0[0] <= -1
- LinkX0LessThan1[2,1]: X0LessThan[2,1] = 1 -> X0[2] - X0[1] <= -1
- LinkX0LessThan1[2,3]: X0LessThan[2,3] = 1 -> X0[2] - X0[3] <= -1
- LinkX0LessThan1[2,4]: X0LessThan[2,4] = 1 -> X0[2] - X0[4] <= -1
- LinkX0LessThan1[2,5]: X0LessThan[2,5] = 1 -> X0[2] - X0[5] <= -1
- LinkX0LessThan1[2,6]: X0LessThan[2,6] = 1 -> X0[2] - X0[6] <= -1
- LinkX0LessThan1[3,0]: X0LessThan[3,0] = 1 -> X0[3] - X0[0] <= -1
- LinkX0LessThan1[3,1]: X0LessThan[3,1] = 1 -> X0[3] - X0[1] <= -1
- LinkX0LessThan1[3,2]: X0LessThan[3,2] = 1 -> X0[3] - X0[2] <= -1
- LinkX0LessThan1[3,4]: X0LessThan[3,4] = 1 -> X0[3] - X0[4] <= -1
- LinkX0LessThan1[3,5]: X0LessThan[3,5] = 1 -> X0[3] - X0[5] <= -1
- LinkX0LessThan1[3,6]: X0LessThan[3,6] = 1 -> X0[3] - X0[6] <= -1
- LinkX0LessThan1[4,0]: X0LessThan[4,0] = 1 -> X0[4] - X0[0] <= -1
- LinkX0LessThan1[4,1]: X0LessThan[4,1] = 1 -> X0[4] - X0[1] <= -1
- LinkX0LessThan1[4,2]: X0LessThan[4,2] = 1 -> X0[4] - X0[2] <= -1
- LinkX0LessThan1[4,3]: X0LessThan[4,3] = 1 -> X0[4] - X0[3] <= -1
- LinkX0LessThan1[4,5]: X0LessThan[4,5] = 1 -> X0[4] - X0[5] <= -1
- LinkX0LessThan1[4,6]: X0LessThan[4,6] = 1 -> X0[4] - X0[6] <= -1
- LinkX0LessThan1[5,0]: X0LessThan[5,0] = 1 -> X0[5] - X0[0] <= -1
- LinkX0LessThan1[5,1]: X0LessThan[5,1] = 1 -> X0[5] - X0[1] <= -1
- LinkX0LessThan1[5,2]: X0LessThan[5,2] = 1 -> X0[5] - X0[2] <= -1
- LinkX0LessThan1[5,3]: X0LessThan[5,3] = 1 -> X0[5] - X0[3] <= -1
- LinkX0LessThan1[5,4]: X0LessThan[5,4] = 1 -> X0[5] - X0[4] <= -1
- LinkX0LessThan1[5,6]: X0LessThan[5,6] = 1 -> X0[5] - X0[6] <= -1
- LinkX0LessThan1[6,0]: X0LessThan[6,0] = 1 -> X0[6] - X0[0] <= -1
- LinkX0LessThan1[6,1]: X0LessThan[6,1] = 1 -> X0[6] - X0[1] <= -1
- LinkX0LessThan1[6,2]: X0LessThan[6,2] = 1 -> X0[6] - X0[2] <= -1
- LinkX0LessThan1[6,3]: X0LessThan[6,3] = 1 -> X0[6] - X0[3] <= -1
- LinkX0LessThan1[6,4]: X0LessThan[6,4] = 1 -> X0[6] - X0[4] <= -1
- LinkX0LessThan1[6,5]: X0LessThan[6,5] = 1 -> X0[6] - X0[5] <= -1
- LinkX0LessThan2[0,1]: X0LessThan[0,1] = 0 -> X0[0] - X0[1] >= -0
- LinkX0LessThan2[0,2]: X0LessThan[0,2] = 0 -> X0[0] - X0[2] >= -0
- LinkX0LessThan2[0,3]: X0LessThan[0,3] = 0 -> X0[0] - X0[3] >= -0
- LinkX0LessThan2[0,4]: X0LessThan[0,4] = 0 -> X0[0] - X0[4] >= -0
- LinkX0LessThan2[0,5]: X0LessThan[0,5] = 0 -> X0[0] - X0[5] >= -0
- LinkX0LessThan2[0,6]: X0LessThan[0,6] = 0 -> X0[0] - X0[6] >= -0
- LinkX0LessThan2[1,0]: X0LessThan[1,0] = 0 -> X0[1] - X0[0] >= -0
- LinkX0LessThan2[1,2]: X0LessThan[1,2] = 0 -> X0[1] - X0[2] >= -0
- LinkX0LessThan2[1,3]: X0LessThan[1,3] = 0 -> X0[1] - X0[3] >= -0
- LinkX0LessThan2[1,4]: X0LessThan[1,4] = 0 -> X0[1] - X0[4] >= -0
- LinkX0LessThan2[1,5]: X0LessThan[1,5] = 0 -> X0[1] - X0[5] >= -0
- LinkX0LessThan2[1,6]: X0LessThan[1,6] = 0 -> X0[1] - X0[6] >= -0
- LinkX0LessThan2[2,0]: X0LessThan[2,0] = 0 -> X0[2] - X0[0] >= -0
- LinkX0LessThan2[2,1]: X0LessThan[2,1] = 0 -> X0[2] - X0[1] >= -0
- LinkX0LessThan2[2,3]: X0LessThan[2,3] = 0 -> X0[2] - X0[3] >= -0
- LinkX0LessThan2[2,4]: X0LessThan[2,4] = 0 -> X0[2] - X0[4] >= -0
- LinkX0LessThan2[2,5]: X0LessThan[2,5] = 0 -> X0[2] - X0[5] >= -0
- LinkX0LessThan2[2,6]: X0LessThan[2,6] = 0 -> X0[2] - X0[6] >= -0
- LinkX0LessThan2[3,0]: X0LessThan[3,0] = 0 -> X0[3] - X0[0] >= -0
- LinkX0LessThan2[3,1]: X0LessThan[3,1] = 0 -> X0[3] - X0[1] >= -0
- LinkX0LessThan2[3,2]: X0LessThan[3,2] = 0 -> X0[3] - X0[2] >= -0
- LinkX0LessThan2[3,4]: X0LessThan[3,4] = 0 -> X0[3] - X0[4] >= -0
- LinkX0LessThan2[3,5]: X0LessThan[3,5] = 0 -> X0[3] - X0[5] >= -0
- LinkX0LessThan2[3,6]: X0LessThan[3,6] = 0 -> X0[3] - X0[6] >= -0
- LinkX0LessThan2[4,0]: X0LessThan[4,0] = 0 -> X0[4] - X0[0] >= -0
- LinkX0LessThan2[4,1]: X0LessThan[4,1] = 0 -> X0[4] - X0[1] >= -0
- LinkX0LessThan2[4,2]: X0LessThan[4,2] = 0 -> X0[4] - X0[2] >= -0
- LinkX0LessThan2[4,3]: X0LessThan[4,3] = 0 -> X0[4] - X0[3] >= -0
- LinkX0LessThan2[4,5]: X0LessThan[4,5] = 0 -> X0[4] - X0[5] >= -0
- LinkX0LessThan2[4,6]: X0LessThan[4,6] = 0 -> X0[4] - X0[6] >= -0
- LinkX0LessThan2[5,0]: X0LessThan[5,0] = 0 -> X0[5] - X0[0] >= -0
- LinkX0LessThan2[5,1]: X0LessThan[5,1] = 0 -> X0[5] - X0[1] >= -0
- LinkX0LessThan2[5,2]: X0LessThan[5,2] = 0 -> X0[5] - X0[2] >= -0
- LinkX0LessThan2[5,3]: X0LessThan[5,3] = 0 -> X0[5] - X0[3] >= -0
- LinkX0LessThan2[5,4]: X0LessThan[5,4] = 0 -> X0[5] - X0[4] >= -0
- LinkX0LessThan2[5,6]: X0LessThan[5,6] = 0 -> X0[5] - X0[6] >= -0
- LinkX0LessThan2[6,0]: X0LessThan[6,0] = 0 -> X0[6] - X0[0] >= -0
- LinkX0LessThan2[6,1]: X0LessThan[6,1] = 0 -> X0[6] - X0[1] >= -0
- LinkX0LessThan2[6,2]: X0LessThan[6,2] = 0 -> X0[6] - X0[2] >= -0
- LinkX0LessThan2[6,3]: X0LessThan[6,3] = 0 -> X0[6] - X0[3] >= -0
- LinkX0LessThan2[6,4]: X0LessThan[6,4] = 0 -> X0[6] - X0[4] >= -0
- LinkX0LessThan2[6,5]: X0LessThan[6,5] = 0 -> X0[6] - X0[5] >= -0
- LinkX1LessThan1[0,1]: X1LessThan[0,1] = 1 -> X1[0] - X1[1] <= -1
- LinkX1LessThan1[0,2]: X1LessThan[0,2] = 1 -> X1[0] - X1[2] <= -1
- LinkX1LessThan1[0,3]: X1LessThan[0,3] = 1 -> X1[0] - X1[3] <= -1
- LinkX1LessThan1[0,4]: X1LessThan[0,4] = 1 -> X1[0] - X1[4] <= -1
- LinkX1LessThan1[0,5]: X1LessThan[0,5] = 1 -> X1[0] - X1[5] <= -1
- LinkX1LessThan1[0,6]: X1LessThan[0,6] = 1 -> X1[0] - X1[6] <= -1
- LinkX1LessThan1[1,0]: X1LessThan[1,0] = 1 -> X1[1] - X1[0] <= -1
- LinkX1LessThan1[1,2]: X1LessThan[1,2] = 1 -> X1[1] - X1[2] <= -1
- LinkX1LessThan1[1,3]: X1LessThan[1,3] = 1 -> X1[1] - X1[3] <= -1
- LinkX1LessThan1[1,4]: X1LessThan[1,4] = 1 -> X1[1] - X1[4] <= -1
- LinkX1LessThan1[1,5]: X1LessThan[1,5] = 1 -> X1[1] - X1[5] <= -1
- LinkX1LessThan1[1,6]: X1LessThan[1,6] = 1 -> X1[1] - X1[6] <= -1
- LinkX1LessThan1[2,0]: X1LessThan[2,0] = 1 -> X1[2] - X1[0] <= -1
- LinkX1LessThan1[2,1]: X1LessThan[2,1] = 1 -> X1[2] - X1[1] <= -1
- LinkX1LessThan1[2,3]: X1LessThan[2,3] = 1 -> X1[2] - X1[3] <= -1
- LinkX1LessThan1[2,4]: X1LessThan[2,4] = 1 -> X1[2] - X1[4] <= -1
- LinkX1LessThan1[2,5]: X1LessThan[2,5] = 1 -> X1[2] - X1[5] <= -1
- LinkX1LessThan1[2,6]: X1LessThan[2,6] = 1 -> X1[2] - X1[6] <= -1
- LinkX1LessThan1[3,0]: X1LessThan[3,0] = 1 -> X1[3] - X1[0] <= -1
- LinkX1LessThan1[3,1]: X1LessThan[3,1] = 1 -> X1[3] - X1[1] <= -1
- LinkX1LessThan1[3,2]: X1LessThan[3,2] = 1 -> X1[3] - X1[2] <= -1
- LinkX1LessThan1[3,4]: X1LessThan[3,4] = 1 -> X1[3] - X1[4] <= -1
- LinkX1LessThan1[3,5]: X1LessThan[3,5] = 1 -> X1[3] - X1[5] <= -1
- LinkX1LessThan1[3,6]: X1LessThan[3,6] = 1 -> X1[3] - X1[6] <= -1
- LinkX1LessThan1[4,0]: X1LessThan[4,0] = 1 -> X1[4] - X1[0] <= -1
- LinkX1LessThan1[4,1]: X1LessThan[4,1] = 1 -> X1[4] - X1[1] <= -1
- LinkX1LessThan1[4,2]: X1LessThan[4,2] = 1 -> X1[4] - X1[2] <= -1
- LinkX1LessThan1[4,3]: X1LessThan[4,3] = 1 -> X1[4] - X1[3] <= -1
- LinkX1LessThan1[4,5]: X1LessThan[4,5] = 1 -> X1[4] - X1[5] <= -1
- LinkX1LessThan1[4,6]: X1LessThan[4,6] = 1 -> X1[4] - X1[6] <= -1
- LinkX1LessThan1[5,0]: X1LessThan[5,0] = 1 -> X1[5] - X1[0] <= -1
- LinkX1LessThan1[5,1]: X1LessThan[5,1] = 1 -> X1[5] - X1[1] <= -1
- LinkX1LessThan1[5,2]: X1LessThan[5,2] = 1 -> X1[5] - X1[2] <= -1
- LinkX1LessThan1[5,3]: X1LessThan[5,3] = 1 -> X1[5] - X1[3] <= -1
- LinkX1LessThan1[5,4]: X1LessThan[5,4] = 1 -> X1[5] - X1[4] <= -1
- LinkX1LessThan1[5,6]: X1LessThan[5,6] = 1 -> X1[5] - X1[6] <= -1
- LinkX1LessThan1[6,0]: X1LessThan[6,0] = 1 -> X1[6] - X1[0] <= -1
- LinkX1LessThan1[6,1]: X1LessThan[6,1] = 1 -> X1[6] - X1[1] <= -1
- LinkX1LessThan1[6,2]: X1LessThan[6,2] = 1 -> X1[6] - X1[2] <= -1
- LinkX1LessThan1[6,3]: X1LessThan[6,3] = 1 -> X1[6] - X1[3] <= -1
- LinkX1LessThan1[6,4]: X1LessThan[6,4] = 1 -> X1[6] - X1[4] <= -1
- LinkX1LessThan1[6,5]: X1LessThan[6,5] = 1 -> X1[6] - X1[5] <= -1
- LinkX1LessThan2[0,1]: X1LessThan[0,1] = 0 -> X1[0] - X1[1] >= -0
- LinkX1LessThan2[0,2]: X1LessThan[0,2] = 0 -> X1[0] - X1[2] >= -0
- LinkX1LessThan2[0,3]: X1LessThan[0,3] = 0 -> X1[0] - X1[3] >= -0
- LinkX1LessThan2[0,4]: X1LessThan[0,4] = 0 -> X1[0] - X1[4] >= -0
- LinkX1LessThan2[0,5]: X1LessThan[0,5] = 0 -> X1[0] - X1[5] >= -0
- LinkX1LessThan2[0,6]: X1LessThan[0,6] = 0 -> X1[0] - X1[6] >= -0
- LinkX1LessThan2[1,0]: X1LessThan[1,0] = 0 -> X1[1] - X1[0] >= -0
- LinkX1LessThan2[1,2]: X1LessThan[1,2] = 0 -> X1[1] - X1[2] >= -0
- LinkX1LessThan2[1,3]: X1LessThan[1,3] = 0 -> X1[1] - X1[3] >= -0
- LinkX1LessThan2[1,4]: X1LessThan[1,4] = 0 -> X1[1] - X1[4] >= -0
- LinkX1LessThan2[1,5]: X1LessThan[1,5] = 0 -> X1[1] - X1[5] >= -0
- LinkX1LessThan2[1,6]: X1LessThan[1,6] = 0 -> X1[1] - X1[6] >= -0
- LinkX1LessThan2[2,0]: X1LessThan[2,0] = 0 -> X1[2] - X1[0] >= -0
- LinkX1LessThan2[2,1]: X1LessThan[2,1] = 0 -> X1[2] - X1[1] >= -0
- LinkX1LessThan2[2,3]: X1LessThan[2,3] = 0 -> X1[2] - X1[3] >= -0
- LinkX1LessThan2[2,4]: X1LessThan[2,4] = 0 -> X1[2] - X1[4] >= -0
- LinkX1LessThan2[2,5]: X1LessThan[2,5] = 0 -> X1[2] - X1[5] >= -0
- LinkX1LessThan2[2,6]: X1LessThan[2,6] = 0 -> X1[2] - X1[6] >= -0
- LinkX1LessThan2[3,0]: X1LessThan[3,0] = 0 -> X1[3] - X1[0] >= -0
- LinkX1LessThan2[3,1]: X1LessThan[3,1] = 0 -> X1[3] - X1[1] >= -0
- LinkX1LessThan2[3,2]: X1LessThan[3,2] = 0 -> X1[3] - X1[2] >= -0
- LinkX1LessThan2[3,4]: X1LessThan[3,4] = 0 -> X1[3] - X1[4] >= -0
- LinkX1LessThan2[3,5]: X1LessThan[3,5] = 0 -> X1[3] - X1[5] >= -0
- LinkX1LessThan2[3,6]: X1LessThan[3,6] = 0 -> X1[3] - X1[6] >= -0
- LinkX1LessThan2[4,0]: X1LessThan[4,0] = 0 -> X1[4] - X1[0] >= -0
- LinkX1LessThan2[4,1]: X1LessThan[4,1] = 0 -> X1[4] - X1[1] >= -0
- LinkX1LessThan2[4,2]: X1LessThan[4,2] = 0 -> X1[4] - X1[2] >= -0
- LinkX1LessThan2[4,3]: X1LessThan[4,3] = 0 -> X1[4] - X1[3] >= -0
- LinkX1LessThan2[4,5]: X1LessThan[4,5] = 0 -> X1[4] - X1[5] >= -0
- LinkX1LessThan2[4,6]: X1LessThan[4,6] = 0 -> X1[4] - X1[6] >= -0
- LinkX1LessThan2[5,0]: X1LessThan[5,0] = 0 -> X1[5] - X1[0] >= -0
- LinkX1LessThan2[5,1]: X1LessThan[5,1] = 0 -> X1[5] - X1[1] >= -0
- LinkX1LessThan2[5,2]: X1LessThan[5,2] = 0 -> X1[5] - X1[2] >= -0
- LinkX1LessThan2[5,3]: X1LessThan[5,3] = 0 -> X1[5] - X1[3] >= -0
- LinkX1LessThan2[5,4]: X1LessThan[5,4] = 0 -> X1[5] - X1[4] >= -0
- LinkX1LessThan2[5,6]: X1LessThan[5,6] = 0 -> X1[5] - X1[6] >= -0
- LinkX1LessThan2[6,0]: X1LessThan[6,0] = 0 -> X1[6] - X1[0] >= -0
- LinkX1LessThan2[6,1]: X1LessThan[6,1] = 0 -> X1[6] - X1[1] >= -0
- LinkX1LessThan2[6,2]: X1LessThan[6,2] = 0 -> X1[6] - X1[2] >= -0
- LinkX1LessThan2[6,3]: X1LessThan[6,3] = 0 -> X1[6] - X1[3] >= -0
- LinkX1LessThan2[6,4]: X1LessThan[6,4] = 0 -> X1[6] - X1[4] >= -0
- LinkX1LessThan2[6,5]: X1LessThan[6,5] = 0 -> X1[6] - X1[5] >= -0
- LinkY0LessThan1[0,1]: Y0LessThan[0,1] = 1 -> Y0[0] - Y0[1] <= -1
- LinkY0LessThan1[0,2]: Y0LessThan[0,2] = 1 -> Y0[0] - Y0[2] <= -1
- LinkY0LessThan1[0,3]: Y0LessThan[0,3] = 1 -> Y0[0] - Y0[3] <= -1
- LinkY0LessThan1[0,4]: Y0LessThan[0,4] = 1 -> Y0[0] - Y0[4] <= -1
- LinkY0LessThan1[0,5]: Y0LessThan[0,5] = 1 -> Y0[0] - Y0[5] <= -1
- LinkY0LessThan1[0,6]: Y0LessThan[0,6] = 1 -> Y0[0] - Y0[6] <= -1
- LinkY0LessThan1[1,0]: Y0LessThan[1,0] = 1 -> Y0[1] - Y0[0] <= -1
- LinkY0LessThan1[1,2]: Y0LessThan[1,2] = 1 -> Y0[1] - Y0[2] <= -1
- LinkY0LessThan1[1,3]: Y0LessThan[1,3] = 1 -> Y0[1] - Y0[3] <= -1
- LinkY0LessThan1[1,4]: Y0LessThan[1,4] = 1 -> Y0[1] - Y0[4] <= -1
- LinkY0LessThan1[1,5]: Y0LessThan[1,5] = 1 -> Y0[1] - Y0[5] <= -1
- LinkY0LessThan1[1,6]: Y0LessThan[1,6] = 1 -> Y0[1] - Y0[6] <= -1
- LinkY0LessThan1[2,0]: Y0LessThan[2,0] = 1 -> Y0[2] - Y0[0] <= -1
- LinkY0LessThan1[2,1]: Y0LessThan[2,1] = 1 -> Y0[2] - Y0[1] <= -1
- LinkY0LessThan1[2,3]: Y0LessThan[2,3] = 1 -> Y0[2] - Y0[3] <= -1
- LinkY0LessThan1[2,4]: Y0LessThan[2,4] = 1 -> Y0[2] - Y0[4] <= -1
- LinkY0LessThan1[2,5]: Y0LessThan[2,5] = 1 -> Y0[2] - Y0[5] <= -1
- LinkY0LessThan1[2,6]: Y0LessThan[2,6] = 1 -> Y0[2] - Y0[6] <= -1
- LinkY0LessThan1[3,0]: Y0LessThan[3,0] = 1 -> Y0[3] - Y0[0] <= -1
- LinkY0LessThan1[3,1]: Y0LessThan[3,1] = 1 -> Y0[3] - Y0[1] <= -1
- LinkY0LessThan1[3,2]: Y0LessThan[3,2] = 1 -> Y0[3] - Y0[2] <= -1
- LinkY0LessThan1[3,4]: Y0LessThan[3,4] = 1 -> Y0[3] - Y0[4] <= -1
- LinkY0LessThan1[3,5]: Y0LessThan[3,5] = 1 -> Y0[3] - Y0[5] <= -1
- LinkY0LessThan1[3,6]: Y0LessThan[3,6] = 1 -> Y0[3] - Y0[6] <= -1
- LinkY0LessThan1[4,0]: Y0LessThan[4,0] = 1 -> Y0[4] - Y0[0] <= -1
- LinkY0LessThan1[4,1]: Y0LessThan[4,1] = 1 -> Y0[4] - Y0[1] <= -1
- LinkY0LessThan1[4,2]: Y0LessThan[4,2] = 1 -> Y0[4] - Y0[2] <= -1
- LinkY0LessThan1[4,3]: Y0LessThan[4,3] = 1 -> Y0[4] - Y0[3] <= -1
- LinkY0LessThan1[4,5]: Y0LessThan[4,5] = 1 -> Y0[4] - Y0[5] <= -1
- LinkY0LessThan1[4,6]: Y0LessThan[4,6] = 1 -> Y0[4] - Y0[6] <= -1
- LinkY0LessThan1[5,0]: Y0LessThan[5,0] = 1 -> Y0[5] - Y0[0] <= -1
- LinkY0LessThan1[5,1]: Y0LessThan[5,1] = 1 -> Y0[5] - Y0[1] <= -1
- LinkY0LessThan1[5,2]: Y0LessThan[5,2] = 1 -> Y0[5] - Y0[2] <= -1
- LinkY0LessThan1[5,3]: Y0LessThan[5,3] = 1 -> Y0[5] - Y0[3] <= -1
- LinkY0LessThan1[5,4]: Y0LessThan[5,4] = 1 -> Y0[5] - Y0[4] <= -1
- LinkY0LessThan1[5,6]: Y0LessThan[5,6] = 1 -> Y0[5] - Y0[6] <= -1
- LinkY0LessThan1[6,0]: Y0LessThan[6,0] = 1 -> Y0[6] - Y0[0] <= -1
- LinkY0LessThan1[6,1]: Y0LessThan[6,1] = 1 -> Y0[6] - Y0[1] <= -1
- LinkY0LessThan1[6,2]: Y0LessThan[6,2] = 1 -> Y0[6] - Y0[2] <= -1
- LinkY0LessThan1[6,3]: Y0LessThan[6,3] = 1 -> Y0[6] - Y0[3] <= -1
- LinkY0LessThan1[6,4]: Y0LessThan[6,4] = 1 -> Y0[6] - Y0[4] <= -1
- LinkY0LessThan1[6,5]: Y0LessThan[6,5] = 1 -> Y0[6] - Y0[5] <= -1
- LinkY0LessThan2[0,1]: Y0LessThan[0,1] = 0 -> Y0[0] - Y0[1] >= -0
- LinkY0LessThan2[0,2]: Y0LessThan[0,2] = 0 -> Y0[0] - Y0[2] >= -0
- LinkY0LessThan2[0,3]: Y0LessThan[0,3] = 0 -> Y0[0] - Y0[3] >= -0
- LinkY0LessThan2[0,4]: Y0LessThan[0,4] = 0 -> Y0[0] - Y0[4] >= -0
- LinkY0LessThan2[0,5]: Y0LessThan[0,5] = 0 -> Y0[0] - Y0[5] >= -0
- LinkY0LessThan2[0,6]: Y0LessThan[0,6] = 0 -> Y0[0] - Y0[6] >= -0
- LinkY0LessThan2[1,0]: Y0LessThan[1,0] = 0 -> Y0[1] - Y0[0] >= -0
- LinkY0LessThan2[1,2]: Y0LessThan[1,2] = 0 -> Y0[1] - Y0[2] >= -0
- LinkY0LessThan2[1,3]: Y0LessThan[1,3] = 0 -> Y0[1] - Y0[3] >= -0
- LinkY0LessThan2[1,4]: Y0LessThan[1,4] = 0 -> Y0[1] - Y0[4] >= -0
- LinkY0LessThan2[1,5]: Y0LessThan[1,5] = 0 -> Y0[1] - Y0[5] >= -0
- LinkY0LessThan2[1,6]: Y0LessThan[1,6] = 0 -> Y0[1] - Y0[6] >= -0
- LinkY0LessThan2[2,0]: Y0LessThan[2,0] = 0 -> Y0[2] - Y0[0] >= -0
- LinkY0LessThan2[2,1]: Y0LessThan[2,1] = 0 -> Y0[2] - Y0[1] >= -0
- LinkY0LessThan2[2,3]: Y0LessThan[2,3] = 0 -> Y0[2] - Y0[3] >= -0
- LinkY0LessThan2[2,4]: Y0LessThan[2,4] = 0 -> Y0[2] - Y0[4] >= -0
- LinkY0LessThan2[2,5]: Y0LessThan[2,5] = 0 -> Y0[2] - Y0[5] >= -0
- LinkY0LessThan2[2,6]: Y0LessThan[2,6] = 0 -> Y0[2] - Y0[6] >= -0
- LinkY0LessThan2[3,0]: Y0LessThan[3,0] = 0 -> Y0[3] - Y0[0] >= -0
- LinkY0LessThan2[3,1]: Y0LessThan[3,1] = 0 -> Y0[3] - Y0[1] >= -0
- LinkY0LessThan2[3,2]: Y0LessThan[3,2] = 0 -> Y0[3] - Y0[2] >= -0
- LinkY0LessThan2[3,4]: Y0LessThan[3,4] = 0 -> Y0[3] - Y0[4] >= -0
- LinkY0LessThan2[3,5]: Y0LessThan[3,5] = 0 -> Y0[3] - Y0[5] >= -0
- LinkY0LessThan2[3,6]: Y0LessThan[3,6] = 0 -> Y0[3] - Y0[6] >= -0
- LinkY0LessThan2[4,0]: Y0LessThan[4,0] = 0 -> Y0[4] - Y0[0] >= -0
- LinkY0LessThan2[4,1]: Y0LessThan[4,1] = 0 -> Y0[4] - Y0[1] >= -0
- LinkY0LessThan2[4,2]: Y0LessThan[4,2] = 0 -> Y0[4] - Y0[2] >= -0
- LinkY0LessThan2[4,3]: Y0LessThan[4,3] = 0 -> Y0[4] - Y0[3] >= -0
- LinkY0LessThan2[4,5]: Y0LessThan[4,5] = 0 -> Y0[4] - Y0[5] >= -0
- LinkY0LessThan2[4,6]: Y0LessThan[4,6] = 0 -> Y0[4] - Y0[6] >= -0
- LinkY0LessThan2[5,0]: Y0LessThan[5,0] = 0 -> Y0[5] - Y0[0] >= -0
- LinkY0LessThan2[5,1]: Y0LessThan[5,1] = 0 -> Y0[5] - Y0[1] >= -0
- LinkY0LessThan2[5,2]: Y0LessThan[5,2] = 0 -> Y0[5] - Y0[2] >= -0
- LinkY0LessThan2[5,3]: Y0LessThan[5,3] = 0 -> Y0[5] - Y0[3] >= -0
- LinkY0LessThan2[5,4]: Y0LessThan[5,4] = 0 -> Y0[5] - Y0[4] >= -0
- LinkY0LessThan2[5,6]: Y0LessThan[5,6] = 0 -> Y0[5] - Y0[6] >= -0
- LinkY0LessThan2[6,0]: Y0LessThan[6,0] = 0 -> Y0[6] - Y0[0] >= -0
- LinkY0LessThan2[6,1]: Y0LessThan[6,1] = 0 -> Y0[6] - Y0[1] >= -0
- LinkY0LessThan2[6,2]: Y0LessThan[6,2] = 0 -> Y0[6] - Y0[2] >= -0
- LinkY0LessThan2[6,3]: Y0LessThan[6,3] = 0 -> Y0[6] - Y0[3] >= -0
- LinkY0LessThan2[6,4]: Y0LessThan[6,4] = 0 -> Y0[6] - Y0[4] >= -0
- LinkY0LessThan2[6,5]: Y0LessThan[6,5] = 0 -> Y0[6] - Y0[5] >= -0
- LinkY1LessThan1[0,1]: Y1LessThan[0,1] = 1 -> Y1[0] - Y1[1] <= -1
- LinkY1LessThan1[0,2]: Y1LessThan[0,2] = 1 -> Y1[0] - Y1[2] <= -1
- LinkY1LessThan1[0,3]: Y1LessThan[0,3] = 1 -> Y1[0] - Y1[3] <= -1
- LinkY1LessThan1[0,4]: Y1LessThan[0,4] = 1 -> Y1[0] - Y1[4] <= -1
- LinkY1LessThan1[0,5]: Y1LessThan[0,5] = 1 -> Y1[0] - Y1[5] <= -1
- LinkY1LessThan1[0,6]: Y1LessThan[0,6] = 1 -> Y1[0] - Y1[6] <= -1
- LinkY1LessThan1[1,0]: Y1LessThan[1,0] = 1 -> Y1[1] - Y1[0] <= -1
- LinkY1LessThan1[1,2]: Y1LessThan[1,2] = 1 -> Y1[1] - Y1[2] <= -1
- LinkY1LessThan1[1,3]: Y1LessThan[1,3] = 1 -> Y1[1] - Y1[3] <= -1
- LinkY1LessThan1[1,4]: Y1LessThan[1,4] = 1 -> Y1[1] - Y1[4] <= -1
- LinkY1LessThan1[1,5]: Y1LessThan[1,5] = 1 -> Y1[1] - Y1[5] <= -1
- LinkY1LessThan1[1,6]: Y1LessThan[1,6] = 1 -> Y1[1] - Y1[6] <= -1
- LinkY1LessThan1[2,0]: Y1LessThan[2,0] = 1 -> Y1[2] - Y1[0] <= -1
- LinkY1LessThan1[2,1]: Y1LessThan[2,1] = 1 -> Y1[2] - Y1[1] <= -1
- LinkY1LessThan1[2,3]: Y1LessThan[2,3] = 1 -> Y1[2] - Y1[3] <= -1
- LinkY1LessThan1[2,4]: Y1LessThan[2,4] = 1 -> Y1[2] - Y1[4] <= -1
- LinkY1LessThan1[2,5]: Y1LessThan[2,5] = 1 -> Y1[2] - Y1[5] <= -1
- LinkY1LessThan1[2,6]: Y1LessThan[2,6] = 1 -> Y1[2] - Y1[6] <= -1
- LinkY1LessThan1[3,0]: Y1LessThan[3,0] = 1 -> Y1[3] - Y1[0] <= -1
- LinkY1LessThan1[3,1]: Y1LessThan[3,1] = 1 -> Y1[3] - Y1[1] <= -1
- LinkY1LessThan1[3,2]: Y1LessThan[3,2] = 1 -> Y1[3] - Y1[2] <= -1
- LinkY1LessThan1[3,4]: Y1LessThan[3,4] = 1 -> Y1[3] - Y1[4] <= -1
- LinkY1LessThan1[3,5]: Y1LessThan[3,5] = 1 -> Y1[3] - Y1[5] <= -1
- LinkY1LessThan1[3,6]: Y1LessThan[3,6] = 1 -> Y1[3] - Y1[6] <= -1
- LinkY1LessThan1[4,0]: Y1LessThan[4,0] = 1 -> Y1[4] - Y1[0] <= -1
- LinkY1LessThan1[4,1]: Y1LessThan[4,1] = 1 -> Y1[4] - Y1[1] <= -1
- LinkY1LessThan1[4,2]: Y1LessThan[4,2] = 1 -> Y1[4] - Y1[2] <= -1
- LinkY1LessThan1[4,3]: Y1LessThan[4,3] = 1 -> Y1[4] - Y1[3] <= -1
- LinkY1LessThan1[4,5]: Y1LessThan[4,5] = 1 -> Y1[4] - Y1[5] <= -1
- LinkY1LessThan1[4,6]: Y1LessThan[4,6] = 1 -> Y1[4] - Y1[6] <= -1
- LinkY1LessThan1[5,0]: Y1LessThan[5,0] = 1 -> Y1[5] - Y1[0] <= -1
- LinkY1LessThan1[5,1]: Y1LessThan[5,1] = 1 -> Y1[5] - Y1[1] <= -1
- LinkY1LessThan1[5,2]: Y1LessThan[5,2] = 1 -> Y1[5] - Y1[2] <= -1
- LinkY1LessThan1[5,3]: Y1LessThan[5,3] = 1 -> Y1[5] - Y1[3] <= -1
- LinkY1LessThan1[5,4]: Y1LessThan[5,4] = 1 -> Y1[5] - Y1[4] <= -1
- LinkY1LessThan1[5,6]: Y1LessThan[5,6] = 1 -> Y1[5] - Y1[6] <= -1
- LinkY1LessThan1[6,0]: Y1LessThan[6,0] = 1 -> Y1[6] - Y1[0] <= -1
- LinkY1LessThan1[6,1]: Y1LessThan[6,1] = 1 -> Y1[6] - Y1[1] <= -1
- LinkY1LessThan1[6,2]: Y1LessThan[6,2] = 1 -> Y1[6] - Y1[2] <= -1
- LinkY1LessThan1[6,3]: Y1LessThan[6,3] = 1 -> Y1[6] - Y1[3] <= -1
- LinkY1LessThan1[6,4]: Y1LessThan[6,4] = 1 -> Y1[6] - Y1[4] <= -1
- LinkY1LessThan1[6,5]: Y1LessThan[6,5] = 1 -> Y1[6] - Y1[5] <= -1
- LinkY1LessThan2[0,1]: Y1LessThan[0,1] = 0 -> Y1[0] - Y1[1] >= -0
- LinkY1LessThan2[0,2]: Y1LessThan[0,2] = 0 -> Y1[0] - Y1[2] >= -0
- LinkY1LessThan2[0,3]: Y1LessThan[0,3] = 0 -> Y1[0] - Y1[3] >= -0
- LinkY1LessThan2[0,4]: Y1LessThan[0,4] = 0 -> Y1[0] - Y1[4] >= -0
- LinkY1LessThan2[0,5]: Y1LessThan[0,5] = 0 -> Y1[0] - Y1[5] >= -0
- LinkY1LessThan2[0,6]: Y1LessThan[0,6] = 0 -> Y1[0] - Y1[6] >= -0
- LinkY1LessThan2[1,0]: Y1LessThan[1,0] = 0 -> Y1[1] - Y1[0] >= -0
- LinkY1LessThan2[1,2]: Y1LessThan[1,2] = 0 -> Y1[1] - Y1[2] >= -0
- LinkY1LessThan2[1,3]: Y1LessThan[1,3] = 0 -> Y1[1] - Y1[3] >= -0
- LinkY1LessThan2[1,4]: Y1LessThan[1,4] = 0 -> Y1[1] - Y1[4] >= -0
- LinkY1LessThan2[1,5]: Y1LessThan[1,5] = 0 -> Y1[1] - Y1[5] >= -0
- LinkY1LessThan2[1,6]: Y1LessThan[1,6] = 0 -> Y1[1] - Y1[6] >= -0
- LinkY1LessThan2[2,0]: Y1LessThan[2,0] = 0 -> Y1[2] - Y1[0] >= -0
- LinkY1LessThan2[2,1]: Y1LessThan[2,1] = 0 -> Y1[2] - Y1[1] >= -0
- LinkY1LessThan2[2,3]: Y1LessThan[2,3] = 0 -> Y1[2] - Y1[3] >= -0
- LinkY1LessThan2[2,4]: Y1LessThan[2,4] = 0 -> Y1[2] - Y1[4] >= -0
- LinkY1LessThan2[2,5]: Y1LessThan[2,5] = 0 -> Y1[2] - Y1[5] >= -0
- LinkY1LessThan2[2,6]: Y1LessThan[2,6] = 0 -> Y1[2] - Y1[6] >= -0
- LinkY1LessThan2[3,0]: Y1LessThan[3,0] = 0 -> Y1[3] - Y1[0] >= -0
- LinkY1LessThan2[3,1]: Y1LessThan[3,1] = 0 -> Y1[3] - Y1[1] >= -0
- LinkY1LessThan2[3,2]: Y1LessThan[3,2] = 0 -> Y1[3] - Y1[2] >= -0
- LinkY1LessThan2[3,4]: Y1LessThan[3,4] = 0 -> Y1[3] - Y1[4] >= -0
- LinkY1LessThan2[3,5]: Y1LessThan[3,5] = 0 -> Y1[3] - Y1[5] >= -0
- LinkY1LessThan2[3,6]: Y1LessThan[3,6] = 0 -> Y1[3] - Y1[6] >= -0
- LinkY1LessThan2[4,0]: Y1LessThan[4,0] = 0 -> Y1[4] - Y1[0] >= -0
- LinkY1LessThan2[4,1]: Y1LessThan[4,1] = 0 -> Y1[4] - Y1[1] >= -0
- LinkY1LessThan2[4,2]: Y1LessThan[4,2] = 0 -> Y1[4] - Y1[2] >= -0
- LinkY1LessThan2[4,3]: Y1LessThan[4,3] = 0 -> Y1[4] - Y1[3] >= -0
- LinkY1LessThan2[4,5]: Y1LessThan[4,5] = 0 -> Y1[4] - Y1[5] >= -0
- LinkY1LessThan2[4,6]: Y1LessThan[4,6] = 0 -> Y1[4] - Y1[6] >= -0
- LinkY1LessThan2[5,0]: Y1LessThan[5,0] = 0 -> Y1[5] - Y1[0] >= -0
- LinkY1LessThan2[5,1]: Y1LessThan[5,1] = 0 -> Y1[5] - Y1[1] >= -0
- LinkY1LessThan2[5,2]: Y1LessThan[5,2] = 0 -> Y1[5] - Y1[2] >= -0
- LinkY1LessThan2[5,3]: Y1LessThan[5,3] = 0 -> Y1[5] - Y1[3] >= -0
- LinkY1LessThan2[5,4]: Y1LessThan[5,4] = 0 -> Y1[5] - Y1[4] >= -0
- LinkY1LessThan2[5,6]: Y1LessThan[5,6] = 0 -> Y1[5] - Y1[6] >= -0
- LinkY1LessThan2[6,0]: Y1LessThan[6,0] = 0 -> Y1[6] - Y1[0] >= -0
- LinkY1LessThan2[6,1]: Y1LessThan[6,1] = 0 -> Y1[6] - Y1[1] >= -0
- LinkY1LessThan2[6,2]: Y1LessThan[6,2] = 0 -> Y1[6] - Y1[2] >= -0
- LinkY1LessThan2[6,3]: Y1LessThan[6,3] = 0 -> Y1[6] - Y1[3] >= -0
- LinkY1LessThan2[6,4]: Y1LessThan[6,4] = 0 -> Y1[6] - Y1[4] >= -0
- LinkY1LessThan2[6,5]: Y1LessThan[6,5] = 0 -> Y1[6] - Y1[5] >= -0
+ LinkX0LessThan1[0,1]: X0LessThan[0,1] = 1 -> X0Diff[0,1] <= -1
+ LinkX0LessThan1[0,2]: X0LessThan[0,2] = 1 -> X0Diff[0,2] <= -1
+ LinkX0LessThan1[0,3]: X0LessThan[0,3] = 1 -> X0Diff[0,3] <= -1
+ LinkX0LessThan1[0,4]: X0LessThan[0,4] = 1 -> X0Diff[0,4] <= -1
+ LinkX0LessThan1[0,5]: X0LessThan[0,5] = 1 -> X0Diff[0,5] <= -1
+ LinkX0LessThan1[0,6]: X0LessThan[0,6] = 1 -> X0Diff[0,6] <= -1
+ LinkX0LessThan1[1,0]: X0LessThan[1,0] = 1 -> X0Diff[1,0] <= -1
+ LinkX0LessThan1[1,2]: X0LessThan[1,2] = 1 -> X0Diff[1,2] <= -1
+ LinkX0LessThan1[1,3]: X0LessThan[1,3] = 1 -> X0Diff[1,3] <= -1
+ LinkX0LessThan1[1,4]: X0LessThan[1,4] = 1 -> X0Diff[1,4] <= -1
+ LinkX0LessThan1[1,5]: X0LessThan[1,5] = 1 -> X0Diff[1,5] <= -1
+ LinkX0LessThan1[1,6]: X0LessThan[1,6] = 1 -> X0Diff[1,6] <= -1
+ LinkX0LessThan1[2,0]: X0LessThan[2,0] = 1 -> X0Diff[2,0] <= -1
+ LinkX0LessThan1[2,1]: X0LessThan[2,1] = 1 -> X0Diff[2,1] <= -1
+ LinkX0LessThan1[2,3]: X0LessThan[2,3] = 1 -> X0Diff[2,3] <= -1
+ LinkX0LessThan1[2,4]: X0LessThan[2,4] = 1 -> X0Diff[2,4] <= -1
+ LinkX0LessThan1[2,5]: X0LessThan[2,5] = 1 -> X0Diff[2,5] <= -1
+ LinkX0LessThan1[2,6]: X0LessThan[2,6] = 1 -> X0Diff[2,6] <= -1
+ LinkX0LessThan1[3,0]: X0LessThan[3,0] = 1 -> X0Diff[3,0] <= -1
+ LinkX0LessThan1[3,1]: X0LessThan[3,1] = 1 -> X0Diff[3,1] <= -1
+ LinkX0LessThan1[3,2]: X0LessThan[3,2] = 1 -> X0Diff[3,2] <= -1
+ LinkX0LessThan1[3,4]: X0LessThan[3,4] = 1 -> X0Diff[3,4] <= -1
+ LinkX0LessThan1[3,5]: X0LessThan[3,5] = 1 -> X0Diff[3,5] <= -1
+ LinkX0LessThan1[3,6]: X0LessThan[3,6] = 1 -> X0Diff[3,6] <= -1
+ LinkX0LessThan1[4,0]: X0LessThan[4,0] = 1 -> X0Diff[4,0] <= -1
+ LinkX0LessThan1[4,1]: X0LessThan[4,1] = 1 -> X0Diff[4,1] <= -1
+ LinkX0LessThan1[4,2]: X0LessThan[4,2] = 1 -> X0Diff[4,2] <= -1
+ LinkX0LessThan1[4,3]: X0LessThan[4,3] = 1 -> X0Diff[4,3] <= -1
+ LinkX0LessThan1[4,5]: X0LessThan[4,5] = 1 -> X0Diff[4,5] <= -1
+ LinkX0LessThan1[4,6]: X0LessThan[4,6] = 1 -> X0Diff[4,6] <= -1
+ LinkX0LessThan1[5,0]: X0LessThan[5,0] = 1 -> X0Diff[5,0] <= -1
+ LinkX0LessThan1[5,1]: X0LessThan[5,1] = 1 -> X0Diff[5,1] <= -1
+ LinkX0LessThan1[5,2]: X0LessThan[5,2] = 1 -> X0Diff[5,2] <= -1
+ LinkX0LessThan1[5,3]: X0LessThan[5,3] = 1 -> X0Diff[5,3] <= -1
+ LinkX0LessThan1[5,4]: X0LessThan[5,4] = 1 -> X0Diff[5,4] <= -1
+ LinkX0LessThan1[5,6]: X0LessThan[5,6] = 1 -> X0Diff[5,6] <= -1
+ LinkX0LessThan1[6,0]: X0LessThan[6,0] = 1 -> X0Diff[6,0] <= -1
+ LinkX0LessThan1[6,1]: X0LessThan[6,1] = 1 -> X0Diff[6,1] <= -1
+ LinkX0LessThan1[6,2]: X0LessThan[6,2] = 1 -> X0Diff[6,2] <= -1
+ LinkX0LessThan1[6,3]: X0LessThan[6,3] = 1 -> X0Diff[6,3] <= -1
+ LinkX0LessThan1[6,4]: X0LessThan[6,4] = 1 -> X0Diff[6,4] <= -1
+ LinkX0LessThan1[6,5]: X0LessThan[6,5] = 1 -> X0Diff[6,5] <= -1
+ LinkX0LessThan2[0,1]: X0LessThan[0,1] = 0 -> X0Diff[0,1] >= -0
+ LinkX0LessThan2[0,2]: X0LessThan[0,2] = 0 -> X0Diff[0,2] >= -0
+ LinkX0LessThan2[0,3]: X0LessThan[0,3] = 0 -> X0Diff[0,3] >= -0
+ LinkX0LessThan2[0,4]: X0LessThan[0,4] = 0 -> X0Diff[0,4] >= -0
+ LinkX0LessThan2[0,5]: X0LessThan[0,5] = 0 -> X0Diff[0,5] >= -0
+ LinkX0LessThan2[0,6]: X0LessThan[0,6] = 0 -> X0Diff[0,6] >= -0
+ LinkX0LessThan2[1,0]: X0LessThan[1,0] = 0 -> X0Diff[1,0] >= -0
+ LinkX0LessThan2[1,2]: X0LessThan[1,2] = 0 -> X0Diff[1,2] >= -0
+ LinkX0LessThan2[1,3]: X0LessThan[1,3] = 0 -> X0Diff[1,3] >= -0
+ LinkX0LessThan2[1,4]: X0LessThan[1,4] = 0 -> X0Diff[1,4] >= -0
+ LinkX0LessThan2[1,5]: X0LessThan[1,5] = 0 -> X0Diff[1,5] >= -0
+ LinkX0LessThan2[1,6]: X0LessThan[1,6] = 0 -> X0Diff[1,6] >= -0
+ LinkX0LessThan2[2,0]: X0LessThan[2,0] = 0 -> X0Diff[2,0] >= -0
+ LinkX0LessThan2[2,1]: X0LessThan[2,1] = 0 -> X0Diff[2,1] >= -0
+ LinkX0LessThan2[2,3]: X0LessThan[2,3] = 0 -> X0Diff[2,3] >= -0
+ LinkX0LessThan2[2,4]: X0LessThan[2,4] = 0 -> X0Diff[2,4] >= -0
+ LinkX0LessThan2[2,5]: X0LessThan[2,5] = 0 -> X0Diff[2,5] >= -0
+ LinkX0LessThan2[2,6]: X0LessThan[2,6] = 0 -> X0Diff[2,6] >= -0
+ LinkX0LessThan2[3,0]: X0LessThan[3,0] = 0 -> X0Diff[3,0] >= -0
+ LinkX0LessThan2[3,1]: X0LessThan[3,1] = 0 -> X0Diff[3,1] >= -0
+ LinkX0LessThan2[3,2]: X0LessThan[3,2] = 0 -> X0Diff[3,2] >= -0
+ LinkX0LessThan2[3,4]: X0LessThan[3,4] = 0 -> X0Diff[3,4] >= -0
+ LinkX0LessThan2[3,5]: X0LessThan[3,5] = 0 -> X0Diff[3,5] >= -0
+ LinkX0LessThan2[3,6]: X0LessThan[3,6] = 0 -> X0Diff[3,6] >= -0
+ LinkX0LessThan2[4,0]: X0LessThan[4,0] = 0 -> X0Diff[4,0] >= -0
+ LinkX0LessThan2[4,1]: X0LessThan[4,1] = 0 -> X0Diff[4,1] >= -0
+ LinkX0LessThan2[4,2]: X0LessThan[4,2] = 0 -> X0Diff[4,2] >= -0
+ LinkX0LessThan2[4,3]: X0LessThan[4,3] = 0 -> X0Diff[4,3] >= -0
+ LinkX0LessThan2[4,5]: X0LessThan[4,5] = 0 -> X0Diff[4,5] >= -0
+ LinkX0LessThan2[4,6]: X0LessThan[4,6] = 0 -> X0Diff[4,6] >= -0
+ LinkX0LessThan2[5,0]: X0LessThan[5,0] = 0 -> X0Diff[5,0] >= -0
+ LinkX0LessThan2[5,1]: X0LessThan[5,1] = 0 -> X0Diff[5,1] >= -0
+ LinkX0LessThan2[5,2]: X0LessThan[5,2] = 0 -> X0Diff[5,2] >= -0
+ LinkX0LessThan2[5,3]: X0LessThan[5,3] = 0 -> X0Diff[5,3] >= -0
+ LinkX0LessThan2[5,4]: X0LessThan[5,4] = 0 -> X0Diff[5,4] >= -0
+ LinkX0LessThan2[5,6]: X0LessThan[5,6] = 0 -> X0Diff[5,6] >= -0
+ LinkX0LessThan2[6,0]: X0LessThan[6,0] = 0 -> X0Diff[6,0] >= -0
+ LinkX0LessThan2[6,1]: X0LessThan[6,1] = 0 -> X0Diff[6,1] >= -0
+ LinkX0LessThan2[6,2]: X0LessThan[6,2] = 0 -> X0Diff[6,2] >= -0
+ LinkX0LessThan2[6,3]: X0LessThan[6,3] = 0 -> X0Diff[6,3] >= -0
+ LinkX0LessThan2[6,4]: X0LessThan[6,4] = 0 -> X0Diff[6,4] >= -0
+ LinkX0LessThan2[6,5]: X0LessThan[6,5] = 0 -> X0Diff[6,5] >= -0
+ LinkY0LessThan1[0,1]: Y0LessThan[0,1] = 1 -> Y0Diff[0,1] <= -1
+ LinkY0LessThan1[0,2]: Y0LessThan[0,2] = 1 -> Y0Diff[0,2] <= -1
+ LinkY0LessThan1[0,3]: Y0LessThan[0,3] = 1 -> Y0Diff[0,3] <= -1
+ LinkY0LessThan1[0,4]: Y0LessThan[0,4] = 1 -> Y0Diff[0,4] <= -1
+ LinkY0LessThan1[0,5]: Y0LessThan[0,5] = 1 -> Y0Diff[0,5] <= -1
+ LinkY0LessThan1[0,6]: Y0LessThan[0,6] = 1 -> Y0Diff[0,6] <= -1
+ LinkY0LessThan1[1,0]: Y0LessThan[1,0] = 1 -> Y0Diff[1,0] <= -1
+ LinkY0LessThan1[1,2]: Y0LessThan[1,2] = 1 -> Y0Diff[1,2] <= -1
+ LinkY0LessThan1[1,3]: Y0LessThan[1,3] = 1 -> Y0Diff[1,3] <= -1
+ LinkY0LessThan1[1,4]: Y0LessThan[1,4] = 1 -> Y0Diff[1,4] <= -1
+ LinkY0LessThan1[1,5]: Y0LessThan[1,5] = 1 -> Y0Diff[1,5] <= -1
+ LinkY0LessThan1[1,6]: Y0LessThan[1,6] = 1 -> Y0Diff[1,6] <= -1
+ LinkY0LessThan1[2,0]: Y0LessThan[2,0] = 1 -> Y0Diff[2,0] <= -1
+ LinkY0LessThan1[2,1]: Y0LessThan[2,1] = 1 -> Y0Diff[2,1] <= -1
+ LinkY0LessThan1[2,3]: Y0LessThan[2,3] = 1 -> Y0Diff[2,3] <= -1
+ LinkY0LessThan1[2,4]: Y0LessThan[2,4] = 1 -> Y0Diff[2,4] <= -1
+ LinkY0LessThan1[2,5]: Y0LessThan[2,5] = 1 -> Y0Diff[2,5] <= -1
+ LinkY0LessThan1[2,6]: Y0LessThan[2,6] = 1 -> Y0Diff[2,6] <= -1
+ LinkY0LessThan1[3,0]: Y0LessThan[3,0] = 1 -> Y0Diff[3,0] <= -1
+ LinkY0LessThan1[3,1]: Y0LessThan[3,1] = 1 -> Y0Diff[3,1] <= -1
+ LinkY0LessThan1[3,2]: Y0LessThan[3,2] = 1 -> Y0Diff[3,2] <= -1
+ LinkY0LessThan1[3,4]: Y0LessThan[3,4] = 1 -> Y0Diff[3,4] <= -1
+ LinkY0LessThan1[3,5]: Y0LessThan[3,5] = 1 -> Y0Diff[3,5] <= -1
+ LinkY0LessThan1[3,6]: Y0LessThan[3,6] = 1 -> Y0Diff[3,6] <= -1
+ LinkY0LessThan1[4,0]: Y0LessThan[4,0] = 1 -> Y0Diff[4,0] <= -1
+ LinkY0LessThan1[4,1]: Y0LessThan[4,1] = 1 -> Y0Diff[4,1] <= -1
+ LinkY0LessThan1[4,2]: Y0LessThan[4,2] = 1 -> Y0Diff[4,2] <= -1
+ LinkY0LessThan1[4,3]: Y0LessThan[4,3] = 1 -> Y0Diff[4,3] <= -1
+ LinkY0LessThan1[4,5]: Y0LessThan[4,5] = 1 -> Y0Diff[4,5] <= -1
+ LinkY0LessThan1[4,6]: Y0LessThan[4,6] = 1 -> Y0Diff[4,6] <= -1
+ LinkY0LessThan1[5,0]: Y0LessThan[5,0] = 1 -> Y0Diff[5,0] <= -1
+ LinkY0LessThan1[5,1]: Y0LessThan[5,1] = 1 -> Y0Diff[5,1] <= -1
+ LinkY0LessThan1[5,2]: Y0LessThan[5,2] = 1 -> Y0Diff[5,2] <= -1
+ LinkY0LessThan1[5,3]: Y0LessThan[5,3] = 1 -> Y0Diff[5,3] <= -1
+ LinkY0LessThan1[5,4]: Y0LessThan[5,4] = 1 -> Y0Diff[5,4] <= -1
+ LinkY0LessThan1[5,6]: Y0LessThan[5,6] = 1 -> Y0Diff[5,6] <= -1
+ LinkY0LessThan1[6,0]: Y0LessThan[6,0] = 1 -> Y0Diff[6,0] <= -1
+ LinkY0LessThan1[6,1]: Y0LessThan[6,1] = 1 -> Y0Diff[6,1] <= -1
+ LinkY0LessThan1[6,2]: Y0LessThan[6,2] = 1 -> Y0Diff[6,2] <= -1
+ LinkY0LessThan1[6,3]: Y0LessThan[6,3] = 1 -> Y0Diff[6,3] <= -1
+ LinkY0LessThan1[6,4]: Y0LessThan[6,4] = 1 -> Y0Diff[6,4] <= -1
+ LinkY0LessThan1[6,5]: Y0LessThan[6,5] = 1 -> Y0Diff[6,5] <= -1
+ LinkY0LessThan2[0,1]: Y0LessThan[0,1] = 0 -> Y0Diff[0,1] >= -0
+ LinkY0LessThan2[0,2]: Y0LessThan[0,2] = 0 -> Y0Diff[0,2] >= -0
+ LinkY0LessThan2[0,3]: Y0LessThan[0,3] = 0 -> Y0Diff[0,3] >= -0
+ LinkY0LessThan2[0,4]: Y0LessThan[0,4] = 0 -> Y0Diff[0,4] >= -0
+ LinkY0LessThan2[0,5]: Y0LessThan[0,5] = 0 -> Y0Diff[0,5] >= -0
+ LinkY0LessThan2[0,6]: Y0LessThan[0,6] = 0 -> Y0Diff[0,6] >= -0
+ LinkY0LessThan2[1,0]: Y0LessThan[1,0] = 0 -> Y0Diff[1,0] >= -0
+ LinkY0LessThan2[1,2]: Y0LessThan[1,2] = 0 -> Y0Diff[1,2] >= -0
+ LinkY0LessThan2[1,3]: Y0LessThan[1,3] = 0 -> Y0Diff[1,3] >= -0
+ LinkY0LessThan2[1,4]: Y0LessThan[1,4] = 0 -> Y0Diff[1,4] >= -0
+ LinkY0LessThan2[1,5]: Y0LessThan[1,5] = 0 -> Y0Diff[1,5] >= -0
+ LinkY0LessThan2[1,6]: Y0LessThan[1,6] = 0 -> Y0Diff[1,6] >= -0
+ LinkY0LessThan2[2,0]: Y0LessThan[2,0] = 0 -> Y0Diff[2,0] >= -0
+ LinkY0LessThan2[2,1]: Y0LessThan[2,1] = 0 -> Y0Diff[2,1] >= -0
+ LinkY0LessThan2[2,3]: Y0LessThan[2,3] = 0 -> Y0Diff[2,3] >= -0
+ LinkY0LessThan2[2,4]: Y0LessThan[2,4] = 0 -> Y0Diff[2,4] >= -0
+ LinkY0LessThan2[2,5]: Y0LessThan[2,5] = 0 -> Y0Diff[2,5] >= -0
+ LinkY0LessThan2[2,6]: Y0LessThan[2,6] = 0 -> Y0Diff[2,6] >= -0
+ LinkY0LessThan2[3,0]: Y0LessThan[3,0] = 0 -> Y0Diff[3,0] >= -0
+ LinkY0LessThan2[3,1]: Y0LessThan[3,1] = 0 -> Y0Diff[3,1] >= -0
+ LinkY0LessThan2[3,2]: Y0LessThan[3,2] = 0 -> Y0Diff[3,2] >= -0
+ LinkY0LessThan2[3,4]: Y0LessThan[3,4] = 0 -> Y0Diff[3,4] >= -0
+ LinkY0LessThan2[3,5]: Y0LessThan[3,5] = 0 -> Y0Diff[3,5] >= -0
+ LinkY0LessThan2[3,6]: Y0LessThan[3,6] = 0 -> Y0Diff[3,6] >= -0
+ LinkY0LessThan2[4,0]: Y0LessThan[4,0] = 0 -> Y0Diff[4,0] >= -0
+ LinkY0LessThan2[4,1]: Y0LessThan[4,1] = 0 -> Y0Diff[4,1] >= -0
+ LinkY0LessThan2[4,2]: Y0LessThan[4,2] = 0 -> Y0Diff[4,2] >= -0
+ LinkY0LessThan2[4,3]: Y0LessThan[4,3] = 0 -> Y0Diff[4,3] >= -0
+ LinkY0LessThan2[4,5]: Y0LessThan[4,5] = 0 -> Y0Diff[4,5] >= -0
+ LinkY0LessThan2[4,6]: Y0LessThan[4,6] = 0 -> Y0Diff[4,6] >= -0
+ LinkY0LessThan2[5,0]: Y0LessThan[5,0] = 0 -> Y0Diff[5,0] >= -0
+ LinkY0LessThan2[5,1]: Y0LessThan[5,1] = 0 -> Y0Diff[5,1] >= -0
+ LinkY0LessThan2[5,2]: Y0LessThan[5,2] = 0 -> Y0Diff[5,2] >= -0
+ LinkY0LessThan2[5,3]: Y0LessThan[5,3] = 0 -> Y0Diff[5,3] >= -0
+ LinkY0LessThan2[5,4]: Y0LessThan[5,4] = 0 -> Y0Diff[5,4] >= -0
+ LinkY0LessThan2[5,6]: Y0LessThan[5,6] = 0 -> Y0Diff[5,6] >= -0
+ LinkY0LessThan2[6,0]: Y0LessThan[6,0] = 0 -> Y0Diff[6,0] >= -0
+ LinkY0LessThan2[6,1]: Y0LessThan[6,1] = 0 -> Y0Diff[6,1] >= -0
+ LinkY0LessThan2[6,2]: Y0LessThan[6,2] = 0 -> Y0Diff[6,2] >= -0
+ LinkY0LessThan2[6,3]: Y0LessThan[6,3] = 0 -> Y0Diff[6,3] >= -0
+ LinkY0LessThan2[6,4]: Y0LessThan[6,4] = 0 -> Y0Diff[6,4] >= -0
+ LinkY0LessThan2[6,5]: Y0LessThan[6,5] = 0 -> Y0Diff[6,5] >= -0
+ LinkX1LessThan1[0,1]: X1LessThan[0,1] = 1 -> X1Diff[0,1] <= -1
+ LinkX1LessThan1[0,2]: X1LessThan[0,2] = 1 -> X1Diff[0,2] <= -1
+ LinkX1LessThan1[0,3]: X1LessThan[0,3] = 1 -> X1Diff[0,3] <= -1
+ LinkX1LessThan1[0,4]: X1LessThan[0,4] = 1 -> X1Diff[0,4] <= -1
+ LinkX1LessThan1[0,5]: X1LessThan[0,5] = 1 -> X1Diff[0,5] <= -1
+ LinkX1LessThan1[0,6]: X1LessThan[0,6] = 1 -> X1Diff[0,6] <= -1
+ LinkX1LessThan1[1,0]: X1LessThan[1,0] = 1 -> X1Diff[1,0] <= -1
+ LinkX1LessThan1[1,2]: X1LessThan[1,2] = 1 -> X1Diff[1,2] <= -1
+ LinkX1LessThan1[1,3]: X1LessThan[1,3] = 1 -> X1Diff[1,3] <= -1
+ LinkX1LessThan1[1,4]: X1LessThan[1,4] = 1 -> X1Diff[1,4] <= -1
+ LinkX1LessThan1[1,5]: X1LessThan[1,5] = 1 -> X1Diff[1,5] <= -1
+ LinkX1LessThan1[1,6]: X1LessThan[1,6] = 1 -> X1Diff[1,6] <= -1
+ LinkX1LessThan1[2,0]: X1LessThan[2,0] = 1 -> X1Diff[2,0] <= -1
+ LinkX1LessThan1[2,1]: X1LessThan[2,1] = 1 -> X1Diff[2,1] <= -1
+ LinkX1LessThan1[2,3]: X1LessThan[2,3] = 1 -> X1Diff[2,3] <= -1
+ LinkX1LessThan1[2,4]: X1LessThan[2,4] = 1 -> X1Diff[2,4] <= -1
+ LinkX1LessThan1[2,5]: X1LessThan[2,5] = 1 -> X1Diff[2,5] <= -1
+ LinkX1LessThan1[2,6]: X1LessThan[2,6] = 1 -> X1Diff[2,6] <= -1
+ LinkX1LessThan1[3,0]: X1LessThan[3,0] = 1 -> X1Diff[3,0] <= -1
+ LinkX1LessThan1[3,1]: X1LessThan[3,1] = 1 -> X1Diff[3,1] <= -1
+ LinkX1LessThan1[3,2]: X1LessThan[3,2] = 1 -> X1Diff[3,2] <= -1
+ LinkX1LessThan1[3,4]: X1LessThan[3,4] = 1 -> X1Diff[3,4] <= -1
+ LinkX1LessThan1[3,5]: X1LessThan[3,5] = 1 -> X1Diff[3,5] <= -1
+ LinkX1LessThan1[3,6]: X1LessThan[3,6] = 1 -> X1Diff[3,6] <= -1
+ LinkX1LessThan1[4,0]: X1LessThan[4,0] = 1 -> X1Diff[4,0] <= -1
+ LinkX1LessThan1[4,1]: X1LessThan[4,1] = 1 -> X1Diff[4,1] <= -1
+ LinkX1LessThan1[4,2]: X1LessThan[4,2] = 1 -> X1Diff[4,2] <= -1
+ LinkX1LessThan1[4,3]: X1LessThan[4,3] = 1 -> X1Diff[4,3] <= -1
+ LinkX1LessThan1[4,5]: X1LessThan[4,5] = 1 -> X1Diff[4,5] <= -1
+ LinkX1LessThan1[4,6]: X1LessThan[4,6] = 1 -> X1Diff[4,6] <= -1
+ LinkX1LessThan1[5,0]: X1LessThan[5,0] = 1 -> X1Diff[5,0] <= -1
+ LinkX1LessThan1[5,1]: X1LessThan[5,1] = 1 -> X1Diff[5,1] <= -1
+ LinkX1LessThan1[5,2]: X1LessThan[5,2] = 1 -> X1Diff[5,2] <= -1
+ LinkX1LessThan1[5,3]: X1LessThan[5,3] = 1 -> X1Diff[5,3] <= -1
+ LinkX1LessThan1[5,4]: X1LessThan[5,4] = 1 -> X1Diff[5,4] <= -1
+ LinkX1LessThan1[5,6]: X1LessThan[5,6] = 1 -> X1Diff[5,6] <= -1
+ LinkX1LessThan1[6,0]: X1LessThan[6,0] = 1 -> X1Diff[6,0] <= -1
+ LinkX1LessThan1[6,1]: X1LessThan[6,1] = 1 -> X1Diff[6,1] <= -1
+ LinkX1LessThan1[6,2]: X1LessThan[6,2] = 1 -> X1Diff[6,2] <= -1
+ LinkX1LessThan1[6,3]: X1LessThan[6,3] = 1 -> X1Diff[6,3] <= -1
+ LinkX1LessThan1[6,4]: X1LessThan[6,4] = 1 -> X1Diff[6,4] <= -1
+ LinkX1LessThan1[6,5]: X1LessThan[6,5] = 1 -> X1Diff[6,5] <= -1
+ LinkX1LessThan2[0,1]: X1LessThan[0,1] = 0 -> X1Diff[0,1] >= -0
+ LinkX1LessThan2[0,2]: X1LessThan[0,2] = 0 -> X1Diff[0,2] >= -0
+ LinkX1LessThan2[0,3]: X1LessThan[0,3] = 0 -> X1Diff[0,3] >= -0
+ LinkX1LessThan2[0,4]: X1LessThan[0,4] = 0 -> X1Diff[0,4] >= -0
+ LinkX1LessThan2[0,5]: X1LessThan[0,5] = 0 -> X1Diff[0,5] >= -0
+ LinkX1LessThan2[0,6]: X1LessThan[0,6] = 0 -> X1Diff[0,6] >= -0
+ LinkX1LessThan2[1,0]: X1LessThan[1,0] = 0 -> X1Diff[1,0] >= -0
+ LinkX1LessThan2[1,2]: X1LessThan[1,2] = 0 -> X1Diff[1,2] >= -0
+ LinkX1LessThan2[1,3]: X1LessThan[1,3] = 0 -> X1Diff[1,3] >= -0
+ LinkX1LessThan2[1,4]: X1LessThan[1,4] = 0 -> X1Diff[1,4] >= -0
+ LinkX1LessThan2[1,5]: X1LessThan[1,5] = 0 -> X1Diff[1,5] >= -0
+ LinkX1LessThan2[1,6]: X1LessThan[1,6] = 0 -> X1Diff[1,6] >= -0
+ LinkX1LessThan2[2,0]: X1LessThan[2,0] = 0 -> X1Diff[2,0] >= -0
+ LinkX1LessThan2[2,1]: X1LessThan[2,1] = 0 -> X1Diff[2,1] >= -0
+ LinkX1LessThan2[2,3]: X1LessThan[2,3] = 0 -> X1Diff[2,3] >= -0
+ LinkX1LessThan2[2,4]: X1LessThan[2,4] = 0 -> X1Diff[2,4] >= -0
+ LinkX1LessThan2[2,5]: X1LessThan[2,5] = 0 -> X1Diff[2,5] >= -0
+ LinkX1LessThan2[2,6]: X1LessThan[2,6] = 0 -> X1Diff[2,6] >= -0
+ LinkX1LessThan2[3,0]: X1LessThan[3,0] = 0 -> X1Diff[3,0] >= -0
+ LinkX1LessThan2[3,1]: X1LessThan[3,1] = 0 -> X1Diff[3,1] >= -0
+ LinkX1LessThan2[3,2]: X1LessThan[3,2] = 0 -> X1Diff[3,2] >= -0
+ LinkX1LessThan2[3,4]: X1LessThan[3,4] = 0 -> X1Diff[3,4] >= -0
+ LinkX1LessThan2[3,5]: X1LessThan[3,5] = 0 -> X1Diff[3,5] >= -0
+ LinkX1LessThan2[3,6]: X1LessThan[3,6] = 0 -> X1Diff[3,6] >= -0
+ LinkX1LessThan2[4,0]: X1LessThan[4,0] = 0 -> X1Diff[4,0] >= -0
+ LinkX1LessThan2[4,1]: X1LessThan[4,1] = 0 -> X1Diff[4,1] >= -0
+ LinkX1LessThan2[4,2]: X1LessThan[4,2] = 0 -> X1Diff[4,2] >= -0
+ LinkX1LessThan2[4,3]: X1LessThan[4,3] = 0 -> X1Diff[4,3] >= -0
+ LinkX1LessThan2[4,5]: X1LessThan[4,5] = 0 -> X1Diff[4,5] >= -0
+ LinkX1LessThan2[4,6]: X1LessThan[4,6] = 0 -> X1Diff[4,6] >= -0
+ LinkX1LessThan2[5,0]: X1LessThan[5,0] = 0 -> X1Diff[5,0] >= -0
+ LinkX1LessThan2[5,1]: X1LessThan[5,1] = 0 -> X1Diff[5,1] >= -0
+ LinkX1LessThan2[5,2]: X1LessThan[5,2] = 0 -> X1Diff[5,2] >= -0
+ LinkX1LessThan2[5,3]: X1LessThan[5,3] = 0 -> X1Diff[5,3] >= -0
+ LinkX1LessThan2[5,4]: X1LessThan[5,4] = 0 -> X1Diff[5,4] >= -0
+ LinkX1LessThan2[5,6]: X1LessThan[5,6] = 0 -> X1Diff[5,6] >= -0
+ LinkX1LessThan2[6,0]: X1LessThan[6,0] = 0 -> X1Diff[6,0] >= -0
+ LinkX1LessThan2[6,1]: X1LessThan[6,1] = 0 -> X1Diff[6,1] >= -0
+ LinkX1LessThan2[6,2]: X1LessThan[6,2] = 0 -> X1Diff[6,2] >= -0
+ LinkX1LessThan2[6,3]: X1LessThan[6,3] = 0 -> X1Diff[6,3] >= -0
+ LinkX1LessThan2[6,4]: X1LessThan[6,4] = 0 -> X1Diff[6,4] >= -0
+ LinkX1LessThan2[6,5]: X1LessThan[6,5] = 0 -> X1Diff[6,5] >= -0
+ LinkY1LessThan1[0,1]: Y1LessThan[0,1] = 1 -> Y1Diff[0,1] <= -1
+ LinkY1LessThan1[0,2]: Y1LessThan[0,2] = 1 -> Y1Diff[0,2] <= -1
+ LinkY1LessThan1[0,3]: Y1LessThan[0,3] = 1 -> Y1Diff[0,3] <= -1
+ LinkY1LessThan1[0,4]: Y1LessThan[0,4] = 1 -> Y1Diff[0,4] <= -1
+ LinkY1LessThan1[0,5]: Y1LessThan[0,5] = 1 -> Y1Diff[0,5] <= -1
+ LinkY1LessThan1[0,6]: Y1LessThan[0,6] = 1 -> Y1Diff[0,6] <= -1
+ LinkY1LessThan1[1,0]: Y1LessThan[1,0] = 1 -> Y1Diff[1,0] <= -1
+ LinkY1LessThan1[1,2]: Y1LessThan[1,2] = 1 -> Y1Diff[1,2] <= -1
+ LinkY1LessThan1[1,3]: Y1LessThan[1,3] = 1 -> Y1Diff[1,3] <= -1
+ LinkY1LessThan1[1,4]: Y1LessThan[1,4] = 1 -> Y1Diff[1,4] <= -1
+ LinkY1LessThan1[1,5]: Y1LessThan[1,5] = 1 -> Y1Diff[1,5] <= -1
+ LinkY1LessThan1[1,6]: Y1LessThan[1,6] = 1 -> Y1Diff[1,6] <= -1
+ LinkY1LessThan1[2,0]: Y1LessThan[2,0] = 1 -> Y1Diff[2,0] <= -1
+ LinkY1LessThan1[2,1]: Y1LessThan[2,1] = 1 -> Y1Diff[2,1] <= -1
+ LinkY1LessThan1[2,3]: Y1LessThan[2,3] = 1 -> Y1Diff[2,3] <= -1
+ LinkY1LessThan1[2,4]: Y1LessThan[2,4] = 1 -> Y1Diff[2,4] <= -1
+ LinkY1LessThan1[2,5]: Y1LessThan[2,5] = 1 -> Y1Diff[2,5] <= -1
+ LinkY1LessThan1[2,6]: Y1LessThan[2,6] = 1 -> Y1Diff[2,6] <= -1
+ LinkY1LessThan1[3,0]: Y1LessThan[3,0] = 1 -> Y1Diff[3,0] <= -1
+ LinkY1LessThan1[3,1]: Y1LessThan[3,1] = 1 -> Y1Diff[3,1] <= -1
+ LinkY1LessThan1[3,2]: Y1LessThan[3,2] = 1 -> Y1Diff[3,2] <= -1
+ LinkY1LessThan1[3,4]: Y1LessThan[3,4] = 1 -> Y1Diff[3,4] <= -1
+ LinkY1LessThan1[3,5]: Y1LessThan[3,5] = 1 -> Y1Diff[3,5] <= -1
+ LinkY1LessThan1[3,6]: Y1LessThan[3,6] = 1 -> Y1Diff[3,6] <= -1
+ LinkY1LessThan1[4,0]: Y1LessThan[4,0] = 1 -> Y1Diff[4,0] <= -1
+ LinkY1LessThan1[4,1]: Y1LessThan[4,1] = 1 -> Y1Diff[4,1] <= -1
+ LinkY1LessThan1[4,2]: Y1LessThan[4,2] = 1 -> Y1Diff[4,2] <= -1
+ LinkY1LessThan1[4,3]: Y1LessThan[4,3] = 1 -> Y1Diff[4,3] <= -1
+ LinkY1LessThan1[4,5]: Y1LessThan[4,5] = 1 -> Y1Diff[4,5] <= -1
+ LinkY1LessThan1[4,6]: Y1LessThan[4,6] = 1 -> Y1Diff[4,6] <= -1
+ LinkY1LessThan1[5,0]: Y1LessThan[5,0] = 1 -> Y1Diff[5,0] <= -1
+ LinkY1LessThan1[5,1]: Y1LessThan[5,1] = 1 -> Y1Diff[5,1] <= -1
+ LinkY1LessThan1[5,2]: Y1LessThan[5,2] = 1 -> Y1Diff[5,2] <= -1
+ LinkY1LessThan1[5,3]: Y1LessThan[5,3] = 1 -> Y1Diff[5,3] <= -1
+ LinkY1LessThan1[5,4]: Y1LessThan[5,4] = 1 -> Y1Diff[5,4] <= -1
+ LinkY1LessThan1[5,6]: Y1LessThan[5,6] = 1 -> Y1Diff[5,6] <= -1
+ LinkY1LessThan1[6,0]: Y1LessThan[6,0] = 1 -> Y1Diff[6,0] <= -1
+ LinkY1LessThan1[6,1]: Y1LessThan[6,1] = 1 -> Y1Diff[6,1] <= -1
+ LinkY1LessThan1[6,2]: Y1LessThan[6,2] = 1 -> Y1Diff[6,2] <= -1
+ LinkY1LessThan1[6,3]: Y1LessThan[6,3] = 1 -> Y1Diff[6,3] <= -1
+ LinkY1LessThan1[6,4]: Y1LessThan[6,4] = 1 -> Y1Diff[6,4] <= -1
+ LinkY1LessThan1[6,5]: Y1LessThan[6,5] = 1 -> Y1Diff[6,5] <= -1
+ LinkY1LessThan2[0,1]: Y1LessThan[0,1] = 0 -> Y1Diff[0,1] >= -0
+ LinkY1LessThan2[0,2]: Y1LessThan[0,2] = 0 -> Y1Diff[0,2] >= -0
+ LinkY1LessThan2[0,3]: Y1LessThan[0,3] = 0 -> Y1Diff[0,3] >= -0
+ LinkY1LessThan2[0,4]: Y1LessThan[0,4] = 0 -> Y1Diff[0,4] >= -0
+ LinkY1LessThan2[0,5]: Y1LessThan[0,5] = 0 -> Y1Diff[0,5] >= -0
+ LinkY1LessThan2[0,6]: Y1LessThan[0,6] = 0 -> Y1Diff[0,6] >= -0
+ LinkY1LessThan2[1,0]: Y1LessThan[1,0] = 0 -> Y1Diff[1,0] >= -0
+ LinkY1LessThan2[1,2]: Y1LessThan[1,2] = 0 -> Y1Diff[1,2] >= -0
+ LinkY1LessThan2[1,3]: Y1LessThan[1,3] = 0 -> Y1Diff[1,3] >= -0
+ LinkY1LessThan2[1,4]: Y1LessThan[1,4] = 0 -> Y1Diff[1,4] >= -0
+ LinkY1LessThan2[1,5]: Y1LessThan[1,5] = 0 -> Y1Diff[1,5] >= -0
+ LinkY1LessThan2[1,6]: Y1LessThan[1,6] = 0 -> Y1Diff[1,6] >= -0
+ LinkY1LessThan2[2,0]: Y1LessThan[2,0] = 0 -> Y1Diff[2,0] >= -0
+ LinkY1LessThan2[2,1]: Y1LessThan[2,1] = 0 -> Y1Diff[2,1] >= -0
+ LinkY1LessThan2[2,3]: Y1LessThan[2,3] = 0 -> Y1Diff[2,3] >= -0
+ LinkY1LessThan2[2,4]: Y1LessThan[2,4] = 0 -> Y1Diff[2,4] >= -0
+ LinkY1LessThan2[2,5]: Y1LessThan[2,5] = 0 -> Y1Diff[2,5] >= -0
+ LinkY1LessThan2[2,6]: Y1LessThan[2,6] = 0 -> Y1Diff[2,6] >= -0
+ LinkY1LessThan2[3,0]: Y1LessThan[3,0] = 0 -> Y1Diff[3,0] >= -0
+ LinkY1LessThan2[3,1]: Y1LessThan[3,1] = 0 -> Y1Diff[3,1] >= -0
+ LinkY1LessThan2[3,2]: Y1LessThan[3,2] = 0 -> Y1Diff[3,2] >= -0
+ LinkY1LessThan2[3,4]: Y1LessThan[3,4] = 0 -> Y1Diff[3,4] >= -0
+ LinkY1LessThan2[3,5]: Y1LessThan[3,5] = 0 -> Y1Diff[3,5] >= -0
+ LinkY1LessThan2[3,6]: Y1LessThan[3,6] = 0 -> Y1Diff[3,6] >= -0
+ LinkY1LessThan2[4,0]: Y1LessThan[4,0] = 0 -> Y1Diff[4,0] >= -0
+ LinkY1LessThan2[4,1]: Y1LessThan[4,1] = 0 -> Y1Diff[4,1] >= -0
+ LinkY1LessThan2[4,2]: Y1LessThan[4,2] = 0 -> Y1Diff[4,2] >= -0
+ LinkY1LessThan2[4,3]: Y1LessThan[4,3] = 0 -> Y1Diff[4,3] >= -0
+ LinkY1LessThan2[4,5]: Y1LessThan[4,5] = 0 -> Y1Diff[4,5] >= -0
+ LinkY1LessThan2[4,6]: Y1LessThan[4,6] = 0 -> Y1Diff[4,6] >= -0
+ LinkY1LessThan2[5,0]: Y1LessThan[5,0] = 0 -> Y1Diff[5,0] >= -0
+ LinkY1LessThan2[5,1]: Y1LessThan[5,1] = 0 -> Y1Diff[5,1] >= -0
+ LinkY1LessThan2[5,2]: Y1LessThan[5,2] = 0 -> Y1Diff[5,2] >= -0
+ LinkY1LessThan2[5,3]: Y1LessThan[5,3] = 0 -> Y1Diff[5,3] >= -0
+ LinkY1LessThan2[5,4]: Y1LessThan[5,4] = 0 -> Y1Diff[5,4] >= -0
+ LinkY1LessThan2[5,6]: Y1LessThan[5,6] = 0 -> Y1Diff[5,6] >= -0
+ LinkY1LessThan2[6,0]: Y1LessThan[6,0] = 0 -> Y1Diff[6,0] >= -0
+ LinkY1LessThan2[6,1]: Y1LessThan[6,1] = 0 -> Y1Diff[6,1] >= -0
+ LinkY1LessThan2[6,2]: Y1LessThan[6,2] = 0 -> Y1Diff[6,2] >= -0
+ LinkY1LessThan2[6,3]: Y1LessThan[6,3] = 0 -> Y1Diff[6,3] >= -0
+ LinkY1LessThan2[6,4]: Y1LessThan[6,4] = 0 -> Y1Diff[6,4] >= -0
+ LinkY1LessThan2[6,5]: Y1LessThan[6,5] = 0 -> Y1Diff[6,5] >= -0
  LinkX0Group1[0,1]: X0LessThan[0,1] = 1 -> X0Group[0] - X0Group[1] <= -1
  LinkX0Group1[0,2]: X0LessThan[0,2] = 1 -> X0Group[0] - X0Group[2] <= -1
  LinkX0Group1[0,3]: X0LessThan[0,3] = 1 -> X0Group[0] - X0Group[3] <= -1
@@ -1591,38 +1787,6 @@ Bounds
  MoveY[4] free
  MoveY[5] free
  MoveY[6] free
- 1 <= X0Group[0] <= 7
- 1 <= X0Group[1] <= 7
- 1 <= X0Group[2] <= 7
- 1 <= X0Group[3] <= 7
- 1 <= X0Group[4] <= 7
- 1 <= X0Group[5] <= 7
- 1 <= X0Group[6] <= 7
- 1 <= Y0Group[0] <= 7
- 1 <= Y0Group[1] <= 7
- 1 <= Y0Group[2] <= 7
- 1 <= Y0Group[3] <= 7
- 1 <= Y0Group[4] <= 7
- 1 <= Y0Group[5] <= 7
- 1 <= Y0Group[6] <= 7
- 1 <= X1Group[0] <= 7
- 1 <= X1Group[1] <= 7
- 1 <= X1Group[2] <= 7
- 1 <= X1Group[3] <= 7
- 1 <= X1Group[4] <= 7
- 1 <= X1Group[5] <= 7
- 1 <= X1Group[6] <= 7
- 1 <= Y1Group[0] <= 7
- 1 <= Y1Group[1] <= 7
- 1 <= Y1Group[2] <= 7
- 1 <= Y1Group[3] <= 7
- 1 <= Y1Group[4] <= 7
- 1 <= Y1Group[5] <= 7
- 1 <= Y1Group[6] <= 7
- 1 <= X0GroupCount <= 7
- 1 <= Y0GroupCount <= 7
- 1 <= X1GroupCount <= 7
- 1 <= Y1GroupCount <= 7
  EdgeDistance[x0,0,0] free
  EdgeDistance[x0,0,1] free
  EdgeDistance[x0,0,2] free
@@ -1819,6 +1983,234 @@ Bounds
  EdgeDistance[y1,6,4] free
  EdgeDistance[y1,6,5] free
  EdgeDistance[y1,6,6] free
+ X0Diff[0,0] free
+ X0Diff[0,1] free
+ X0Diff[0,2] free
+ X0Diff[0,3] free
+ X0Diff[0,4] free
+ X0Diff[0,5] free
+ X0Diff[0,6] free
+ X0Diff[1,0] free
+ X0Diff[1,1] free
+ X0Diff[1,2] free
+ X0Diff[1,3] free
+ X0Diff[1,4] free
+ X0Diff[1,5] free
+ X0Diff[1,6] free
+ X0Diff[2,0] free
+ X0Diff[2,1] free
+ X0Diff[2,2] free
+ X0Diff[2,3] free
+ X0Diff[2,4] free
+ X0Diff[2,5] free
+ X0Diff[2,6] free
+ X0Diff[3,0] free
+ X0Diff[3,1] free
+ X0Diff[3,2] free
+ X0Diff[3,3] free
+ X0Diff[3,4] free
+ X0Diff[3,5] free
+ X0Diff[3,6] free
+ X0Diff[4,0] free
+ X0Diff[4,1] free
+ X0Diff[4,2] free
+ X0Diff[4,3] free
+ X0Diff[4,4] free
+ X0Diff[4,5] free
+ X0Diff[4,6] free
+ X0Diff[5,0] free
+ X0Diff[5,1] free
+ X0Diff[5,2] free
+ X0Diff[5,3] free
+ X0Diff[5,4] free
+ X0Diff[5,5] free
+ X0Diff[5,6] free
+ X0Diff[6,0] free
+ X0Diff[6,1] free
+ X0Diff[6,2] free
+ X0Diff[6,3] free
+ X0Diff[6,4] free
+ X0Diff[6,5] free
+ X0Diff[6,6] free
+ Y0Diff[0,0] free
+ Y0Diff[0,1] free
+ Y0Diff[0,2] free
+ Y0Diff[0,3] free
+ Y0Diff[0,4] free
+ Y0Diff[0,5] free
+ Y0Diff[0,6] free
+ Y0Diff[1,0] free
+ Y0Diff[1,1] free
+ Y0Diff[1,2] free
+ Y0Diff[1,3] free
+ Y0Diff[1,4] free
+ Y0Diff[1,5] free
+ Y0Diff[1,6] free
+ Y0Diff[2,0] free
+ Y0Diff[2,1] free
+ Y0Diff[2,2] free
+ Y0Diff[2,3] free
+ Y0Diff[2,4] free
+ Y0Diff[2,5] free
+ Y0Diff[2,6] free
+ Y0Diff[3,0] free
+ Y0Diff[3,1] free
+ Y0Diff[3,2] free
+ Y0Diff[3,3] free
+ Y0Diff[3,4] free
+ Y0Diff[3,5] free
+ Y0Diff[3,6] free
+ Y0Diff[4,0] free
+ Y0Diff[4,1] free
+ Y0Diff[4,2] free
+ Y0Diff[4,3] free
+ Y0Diff[4,4] free
+ Y0Diff[4,5] free
+ Y0Diff[4,6] free
+ Y0Diff[5,0] free
+ Y0Diff[5,1] free
+ Y0Diff[5,2] free
+ Y0Diff[5,3] free
+ Y0Diff[5,4] free
+ Y0Diff[5,5] free
+ Y0Diff[5,6] free
+ Y0Diff[6,0] free
+ Y0Diff[6,1] free
+ Y0Diff[6,2] free
+ Y0Diff[6,3] free
+ Y0Diff[6,4] free
+ Y0Diff[6,5] free
+ Y0Diff[6,6] free
+ X1Diff[0,0] free
+ X1Diff[0,1] free
+ X1Diff[0,2] free
+ X1Diff[0,3] free
+ X1Diff[0,4] free
+ X1Diff[0,5] free
+ X1Diff[0,6] free
+ X1Diff[1,0] free
+ X1Diff[1,1] free
+ X1Diff[1,2] free
+ X1Diff[1,3] free
+ X1Diff[1,4] free
+ X1Diff[1,5] free
+ X1Diff[1,6] free
+ X1Diff[2,0] free
+ X1Diff[2,1] free
+ X1Diff[2,2] free
+ X1Diff[2,3] free
+ X1Diff[2,4] free
+ X1Diff[2,5] free
+ X1Diff[2,6] free
+ X1Diff[3,0] free
+ X1Diff[3,1] free
+ X1Diff[3,2] free
+ X1Diff[3,3] free
+ X1Diff[3,4] free
+ X1Diff[3,5] free
+ X1Diff[3,6] free
+ X1Diff[4,0] free
+ X1Diff[4,1] free
+ X1Diff[4,2] free
+ X1Diff[4,3] free
+ X1Diff[4,4] free
+ X1Diff[4,5] free
+ X1Diff[4,6] free
+ X1Diff[5,0] free
+ X1Diff[5,1] free
+ X1Diff[5,2] free
+ X1Diff[5,3] free
+ X1Diff[5,4] free
+ X1Diff[5,5] free
+ X1Diff[5,6] free
+ X1Diff[6,0] free
+ X1Diff[6,1] free
+ X1Diff[6,2] free
+ X1Diff[6,3] free
+ X1Diff[6,4] free
+ X1Diff[6,5] free
+ X1Diff[6,6] free
+ Y1Diff[0,0] free
+ Y1Diff[0,1] free
+ Y1Diff[0,2] free
+ Y1Diff[0,3] free
+ Y1Diff[0,4] free
+ Y1Diff[0,5] free
+ Y1Diff[0,6] free
+ Y1Diff[1,0] free
+ Y1Diff[1,1] free
+ Y1Diff[1,2] free
+ Y1Diff[1,3] free
+ Y1Diff[1,4] free
+ Y1Diff[1,5] free
+ Y1Diff[1,6] free
+ Y1Diff[2,0] free
+ Y1Diff[2,1] free
+ Y1Diff[2,2] free
+ Y1Diff[2,3] free
+ Y1Diff[2,4] free
+ Y1Diff[2,5] free
+ Y1Diff[2,6] free
+ Y1Diff[3,0] free
+ Y1Diff[3,1] free
+ Y1Diff[3,2] free
+ Y1Diff[3,3] free
+ Y1Diff[3,4] free
+ Y1Diff[3,5] free
+ Y1Diff[3,6] free
+ Y1Diff[4,0] free
+ Y1Diff[4,1] free
+ Y1Diff[4,2] free
+ Y1Diff[4,3] free
+ Y1Diff[4,4] free
+ Y1Diff[4,5] free
+ Y1Diff[4,6] free
+ Y1Diff[5,0] free
+ Y1Diff[5,1] free
+ Y1Diff[5,2] free
+ Y1Diff[5,3] free
+ Y1Diff[5,4] free
+ Y1Diff[5,5] free
+ Y1Diff[5,6] free
+ Y1Diff[6,0] free
+ Y1Diff[6,1] free
+ Y1Diff[6,2] free
+ Y1Diff[6,3] free
+ Y1Diff[6,4] free
+ Y1Diff[6,5] free
+ Y1Diff[6,6] free
+ 1 <= X0Group[0] <= 7
+ 1 <= X0Group[1] <= 7
+ 1 <= X0Group[2] <= 7
+ 1 <= X0Group[3] <= 7
+ 1 <= X0Group[4] <= 7
+ 1 <= X0Group[5] <= 7
+ 1 <= X0Group[6] <= 7
+ 1 <= Y0Group[0] <= 7
+ 1 <= Y0Group[1] <= 7
+ 1 <= Y0Group[2] <= 7
+ 1 <= Y0Group[3] <= 7
+ 1 <= Y0Group[4] <= 7
+ 1 <= Y0Group[5] <= 7
+ 1 <= Y0Group[6] <= 7
+ 1 <= X1Group[0] <= 7
+ 1 <= X1Group[1] <= 7
+ 1 <= X1Group[2] <= 7
+ 1 <= X1Group[3] <= 7
+ 1 <= X1Group[4] <= 7
+ 1 <= X1Group[5] <= 7
+ 1 <= X1Group[6] <= 7
+ 1 <= Y1Group[0] <= 7
+ 1 <= Y1Group[1] <= 7
+ 1 <= Y1Group[2] <= 7
+ 1 <= Y1Group[3] <= 7
+ 1 <= Y1Group[4] <= 7
+ 1 <= Y1Group[5] <= 7
+ 1 <= Y1Group[6] <= 7
+ 1 <= X0GroupCount <= 7
+ 1 <= Y0GroupCount <= 7
+ 1 <= X1GroupCount <= 7
+ 1 <= Y1GroupCount <= 7
 Binaries
  Above[0,0] Above[0,1] Above[0,2] Above[0,3] Above[0,4] Above[0,5]
  Above[0,6] Above[1,0] Above[1,1] Above[1,2] Above[1,3] Above[1,4]
@@ -1888,31 +2280,31 @@ Binaries
  X0LessThan[5,0] X0LessThan[5,1] X0LessThan[5,2] X0LessThan[5,3]
  X0LessThan[5,4] X0LessThan[5,5] X0LessThan[5,6] X0LessThan[6,0]
  X0LessThan[6,1] X0LessThan[6,2] X0LessThan[6,3] X0LessThan[6,4]
- X0LessThan[6,5] X0LessThan[6,6] X1LessThan[0,0] X1LessThan[0,1]
- X1LessThan[0,2] X1LessThan[0,3] X1LessThan[0,4] X1LessThan[0,5]
- X1LessThan[0,6] X1LessThan[1,0] X1LessThan[1,1] X1LessThan[1,2]
- X1LessThan[1,3] X1LessThan[1,4] X1LessThan[1,5] X1LessThan[1,6]
- X1LessThan[2,0] X1LessThan[2,1] X1LessThan[2,2] X1LessThan[2,3]
- X1LessThan[2,4] X1LessThan[2,5] X1LessThan[2,6] X1LessThan[3,0]
- X1LessThan[3,1] X1LessThan[3,2] X1LessThan[3,3] X1LessThan[3,4]
- X1LessThan[3,5] X1LessThan[3,6] X1LessThan[4,0] X1LessThan[4,1]
- X1LessThan[4,2] X1LessThan[4,3] X1LessThan[4,4] X1LessThan[4,5]
- X1LessThan[4,6] X1LessThan[5,0] X1LessThan[5,1] X1LessThan[5,2]
- X1LessThan[5,3] X1LessThan[5,4] X1LessThan[5,5] X1LessThan[5,6]
- X1LessThan[6,0] X1LessThan[6,1] X1LessThan[6,2] X1LessThan[6,3]
- X1LessThan[6,4] X1LessThan[6,5] X1LessThan[6,6] Y0LessThan[0,0]
- Y0LessThan[0,1] Y0LessThan[0,2] Y0LessThan[0,3] Y0LessThan[0,4]
- Y0LessThan[0,5] Y0LessThan[0,6] Y0LessThan[1,0] Y0LessThan[1,1]
- Y0LessThan[1,2] Y0LessThan[1,3] Y0LessThan[1,4] Y0LessThan[1,5]
- Y0LessThan[1,6] Y0LessThan[2,0] Y0LessThan[2,1] Y0LessThan[2,2]
- Y0LessThan[2,3] Y0LessThan[2,4] Y0LessThan[2,5] Y0LessThan[2,6]
- Y0LessThan[3,0] Y0LessThan[3,1] Y0LessThan[3,2] Y0LessThan[3,3]
- Y0LessThan[3,4] Y0LessThan[3,5] Y0LessThan[3,6] Y0LessThan[4,0]
- Y0LessThan[4,1] Y0LessThan[4,2] Y0LessThan[4,3] Y0LessThan[4,4]
- Y0LessThan[4,5] Y0LessThan[4,6] Y0LessThan[5,0] Y0LessThan[5,1]
- Y0LessThan[5,2] Y0LessThan[5,3] Y0LessThan[5,4] Y0LessThan[5,5]
- Y0LessThan[5,6] Y0LessThan[6,0] Y0LessThan[6,1] Y0LessThan[6,2]
- Y0LessThan[6,3] Y0LessThan[6,4] Y0LessThan[6,5] Y0LessThan[6,6]
+ X0LessThan[6,5] X0LessThan[6,6] Y0LessThan[0,0] Y0LessThan[0,1]
+ Y0LessThan[0,2] Y0LessThan[0,3] Y0LessThan[0,4] Y0LessThan[0,5]
+ Y0LessThan[0,6] Y0LessThan[1,0] Y0LessThan[1,1] Y0LessThan[1,2]
+ Y0LessThan[1,3] Y0LessThan[1,4] Y0LessThan[1,5] Y0LessThan[1,6]
+ Y0LessThan[2,0] Y0LessThan[2,1] Y0LessThan[2,2] Y0LessThan[2,3]
+ Y0LessThan[2,4] Y0LessThan[2,5] Y0LessThan[2,6] Y0LessThan[3,0]
+ Y0LessThan[3,1] Y0LessThan[3,2] Y0LessThan[3,3] Y0LessThan[3,4]
+ Y0LessThan[3,5] Y0LessThan[3,6] Y0LessThan[4,0] Y0LessThan[4,1]
+ Y0LessThan[4,2] Y0LessThan[4,3] Y0LessThan[4,4] Y0LessThan[4,5]
+ Y0LessThan[4,6] Y0LessThan[5,0] Y0LessThan[5,1] Y0LessThan[5,2]
+ Y0LessThan[5,3] Y0LessThan[5,4] Y0LessThan[5,5] Y0LessThan[5,6]
+ Y0LessThan[6,0] Y0LessThan[6,1] Y0LessThan[6,2] Y0LessThan[6,3]
+ Y0LessThan[6,4] Y0LessThan[6,5] Y0LessThan[6,6] X1LessThan[0,0]
+ X1LessThan[0,1] X1LessThan[0,2] X1LessThan[0,3] X1LessThan[0,4]
+ X1LessThan[0,5] X1LessThan[0,6] X1LessThan[1,0] X1LessThan[1,1]
+ X1LessThan[1,2] X1LessThan[1,3] X1LessThan[1,4] X1LessThan[1,5]
+ X1LessThan[1,6] X1LessThan[2,0] X1LessThan[2,1] X1LessThan[2,2]
+ X1LessThan[2,3] X1LessThan[2,4] X1LessThan[2,5] X1LessThan[2,6]
+ X1LessThan[3,0] X1LessThan[3,1] X1LessThan[3,2] X1LessThan[3,3]
+ X1LessThan[3,4] X1LessThan[3,5] X1LessThan[3,6] X1LessThan[4,0]
+ X1LessThan[4,1] X1LessThan[4,2] X1LessThan[4,3] X1LessThan[4,4]
+ X1LessThan[4,5] X1LessThan[4,6] X1LessThan[5,0] X1LessThan[5,1]
+ X1LessThan[5,2] X1LessThan[5,3] X1LessThan[5,4] X1LessThan[5,5]
+ X1LessThan[5,6] X1LessThan[6,0] X1LessThan[6,1] X1LessThan[6,2]
+ X1LessThan[6,3] X1LessThan[6,4] X1LessThan[6,5] X1LessThan[6,6]
  Y1LessThan[0,0] Y1LessThan[0,1] Y1LessThan[0,2] Y1LessThan[0,3]
  Y1LessThan[0,4] Y1LessThan[0,5] Y1LessThan[0,6] Y1LessThan[1,0]
  Y1LessThan[1,1] Y1LessThan[1,2] Y1LessThan[1,3] Y1LessThan[1,4]
@@ -1939,78 +2331,111 @@ Generals
  MoveX[5] MoveX[6] MoveXAbs[0] MoveXAbs[1] MoveXAbs[2] MoveXAbs[3]
  MoveXAbs[4] MoveXAbs[5] MoveXAbs[6] MoveY[0] MoveY[1] MoveY[2] MoveY[3]
  MoveY[4] MoveY[5] MoveY[6] MoveYAbs[0] MoveYAbs[1] MoveYAbs[2] MoveYAbs[3]
- MoveYAbs[4] MoveYAbs[5] MoveYAbs[6] X0Group[0] X0Group[1] X0Group[2]
+ MoveYAbs[4] MoveYAbs[5] MoveYAbs[6] EdgeDistance[x0,0,0]
+ EdgeDistance[x0,0,1] EdgeDistance[x0,0,2] EdgeDistance[x0,0,3]
+ EdgeDistance[x0,0,4] EdgeDistance[x0,0,5] EdgeDistance[x0,0,6]
+ EdgeDistance[x0,1,0] EdgeDistance[x0,1,1] EdgeDistance[x0,1,2]
+ EdgeDistance[x0,1,3] EdgeDistance[x0,1,4] EdgeDistance[x0,1,5]
+ EdgeDistance[x0,1,6] EdgeDistance[x0,2,0] EdgeDistance[x0,2,1]
+ EdgeDistance[x0,2,2] EdgeDistance[x0,2,3] EdgeDistance[x0,2,4]
+ EdgeDistance[x0,2,5] EdgeDistance[x0,2,6] EdgeDistance[x0,3,0]
+ EdgeDistance[x0,3,1] EdgeDistance[x0,3,2] EdgeDistance[x0,3,3]
+ EdgeDistance[x0,3,4] EdgeDistance[x0,3,5] EdgeDistance[x0,3,6]
+ EdgeDistance[x0,4,0] EdgeDistance[x0,4,1] EdgeDistance[x0,4,2]
+ EdgeDistance[x0,4,3] EdgeDistance[x0,4,4] EdgeDistance[x0,4,5]
+ EdgeDistance[x0,4,6] EdgeDistance[x0,5,0] EdgeDistance[x0,5,1]
+ EdgeDistance[x0,5,2] EdgeDistance[x0,5,3] EdgeDistance[x0,5,4]
+ EdgeDistance[x0,5,5] EdgeDistance[x0,5,6] EdgeDistance[x0,6,0]
+ EdgeDistance[x0,6,1] EdgeDistance[x0,6,2] EdgeDistance[x0,6,3]
+ EdgeDistance[x0,6,4] EdgeDistance[x0,6,5] EdgeDistance[x0,6,6]
+ EdgeDistance[y0,0,0] EdgeDistance[y0,0,1] EdgeDistance[y0,0,2]
+ EdgeDistance[y0,0,3] EdgeDistance[y0,0,4] EdgeDistance[y0,0,5]
+ EdgeDistance[y0,0,6] EdgeDistance[y0,1,0] EdgeDistance[y0,1,1]
+ EdgeDistance[y0,1,2] EdgeDistance[y0,1,3] EdgeDistance[y0,1,4]
+ EdgeDistance[y0,1,5] EdgeDistance[y0,1,6] EdgeDistance[y0,2,0]
+ EdgeDistance[y0,2,1] EdgeDistance[y0,2,2] EdgeDistance[y0,2,3]
+ EdgeDistance[y0,2,4] EdgeDistance[y0,2,5] EdgeDistance[y0,2,6]
+ EdgeDistance[y0,3,0] EdgeDistance[y0,3,1] EdgeDistance[y0,3,2]
+ EdgeDistance[y0,3,3] EdgeDistance[y0,3,4] EdgeDistance[y0,3,5]
+ EdgeDistance[y0,3,6] EdgeDistance[y0,4,0] EdgeDistance[y0,4,1]
+ EdgeDistance[y0,4,2] EdgeDistance[y0,4,3] EdgeDistance[y0,4,4]
+ EdgeDistance[y0,4,5] EdgeDistance[y0,4,6] EdgeDistance[y0,5,0]
+ EdgeDistance[y0,5,1] EdgeDistance[y0,5,2] EdgeDistance[y0,5,3]
+ EdgeDistance[y0,5,4] EdgeDistance[y0,5,5] EdgeDistance[y0,5,6]
+ EdgeDistance[y0,6,0] EdgeDistance[y0,6,1] EdgeDistance[y0,6,2]
+ EdgeDistance[y0,6,3] EdgeDistance[y0,6,4] EdgeDistance[y0,6,5]
+ EdgeDistance[y0,6,6] EdgeDistance[x1,0,0] EdgeDistance[x1,0,1]
+ EdgeDistance[x1,0,2] EdgeDistance[x1,0,3] EdgeDistance[x1,0,4]
+ EdgeDistance[x1,0,5] EdgeDistance[x1,0,6] EdgeDistance[x1,1,0]
+ EdgeDistance[x1,1,1] EdgeDistance[x1,1,2] EdgeDistance[x1,1,3]
+ EdgeDistance[x1,1,4] EdgeDistance[x1,1,5] EdgeDistance[x1,1,6]
+ EdgeDistance[x1,2,0] EdgeDistance[x1,2,1] EdgeDistance[x1,2,2]
+ EdgeDistance[x1,2,3] EdgeDistance[x1,2,4] EdgeDistance[x1,2,5]
+ EdgeDistance[x1,2,6] EdgeDistance[x1,3,0] EdgeDistance[x1,3,1]
+ EdgeDistance[x1,3,2] EdgeDistance[x1,3,3] EdgeDistance[x1,3,4]
+ EdgeDistance[x1,3,5] EdgeDistance[x1,3,6] EdgeDistance[x1,4,0]
+ EdgeDistance[x1,4,1] EdgeDistance[x1,4,2] EdgeDistance[x1,4,3]
+ EdgeDistance[x1,4,4] EdgeDistance[x1,4,5] EdgeDistance[x1,4,6]
+ EdgeDistance[x1,5,0] EdgeDistance[x1,5,1] EdgeDistance[x1,5,2]
+ EdgeDistance[x1,5,3] EdgeDistance[x1,5,4] EdgeDistance[x1,5,5]
+ EdgeDistance[x1,5,6] EdgeDistance[x1,6,0] EdgeDistance[x1,6,1]
+ EdgeDistance[x1,6,2] EdgeDistance[x1,6,3] EdgeDistance[x1,6,4]
+ EdgeDistance[x1,6,5] EdgeDistance[x1,6,6] EdgeDistance[y1,0,0]
+ EdgeDistance[y1,0,1] EdgeDistance[y1,0,2] EdgeDistance[y1,0,3]
+ EdgeDistance[y1,0,4] EdgeDistance[y1,0,5] EdgeDistance[y1,0,6]
+ EdgeDistance[y1,1,0] EdgeDistance[y1,1,1] EdgeDistance[y1,1,2]
+ EdgeDistance[y1,1,3] EdgeDistance[y1,1,4] EdgeDistance[y1,1,5]
+ EdgeDistance[y1,1,6] EdgeDistance[y1,2,0] EdgeDistance[y1,2,1]
+ EdgeDistance[y1,2,2] EdgeDistance[y1,2,3] EdgeDistance[y1,2,4]
+ EdgeDistance[y1,2,5] EdgeDistance[y1,2,6] EdgeDistance[y1,3,0]
+ EdgeDistance[y1,3,1] EdgeDistance[y1,3,2] EdgeDistance[y1,3,3]
+ EdgeDistance[y1,3,4] EdgeDistance[y1,3,5] EdgeDistance[y1,3,6]
+ EdgeDistance[y1,4,0] EdgeDistance[y1,4,1] EdgeDistance[y1,4,2]
+ EdgeDistance[y1,4,3] EdgeDistance[y1,4,4] EdgeDistance[y1,4,5]
+ EdgeDistance[y1,4,6] EdgeDistance[y1,5,0] EdgeDistance[y1,5,1]
+ EdgeDistance[y1,5,2] EdgeDistance[y1,5,3] EdgeDistance[y1,5,4]
+ EdgeDistance[y1,5,5] EdgeDistance[y1,5,6] EdgeDistance[y1,6,0]
+ EdgeDistance[y1,6,1] EdgeDistance[y1,6,2] EdgeDistance[y1,6,3]
+ EdgeDistance[y1,6,4] EdgeDistance[y1,6,5] EdgeDistance[y1,6,6] X0Diff[0,0]
+ X0Diff[0,1] X0Diff[0,2] X0Diff[0,3] X0Diff[0,4] X0Diff[0,5] X0Diff[0,6]
+ X0Diff[1,0] X0Diff[1,1] X0Diff[1,2] X0Diff[1,3] X0Diff[1,4] X0Diff[1,5]
+ X0Diff[1,6] X0Diff[2,0] X0Diff[2,1] X0Diff[2,2] X0Diff[2,3] X0Diff[2,4]
+ X0Diff[2,5] X0Diff[2,6] X0Diff[3,0] X0Diff[3,1] X0Diff[3,2] X0Diff[3,3]
+ X0Diff[3,4] X0Diff[3,5] X0Diff[3,6] X0Diff[4,0] X0Diff[4,1] X0Diff[4,2]
+ X0Diff[4,3] X0Diff[4,4] X0Diff[4,5] X0Diff[4,6] X0Diff[5,0] X0Diff[5,1]
+ X0Diff[5,2] X0Diff[5,3] X0Diff[5,4] X0Diff[5,5] X0Diff[5,6] X0Diff[6,0]
+ X0Diff[6,1] X0Diff[6,2] X0Diff[6,3] X0Diff[6,4] X0Diff[6,5] X0Diff[6,6]
+ Y0Diff[0,0] Y0Diff[0,1] Y0Diff[0,2] Y0Diff[0,3] Y0Diff[0,4] Y0Diff[0,5]
+ Y0Diff[0,6] Y0Diff[1,0] Y0Diff[1,1] Y0Diff[1,2] Y0Diff[1,3] Y0Diff[1,4]
+ Y0Diff[1,5] Y0Diff[1,6] Y0Diff[2,0] Y0Diff[2,1] Y0Diff[2,2] Y0Diff[2,3]
+ Y0Diff[2,4] Y0Diff[2,5] Y0Diff[2,6] Y0Diff[3,0] Y0Diff[3,1] Y0Diff[3,2]
+ Y0Diff[3,3] Y0Diff[3,4] Y0Diff[3,5] Y0Diff[3,6] Y0Diff[4,0] Y0Diff[4,1]
+ Y0Diff[4,2] Y0Diff[4,3] Y0Diff[4,4] Y0Diff[4,5] Y0Diff[4,6] Y0Diff[5,0]
+ Y0Diff[5,1] Y0Diff[5,2] Y0Diff[5,3] Y0Diff[5,4] Y0Diff[5,5] Y0Diff[5,6]
+ Y0Diff[6,0] Y0Diff[6,1] Y0Diff[6,2] Y0Diff[6,3] Y0Diff[6,4] Y0Diff[6,5]
+ Y0Diff[6,6] X1Diff[0,0] X1Diff[0,1] X1Diff[0,2] X1Diff[0,3] X1Diff[0,4]
+ X1Diff[0,5] X1Diff[0,6] X1Diff[1,0] X1Diff[1,1] X1Diff[1,2] X1Diff[1,3]
+ X1Diff[1,4] X1Diff[1,5] X1Diff[1,6] X1Diff[2,0] X1Diff[2,1] X1Diff[2,2]
+ X1Diff[2,3] X1Diff[2,4] X1Diff[2,5] X1Diff[2,6] X1Diff[3,0] X1Diff[3,1]
+ X1Diff[3,2] X1Diff[3,3] X1Diff[3,4] X1Diff[3,5] X1Diff[3,6] X1Diff[4,0]
+ X1Diff[4,1] X1Diff[4,2] X1Diff[4,3] X1Diff[4,4] X1Diff[4,5] X1Diff[4,6]
+ X1Diff[5,0] X1Diff[5,1] X1Diff[5,2] X1Diff[5,3] X1Diff[5,4] X1Diff[5,5]
+ X1Diff[5,6] X1Diff[6,0] X1Diff[6,1] X1Diff[6,2] X1Diff[6,3] X1Diff[6,4]
+ X1Diff[6,5] X1Diff[6,6] Y1Diff[0,0] Y1Diff[0,1] Y1Diff[0,2] Y1Diff[0,3]
+ Y1Diff[0,4] Y1Diff[0,5] Y1Diff[0,6] Y1Diff[1,0] Y1Diff[1,1] Y1Diff[1,2]
+ Y1Diff[1,3] Y1Diff[1,4] Y1Diff[1,5] Y1Diff[1,6] Y1Diff[2,0] Y1Diff[2,1]
+ Y1Diff[2,2] Y1Diff[2,3] Y1Diff[2,4] Y1Diff[2,5] Y1Diff[2,6] Y1Diff[3,0]
+ Y1Diff[3,1] Y1Diff[3,2] Y1Diff[3,3] Y1Diff[3,4] Y1Diff[3,5] Y1Diff[3,6]
+ Y1Diff[4,0] Y1Diff[4,1] Y1Diff[4,2] Y1Diff[4,3] Y1Diff[4,4] Y1Diff[4,5]
+ Y1Diff[4,6] Y1Diff[5,0] Y1Diff[5,1] Y1Diff[5,2] Y1Diff[5,3] Y1Diff[5,4]
+ Y1Diff[5,5] Y1Diff[5,6] Y1Diff[6,0] Y1Diff[6,1] Y1Diff[6,2] Y1Diff[6,3]
+ Y1Diff[6,4] Y1Diff[6,5] Y1Diff[6,6] X0Group[0] X0Group[1] X0Group[2]
  X0Group[3] X0Group[4] X0Group[5] X0Group[6] Y0Group[0] Y0Group[1]
  Y0Group[2] Y0Group[3] Y0Group[4] Y0Group[5] Y0Group[6] X1Group[0]
  X1Group[1] X1Group[2] X1Group[3] X1Group[4] X1Group[5] X1Group[6]
  Y1Group[0] Y1Group[1] Y1Group[2] Y1Group[3] Y1Group[4] Y1Group[5]
- Y1Group[6] X0GroupCount Y0GroupCount X1GroupCount Y1GroupCount
- EdgeDistance[x0,0,0] EdgeDistance[x0,0,1] EdgeDistance[x0,0,2]
- EdgeDistance[x0,0,3] EdgeDistance[x0,0,4] EdgeDistance[x0,0,5]
- EdgeDistance[x0,0,6] EdgeDistance[x0,1,0] EdgeDistance[x0,1,1]
- EdgeDistance[x0,1,2] EdgeDistance[x0,1,3] EdgeDistance[x0,1,4]
- EdgeDistance[x0,1,5] EdgeDistance[x0,1,6] EdgeDistance[x0,2,0]
- EdgeDistance[x0,2,1] EdgeDistance[x0,2,2] EdgeDistance[x0,2,3]
- EdgeDistance[x0,2,4] EdgeDistance[x0,2,5] EdgeDistance[x0,2,6]
- EdgeDistance[x0,3,0] EdgeDistance[x0,3,1] EdgeDistance[x0,3,2]
- EdgeDistance[x0,3,3] EdgeDistance[x0,3,4] EdgeDistance[x0,3,5]
- EdgeDistance[x0,3,6] EdgeDistance[x0,4,0] EdgeDistance[x0,4,1]
- EdgeDistance[x0,4,2] EdgeDistance[x0,4,3] EdgeDistance[x0,4,4]
- EdgeDistance[x0,4,5] EdgeDistance[x0,4,6] EdgeDistance[x0,5,0]
- EdgeDistance[x0,5,1] EdgeDistance[x0,5,2] EdgeDistance[x0,5,3]
- EdgeDistance[x0,5,4] EdgeDistance[x0,5,5] EdgeDistance[x0,5,6]
- EdgeDistance[x0,6,0] EdgeDistance[x0,6,1] EdgeDistance[x0,6,2]
- EdgeDistance[x0,6,3] EdgeDistance[x0,6,4] EdgeDistance[x0,6,5]
- EdgeDistance[x0,6,6] EdgeDistance[y0,0,0] EdgeDistance[y0,0,1]
- EdgeDistance[y0,0,2] EdgeDistance[y0,0,3] EdgeDistance[y0,0,4]
- EdgeDistance[y0,0,5] EdgeDistance[y0,0,6] EdgeDistance[y0,1,0]
- EdgeDistance[y0,1,1] EdgeDistance[y0,1,2] EdgeDistance[y0,1,3]
- EdgeDistance[y0,1,4] EdgeDistance[y0,1,5] EdgeDistance[y0,1,6]
- EdgeDistance[y0,2,0] EdgeDistance[y0,2,1] EdgeDistance[y0,2,2]
- EdgeDistance[y0,2,3] EdgeDistance[y0,2,4] EdgeDistance[y0,2,5]
- EdgeDistance[y0,2,6] EdgeDistance[y0,3,0] EdgeDistance[y0,3,1]
- EdgeDistance[y0,3,2] EdgeDistance[y0,3,3] EdgeDistance[y0,3,4]
- EdgeDistance[y0,3,5] EdgeDistance[y0,3,6] EdgeDistance[y0,4,0]
- EdgeDistance[y0,4,1] EdgeDistance[y0,4,2] EdgeDistance[y0,4,3]
- EdgeDistance[y0,4,4] EdgeDistance[y0,4,5] EdgeDistance[y0,4,6]
- EdgeDistance[y0,5,0] EdgeDistance[y0,5,1] EdgeDistance[y0,5,2]
- EdgeDistance[y0,5,3] EdgeDistance[y0,5,4] EdgeDistance[y0,5,5]
- EdgeDistance[y0,5,6] EdgeDistance[y0,6,0] EdgeDistance[y0,6,1]
- EdgeDistance[y0,6,2] EdgeDistance[y0,6,3] EdgeDistance[y0,6,4]
- EdgeDistance[y0,6,5] EdgeDistance[y0,6,6] EdgeDistance[x1,0,0]
- EdgeDistance[x1,0,1] EdgeDistance[x1,0,2] EdgeDistance[x1,0,3]
- EdgeDistance[x1,0,4] EdgeDistance[x1,0,5] EdgeDistance[x1,0,6]
- EdgeDistance[x1,1,0] EdgeDistance[x1,1,1] EdgeDistance[x1,1,2]
- EdgeDistance[x1,1,3] EdgeDistance[x1,1,4] EdgeDistance[x1,1,5]
- EdgeDistance[x1,1,6] EdgeDistance[x1,2,0] EdgeDistance[x1,2,1]
- EdgeDistance[x1,2,2] EdgeDistance[x1,2,3] EdgeDistance[x1,2,4]
- EdgeDistance[x1,2,5] EdgeDistance[x1,2,6] EdgeDistance[x1,3,0]
- EdgeDistance[x1,3,1] EdgeDistance[x1,3,2] EdgeDistance[x1,3,3]
- EdgeDistance[x1,3,4] EdgeDistance[x1,3,5] EdgeDistance[x1,3,6]
- EdgeDistance[x1,4,0] EdgeDistance[x1,4,1] EdgeDistance[x1,4,2]
- EdgeDistance[x1,4,3] EdgeDistance[x1,4,4] EdgeDistance[x1,4,5]
- EdgeDistance[x1,4,6] EdgeDistance[x1,5,0] EdgeDistance[x1,5,1]
- EdgeDistance[x1,5,2] EdgeDistance[x1,5,3] EdgeDistance[x1,5,4]
- EdgeDistance[x1,5,5] EdgeDistance[x1,5,6] EdgeDistance[x1,6,0]
- EdgeDistance[x1,6,1] EdgeDistance[x1,6,2] EdgeDistance[x1,6,3]
- EdgeDistance[x1,6,4] EdgeDistance[x1,6,5] EdgeDistance[x1,6,6]
- EdgeDistance[y1,0,0] EdgeDistance[y1,0,1] EdgeDistance[y1,0,2]
- EdgeDistance[y1,0,3] EdgeDistance[y1,0,4] EdgeDistance[y1,0,5]
- EdgeDistance[y1,0,6] EdgeDistance[y1,1,0] EdgeDistance[y1,1,1]
- EdgeDistance[y1,1,2] EdgeDistance[y1,1,3] EdgeDistance[y1,1,4]
- EdgeDistance[y1,1,5] EdgeDistance[y1,1,6] EdgeDistance[y1,2,0]
- EdgeDistance[y1,2,1] EdgeDistance[y1,2,2] EdgeDistance[y1,2,3]
- EdgeDistance[y1,2,4] EdgeDistance[y1,2,5] EdgeDistance[y1,2,6]
- EdgeDistance[y1,3,0] EdgeDistance[y1,3,1] EdgeDistance[y1,3,2]
- EdgeDistance[y1,3,3] EdgeDistance[y1,3,4] EdgeDistance[y1,3,5]
- EdgeDistance[y1,3,6] EdgeDistance[y1,4,0] EdgeDistance[y1,4,1]
- EdgeDistance[y1,4,2] EdgeDistance[y1,4,3] EdgeDistance[y1,4,4]
- EdgeDistance[y1,4,5] EdgeDistance[y1,4,6] EdgeDistance[y1,5,0]
- EdgeDistance[y1,5,1] EdgeDistance[y1,5,2] EdgeDistance[y1,5,3]
- EdgeDistance[y1,5,4] EdgeDistance[y1,5,5] EdgeDistance[y1,5,6]
- EdgeDistance[y1,6,0] EdgeDistance[y1,6,1] EdgeDistance[y1,6,2]
- EdgeDistance[y1,6,3] EdgeDistance[y1,6,4] EdgeDistance[y1,6,5]
- EdgeDistance[y1,6,6] LeftMargin MaxX1 MaxX1 MarginDiffLooseAbs
+ Y1Group[6] X0GroupCount Y0GroupCount X1GroupCount Y1GroupCount LeftMargin
+ MaxX1 MaxX1 MarginDiffLooseAbs
 General Constraints
  LinkResizeWAbs[0]: ResizeWAbs[0] = ABS ( ResizeW[0] )
  LinkResizeWAbs[1]: ResizeWAbs[1] = ABS ( ResizeW[1] )

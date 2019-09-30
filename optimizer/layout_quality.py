@@ -142,45 +142,66 @@ def solve(layout: Layout):
             for i1, i2 in element_pairs
         ), name='LinkOverlap')
 
+        # EXPL: the existence of below variable speeds up the optimizer, even if the variable isn’t used
+        edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER,
+                              name='EdgeDistance')
+        for edge, edge_var in zip(edge_indices, [x0, y0, x1, y1]):
+            m.addConstrs((
+                edge_diff[edge, i1, i2] == edge_var[i1] - edge_var[i2]
+                for i1, i2 in product(elem_indices, elem_indices)
+            ), name='Link' + str(edge) + 'Diff')
+
+
         # IN PREV COL
+
+        x0_diff, y0_diff, x1_diff, y1_diff = [
+            m.addVars(n, n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name=name)
+            for name in ['X0Diff', 'Y0Diff', 'X1Diff', 'Y1Diff']
+        ]
+        for diff, var in zip([x0_diff, y0_diff, x1_diff, y1_diff], [x0, y0, x1, y1]):
+            m.addConstrs((
+                diff[i1, i2] == var[i1] - var[i2]
+                for i1, i2 in product(range(n), range(n))
+            ))
+
 
         x0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X0LessThan')
         m.addConstrs((
-            (x0_less_than[i1, i2] == 1) >> (x0[i1] <= x0[i2] - 1)
+            (x0_less_than[i1, i2] == 1) >> (x0_diff[i1, i2] <= -1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkX0LessThan1')
         m.addConstrs((
-            (x0_less_than[i1, i2] == 0) >> (x0[i1] >= x0[i2])
+            (x0_less_than[i1, i2] == 0) >> (x0_diff[i1, i2] >= 0)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkX0LessThan2')
 
-        x1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X1LessThan')
-        m.addConstrs((
-            (x1_less_than[i1, i2] == 1) >> (x1[i1] <= x1[i2] - 1)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
-        ), name='LinkX1LessThan1')
-        m.addConstrs((
-            (x1_less_than[i1, i2] == 0) >> (x1[i1] >= x1[i2])
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
-        ), name='LinkX1LessThan2')
-
         y0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y0LessThan')
         m.addConstrs((
-            (y0_less_than[i1, i2] == 1) >> (y0[i1] <= y0[i2] - 1)
+            (y0_less_than[i1, i2] == 1) >> (y0_diff[i1, i2] <= -1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkY0LessThan1')
         m.addConstrs((
-            (y0_less_than[i1, i2] == 0) >> (y0[i1] >= y0[i2])
+            (y0_less_than[i1, i2] == 0) >> (y0_diff[i1, i2] >= 0)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkY0LessThan2')
 
+        x1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X1LessThan')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 1) >> (x1_diff[i1, i2] <= -1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1LessThan1')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 0) >> (x1_diff[i1, i2] >= 0)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkX1LessThan2')
+
         y1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y1LessThan')
         m.addConstrs((
-            (y1_less_than[i1, i2] == 1) >> (y1[i1] <= y1[i2] - 1)
+            (y1_less_than[i1, i2] == 1) >> (y1_diff[i1, i2] <= -1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkY1LessThan1')
         m.addConstrs((
-            (y1_less_than[i1, i2] == 0) >> (y1[i1] >= y1[i2])
+            (y1_less_than[i1, i2] == 0) >> (y1_diff[i1, i2] >= 0)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkY1LessThan2')
 
@@ -233,16 +254,8 @@ def solve(layout: Layout):
         m.addConstr(y0_group_count == max_(x1_group))
         m.addConstr(y1_group_count == max_(y1_group))
 
-        # VAR element edge distance 4*n*n
 
 
-        # EXPL: the existence of below variable speeds up the optimizer, even if the variable isn’t used
-        edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='EdgeDistance')
-        for edge, edge_var in zip(edge_indices, [x0, y0, x1, y1]):
-            m.addConstrs((
-                edge_diff[edge, i1, i2] == edge_var[i1] - edge_var[i2]
-                for i1, i2 in product(elem_indices, elem_indices)
-            ), name='Link'+str(edge)+'Diff')
 
 
 
