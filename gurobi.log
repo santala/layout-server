@@ -13627,3 +13627,70 @@ Solution count 1: 12.7298
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 1.272976508785e+01, best bound 1.201136363636e+01, gap 5.6435%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x108755588>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 676 rows, 960 columns and 1678 nonzeros
+Model has 916 general constraints
+Variable types: 0 continuous, 960 integer (434 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1047 rows and 1062 columns
+Presolve time: 0.02s
+Presolved: 1723 rows, 2022 columns, 4223 nonzeros
+Presolved model has 840 SOS constraint(s)
+Variable types: 0 continuous, 2022 integer (896 binary)
+
+Root relaxation: objective 1.200000e+01, 938 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   12.00000    0  274          -   12.00000      -     -    0s
+     0     0   12.00000    0  275          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     0   12.00000    0  276          -   12.00000      -     -    0s
+     0     2   12.00000    0  276          -   12.00000      -     -    0s
+H 3787  1384                      28.0075758   12.00758  57.1%  15.5    1s
+H 4026  1481                      22.0075758   12.00758  45.4%  15.2    1s
+H 4349  1699                      21.0792431   12.00758  43.0%  14.5    1s
+H 4484  1801                      20.0922301   12.00758  40.2%  14.2    1s
+H 4679  1893                      19.1297301   12.00758  37.2%  14.0    1s
+H 4770  1933                      16.3399641   12.00758  26.5%  13.9    1s
+H 4976  2016                      14.3875625   12.00758  16.5%  13.5    1s
+* 4982  1947             166      13.6511829   12.00758  12.0%  13.5    1s
+H 5008  1875                      13.3994672   12.00758  10.4%  13.5    1s
+H 5198   652                      12.3994672   12.00758  3.16%  13.2    1s
+
+Cutting planes:
+  Gomory: 2
+  MIR: 2
+  Flow cover: 3
+
+Explored 5271 nodes (70173 simplex iterations) in 1.97 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 12.3995 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.239946723007e+01, best bound 1.200757575758e+01, gap 3.1606%

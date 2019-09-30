@@ -251,7 +251,7 @@ def solve(layout: Layout):
         y1_group_count = m.addVar(lb=1, ub=n, vtype=GRB.INTEGER, name='Y1GroupCount')
         m.addConstr(x0_group_count == max_(x0_group))
         m.addConstr(y0_group_count == max_(y0_group))
-        m.addConstr(y0_group_count == max_(x1_group))
+        m.addConstr(x1_group_count == max_(x1_group))
         m.addConstr(y1_group_count == max_(y1_group))
 
 

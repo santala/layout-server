@@ -1,20 +1,20 @@
 \ Model GLayoutQuality
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 Minimize
-  0.00595238095238095 ResizeWAbs[0] + 0.00416666666666667 ResizeWAbs[1]
+  0.00625 ResizeWAbs[0] + 0.00416666666666667 ResizeWAbs[1]
    + 0.00595238095238095 ResizeWAbs[2] + 0.00595238095238095 ResizeWAbs[3]
-   + 0.00595238095238095 ResizeWAbs[4] + 0.00416666666666667 ResizeWAbs[5]
+   + 0.00595238095238095 ResizeWAbs[4] + 0.00806451612903226 ResizeWAbs[5]
    + 0.00189393939393939 ResizeWAbs[6] + 0.00735294117647059 ResizeHAbs[0]
    + 0.00735294117647059 ResizeHAbs[1] + 0.00595238095238095 ResizeHAbs[2]
    + 0.00735294117647059 ResizeHAbs[3] + 0.00595238095238095 ResizeHAbs[4]
-   + 0.00595238095238095 ResizeHAbs[5] + 0.00347222222222222 ResizeHAbs[6]
-   + 0.00595238095238095 MoveXAbs[0] + 0.00416666666666667 MoveXAbs[1]
+   + 0.00595238095238095 ResizeHAbs[5] + 0.00260416666666667 ResizeHAbs[6]
+   + 0.00625 MoveXAbs[0] + 0.00416666666666667 MoveXAbs[1]
    + 0.00595238095238095 MoveXAbs[2] + 0.00595238095238095 MoveXAbs[3]
-   + 0.00595238095238095 MoveXAbs[4] + 0.00416666666666667 MoveXAbs[5]
+   + 0.00595238095238095 MoveXAbs[4] + 0.00806451612903226 MoveXAbs[5]
    + 0.00189393939393939 MoveXAbs[6] + 0.00735294117647059 MoveYAbs[0]
    + 0.00735294117647059 MoveYAbs[1] + 0.00595238095238095 MoveYAbs[2]
    + 0.00735294117647059 MoveYAbs[3] + 0.00595238095238095 MoveYAbs[4]
-   + 0.00595238095238095 MoveYAbs[5] + 0.00347222222222222 MoveYAbs[6]
+   + 0.00595238095238095 MoveYAbs[5] + 0.00260416666666667 MoveYAbs[6]
    + 0 Above[0,0] + 0 Above[1,1] + 0 Above[2,2] + 0 Above[3,3]
    + 0 Above[4,4] + 0 Above[5,5] + 0 Above[6,6] + 0 OnLeft[0,0]
    + 0 OnLeft[1,1] + 0 OnLeft[2,2] + 0 OnLeft[3,3] + 0 OnLeft[4,4]
@@ -141,61 +141,61 @@ Subject To
  Y1-Y0=H[4]: - Y0[4] + Y1[4] - H[4] = 0
  Y1-Y0=H[5]: - Y0[5] + Y1[5] - H[5] = 0
  Y1-Y0=H[6]: - Y0[6] + Y1[6] - H[6] = 0
- LinkResizeW[0,<optimizer.classes.Element_object_at_0x108755780>]: - W[0]
-   + ResizeW[0] = -21
- LinkResizeW[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - W[1]
+ LinkResizeW[0,<optimizer.classes.Element_object_at_0x108755588>]: - W[0]
+   + ResizeW[0] = -20
+ LinkResizeW[1,<optimizer.classes.Element_object_at_0x1087558d0>]: - W[1]
    + ResizeW[1] = -30
- LinkResizeW[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - W[2]
+ LinkResizeW[2,<optimizer.classes.Element_object_at_0x108755a58>]: - W[2]
    + ResizeW[2] = -21
- LinkResizeW[3,<optimizer.classes.Element_object_at_0x108755f98>]: - W[3]
+ LinkResizeW[3,<optimizer.classes.Element_object_at_0x1087555f8>]: - W[3]
    + ResizeW[3] = -21
- LinkResizeW[4,<optimizer.classes.Element_object_at_0x108755e48>]: - W[4]
+ LinkResizeW[4,<optimizer.classes.Element_object_at_0x108755a90>]: - W[4]
    + ResizeW[4] = -21
- LinkResizeW[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - W[5]
-   + ResizeW[5] = -30
- LinkResizeW[6,<optimizer.classes.Element_object_at_0x108755d30>]: - W[6]
+ LinkResizeW[5,<optimizer.classes.Element_object_at_0x108755ac8>]: - W[5]
+   + ResizeW[5] = -16
+ LinkResizeW[6,<optimizer.classes.Element_object_at_0x108755b70>]: - W[6]
    + ResizeW[6] = -66
- LinkResizeH[0,<optimizer.classes.Element_object_at_0x108755780>]: - H[0]
+ LinkResizeH[0,<optimizer.classes.Element_object_at_0x108755588>]: - H[0]
    + ResizeH[0] = -17
- LinkResizeH[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - H[1]
+ LinkResizeH[1,<optimizer.classes.Element_object_at_0x1087558d0>]: - H[1]
    + ResizeH[1] = -17
- LinkResizeH[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - H[2]
+ LinkResizeH[2,<optimizer.classes.Element_object_at_0x108755a58>]: - H[2]
    + ResizeH[2] = -21
- LinkResizeH[3,<optimizer.classes.Element_object_at_0x108755f98>]: - H[3]
+ LinkResizeH[3,<optimizer.classes.Element_object_at_0x1087555f8>]: - H[3]
    + ResizeH[3] = -17
- LinkResizeH[4,<optimizer.classes.Element_object_at_0x108755e48>]: - H[4]
+ LinkResizeH[4,<optimizer.classes.Element_object_at_0x108755a90>]: - H[4]
    + ResizeH[4] = -21
- LinkResizeH[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - H[5]
+ LinkResizeH[5,<optimizer.classes.Element_object_at_0x108755ac8>]: - H[5]
    + ResizeH[5] = -21
- LinkResizeH[6,<optimizer.classes.Element_object_at_0x108755d30>]: - H[6]
-   + ResizeH[6] = -36
- LinkMoveX[0,<optimizer.classes.Element_object_at_0x108755780>]: - X0[0]
-   + MoveX[0] = -2
- LinkMoveX[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - X0[1]
-   + MoveX[1] = -62
- LinkMoveX[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - X0[2]
-   + MoveX[2] = -16
- LinkMoveX[3,<optimizer.classes.Element_object_at_0x108755f98>]: - X0[3]
-   + MoveX[3] = -32
- LinkMoveX[4,<optimizer.classes.Element_object_at_0x108755e48>]: - X0[4]
-   + MoveX[4] = -22
- LinkMoveX[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - X0[5]
-   + MoveX[5] = -50
- LinkMoveX[6,<optimizer.classes.Element_object_at_0x108755d30>]: - X0[6]
-   + MoveX[6] = -26
- LinkMoveY[0,<optimizer.classes.Element_object_at_0x108755780>]: - Y0[0]
-   + MoveY[0] = -22
- LinkMoveY[1,<optimizer.classes.Element_object_at_0x1087552b0>]: - Y0[1]
-   + MoveY[1] = -14
- LinkMoveY[2,<optimizer.classes.Element_object_at_0x108755fd0>]: - Y0[2]
-   + MoveY[2] = -92
- LinkMoveY[3,<optimizer.classes.Element_object_at_0x108755f98>]: - Y0[3]
-   + MoveY[3] = -16
- LinkMoveY[4,<optimizer.classes.Element_object_at_0x108755e48>]: - Y0[4]
-   + MoveY[4] = -52
- LinkMoveY[5,<optimizer.classes.Element_object_at_0x108755ba8>]: - Y0[5]
-   + MoveY[5] = -70
- LinkMoveY[6,<optimizer.classes.Element_object_at_0x108755d30>]: - Y0[6]
+ LinkResizeH[6,<optimizer.classes.Element_object_at_0x108755b70>]: - H[6]
+   + ResizeH[6] = -48
+ LinkMoveX[0,<optimizer.classes.Element_object_at_0x108755588>]: - X0[0]
+   + MoveX[0] = -7
+ LinkMoveX[1,<optimizer.classes.Element_object_at_0x1087558d0>]: - X0[1]
+   + MoveX[1] = -59
+ LinkMoveX[2,<optimizer.classes.Element_object_at_0x108755a58>]: - X0[2]
+   + MoveX[2] = -13
+ LinkMoveX[3,<optimizer.classes.Element_object_at_0x1087555f8>]: - X0[3]
+   + MoveX[3] = -22
+ LinkMoveX[4,<optimizer.classes.Element_object_at_0x108755a90>]: - X0[4]
+   + MoveX[4] = -3
+ LinkMoveX[5,<optimizer.classes.Element_object_at_0x108755ac8>]: - X0[5]
+   + MoveX[5] = -66
+ LinkMoveX[6,<optimizer.classes.Element_object_at_0x108755b70>]: - X0[6]
+   + MoveX[6] = -27
+ LinkMoveY[0,<optimizer.classes.Element_object_at_0x108755588>]: - Y0[0]
+   + MoveY[0] = -27
+ LinkMoveY[1,<optimizer.classes.Element_object_at_0x1087558d0>]: - Y0[1]
+   + MoveY[1] = -23
+ LinkMoveY[2,<optimizer.classes.Element_object_at_0x108755a58>]: - Y0[2]
+   + MoveY[2] = -100
+ LinkMoveY[3,<optimizer.classes.Element_object_at_0x1087555f8>]: - Y0[3]
+   + MoveY[3] = -8
+ LinkMoveY[4,<optimizer.classes.Element_object_at_0x108755a90>]: - Y0[4]
+   + MoveY[4] = -58
+ LinkMoveY[5,<optimizer.classes.Element_object_at_0x108755ac8>]: - Y0[5]
+   + MoveY[5] = -98
+ LinkMoveY[6,<optimizer.classes.Element_object_at_0x108755b70>]: - Y0[6]
    + MoveY[6] = -44
  AboveSanity[0,1]: Above[0,1] + Above[1,0] <= 1
  AboveSanity[0,2]: Above[0,2] + Above[2,0] <= 1
@@ -872,35 +872,19 @@ Subject To
  PreserveOverlap[4,2]: Overlap[4,2] = 0
  PreserveOverlap[4,3]: Overlap[4,3] = 0
  PreserveOverlap[4,5]: Overlap[4,5] = 0
- PreserveOverlap[4,6]: Overlap[4,6] = 1
+ PreserveOverlap[4,6]: Overlap[4,6] = 0
  PreserveOverlap[5,0]: Overlap[5,0] = 0
  PreserveOverlap[5,1]: Overlap[5,1] = 0
  PreserveOverlap[5,2]: Overlap[5,2] = 0
  PreserveOverlap[5,3]: Overlap[5,3] = 0
  PreserveOverlap[5,4]: Overlap[5,4] = 0
- PreserveOverlap[5,6]: Overlap[5,6] = 1
+ PreserveOverlap[5,6]: Overlap[5,6] = 0
  PreserveOverlap[6,0]: Overlap[6,0] = 0
  PreserveOverlap[6,1]: Overlap[6,1] = 0
  PreserveOverlap[6,2]: Overlap[6,2] = 0
  PreserveOverlap[6,3]: Overlap[6,3] = 0
- PreserveOverlap[6,4]: Overlap[6,4] = 1
- PreserveOverlap[6,5]: Overlap[6,5] = 1
- DontAlignOverlappingX04,6: X0[4] - X0[6] <= -1
- DontAlignOverlappingX14,6: X1[4] - X1[6] <= -1
- DontAlignOverlappingY4,6: Y0[4] - Y0[6] >= 1
- DontAlignOverlappingY14,6: Y1[4] - Y1[6] <= -1
- DontAlignOverlappingX05,6: X0[5] - X0[6] >= 1
- DontAlignOverlappingX15,6: X1[5] - X1[6] <= -1
- DontAlignOverlappingY5,6: Y0[5] - Y0[6] >= 1
- DontAlignOverlappingY15,6: Y1[5] - Y1[6] >= 1
- DontAlignOverlappingX06,4: - X0[4] + X0[6] >= 1
- DontAlignOverlappingX16,4: - X1[4] + X1[6] >= 1
- DontAlignOverlappingY6,4: - Y0[4] + Y0[6] <= -1
- DontAlignOverlappingY16,4: - Y1[4] + Y1[6] >= 1
- DontAlignOverlappingX06,5: - X0[5] + X0[6] <= -1
- DontAlignOverlappingX16,5: - X1[5] + X1[6] >= 1
- DontAlignOverlappingY6,5: - Y0[5] + Y0[6] <= -1
- DontAlignOverlappingY16,5: - Y1[5] + Y1[6] <= -1
+ PreserveOverlap[6,4]: Overlap[6,4] = 0
+ PreserveOverlap[6,5]: Overlap[6,5] = 0
  LinkRightMargin: MaxX1 + MaxX1 = 100
  LinkMarginDiffLooseAbs1: - LeftMargin + MaxX1 + MarginDiffLooseAbs >= 0
  LinkMarginDiffLooseAbs2: LeftMargin - MaxX1 + MarginDiffLooseAbs >= 0
