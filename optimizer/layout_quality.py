@@ -97,9 +97,13 @@ def solve(layout: Layout):
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkAbove1')
         m.addConstrs((
-            (above[i1, i2] == 0) >> (y1[i1] >= y0[i2] - 1)
+            (above[i1, i2] == 0) >> (y1[i1] >= y0[i2] + 1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkAbove2')
+        m.addConstrs((
+            above[i1, i2] + above[i2, i1] <= 1
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='AboveSanity')
 
         on_left = m.addVars(n, n, vtype=GRB.BINARY, name='OnLeft')
         m.addConstrs((
@@ -107,9 +111,13 @@ def solve(layout: Layout):
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkOnLeft1')
         m.addConstrs((
-            (on_left[i1, i2] == 0) >> (x1[i1] >= x0[i2] - 1)
+            (on_left[i1, i2] == 0) >> (x1[i1] >= x0[i2] + 1)
             for i1, i2 in product(range(n), range(n)) if i1 != i2
         ), name='LinkOnLeft2')
+        m.addConstrs((
+            on_left[i1, i2] + on_left[i2, i1] <= 1
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='OnLeftSanity')
 
         # OVERLAP
 
@@ -230,8 +238,53 @@ def solve(layout: Layout):
 
         obj_expr = LinExpr()
 
+        # MINIMIZE OVERLAP
         #obj_expr.add(overlap_expr, 100)
-        m.addConstr(overlap_expr == 0)
+
+        # PREVENT OVERLAP
+        #m.addConstr(overlap_expr == 0)
+
+        # PRESERVE OVERLAP
+        if True:
+
+            m.addConstrs((
+                overlap[i1, i2] == do_overlap(layout.elements[i1], layout.elements[i2])
+                for i1, i2 in element_pairs
+            ), name='PreserveOverlap')
+
+            for i1, i2 in element_pairs:
+
+                e1 = layout.elements[i1]
+                e2 = layout.elements[i2]
+                print(e1.elementType, e2.elementType, do_overlap(e1, e2))
+                if do_overlap(e1, e2):
+                    '''
+                    m.addConstrs((
+                        edges_dont_align[edge, i1, i2] == int(v1 != v2)
+                        for edge, v1, v2 in zip(edge_indices, [e1.x, e1.y, e1.x+e1.width, e1.y+e1.height], [e2.x, e2.y, e2.x+e2.width, e2.y+e2.height])
+                    ), name='PreserveEdgeAlignmentStatus')
+                    '''
+                    # x0
+                    if e1.x < e2.x:
+                        m.addConstr(x0[i1] <= x0[i2] - 1, 'DontAlignOverlappingX0'+str(i1)+','+str(i2))
+                    elif e1.x > e2.x:
+                        m.addConstr(x0[i1] >= x0[i2] + 1, 'DontAlignOverlappingX0'+str(i1)+','+str(i2))
+                    # x1
+                    if e1.x + e1.width < e2.x + e2.width:
+                        m.addConstr(x1[i1] <= x1[i2] - 1, 'DontAlignOverlappingX1' + str(i1) + ',' + str(i2))
+                    elif e1.x + e1.width > e2.x + e2.width:
+                        m.addConstr(x1[i1] >= x1[i2] + 1, 'DontAlignOverlappingX1' + str(i1) + ',' + str(i2))
+                    # y0
+                    if e1.y < e2.y:
+                        m.addConstr(y0[i1] <= y0[i2] - 1, 'DontAlignOverlappingY'+str(i1)+','+str(i2))
+                    elif e1.y > e2.y:
+                        m.addConstr(y0[i1] >= y0[i2] + 1, 'DontAlignOverlappingY'+str(i1)+','+str(i2))
+                    # y1
+                    if e1.y + e1.height < e2.y + e2.height:
+                        m.addConstr(y1[i1] <= y1[i2] - 1, 'DontAlignOverlappingY1' + str(i1) + ',' + str(i2))
+                    elif e1.y + e1.height > e2.y + e2.height:
+                        m.addConstr(y1[i1] >= y1[i2] + 1, 'DontAlignOverlappingY1' + str(i1) + ',' + str(i2))
+
 
         obj_expr.add(number_of_groups_expr)
 
@@ -291,7 +344,17 @@ def solve(layout: Layout):
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         raise e
 
+def overlap_width(e1: Element, e2: Element):
+    return (e1.width + e2.width) - (max(e1.x + e1.width, e2.x + e2.width) - min(e1.x, e2.x))
 
+def overlap_height(e1: Element, e2: Element):
+    return (e1.height + e2.height) - (max(e1.y + e1.height, e2.y + e2.height) - min(e1.y, e2.y))
+
+def overlap_area(e1: Element, e2: Element):
+    return overlap_width(e1, e2) * overlap_height(e1, e2)
+
+def do_overlap(e1: Element, e2: Element):
+    return overlap_width(e1, e2) > 0 and overlap_height(e1, e2) > 0
 
 def compute_minimum_grid(n: int) -> int:
     min_grid_width = int(sqrt(n))
