@@ -168,43 +168,42 @@ def solve(layout: Layout):
         x0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X0LessThan')
         m.addConstrs((
             (x0_less_than[i1, i2] == 1) >> (x0_diff[i1, i2] <= -1)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkX0LessThan1')
         m.addConstrs((
             (x0_less_than[i1, i2] == 0) >> (x0_diff[i1, i2] >= 0)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkX0LessThan2')
 
         y0_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y0LessThan')
         m.addConstrs((
             (y0_less_than[i1, i2] == 1) >> (y0_diff[i1, i2] <= -1)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkY0LessThan1')
         m.addConstrs((
             (y0_less_than[i1, i2] == 0) >> (y0_diff[i1, i2] >= 0)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkY0LessThan2')
 
         x1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='X1LessThan')
         m.addConstrs((
             (x1_less_than[i1, i2] == 1) >> (x1_diff[i1, i2] <= -1)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkX1LessThan1')
         m.addConstrs((
             (x1_less_than[i1, i2] == 0) >> (x1_diff[i1, i2] >= 0)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkX1LessThan2')
 
         y1_less_than = m.addVars(n, n, vtype=GRB.BINARY, name='Y1LessThan')
         m.addConstrs((
             (y1_less_than[i1, i2] == 1) >> (y1_diff[i1, i2] <= -1)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkY1LessThan1')
         m.addConstrs((
             (y1_less_than[i1, i2] == 0) >> (y1_diff[i1, i2] >= 0)
-            for i1, i2 in product(range(n), range(n)) if i1 != i2
+            for i1, i2 in product(range(n), range(n))
         ), name='LinkY1LessThan2')
-
 
 
         # ALT NUMBER OF GROUPS
@@ -377,29 +376,30 @@ def solve(layout: Layout):
 
         obj_expr.add(margin_diff_abs_expr)
 
-        col_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+
 
         # COLUMN INDICES
-        '''
-        max_col_count = 12
 
-        idx_names = ['BeginColumnIndex', 'EndColumnIndex']
+        col_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+
+        idx_names = ['StartColumn', 'EndColumn']
         col_indices = [
-            m.addVars(n, lb=0, ub=max_col_count - 1, vtype=GRB.INTEGER, name=idx_name)
+            m.addVars(n, lb=1, vtype=GRB.INTEGER, name=idx_name)
             for idx_name in idx_names
         ]
         bgn_col_idx, end_col_idx = col_indices
 
-        for col_idx, idx_name in zip(col_indices, idx_names):
+        for col_idx, idx_name, less_than in zip(col_indices, idx_names, [x0_less_than, x1_less_than]):
             m.addConstrs((
-                (x0_less_than[i1, i2] == 1) >> (col_idx[i1] <= col_idx[i2] - 1)
+                (less_than[i1, i2] == 1) >> (col_idx[i1] <= col_idx[i2] - 1)
                 for i1, i2 in product(range(n), range(n)) if i1 != i2
             ), name='Link' + idx_name + '1')
             m.addConstrs((
-                (x0_less_than[i1, i2] == 0) >> (col_idx[i1] >= col_idx[i2])
+                (less_than[i1, i2] == 0) >> (col_idx[i1] >= col_idx[i2])
                 for i1, i2 in product(range(n), range(n)) if i1 != i2
             ), name='Link' + idx_name + '2')
 
+        '''
         starts_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='StartsInColumn')
         m.addConstrs((
             (starts_in_col[i, c] == 1) >> (bgn_col_idx[i] == c)
@@ -409,6 +409,7 @@ def solve(layout: Layout):
             starts_in_col.sum(i, '*') == 1
             for i in range(n)
         ), name='MustStartInSomeColumn')
+        
 
         ends_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='EndsInColumn')
         m.addConstrs((
@@ -419,16 +420,67 @@ def solve(layout: Layout):
             ends_in_col.sum(i, '*') == 1
             for i in range(n)
         ), name='MustEndInSomeColumn')
-
-        m.addConstrs((
-            (starts_in_col[i, c] == 1) >> (x0[i] == left_margin + c * col_width)
-            for i, c in product(range(n), range(max_col_count))
-        ))
-        m.addConstrs((
-            (ends_in_col[i, c] == 1) >> (x1[i] == right_margin - c * col_width)
-            for i, c in product(range(n), range(max_col_count))
-        ))
         '''
+
+        # Column width must be at max the smallest difference between two column lines
+        m.addConstrs((
+            (x0_less_than[i1, i2] == 1) >> (x0_diff[i2, i1] >= col_width)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='MaxColumnWidth1')
+        m.addConstrs((
+            (x1_less_than[i1, i2] == 1) >> (x1_diff[i2, i1] >= col_width)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='MaxColumnWidth2')
+
+
+        start_in_next_col = m.addVars(n, n, vtype=GRB.BINARY, name='OtherElementStartsInNextColumn')
+        m.addConstrs((
+            start_in_next_col[i1, i2] <= x0_less_than[i1, i2]
+            # i.e. if x0_less_than == false >> start_in_next_col == false
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementStartsInNextColumn1')
+        m.addConstrs((
+            (start_in_next_col[i1, i2] == 1) >> (bgn_col_idx[i2] - bgn_col_idx[i1] == 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementStartsInNextColumn2')
+        m.addConstrs((
+            # If e1 is left from e2, but not right next to it, enforce that col difference is at least 2
+            (x0_less_than[i1, i2] == 1) >> (bgn_col_idx[i2] - bgn_col_idx[i1] >= 1 + (1-start_in_next_col[i1, i2]))
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementStartsInNextColumn3')
+
+        end_in_next_col = m.addVars(n, n, vtype=GRB.BINARY, name='OtherElementEndsInNextColumn')
+        m.addConstrs((
+            end_in_next_col[i1, i2] <= x1_less_than[i1, i2]
+            # i.e. if x0_less_than == false >> start_in_next_col == false
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementEndsInNextColumn1')
+        m.addConstrs((
+            (end_in_next_col[i1, i2] == 1) >> (end_col_idx[i2] - end_col_idx[i1] == 1)
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementEndsInNextColumn2')
+        m.addConstrs((
+            # If e1 is left from e2, but not right next to it, enforce that col difference is at least 2
+            (x1_less_than[i1, i2] == 1) >> (end_col_idx[i2] - end_col_idx[i1] >= 1 + (1 - end_in_next_col[i1, i2]))
+            for i1, i2 in product(range(n), range(n)) if i1 != i2
+        ), name='LinkOtherElementEndsInNextColumn3')
+
+        # Consecutive columns must be column width apart
+        m.addConstrs((
+            (start_in_next_col[i1, i2] == 1) >> (x0_diff[i2, i1] == col_width)
+            for i1, i2 in product(range(n), range(n))
+        ), name='EnforceColumnWidthOnAdjacentColumns1')
+        m.addConstrs((
+            (end_in_next_col[i1, i2] == 1) >> (x1_diff[i2, i1] == col_width)
+            for i1, i2 in product(range(n), range(n))
+        ), name='EnforceColumnWidthOnAdjacentColumns2')
+
+        column_count = m.addVar(lb=1, vtype=GRB.INTEGER, name='ColumnCount')
+        m.addConstr(column_count == max_(bgn_col_idx, end_col_idx))
+
+        col_count_expr = LinExpr(column_count)
+        obj_expr.add(col_count_expr)
+
         obj_expr.add(number_of_groups_expr)
 
         obj_expr.add(move_expr, 1)
@@ -457,6 +509,7 @@ def solve(layout: Layout):
             print('Number of groups', number_of_groups_expr.getValue(), 'Minimum:', compute_minimum_grid(n))
             print('Overlap', overlap_expr.getValue(), h_overlap_expr.getValue(), v_overlap_expr.getValue())
             print('Column width', col_width.X)
+            print('Column count', column_count.X)
 
             elements = [
                 {
