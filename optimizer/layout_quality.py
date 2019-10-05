@@ -5,11 +5,25 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element
 
-def solve(layout: Layout):
+def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
     n = layout.n
     m = Model('GLayoutQuality')
     m._grid_size = 8
+
+    # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
+
+    m.Params.MIPFocus = 1
+    m.Params.TimeLimit = time_out
+
+    print('Time out:', time_out)
+
+    m.Params.PoolSearchMode = 2
+    m.Params.PoolSolutions = 1
+    # model.Params.MIPGap = 0.01
+
+    m.Params.MIPGapAbs = 0.97
+    m.Params.OutputFlag = 1
 
     elem_indices = range(n)
     edge_indices = ['x0', 'y0', 'x1', 'y1']
@@ -399,28 +413,13 @@ def solve(layout: Layout):
                 for i1, i2 in product(range(n), range(n)) if i1 != i2
             ), name='Link' + idx_name + '2')
 
-        '''
-        starts_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='StartsInColumn')
+        # TODO: consider constraints to check that end/start column ids are ordered similarly
+        # Sanity for starting and ending columns
         m.addConstrs((
-            (starts_in_col[i, c] == 1) >> (bgn_col_idx[i] == c)
-            for i, c in product(range(n), range(max_col_count))
-        ), name='LinkStartsInColumn')
-        m.addConstrs((
-            starts_in_col.sum(i, '*') == 1
+            end_col_idx[i] >= bgn_col_idx[i]
             for i in range(n)
-        ), name='MustStartInSomeColumn')
-        
+        ), name='ColumnStartEndSanity')
 
-        ends_in_col = m.addVars(n, max_col_count, vtype=GRB.BINARY, name='EndsInColumn')
-        m.addConstrs((
-            (ends_in_col[i, c] == 1) >> (end_col_idx[i] == c)
-            for i, c in product(range(n), range(max_col_count))
-        ), name='LinkStartsInColumn')
-        m.addConstrs((
-            ends_in_col.sum(i, '*') == 1
-            for i in range(n)
-        ), name='MustEndInSomeColumn')
-        '''
 
         # Column width must be at max the smallest difference between two column lines
         m.addConstrs((
@@ -477,28 +476,22 @@ def solve(layout: Layout):
 
         column_count = m.addVar(lb=1, vtype=GRB.INTEGER, name='ColumnCount')
         m.addConstr(column_count == max_(bgn_col_idx, end_col_idx))
+        m.addConstr(column_count >= 3)
+
+        # Ensure that the first element begins in the first columns
+        first_column = m.addVar(lb=1, ub=1, vtype=GRB.INTEGER, name='FirstColumn')
+        m.addConstr(first_column == min_(bgn_col_idx))
 
         col_count_expr = LinExpr(column_count)
         obj_expr.add(col_count_expr)
 
-        obj_expr.add(number_of_groups_expr)
+        #obj_expr.add(number_of_groups_expr)
 
         obj_expr.add(move_expr, 1)
-        obj_expr.add(resize_expr, 1)
+        obj_expr.add(resize_expr, 10)
 
         m.setObjective(obj_expr, GRB.MINIMIZE)
 
-        # https://www.gurobi.com/documentation/8.1/refman/mip_models.html
-
-        m.Params.MIPFocus = 1
-        m.Params.TimeLimit = 20
-
-        m.Params.PoolSearchMode = 2
-        m.Params.PoolSolutions = 1
-        # model.Params.MIPGap = 0.01
-
-        m.Params.MIPGapAbs = 0.97
-        m.Params.OutputFlag = 1
 
         m.write("output/SimoPracticeModel.lp")
 

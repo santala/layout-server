@@ -2,9 +2,8 @@ import json
 
 from flask import Flask, abort, jsonify, render_template, request, Response
 
-# from tools.JSONDisplay import actualDisplay
+
 from layout_engine import ElementaryPlacement
-import optimizer.classes as classes
 from tools import JSONLoader
 
 from optimizer import classes, layout_difference, layout_quality
@@ -40,9 +39,12 @@ def upload() -> Response:
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
     # TODO: consider adding checks for security
-    layout = classes.Layout(json.loads(request.data))
-    return jsonify(layout_quality.solve(layout))
-    #return jsonify(ElementaryPlacement.solve(layout))
+    request_props = json.loads(request.data)
+    layout = classes.Layout(request_props['layout'])
+    time_out = min(30, max(1, int(request_props.get('timeOut', 30))))
+    number_of_solutions = min(10, max(1, int(request_props.get('numberOfSolutions', 1))))
+    return jsonify(layout_quality.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions))
+
 
 @app.route('/api/v1.0/apply-template/', methods=['POST'])
 def apply_template() -> Response:
@@ -50,4 +52,3 @@ def apply_template() -> Response:
     request_props = json.loads(request.data)
 
     return jsonify(ElementaryPlacement.solve(classes.Layout(request_props['layout']), classes.Layout(request_props['template']), request_props['results']))
-

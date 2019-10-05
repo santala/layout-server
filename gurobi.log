@@ -15387,3 +15387,3423 @@ Solution count 1: 14.6401
 
 Time limit reached
 Best objective 1.464007936508e+01, best bound 1.327939814815e+01, gap 9.2942%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10b034be0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 760 rows, 1074 columns and 1846 nonzeros
+Model has 1491 general constraints
+Variable types: 0 continuous, 1074 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1650 rows and 1664 columns
+Presolve time: 0.04s
+Presolved: 2410 rows, 2738 columns, 5917 nonzeros
+Presolved model has 1358 SOS constraint(s)
+Variable types: 0 continuous, 2738 integer (1050 binary)
+
+Root relaxation: objective 1.300000e+01, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  471          -   13.00000      -     -    0s
+     0     0   13.00000    0  471          -   13.00000      -     -    0s
+     0     2   13.00000    0  471          -   13.00000      -     -    0s
+* 5515  2187             195      21.5323719   13.02381  39.5%  15.1    2s
+H 5747  2290                      21.4147248   13.02381  39.2%  14.8    2s
+H 6082  2501                      21.3811041   13.02381  39.1%  14.4    3s
+H 6155  2537                      20.9704742   13.02381  37.9%  14.3    3s
+H 6175  2541                      20.3737512   13.02381  36.1%  14.3    3s
+H 6227  2558                      19.3737512   13.02381  32.8%  14.3    3s
+H 6339  2634                      19.1709483   13.02381  32.1%  14.2    3s
+H 6351  2636                      19.1649070   13.02381  32.0%  14.2    3s
+H 6401  2665                      19.1649069   13.02381  32.0%  14.1    3s
+H 6642  2773                      18.9284903   13.02381  31.2%  14.1    3s
+H 6700  2789                      18.8867985   13.02381  31.0%  14.0    3s
+H 6726  2755                      17.9701934   13.02381  27.5%  14.0    3s
+H 6946  2859                      17.9636458   13.02381  27.5%  13.9    3s
+H 7013  2902                      17.9180405   13.02381  27.3%  13.9    3s
+H 7040  2935                      17.9114929   13.02381  27.3%  13.9    3s
+H 7101  2969                      17.8826569   13.02381  27.2%  13.8    3s
+H 7448  3160                      17.7840234   13.02381  26.8%  13.6    3s
+H 7541  3167                      17.6222587   13.02381  26.1%  13.6    3s
+H 7646  3143                      17.2970462   13.02381  24.7%  13.5    4s
+H 7713  2834                      16.1312142   13.02381  19.3%  13.4    4s
+H 7758  2749                      15.7504831   13.02381  17.3%  13.4    4s
+H 8656  2111                      14.8328847   13.06734  11.9%  13.3    4s
+  8904  2229   14.50745   90  212   14.83288   13.06734  11.9%  13.3    5s
+H 9112  2299                      14.8200483   13.06734  11.8%  13.3    5s
+H 9401  2395                      14.7832836   13.06944  11.6%  13.2    5s
+H 9454  2347                      14.7538718   13.06944  11.4%  13.2    5s
+H 9703  2431                      14.7003004   13.06944  11.1%  13.1    5s
+H10499  2725                      14.6635357   13.06944  10.9%  12.8    6s
+ 24626  9864 infeasible   93        14.66354   13.16200  10.2%  11.1   10s
+ 44561 20515   14.59205   99  104   14.66354   13.19977  10.0%  10.4   15s
+ 64205 30197     cutoff   85        14.66354   13.23798  9.72%  10.0   20s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 12
+
+Explored 64258 nodes (644514 simplex iterations) in 20.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 14.6635 
+
+Time limit reached
+Best objective 1.466353569830e+01, best bound 1.323798021624e+01, gap 9.7218%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:38:31 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10ab956a0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1074 columns and 1847 nonzeros
+Model has 1491 general constraints
+Variable types: 0 continuous, 1074 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1649 rows and 1664 columns
+Presolve time: 0.06s
+Presolved: 2410 rows, 2738 columns, 5917 nonzeros
+Presolved model has 1358 SOS constraint(s)
+Variable types: 0 continuous, 2738 integer (1050 binary)
+
+Root relaxation: objective 1.500000e+01, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   15.00000    0  464          -   15.00000      -     -    0s
+     0     0   15.00000    0  464          -   15.00000      -     -    0s
+     0     0   15.00000    0  464          -   15.00000      -     -    0s
+     0     0   15.00000    0  466          -   15.00000      -     -    0s
+     0     0   15.00000    0  466          -   15.00000      -     -    0s
+     0     2   15.00000    0  466          -   15.00000      -     -    0s
+H 1541   967                      25.9216933   15.01852  42.1%  13.6    0s
+* 1542   967             201      24.9401456   15.01852  39.8%  13.6    0s
+H 3703  1784                      21.0338784   15.06437  28.4%  26.4    2s
+H 3850  1742                      19.5045020   15.06437  22.8%  25.8    2s
+* 3947  1699             156      19.4582057   15.06437  22.6%  25.5    2s
+H 4270  1704                      17.4396871   15.06938  13.6%  24.1    3s
+H 4474  1734                      17.3563538   15.07168  13.2%  23.5    3s
+H 4844  1918                      17.3491699   15.07168  13.1%  22.8    3s
+H 5443  2216                      17.2825032   15.07816  12.8%  21.6    3s
+H 5571  1967                      16.3360747   15.07816  7.70%  21.4    3s
+H 5572  1922                      16.2890508   15.07816  7.43%  21.4    3s
+H 5961  1171                      15.8223739   15.07816  4.70%  21.0    4s
+
+Cutting planes:
+  Flow cover: 5
+
+Explored 6101 nodes (128508 simplex iterations) in 4.69 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 15.8224 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.582237389125e+01, best bound 1.507816091954e+01, gap 4.7035%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:40:14 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10f3eb5c0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1664 rows and 1691 columns
+Presolve time: 0.04s
+Presolved: 2425 rows, 2766 columns, 5959 nonzeros
+Presolved model has 1372 SOS constraint(s)
+Variable types: 0 continuous, 2766 integer (1064 binary)
+
+Root relaxation: objective 1.500000e+01, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   15.00000    0  465          -   15.00000      -     -    0s
+     0     0   15.00000    0  467          -   15.00000      -     -    0s
+     0     0   15.00000    0  465          -   15.00000      -     -    0s
+     0     0   15.00000    0  467          -   15.00000      -     -    0s
+     0     0   15.00000    0  469          -   15.00000      -     -    0s
+     0     0   15.00000    0  465          -   15.00000      -     -    0s
+     0     0   15.00000    0  465          -   15.00000      -     -    0s
+     0     2   15.00000    0  465          -   15.00000      -     -    0s
+* 9486  4004             195      23.8764332   15.01852  37.1%  14.9    4s
+*10022  4110             184      18.9169967   15.01852  20.6%  14.5    4s
+H11157  4734                      18.0272777   15.01852  16.7%  14.0    5s
+H11744  4946                      17.6939444   15.01852  15.1%  14.0    5s
+H12042  2743                      15.6641825   15.01852  4.12%  13.9    5s
+
+Cutting planes:
+  MIR: 1
+  Flow cover: 5
+
+Explored 12617 nodes (174450 simplex iterations) in 5.59 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 15.6642 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.566418245126e+01, best bound 1.501851851852e+01, gap 4.1219%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:41:21 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10eba55f8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 760 rows, 1075 columns and 1846 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1665 rows and 1691 columns
+Presolve time: 0.04s
+Presolved: 2425 rows, 2766 columns, 5959 nonzeros
+Presolved model has 1372 SOS constraint(s)
+Variable types: 0 continuous, 2766 integer (1064 binary)
+
+Root relaxation: objective 1.300000e+01, 1412 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   13.00000    0  464          -   13.00000      -     -    0s
+     0     0   13.00000    0  466          -   13.00000      -     -    0s
+     0     0   13.00000    0  464          -   13.00000      -     -    0s
+     0     0   13.00000    0  466          -   13.00000      -     -    0s
+     0     0   13.00000    0  468          -   13.00000      -     -    0s
+     0     0   13.00000    0  464          -   13.00000      -     -    0s
+     0     0   13.00000    0  464          -   13.00000      -     -    0s
+     0     2   13.00000    0  464          -   13.00000      -     -    0s
+ 11984  5862   15.22261   92  171          -   13.01852      -  15.4    5s
+ 29605 14635   15.12077  123   82          -   13.01852      -  14.4   10s
+ 48076 23496   14.74131   95  162          -   13.01852      -  13.8   15s
+ 66090 32464   14.19114  105  157          -   13.01852      -  13.8   20s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 9
+  Flow path: 1
+
+Explored 66393 nodes (913746 simplex iterations) in 20.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 0
+
+Time limit reached
+Best objective -, best bound 1.301851851852e+01, gap -
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:42:02 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105809588>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 760 rows, 1074 columns and 1846 nonzeros
+Model has 1491 general constraints
+Variable types: 0 continuous, 1074 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1650 rows and 1664 columns
+Presolve time: 0.04s
+Presolved: 2410 rows, 2738 columns, 5917 nonzeros
+Presolved model has 1358 SOS constraint(s)
+Variable types: 0 continuous, 2738 integer (1050 binary)
+
+Root relaxation: objective 1.300000e+01, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  471          -   13.00000      -     -    0s
+     0     0   13.00000    0  471          -   13.00000      -     -    0s
+     0     2   13.00000    0  471          -   13.00000      -     -    0s
+* 5515  2187             195      21.5323719   13.02381  39.5%  15.1    2s
+H 5747  2290                      21.4147248   13.02381  39.2%  14.8    2s
+H 6082  2501                      21.3811041   13.02381  39.1%  14.4    2s
+H 6155  2537                      20.9704742   13.02381  37.9%  14.3    3s
+H 6175  2541                      20.3737512   13.02381  36.1%  14.3    3s
+H 6227  2558                      19.3737512   13.02381  32.8%  14.3    3s
+H 6339  2634                      19.1709483   13.02381  32.1%  14.2    3s
+H 6351  2636                      19.1649070   13.02381  32.0%  14.2    3s
+H 6401  2665                      19.1649069   13.02381  32.0%  14.1    3s
+H 6642  2773                      18.9284903   13.02381  31.2%  14.1    3s
+H 6700  2789                      18.8867985   13.02381  31.0%  14.0    3s
+H 6726  2755                      17.9701934   13.02381  27.5%  14.0    3s
+H 6946  2859                      17.9636458   13.02381  27.5%  13.9    3s
+H 7013  2902                      17.9180405   13.02381  27.3%  13.9    3s
+H 7040  2935                      17.9114929   13.02381  27.3%  13.9    3s
+H 7101  2969                      17.8826569   13.02381  27.2%  13.8    3s
+H 7448  3160                      17.7840234   13.02381  26.8%  13.6    3s
+H 7541  3167                      17.6222587   13.02381  26.1%  13.6    3s
+H 7646  3143                      17.2970462   13.02381  24.7%  13.5    3s
+H 7713  2834                      16.1312142   13.02381  19.3%  13.4    4s
+H 7758  2749                      15.7504831   13.02381  17.3%  13.4    4s
+H 8656  2111                      14.8328847   13.06734  11.9%  13.3    4s
+  8904  2229   14.50745   90  212   14.83288   13.06734  11.9%  13.3    5s
+H 9112  2299                      14.8200483   13.06734  11.8%  13.3    5s
+H 9401  2395                      14.7832836   13.06944  11.6%  13.2    5s
+H 9454  2347                      14.7538718   13.06944  11.4%  13.2    5s
+H 9703  2431                      14.7003004   13.06944  11.1%  13.1    5s
+H10499  2725                      14.6635357   13.06944  10.9%  12.8    6s
+ 24626  9864 infeasible   93        14.66354   13.16200  10.2%  11.1   10s
+ 44561 20515   14.59205   99  104   14.66354   13.19977  10.0%  10.4   15s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 12
+
+Explored 65103 nodes (652065 simplex iterations) in 20.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 14.6635 
+
+Time limit reached
+Best objective 1.466353569830e+01, best bound 1.323941798942e+01, gap 9.7120%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:43:15 2019
+
+Academic license - for non-commercial use only
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:43:41 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x108c5e668>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 760 rows, 1075 columns and 1846 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1658 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 1.300000e+01, 1406 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   13.00000    0  465          -   13.00000      -     -    0s
+     0     0   13.00000    0  465          -   13.00000      -     -    0s
+     0     0   13.00000    0  465          -   13.00000      -     -    0s
+     0     0   13.00000    0  467          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     0   13.00000    0  467          -   13.00000      -     -    0s
+     0     0   13.00000    0  469          -   13.00000      -     -    0s
+     0     2   13.00000    0  469          -   13.00000      -     -    0s
+* 1374   715             190      21.3886138   13.01852  39.1%  13.3    0s
+* 1431   715             188      21.3683278   13.01852  39.1%  12.8    0s
+* 3792  1382             140      20.8362664   13.17931  36.7%  18.9    2s
+H 3893  1327                      19.4729598   13.17931  32.3%  18.8    2s
+H 4799  1738                      19.3247557   13.22541  31.6%  17.7    3s
+H 5175  2015                      19.2295176   13.22541  31.2%  17.1    3s
+H 5214  1985                      17.9505727   13.22541  26.3%  17.0    3s
+H 5305  2036                      17.8569392   13.22541  25.9%  16.9    3s
+H 5305  1925                      17.2665209   13.22541  23.4%  16.9    3s
+H 7169  3120                      17.0645997   13.32143  21.9%  15.7    4s
+  7197  3138   16.75418  113   65   17.06460   13.32143  21.9%  15.7    5s
+H11702  5767                      16.8681711   13.38670  20.6%  14.2    6s
+H11703  4694                      16.4829494   13.38670  18.8%  14.2    6s
+H11708  1588                      14.6763721   13.38670  8.79%  14.2    6s
+H15454  2671                      14.6635357   13.47024  8.14%  16.3    8s
+ 21015  3591 infeasible   44        14.66354   13.65496  6.88%  19.8   10s
+
+Cutting planes:
+  Implied bound: 1
+  Clique: 1
+  Flow cover: 4
+  Flow path: 1
+
+Explored 21748 nodes (427430 simplex iterations) in 10.19 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 14.6635 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.466353569830e+01, best bound 1.373338779956e+01, gap 6.3433%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:44:26 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10b43d630>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 760 rows, 1075 columns and 1846 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1658 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 1.000000e+00, 1404 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    1.00000    0  477          -    1.00000      -     -    0s
+     0     0    1.00000    0  477          -    1.00000      -     -    0s
+     0     0    1.00000    0  479          -    1.00000      -     -    0s
+     0     0    1.00000    0  481          -    1.00000      -     -    0s
+     0     0    1.00000    0  481          -    1.00000      -     -    0s
+     0     2    1.00000    0  481          -    1.00000      -     -    0s
+* 4284  1714             188      10.5365116    1.01588  90.4%  16.3    2s
+H 4445  1794                       9.5743400    1.01588  89.4%  16.5    2s
+* 4446  1794             189       9.5739466    1.01588  89.4%  16.5    2s
+* 4447  1794             190       9.5720093    1.01588  89.4%  16.5    2s
+H 4472  1794                       9.3813086    1.01588  89.2%  16.4    2s
+H 4916  2001                       9.2787175    1.01852  89.0%  16.5    2s
+H 5306  2202                       9.0360705    1.01852  88.7%  16.0    2s
+H 5306  2202                       8.6197539    1.01852  88.2%  16.0    2s
+H 5426  2267                       8.3844598    1.01852  87.9%  15.7    2s
+H 5467  2294                       8.2523831    1.01852  87.7%  15.6    3s
+H 5636  2424                       7.3844162    1.01852  86.2%  15.3    3s
+H 5714  2418                       7.3278595    1.01852  86.1%  15.2    3s
+H 5873  2489                       6.3849567    1.01852  84.0%  14.9    3s
+H 6014  2564                       6.1112453    1.01852  83.3%  14.7    3s
+H 6109  2458                       5.2483028    1.01852  80.6%  14.5    3s
+H 6512  2714                       5.1968322    1.01852  80.4%  14.0    3s
+H 6659  2605                       4.1220899    1.01852  75.3%  13.9    3s
+* 8030  3106             170       3.9000365    1.01852  73.9%  13.5    4s
+H 8317  2045                       2.6990125    1.01852  62.3%  13.4    4s
+H 8573  2035                       2.6366876    1.01852  61.4%  13.2    4s
+  9168  2327    1.45304   52  289    2.63669    1.01852  61.4%  13.2    5s
+H11111  3223                       2.5815706    1.01852  60.5%  12.7    5s
+H13813  4315                       2.5316456    1.01852  59.8%  12.0    6s
+ 26892 10632    1.95269   66  245    2.53165    1.14881  54.6%  11.2   10s
+ 47112 20900    2.39271   67  233    2.53165    1.16733  53.9%  10.4   15s
+*53227 19205             161       2.3660630    1.18519  49.9%  10.4   16s
+*53228 18815             161       2.3505024    1.18519  49.6%  10.4   16s
+ 68234 25274 infeasible  117         2.35050    1.20899  48.6%  10.1   20s
+
+Cutting planes:
+  MIR: 4
+  Flow cover: 10
+  Flow path: 2
+
+Explored 68329 nodes (692753 simplex iterations) in 20.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 2.3505 
+
+Time limit reached
+Best objective 2.350502433191e+00, best bound 1.208994708995e+00, gap 48.5644%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:45:21 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10f1fe630>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+ 12198  5627 infeasible  125               -    3.01852      -  14.9    5s
+H13852  5855                       4.3378860    3.01852  30.4%  14.5    5s
+*13857  3197             177       3.4736002    3.01852  13.1%  14.5    5s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 14251 nodes (207627 simplex iterations) in 5.57 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.4736 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.473600244696e+00, best bound 3.018518518519e+00, gap 13.1012%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:46:08 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10aa82668>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [4e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1658 rows and 1678 columns
+Presolve time: 0.04s
+Presolved: 2419 rows, 2753 columns, 5939 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2753 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1389 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  486          -    3.00000      -     -    0s
+     0     0    3.00000    0  486          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1510 simplex iterations) in 0.21 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:46:30 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10326b5f8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [4e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1658 rows and 1678 columns
+Presolve time: 0.04s
+Presolved: 2419 rows, 2753 columns, 5939 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2753 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1389 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  486          -    3.00000      -     -    0s
+     0     0    3.00000    0  486          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1510 simplex iterations) in 0.22 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x103311be0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+* 9269  4462             185       6.6997986    3.01852  54.9%  16.2    4s
+H10048  4803                       6.1378358    3.01852  50.8%  15.6    4s
+H10220  4881                       6.0868301    3.01852  50.4%  15.4    4s
+H10348  4934                       6.0215893    3.01852  49.9%  15.4    4s
+H10643  4835                       5.4601200    3.01852  44.7%  15.2    4s
+H10722  4801                       5.2521107    3.01852  42.5%  15.1    4s
+ 10930  4874     cutoff  124         5.25211    3.01852  42.5%  15.0    5s
+H10988  4856                       5.2216759    3.01852  42.2%  15.0    5s
+H11021  4532                       4.9140890    3.01852  38.6%  15.0    5s
+H11445  4194                       4.5282379    3.01852  33.3%  14.9    5s
+H11936  4391                       4.4806189    3.01852  32.6%  15.2    5s
+H14491  4979                       4.1724956    3.01852  27.7%  14.7    6s
+H15058  5258                       4.1651427    3.01852  27.5%  14.5    6s
+H15140  5182                       4.1136721    3.01852  26.6%  14.5    6s
+ 25510 10838    3.18981   81  153    4.11367    3.01852  26.6%  12.1   10s
+H33137  8122                       3.5740808    3.01852  15.5%  11.3   12s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 33936 nodes (382003 simplex iterations) in 12.55 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.57408 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.574080781738e+00, best bound 3.018518518519e+00, gap 15.5442%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:52:28 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10cc7a668>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.05s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.24 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10cca7860>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.20 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:55:22 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x102bb3668>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+* 9269  4462             185       6.6997986    3.01852  54.9%  16.2    4s
+H10048  4803                       6.1378358    3.01852  50.8%  15.6    4s
+H10220  4881                       6.0868301    3.01852  50.4%  15.4    4s
+H10348  4934                       6.0215893    3.01852  49.9%  15.4    4s
+H10643  4835                       5.4601200    3.01852  44.7%  15.2    4s
+H10722  4801                       5.2521107    3.01852  42.5%  15.1    4s
+ 10930  4874     cutoff  124         5.25211    3.01852  42.5%  15.0    5s
+H10988  4856                       5.2216759    3.01852  42.2%  15.0    5s
+H11021  4532                       4.9140890    3.01852  38.6%  15.0    5s
+H11445  4194                       4.5282379    3.01852  33.3%  14.9    5s
+H11936  4391                       4.4806189    3.01852  32.6%  15.2    5s
+H14491  4979                       4.1724956    3.01852  27.7%  14.7    6s
+H15058  5258                       4.1651427    3.01852  27.5%  14.5    6s
+H15140  5182                       4.1136721    3.01852  26.6%  14.5    6s
+ 26675 11431 infeasible  165         4.11367    3.01852  26.6%  12.0   10s
+H33137  8122                       3.5740808    3.01852  15.5%  11.3   12s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 33936 nodes (382003 simplex iterations) in 12.50 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.57408 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.574080781738e+00, best bound 3.018518518519e+00, gap 15.5442%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x102be0860>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.20 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 13:56:32 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1086f15c0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+* 9269  4462             185       6.6997986    3.01852  54.9%  16.2    4s
+H10048  4803                       6.1378358    3.01852  50.8%  15.6    4s
+H10220  4881                       6.0868301    3.01852  50.4%  15.4    4s
+H10348  4934                       6.0215893    3.01852  49.9%  15.4    4s
+H10643  4835                       5.4601200    3.01852  44.7%  15.2    4s
+H10722  4801                       5.2521107    3.01852  42.5%  15.1    4s
+ 10930  4874     cutoff  124         5.25211    3.01852  42.5%  15.0    5s
+H10988  4856                       5.2216759    3.01852  42.2%  15.0    5s
+H11021  4532                       4.9140890    3.01852  38.6%  15.0    5s
+H11445  4194                       4.5282379    3.01852  33.3%  14.9    5s
+H11936  4391                       4.4806189    3.01852  32.6%  15.2    5s
+H14491  4979                       4.1724956    3.01852  27.7%  14.7    6s
+H15058  5258                       4.1651427    3.01852  27.5%  14.5    6s
+H15140  5182                       4.1136721    3.01852  26.6%  14.5    6s
+ 25510 10838    3.18981   81  153    4.11367    3.01852  26.6%  12.1   10s
+H33137  8122                       3.5740808    3.01852  15.5%  11.3   12s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 33936 nodes (382003 simplex iterations) in 12.76 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.57408 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.574080781738e+00, best bound 3.018518518519e+00, gap 15.5442%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10870bba8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.20 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1087a9748>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.20 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1086b5c88>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.20 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1086fa320>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.03s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.21 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1086f14e0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1413 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+     0     0    3.00000    0  450          -    3.00000      -     -    0s
+H    0     0                       3.0000000    3.00000  0.00%     -    0s
+
+Explored 1 nodes (1582 simplex iterations) in 0.25 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+00, best bound 3.000000000000e+00, gap 0.0000%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1087a9eb8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+* 9269  4462             185       6.6997986    3.01852  54.9%  16.2    3s
+H10048  4803                       6.1378358    3.01852  50.8%  15.6    4s
+H10220  4881                       6.0868301    3.01852  50.4%  15.4    4s
+H10348  4934                       6.0215893    3.01852  49.9%  15.4    4s
+H10643  4835                       5.4601200    3.01852  44.7%  15.2    4s
+H10722  4801                       5.2521107    3.01852  42.5%  15.1    4s
+H10988  4856                       5.2216759    3.01852  42.2%  15.0    4s
+H11021  4532                       4.9140890    3.01852  38.6%  15.0    4s
+H11445  4194                       4.5282379    3.01852  33.3%  14.9    5s
+H11936  4391                       4.4806189    3.01852  32.6%  15.2    5s
+H14491  4979                       4.1724956    3.01852  27.7%  14.7    6s
+H15058  5258                       4.1651427    3.01852  27.5%  14.5    6s
+H15140  5182                       4.1136721    3.01852  26.6%  14.5    6s
+ 26675 11431 infeasible  165         4.11367    3.01852  26.6%  12.0   10s
+H33137  8122                       3.5740808    3.01852  15.5%  11.3   12s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 33936 nodes (382003 simplex iterations) in 12.44 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.57408 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.574080781738e+00, best bound 3.018518518519e+00, gap 15.5442%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 14:08:56 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1064886d8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 761 rows, 1075 columns and 1847 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.05s
+Presolved: 2418 rows, 2752 columns, 5938 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1422 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  478          -    3.00000      -     -    0s
+     0     0    3.00000    0  480          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     0    3.00000    0  482          -    3.00000      -     -    0s
+     0     2    3.00000    0  482          -    3.00000      -     -    0s
+* 9269  4462             185       6.6997986    3.01852  54.9%  16.2    4s
+H10048  4803                       6.1378358    3.01852  50.8%  15.6    4s
+H10220  4881                       6.0868301    3.01852  50.4%  15.4    4s
+H10348  4934                       6.0215893    3.01852  49.9%  15.4    4s
+H10643  4835                       5.4601200    3.01852  44.7%  15.2    4s
+H10722  4801                       5.2521107    3.01852  42.5%  15.1    4s
+H10988  4856                       5.2216759    3.01852  42.2%  15.0    4s
+H11021  4532                       4.9140890    3.01852  38.6%  15.0    4s
+H11445  4194                       4.5282379    3.01852  33.3%  14.9    5s
+H11936  4391                       4.4806189    3.01852  32.6%  15.2    5s
+H14491  4979                       4.1724956    3.01852  27.7%  14.7    6s
+H15058  5258                       4.1651427    3.01852  27.5%  14.5    6s
+H15140  5182                       4.1136721    3.01852  26.6%  14.5    6s
+ 26675 11431 infeasible  165         4.11367    3.01852  26.6%  12.0   10s
+H33137  8122                       3.5740808    3.01852  15.5%  11.3   12s
+
+Cutting planes:
+  Gomory: 1
+  Flow cover: 5
+
+Explored 33936 nodes (382003 simplex iterations) in 12.27 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.57408 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.574080781738e+00, best bound 3.018518518519e+00, gap 15.5442%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 14:11:04 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10993d630>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 768 rows, 1075 columns and 1861 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.04s
+Presolved: 2425 rows, 2752 columns, 5952 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1425 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  472          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     2    3.00000    0  468          -    3.00000      -     -    0s
+H 1393   794                       8.9289178    3.01852  66.2%  17.3    0s
+H 1396   794                       8.9054549    3.01852  66.1%  17.3    0s
+* 3606  1195             155       4.2502167    3.01852  29.0%  23.4    2s
+H 4110   999                       3.9582695    3.01852  23.7%  22.1    2s
+
+Cutting planes:
+  Gomory: 2
+  Implied bound: 12
+  Clique: 12
+  MIR: 1
+  Flow cover: 16
+
+Explored 4222 nodes (93809 simplex iterations) in 2.31 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.95827 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.958269476373e+00, best bound 3.018518518519e+00, gap 23.7415%
+
+Gurobi 8.1.0 (mac64, Python) logging started Tue Oct  1 15:52:04 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1057ff668>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 768 rows, 1075 columns and 1861 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.05s
+Presolved: 2425 rows, 2752 columns, 5952 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1425 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     0    3.00000    0  470          -    3.00000      -     -    0s
+     0     0    3.00000    0  472          -    3.00000      -     -    0s
+     0     0    3.00000    0  468          -    3.00000      -     -    0s
+     0     2    3.00000    0  468          -    3.00000      -     -    0s
+H 1393   794                       8.9289178    3.01852  66.2%  17.3    0s
+H 1396   794                       8.9054549    3.01852  66.1%  17.3    0s
+* 3606  1195             155       4.2502167    3.01852  29.0%  23.4    2s
+H 4110   999                       3.9582695    3.01852  23.7%  22.1    2s
+
+Cutting planes:
+  Gomory: 2
+  Implied bound: 12
+  Clique: 12
+  MIR: 1
+  Flow cover: 16
+
+Explored 4222 nodes (93809 simplex iterations) in 2.38 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.95827 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.958269476373e+00, best bound 3.018518518519e+00, gap 23.7415%
+
+Gurobi 8.1.0 (mac64, Python) logging started Thu Oct  3 09:18:28 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105cf56d8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 768 rows, 1075 columns and 1861 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1657 rows and 1677 columns
+Presolve time: 0.05s
+Presolved: 2425 rows, 2752 columns, 5952 nonzeros
+Presolved model has 1365 SOS constraint(s)
+Variable types: 0 continuous, 2752 integer (1057 binary)
+
+Root relaxation: objective 3.000000e+00, 1386 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  443          -    3.00000      -     -    0s
+     0     0    3.00000    0  443          -    3.00000      -     -    0s
+     0     0    3.00000    0  443          -    3.00000      -     -    0s
+     0     0    3.00000    0  445          -    3.00000      -     -    0s
+     0     0    3.00000    0  443          -    3.00000      -     -    0s
+     0     0    3.00000    0  445          -    3.00000      -     -    0s
+     0     0    3.00000    0  447          -    3.00000      -     -    0s
+     0     0    3.00000    0  447          -    3.00000      -     -    0s
+     0     2    3.00000    0  447          -    3.00000      -     -    0s
+ 11605  4727    4.31239  133   78          -    3.00690      -  16.3    5s
+H13277  5366                      10.4282763    3.00690  71.2%  15.6    5s
+H13400  5285                       8.2816425    3.00690  63.7%  15.4    5s
+H13430  5236                       6.1553711    3.00690  51.2%  15.5    5s
+H13819  5409                       6.1480182    3.00690  51.1%  15.2    5s
+H13842  5409                       6.1361134    3.00690  51.0%  15.2    5s
+H14497  4957                       4.5858329    3.00690  34.4%  15.1    6s
+H14935  4533                       4.2281290    3.00690  28.9%  14.9    6s
+H18610  6022                       4.2221766    3.00690  28.8%  14.5    7s
+*19008  5966             183       4.1937169    3.00690  28.3%  14.4    7s
+H19188  5359                       4.0291045    3.00690  25.4%  14.4    8s
+H19189  5149                       3.9640941    3.00690  24.1%  14.4    8s
+
+Cutting planes:
+  Gomory: 14
+  MIR: 2
+  Flow cover: 10
+
+Explored 19702 nodes (282708 simplex iterations) in 8.16 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.96409 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.964094143404e+00, best bound 3.006896551724e+00, gap 24.1467%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 957 and 958 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105d218d0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 776 rows, 1075 columns and 1877 nonzeros
+Model has 1492 general constraints
+Variable types: 0 continuous, 1075 integer (532 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 7e+00]
+  RHS range        [1e+00, 1e+02]
+Presolve added 1747 rows and 1595 columns
+Presolve time: 0.05s
+Presolved: 2523 rows, 2670 columns, 6279 nonzeros
+Presolved model has 1222 SOS constraint(s)
+Variable types: 0 continuous, 2670 integer (1088 binary)
+
+Root relaxation: objective 3.000000e+00, 1625 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0  405          -    3.00000      -     -    0s
+     0     0    3.00000    0  405          -    3.00000      -     -    0s
+     0     0    3.00000    0  407          -    3.00000      -     -    0s
+     0     0    3.00000    0  407          -    3.00000      -     -    0s
+     0     0    3.00000    0  409          -    3.00000      -     -    0s
+     0     0    3.00000    0  409          -    3.00000      -     -    0s
+     0     2    3.00000    0  409          -    3.00000      -     -    0s
+H 3358  1277                       9.2801983    3.00690  67.6%  29.4    2s
+H 3567  1337                       5.8070299    3.00690  48.2%  29.7    2s
+H 3800  1467                       5.7744669    3.00690  47.9%  29.3    2s
+H 3901  1527                       5.7009375    3.00690  47.3%  29.0    2s
+H 4062  1612                       5.6978564    3.00690  47.2%  28.6    2s
+H 4314  1751                       5.6502373    3.00690  46.8%  27.8    2s
+* 4382  1764             132       5.5013458    3.00690  45.3%  27.5    2s
+H 4537  1628                       4.6963594    3.00690  36.0%  27.2    3s
+H 4718  1724                       4.6487404    3.00690  35.3%  26.7    3s
+H 4995  1850                       4.6340345    3.00690  35.1%  25.7    3s
+H 5345  1953                       4.5416015    3.00690  33.8%  25.2    3s
+H 5406  1987                       4.5370038    3.00690  33.7%  25.1    3s
+H 5682  1977                       4.4216097    3.00690  32.0%  25.0    3s
+  7054  2596     cutoff   74         4.42161    3.00690  32.0%  24.5    5s
+H 8077  1751                       3.8079626    3.00690  21.0%  23.8    5s
+
+Cutting planes:
+  Flow cover: 10
+
+Explored 8183 nodes (196305 simplex iterations) in 5.99 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 3.80796 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.807962600749e+00, best bound 3.006896551724e+00, gap 21.0366%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 1875 and 1876 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105d21780>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1601 rows, 2101 columns and 3935 nonzeros
+Model has 3118 general constraints
+Variable types: 0 continuous, 2101 integer (1090 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3237 rows and 2896 columns
+Presolve time: 0.19s
+Presolved: 4838 rows, 4997 columns, 12029 nonzeros
+Presolved model has 2317 SOS constraint(s)
+Variable types: 0 continuous, 4997 integer (1943 binary)
+
+Root relaxation: objective 3.522042e+00, 3118 iterations, 0.04 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.52204    0 1321          -    3.52204      -     -    0s
+     0     0    3.73581    0 1801          -    3.73581      -     -    0s
+     0     0    3.73581    0 1736          -    3.73581      -     -    0s
+     0     0    3.75476    0 1841          -    3.75476      -     -    0s
+     0     0    3.75476    0 1840          -    3.75476      -     -    0s
+     0     0    3.77635    0 1854          -    3.77635      -     -    0s
+     0     0    3.77982    0 1885          -    3.77982      -     -    0s
+     0     0    3.78049    0 1973          -    3.78049      -     -    0s
+     0     0    3.78049    0 1950          -    3.78049      -     -    0s
+     0     0    3.78049    0 1926          -    3.78049      -     -    1s
+     0     2    3.78049    0 1895          -    3.78049      -     -    1s
+* 1663   769             322       9.7398075    4.00000  58.9%   118    3s
+  2249  1119    6.35035  158  855    9.73981    4.05544  58.4%   162    5s
+  5033  1883    9.51560  204   29    9.73981    4.37693  55.1%   146   10s
+H 5048  1813                       9.5624373    4.37693  54.2%   146   10s
+* 6081  1974             243       7.1932190    4.37693  39.2%   143   11s
+H 6168  2016                       7.1858661    4.37693  39.1%   144   11s
+H 6186  1930                       6.6268709    4.37693  34.0%   143   11s
+H 6297  1985                       6.4941079    4.37693  32.6%   142   11s
+H 6447  2072                       6.4857045    4.37693  32.5%   143   12s
+  7788  2983    4.93087  125  446    6.48570    4.37693  32.5%   142   15s
+ 12078  5706 infeasible   99         6.48570    4.38194  32.4%   149   20s
+
+Cutting planes:
+  Implied bound: 6
+  MIR: 12
+  Flow cover: 26
+  Zero half: 3
+
+Explored 12434 nodes (1880037 simplex iterations) in 20.06 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 6.4857 
+
+Time limit reached
+Best objective 6.485704516118e+00, best bound 4.381944568527e+00, gap 32.4369%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 1875 and 1876 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105d6d940>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1545 rows, 2101 columns and 3823 nonzeros
+Model has 3118 general constraints
+Variable types: 0 continuous, 2101 integer (1090 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3400 rows and 3447 columns
+Changed value of parameter MIPFocus to 1
+Presolve time: 0.11s
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Presolved: 4945 rows, 5548 columns, 12129 nonzeros
+Changed value of parameter TimeLimit to 20.0
+Presolved model has 2910 SOS constraint(s)
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Variable types: 0 continuous, 5548 integer (2110 binary)
+Changed value of parameter PoolSearchMode to 2
+
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Root relaxation: objective 3.000000e+00, 2842 iterations, 0.02 seconds
+
+Changed value of parameter PoolSolutions to 1
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+
+Parameter OutputFlag unchanged
+     0     0    3.00000    0 1070          -    3.00000      -     -    0s
+     0     0    3.00000    0 1076          -    3.00000      -     -    0s
+   Value: 1  Min: 0  Max: 1  Default: 1
+     0     0    3.00000    0 1072          -    3.00000      -     -    0s
+Warning: variables 1875 and 1876 have the same name "MaxX1"
+     0     0    3.00000    0 1033          -    3.00000      -     -    0s
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105d40668>]" has      0     0    3.00000    0 1015          -    3.00000      -     -    0s
+a space
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+Warning: to let Gurobi read it back, use rlp format
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+Optimize a model with 1545 rows, 2101 columns and 3823 nonzeros
+Model has 3118 general constraints
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+     0     2    3.00000    0 1015          -    3.00000      -     -    0s
+  3264  2055    3.00198   77  640          -    3.00000      -  35.5    5s
+Variable types: 0 continuous, 2101 integer (1090 binary)
+
+Gurobi 8.1.0 (mac64, Python) logging started Thu Oct  3 10:07:27 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 1875 and 1876 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x103e00828>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1545 rows, 2101 columns and 3823 nonzeros
+Model has 3118 general constraints
+Variable types: 0 continuous, 2101 integer (1090 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3400 rows and 3447 columns
+Presolve time: 0.11s
+Presolved: 4945 rows, 5548 columns, 12129 nonzeros
+Presolved model has 2910 SOS constraint(s)
+Variable types: 0 continuous, 5548 integer (2110 binary)
+
+Root relaxation: objective 3.000000e+00, 2842 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0 1070          -    3.00000      -     -    0s
+     0     0    3.00000    0 1076          -    3.00000      -     -    0s
+     0     0    3.00000    0 1072          -    3.00000      -     -    0s
+     0     0    3.00000    0 1033          -    3.00000      -     -    0s
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+     0     0    3.00000    0 1015          -    3.00000      -     -    0s
+     0     2    3.00000    0 1015          -    3.00000      -     -    0s
+  3264  2055    3.00198   77  640          -    3.00000      -  35.5    5s
+  8500  4017 infeasible  221               -    3.00000      -  28.4   10s
+ 15525  7810    6.02220  163  415          -    3.00198      -  25.4   15s
+H20091  9870                      12.8054963    3.00198  76.6%  24.3   18s
+ 20812 10223    6.71012  241  185   12.80550    3.00198  76.6%  23.9   20s
+
+Cutting planes:
+  Gomory: 2
+  MIR: 6
+  Flow cover: 8
+  Zero half: 2
+
+Explored 21148 nodes (505211 simplex iterations) in 20.03 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 12.8055 
+
+Time limit reached
+Best objective 1.280549628039e+01, best bound 3.001976284585e+00, gap 76.5571%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x103e30dd8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1928 rows, 2519 columns and 4761 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3963 rows and 3550 columns
+Presolve time: 0.22s
+Presolved: 5891 rows, 6069 columns, 14648 nonzeros
+Presolved model has 2862 SOS constraint(s)
+Variable types: 0 continuous, 6069 integer (2366 binary)
+
+Root relaxation: objective 4.456181e+00, 4021 iterations, 0.07 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    4.45618    0 1704          -    4.45618      -     -    0s
+     0     0    4.45618    0 1628          -    4.45618      -     -    0s
+     0     0    4.46827    0 1531          -    4.46827      -     -    0s
+     0     0    4.46827    0 1608          -    4.46827      -     -    0s
+     0     0    4.46827    0 1707          -    4.46827      -     -    1s
+     0     0    4.46827    0 1371          -    4.46827      -     -    1s
+     0     2    4.46827    0 1233          -    4.46827      -     -    1s
+* 2256  1547             363      12.9660469    4.93335  62.0%   114    4s
+  2413  1598    5.10370  175  660   12.96605    4.99823  61.5%   114    5s
+  4756  2844 infeasible  130        12.96605    4.99823  61.5%   129   10s
+* 6201  2801             286      12.8242578    4.99823  61.0%   130   11s
+* 6697  2718             286      11.9632779    4.99823  58.2%   128   13s
+* 6699  2695             287      11.9469129    4.99823  58.2%   128   13s
+H 6957  2786                      11.8940283    5.04020  57.6%   128   13s
+H 7098  2883                      11.6362606    5.04020  56.7%   128   13s
+H 7245  2944                      11.5210890    5.04020  56.3%   127   13s
+H 7275  2934                      11.1882845    5.04020  55.0%   127   13s
+H 7776  3164                      11.0226615    5.04020  54.3%   126   14s
+H 8077  3225                      10.4930452    5.04020  52.0%   126   15s
+H 8129  3245                      10.3588392    5.04020  51.3%   125   15s
+H 8208  3270                      10.3294275    5.05049  51.1%   126   15s
+H 8467  3453                      10.1693082    5.05049  50.3%   125   15s
+H 8744  3524                       9.7643112    5.05049  48.3%   125   16s
+H 8884  3511                       9.5279314    5.05835  46.9%   125   16s
+H 9021  3585                       9.4928329    5.05835  46.7%   125   17s
+H 9050  3590                       9.4781270    5.05835  46.6%   125   17s
+H 9062  3548                       9.3315377    5.05835  45.8%   125   17s
+H 9221  3578                       9.1944052    5.05835  45.0%   127   18s
+H 9228  3582                       9.1796993    5.05877  44.9%   127   18s
+H 9294  3606                       9.1355690    5.05877  44.6%   127   18s
+  9608  3772     cutoff  146         9.13557    5.05877  44.6%   128   20s
+
+Cutting planes:
+  Gomory: 1
+  MIR: 1
+  Flow cover: 2
+  Zero half: 7
+  Mod-K: 3
+
+Explored 9900 nodes (1282878 simplex iterations) in 20.03 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 9.13557 
+
+Time limit reached
+Best objective 9.135568953335e+00, best bound 5.058774511905e+00, gap 44.6255%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x103fb4f98>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.21s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.425184e+00, 4224 iterations, 0.08 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.42518    0 1498          -    3.42518      -     -    0s
+     0     0    3.61094    0 2126          -    3.61094      -     -    0s
+     0     0    3.61094    0 2171          -    3.61094      -     -    0s
+     0     0    3.68262    0 1655          -    3.68262      -     -    0s
+     0     0    3.68262    0 1655          -    3.68262      -     -    0s
+     0     0    3.68262    0 1627          -    3.68262      -     -    0s
+     0     0    3.69272    0 1593          -    3.69272      -     -    0s
+     0     0    3.69272    0 1593          -    3.69272      -     -    1s
+     0     2    3.69272    0 1593          -    3.69272      -     -    1s
+  2115  1292    4.58440  181  804          -    4.04652      -   175    5s
+  3929  2129    5.45069  124  231          -    4.04652      -   185   11s
+* 4812  2165             253      10.0042826    4.04652  59.6%   188   13s
+* 4967  2026             251       9.3962969    4.04652  56.9%   188   14s
+  5180  2103    5.40693   64 1059    9.39630    4.04652  56.9%   196   15s
+H 5620  2253                       9.3500784    4.04652  56.7%   206   16s
+H 5793  2255                       9.3409748    4.04652  56.7%   208   16s
+* 5819  2201             272       9.3220621    4.04652  56.6%   208   16s
+H 5992  2138                       9.0279444    4.04652  55.2%   208   17s
+H 6077  2189                       8.6308856    4.04652  53.1%   209   17s
+H 6140  2204                       8.4403439    4.12954  51.1%   208   18s
+H 6212  2250                       8.1389959    4.12954  49.3%   210   18s
+H 6283  2306                       8.1173456    4.12954  49.1%   210   18s
+H 6350  2346                       8.0879338    4.12954  48.9%   210   18s
+H 6504  2408                       7.8612731    4.12954  47.5%   210   19s
+H 6588  2392                       7.3537926    4.12954  43.8%   209   19s
+H 6718  2425                       6.9876632    4.12954  40.9%   209   19s
+H 6827  2374                       6.8651142    4.12954  39.8%   208   19s
+  6940  2455     cutoff  271         6.86511    4.13010  39.8%   210   20s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 37
+  StrongCG: 2
+  Flow cover: 61
+  Zero half: 1
+  Mod-K: 1
+
+Explored 6946 nodes (1470800 simplex iterations) in 20.02 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 6.86511 
+
+Time limit reached
+Best objective 6.865114154636e+00, best bound 4.130095072751e+00, gap 39.8394%
+
+Gurobi 8.1.0 (mac64, Python) logging started Sat Oct  5 12:55:31 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1116edd30>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3964 iterations, 0.07 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1424          -    3.18557      -     -    0s
+     0     0    3.27319    0 1953          -    3.27319      -     -    0s
+     0     0    3.27319    0 1953          -    3.27319      -     -    0s
+     0     0    3.36000    0 1424          -    3.36000      -     -    0s
+     0     0    3.36000    0 1424          -    3.36000      -     -    0s
+     0     0    3.36000    0 1424          -    3.36000      -     -    1s
+     0     0    3.36000    0 1424          -    3.36000      -     -    1s
+     0     2    3.36000    0 1424          -    3.36000      -     -    1s
+  2104  1112    4.14017   46  375          -    3.58676      -   145    5s
+H 4956  1790                       9.7546851    3.58676  63.2%   159    9s
+  4958  1789    4.48956  146  199    9.75469    3.58676  63.2%   160   10s
+H 5118  1771                       9.7487327    3.58676  63.2%   158   10s
+H 5133  1782                       9.7054470    3.58676  63.0%   158   10s
+H 5945  2266                       9.2681982    3.58676  61.3%   146   12s
+H 6035  2296                       9.1757612    3.58676  60.9%   146   12s
+H 6159  2372                       9.1545927    3.58676  60.8%   144   12s
+H 6193  2376                       8.9475318    3.58676  59.9%   144   12s
+H 6226  2391                       8.7906221    3.58676  59.2%   143   12s
+H 6243  2398                       8.6795850    3.58676  58.7%   143   12s
+H 6273  2400                       7.9686427    3.58676  55.0%   143   12s
+* 6389  2476             266       7.8480195    3.58676  54.3%   141   12s
+H 6767  2579                       7.7188834    3.58676  53.5%   137   13s
+  7159  2718    5.57357  179  115    7.71888    3.58676  53.5%   132   15s
+H 7350  1241                       4.6811558    3.58676  23.4%   130   15s
+H 7353   343                       4.0713688    3.58676  11.9%   130   15s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 7
+  Flow cover: 5
+  Zero half: 2
+  Mod-K: 1
+
+Explored 7366 nodes (963658 simplex iterations) in 15.72 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4.07137 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.071368791419e+00, best bound 3.586755952381e+00, gap 11.9029%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x11165e5f8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1872 rows, 2519 columns and 4649 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4468 rows and 4082 columns
+Presolve time: 0.12s
+Presolved: 6340 rows, 6601 columns, 15784 nonzeros
+Presolved model has 3274 SOS constraint(s)
+Variable types: 0 continuous, 6601 integer (2703 binary)
+
+Root relaxation: objective 3.000000e+00, 3975 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.00000    0 1108          -    3.00000      -     -    0s
+     0     0    3.00000    0 1104          -    3.00000      -     -    0s
+     0     0    3.00000    0 1104          -    3.00000      -     -    0s
+     0     0    3.00000    0 1100          -    3.00000      -     -    0s
+     0     0    3.00000    0 1100          -    3.00000      -     -    0s
+     0     2    3.00000    0 1100          -    3.00000      -     -    0s
+  3741  2233    3.00500   80  460          -    3.00500      -  38.0    5s
+  6514  3126    7.42442  259  150          -    3.00500      -  52.4   10s
+* 7310  2596             357       6.2701261    3.00500  52.1%  53.2   11s
+H 8285  3103                       6.1212537    3.00500  50.9%  53.3   12s
+H10283  4383                       5.8826173    3.00500  48.9%  49.4   14s
+*10740  4546             314       5.7469329    3.00500  47.7%  48.8   14s
+H10950  4661                       5.7026173    3.00500  47.3%  48.4   14s
+*10980  4683             325       5.6641879    3.00500  46.9%  48.3   14s
+ 11156  4742     cutoff  332         5.66419    3.00500  46.9%  47.7   15s
+H11157  4599                       5.5363198    3.00500  45.7%  47.7   15s
+H11213  4589                       5.4814754    3.00500  45.2%  47.9   15s
+H11225  4551                       5.4591154    3.00500  45.0%  48.0   15s
+H13245  5615                       5.2766154    3.00500  43.1%  48.2   18s
+H14267  6074                       5.1527975    3.00500  41.7%  47.5   19s
+ 14797  6350    4.23318  203  237    5.15280    3.00500  41.7%  47.7   20s
+
+Cutting planes:
+  Gomory: 1
+  Implied bound: 3
+  Flow cover: 1
+
+Explored 15300 nodes (734070 simplex iterations) in 20.04 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 5.1528 
+
+Time limit reached
+Best objective 5.152797527861e+00, best bound 3.005000000000e+00, gap 41.6822%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1116a31d0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.32 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x11181dba8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5517  2100    4.06606  131  238          -    3.60461      -  81.5   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.25 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x111772160>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2209  1105    4.95398   98  376          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.29 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x111917438>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.24s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  1999  1055 infeasible  242               -    3.58676      -  96.8    5s
+  4864  1982 infeasible  200               -    3.60461      -  84.7   10s
+  7334  2876    4.29593  108  304          -    3.69215      -  78.1   15s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   15s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   15s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 15.65 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x111865cc0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   14s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.46 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x111767c18>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.216817e+00, 4085 iterations, 0.08 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.21682    0 1426          -    3.21682      -     -    0s
+     0     0    3.30444    0 1951          -    3.30444      -     -    0s
+     0     0    3.30444    0 1952          -    3.30444      -     -    0s
+     0     0    3.39125    0 1491          -    3.39125      -     -    0s
+     0     0    3.39125    0 1490          -    3.39125      -     -    0s
+     0     0    3.39125    0 1494          -    3.39125      -     -    0s
+     0     0    3.39125    0 1401          -    3.39125      -     -    1s
+     0     0    3.39125    0 1402          -    3.39125      -     -    1s
+     0     0    3.39125    0 1403          -    3.39125      -     -    1s
+     0     2    3.39125    0 1403          -    3.39125      -     -    1s
+  1954  1050    5.93965  236  274          -    3.61801      -   152    5s
+  4467  1763    7.68593  220   29          -    3.63586      -   155   10s
+* 4577  1732             241       7.7240976    3.63586  52.9%   154   10s
+H 5653  1910                       7.5949616    3.63586  52.1%   139   12s
+H 5806  1959                       7.5858580    3.63586  52.1%   136   12s
+H 6049  2021                       7.5119784    3.63586  51.6%   132   12s
+H 7136  2182                       5.3667279    3.63586  32.3%   119   14s
+H 7154   454                       4.0312500    3.63586  9.81%   119   15s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 6
+  Flow cover: 2
+
+Explored 7191 nodes (867257 simplex iterations) in 15.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4.03125 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.031250000000e+00, best bound 3.635863095238e+00, gap 9.8080%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1117105c0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5517  2100    4.06606  131  238          -    3.60461      -  81.5   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.28 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1118325f8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.05 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2209  1105    4.95398   98  376          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.26 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x111704390>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.05 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.28 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x11181d780>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.05 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2209  1105    4.95398   98  376          -    3.60461      -  92.3    5s
+  5388  2097    3.91725  125  239          -    3.60461      -  81.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.32 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1116fc9b0>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5517  2100    4.06606  131  238          -    3.60461      -  81.5   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.22 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1118f8eb8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.21s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.05 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2210  1106    5.62864   40  460          -    3.60461      -  92.3    5s
+  5517  2100    4.06606  131  238          -    3.60461      -  81.5   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   13s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.26 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+
+Gurobi 8.1.0 (mac64, Python) logging started Sat Oct  5 16:43:34 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 30.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10ea89b38>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.24s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2207  1104    4.60866  107  369          -    3.60461      -  92.4    5s
+  5140  2035    3.60461  109  282          -    3.60461      -  82.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   14s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.94 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 30.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10eab44a8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.24s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2207  1104    4.60866  107  369          -    3.60461      -  92.4    5s
+  5140  2035    3.60461  109  282          -    3.60461      -  82.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   14s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 15.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+
+Gurobi 8.1.0 (mac64, Python) logging started Sat Oct  5 16:45:59 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 30.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x10d592c88>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2209  1105    4.95398   98  376          -    3.60461      -  92.3    5s
+  5140  2035    3.60461  109  282          -    3.60461      -  82.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   14s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.91 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+
+Gurobi 8.1.0 (mac64, Python) logging started Sat Oct  5 16:46:46 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 1.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x104f50dd8>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.24s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 17
+  Flow cover: 4
+
+Explored 1 nodes (7822 simplex iterations) in 1.00 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 0
+
+Time limit reached
+Best objective -, best bound 3.360000000000e+00, gap -
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x1057a8630>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.21s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.05 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2209  1105    4.95398   98  376          -    3.60461      -  92.3    5s
+  5517  2101 infeasible   75               -    3.60461      -  81.5   10s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 5520 nodes (458004 simplex iterations) in 10.01 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 0
+
+Time limit reached
+Best objective -, best bound 3.604613095238e+00, gap -
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x104fdfe48>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.22s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.06 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    0s
+     0     0    3.36000    0 1435          -    3.36000      -     -    0s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  2207  1104    4.60866  107  369          -    3.60461      -  92.4    5s
+  5140  2035    3.60461  109  282          -    3.60461      -  82.9   10s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   14s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   14s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 14.82 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x104fae940>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.36s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.13 seconds
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x104fdf0f0>]" has 
+a space
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+Warning: to let Gurobi read it back, use rlp format
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+
+Model has 3792 general constraints
+     0     0    3.18557    0 1436          -    3.18557      -     -    1s
+Variable types: 0 continuous, 2519 integer (1320 binary)
+     0     0    3.27319    0 1941          -    3.27319      -     -    1s
+Coefficient statistics:
+     0     0    3.27319    0 1986          -    3.27319      -     -    1s
+  Matrix range     [1e+00, 1e+00]
+     0     0    3.36000    0 1543          -    3.36000      -     -    1s
+  Objective range  [2e-03, 1e+00]
+     0     0    3.36000    0 1435          -    3.36000      -     -    1s
+  Bounds range     [1e+00, 1e+01]
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+  RHS range        [1e+00, 1e+02]
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.23s
+     0     2    3.36000    0 1417          -    3.36000      -     -    2s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+  1185   701    3.43795  209  334          -    3.43795      -   125    5s
+  3010  1485    3.94830   62  416          -    3.60461      -  94.8   10s
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Cutting planes:
+  Implied bound: 2
+
+Root simplex log...
+  MIR: 4
+
+  Flow cover: 5
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+
+Explored 3045 nodes (295393 simplex iterations) in 10.10 seconds
+       0      handle free variables                          9s
+Thread count was 8 (of 8 available processors)
+    3819    3.1855670e+00   0.000000e+00   0.000000e+00      9s
+
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.10 seconds
+Solution count 0
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+Time limit reached
+Best objective -, best bound 3.604613095238e+00, gap -
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    9s
+     0     0    3.27319    0 1941          -    3.27319      -     -    9s
+     0     0    3.27319    0 1986          -    3.27319      -     -    9s
+     0     0    3.36000    0 1543          -    3.36000      -     -    9s
+     0     0    3.36000    0 1435          -    3.36000      -     -    9s
+     0     0    3.36000    0 1417          -    3.36000      -     -    9s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 17
+  Flow cover: 4
+
+Explored 1 nodes (7822 simplex iterations) in 10.03 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 0
+
+Time limit reached
+Best objective -, best bound 3.360000000000e+00, gap -
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 20.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning: variables 2249 and 2250 have the same name "MaxX1"
+Warning: constraint name "LinkResizeW[0,<optimizer.classes.Element object at 0x105273128>]" has a space
+Warning: to let Gurobi read it back, use rlp format
+Optimize a model with 1920 rows, 2519 columns and 4745 nonzeros
+Model has 3792 general constraints
+Variable types: 0 continuous, 2519 integer (1320 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e-03, 1e+00]
+  Bounds range     [1e+00, 1e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 4032 rows and 3622 columns
+Presolve time: 0.37s
+Presolved: 5952 rows, 6141 columns, 14802 nonzeros
+Presolved model has 2920 SOS constraint(s)
+Variable types: 0 continuous, 6141 integer (2410 binary)
+
+Root relaxation: objective 3.185567e+00, 3819 iterations, 0.08 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    3.18557    0 1436          -    3.18557      -     -    0s
+     0     0    3.27319    0 1941          -    3.27319      -     -    0s
+     0     0    3.27319    0 1986          -    3.27319      -     -    0s
+     0     0    3.36000    0 1543          -    3.36000      -     -    1s
+     0     0    3.36000    0 1435          -    3.36000      -     -    1s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     0    3.36000    0 1417          -    3.36000      -     -    1s
+     0     2    3.36000    0 1417          -    3.36000      -     -    1s
+  1185   701    3.43795  209  334          -    3.43795      -   125    5s
+  3694  1773    3.60461  108  322          -    3.60461      -  89.1   10s
+  6004  2330    4.17972  118  301          -    3.67009      -  82.0   15s
+* 7490  2922             248       7.8085689    3.69215  52.7%  77.0   16s
+* 7659   272             284       4.0000000    3.69215  7.70%  76.0   17s
+
+Cutting planes:
+  Implied bound: 2
+  MIR: 4
+  Flow cover: 5
+
+Explored 7774 nodes (595577 simplex iterations) in 17.29 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.000000000000e+00, best bound 3.692148109244e+00, gap 7.6963%
