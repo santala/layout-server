@@ -1,11 +1,15 @@
 from itertools import combinations, product
-from math import factorial, floor, sqrt
+from math import ceil, factorial, floor, sqrt
 
 from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
 def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
+
+    # TODO: to find a symmetric grid faster, find first the divisors of the available horizontal space
+    # TODO: (i.e. the potential column counts)
+    # TODO: note, a symmetric grid may not be necessary in all cases
 
     n = layout.n
     m = Model('GLayoutQuality')
@@ -57,9 +61,8 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
 
         for i, element in enumerate(layout.elements):
-            break
-            x0[i].start = round(element.x / m._grid_size)
-            y0[i].start = round(element.y / m._grid_size)
+            x0[i].start = round(element.x0 / m._grid_size)
+            y0[i].start = round(element.y0 / m._grid_size)
             w[i].start = round(element.width / m._grid_size)
             h[i].start = round(element.height / m._grid_size)
 
@@ -323,6 +326,10 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
         number_of_groups_expr.add(y1_group_count)
         m.addConstr(number_of_groups_expr >= compute_minimum_grid(n), name='PreventOvertOptimization')
 
+        number_of_rows_expr = LinExpr()
+        number_of_rows_expr.add(y0_group_count)
+        number_of_rows_expr.add(y1_group_count)
+        m.addConstr(number_of_rows_expr >= ceil(n / 3), name='PreventOvertOptimization2')
 
         obj_expr = LinExpr()
 
@@ -486,6 +493,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
         obj_expr.add(col_count_expr)
 
         #obj_expr.add(number_of_groups_expr)
+        obj_expr.add(number_of_rows_expr)
 
         obj_expr.add(move_expr, 1)
         obj_expr.add(resize_expr, 10)
