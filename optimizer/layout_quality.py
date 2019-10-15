@@ -1,11 +1,15 @@
 from itertools import combinations, product
 from math import ceil, factorial, floor, sqrt
+from collections import namedtuple
 
 from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
+
 def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
+
+
 
     # TODO: to find a symmetric grid faster, find first the divisors of the available horizontal space
     # TODO: (i.e. the potential column counts)
@@ -569,31 +573,3 @@ def compute_minimum_grid(n: int) -> int:
             result = (4 * min_grid_width) + (2 * extra_columns) + 2
     return result
 
-def get_resize_expr(model: Model):
-    layout: Layout = model._layout
-    var: Variables = model._var
-
-    element_width_coeffs = [1 / e.width for e in layout.elements]
-    element_height_coeffs = [1 / e.height for e in layout.elements]
-
-    resize_expr = LinExpr(0.0)
-    for i in range(layout.n):
-        resize_expr.addTerms([element_width_coeffs[i]], [var.resize_width_abs[i]])
-        resize_expr.addTerms([element_height_coeffs[i]], [var.resize_height_abs[i]])
-
-    return resize_expr
-
-
-def get_move_expr(model: Model):
-    layout: Layout = model._layout
-    var: Variables = model._var
-
-    element_width_coeffs = [1 / e.width for e in layout.elements]
-    element_height_coeffs = [1 / e.height for e in layout.elements]
-
-    move_expr = LinExpr(0.0)
-    for i in range(layout.n):
-        move_expr.addTerms([element_width_coeffs[i]], [var.move_x_abs[i]])
-        move_expr.addTerms([element_height_coeffs[i]], [var.move_y_abs[i]])
-
-    return move_expr
