@@ -11,9 +11,7 @@ def divisors(n):
         i += 1
     if nn > 1:
         factors[nn] = factors.get(nn, 0) + 1
-
     primes = list(factors.keys())
-
     # generates factors from primes[k:] subset
     def generate(k):
         if k == len(primes):
@@ -27,7 +25,7 @@ def divisors(n):
                 for _ in range(factors[prime] + 1):
                     yield factor * prime_to_i
                     prime_to_i *= prime
-
     # in python3, `yield from generate(0)` would also work
     for factor in generate(0):
         yield factor
+
