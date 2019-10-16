@@ -23196,3 +23196,136 @@ Solution count 1: 21.1
 
 Time limit reached
 Best objective 2.110000000000e+01, best bound 0.000000000000e+00, gap 100.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Oct 16 13:32:49 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 30.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 673 rows, 1466 columns and 2426 nonzeros
+Model has 63 quadratic constraints
+Model has 2706 general constraints
+Variable types: 0 continuous, 1466 integer (1015 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 6e+01]
+  Objective range  [1e-01, 1e+00]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3392 rows and 2386 columns
+Presolve time: 0.20s
+Presolved: 4317 rows, 3915 columns, 11593 nonzeros
+Presolved model has 2134 SOS constraint(s)
+Variable types: 0 continuous, 3915 integer (1423 binary)
+
+Root relaxation: objective 0.000000e+00, 1438 iterations, 0.03 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0  261          -    0.00000      -     -    0s
+     0     0    0.00000    0  261          -    0.00000      -     -    0s
+     0     2    0.00000    0  261          -    0.00000      -     -    0s
+  3758  2699    0.00000   34  199          -    0.00000      -  35.7    5s
+  9680  3333    3.90000   84  133          -    0.00000      -  23.1   10s
+*12509  4292             311     138.4000000    0.00000   100%  20.9   12s
+ 13495  4886    0.60000   77  192  138.40000    0.00000   100%  20.3   15s
+H14132  5458                     130.0000000    0.00000   100%  19.7   15s
+H15583  6554                     118.0000000    0.00000   100%  18.5   16s
+H15972  6676                      82.6000000    0.00000   100%  18.1   16s
+H16767  7387                      79.0000000    0.00000   100%  17.5   17s
+H17319  7894                      70.8000000    0.00000   100%  17.2   17s
+H17836  8114                      68.4000000    0.00000   100%  16.9   17s
+H18514  8721                      67.2000000    0.00000   100%  16.5   18s
+H19252  8623                      48.0000000    0.00000   100%  16.3   19s
+H19408  8716                      46.8000000    0.00000   100%  16.3   19s
+H19655  8895                      45.6000000    0.00000   100%  16.1   19s
+ 19981  9163    0.00000  136  154   45.60000    0.00000   100%  16.1   20s
+H21153  9826                      41.2000000    0.00000   100%  15.7   21s
+ 23655 11302   11.40000   65  198   41.20000    0.00000   100%  16.1   25s
+ 27316 14141    0.00000   43  208   41.20000    0.00000   100%  17.2   30s
+
+Explored 27965 nodes (479087 simplex iterations) in 30.02 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 41.2 
+
+Time limit reached
+Best objective 4.120000000000e+01, best bound 0.000000000000e+00, gap 100.0000%
+
+Gurobi 8.1.0 (mac64, Python) logging started Wed Oct 16 13:34:04 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 30.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 2
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 1
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 0.97
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 673 rows, 1466 columns and 2426 nonzeros
+Model has 63 quadratic constraints
+Model has 2706 general constraints
+Variable types: 0 continuous, 1466 integer (1015 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 6e+01]
+  Objective range  [1e-01, 1e+00]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [1e+00, 1e+02]
+Presolve added 3392 rows and 2386 columns
+Presolve time: 0.20s
+Presolved: 4317 rows, 3915 columns, 11593 nonzeros
+Presolved model has 2134 SOS constraint(s)
+Variable types: 0 continuous, 3915 integer (1423 binary)
+
+Root relaxation: objective 0.000000e+00, 1438 iterations, 0.03 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0  261          -    0.00000      -     -    0s
+     0     0    0.00000    0  261          -    0.00000      -     -    0s
+     0     2    0.00000    0  261          -    0.00000      -     -    0s
+  3927  2682    0.00000   49  185          -    0.00000      -  35.1    5s
+  9680  3333    3.90000   84  133          -    0.00000      -  23.1   10s
+*12509  4292             311     138.4000000    0.00000   100%  20.9   11s
+H14132  5458                     130.0000000    0.00000   100%  19.7   15s
+H15583  6554                     118.0000000    0.00000   100%  18.5   16s
+H15972  6676                      82.6000000    0.00000   100%  18.1   16s
+H16767  7387                      79.0000000    0.00000   100%  17.5   16s
+H17319  7894                      70.8000000    0.00000   100%  17.2   16s
+H17836  8114                      68.4000000    0.00000   100%  16.9   17s
+H18514  8721                      67.2000000    0.00000   100%  16.5   17s
+H19252  8623                      48.0000000    0.00000   100%  16.3   18s
+H19408  8716                      46.8000000    0.00000   100%  16.3   19s
+H19655  8895                      45.6000000    0.00000   100%  16.1   19s
+ 19981  9163    0.00000  136  154   45.60000    0.00000   100%  16.1   20s
+H21153  9826                      41.2000000    0.00000   100%  15.7   21s
+ 23655 11302   11.40000   65  198   41.20000    0.00000   100%  16.1   25s
+ 27966 14688    7.20000   91  199   41.20000    0.00000   100%  17.1   30s
+
+Explored 28229 nodes (483181 simplex iterations) in 30.03 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 41.2 
+
+Time limit reached
+Best objective 4.120000000000e+01, best bound 0.000000000000e+00, gap 100.0000%

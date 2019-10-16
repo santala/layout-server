@@ -155,6 +155,36 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for e in elem_ids
     ), name='LinkElementHeight')
 
+    elem_height_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='HeightDifference')
+    m.addConstrs((
+        elem_height_diff[e1, e2] == elem_height[e1] - elem_height[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+    row_span_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='RowSpanDifference')
+    m.addConstrs((
+        row_span_diff[e1, e2] == row_span[e1] - row_span[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+    # Binary: whether e1 is taller than e2
+    is_taller = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='IsTaller')
+    m.addConstrs((
+        (is_taller[e1, e2] == 1) >> (row_span_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkIsTaller1')
+    m.addConstrs((
+        (is_taller[e1, e2] == 0) >> (row_span_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkIsTaller2')
+    m.addConstrs((
+        (is_taller[e1, e2] == 1) >> (elem_height_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkIsTaller3')
+    m.addConstrs((
+        (is_taller[e1, e2] == 0) >> (elem_height_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkIsTaller4')
+
+
     # TODO: col_span–elem_height relationship
     # TODO: col_start–elem_y relationship
     # TODO: adjacent rows > gutter_width apart
@@ -437,7 +467,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                     'id': e,
                     'x': (col_start[e].X - 1) * col_width.X * base_unit,
                     'y': elem_y0[e].X * base_unit,
-                    'width': (col_span[e].X * col_width.X - gutter_width.X ) * base_unit,
+                    'width': elem_width[e].X * base_unit,
                     'height': elem_height[e].X * base_unit,
                 } for e in elem_ids
             ]
