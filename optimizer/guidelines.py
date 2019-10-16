@@ -16,17 +16,19 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
     # https://www.gurobi.com/documentation/8.1/refman/poolsearchmode.html#parameter:PoolSearchMode
     m.Params.PoolSearchMode = 0 # Use 2 to find high quality solutions
-    m.Params.PoolSolutions = 1
+    m.Params.PoolSolutions = 1 # Number of solutions to be saved
     # model.Params.MIPGap = 0.01
 
     m.Params.MIPGapAbs = 0.97
     m.Params.OutputFlag = 1
 
+    # TODO
     # For each group:
         # Align edge elements
         # Constrain rest to the remaining area (minus padding)
             # E.g. y0 limit must be max value of top edge elements y1
         # Define a grid (if reasonable)
+
     elem_count = len(layout.elements)
     elem_ids = [e.id for e in layout.elements]
 
@@ -61,7 +63,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         # TODO compare performance:
         # (col_count_selected[n] == 1) >> (col_count == n)
         # col_count_selected[n] * n == col_count_selected[n] * col_count
-        col_count_selected[n] * (n - col_count) == 0
+        col_count_selected[n] * (col_count - n) == 0
         for n in col_counts
     ), name='LinkColumnCountToSelection')
 
@@ -71,7 +73,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         # TODO compare performance:
         # (row_count_selected[n] == 1) >> (row_count == n)
         # row_count_selected[n] * n == row_count_selected[n] * row_count
-        row_count_selected[n] * (n - row_count) == 0
+        row_count_selected[n] * (row_count - n) == 0
         for n in row_counts
     ), name='LinkRowCountToSelection')
 
@@ -244,8 +246,19 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     m.addConstr(min_row_start == min_(row_start), name='EnsureElementOnFirstRow')
 
     # Bind column/row count
+    # TODO compare performance
     m.addConstr(col_count == max_(col_end), name='LinkColumnCountToElementCoordinates')
     m.addConstr(row_count == max_(row_end), name='LinkRowCountToElementCoordinates')
+    '''
+    m.addConstrs((
+        col_count >= col_end[e]
+        for e in elem_ids
+    ), name='LinkColumnCountToElementCoordinates')
+    m.addConstrs((
+        row_count >= row_end[e]
+        for e in elem_ids
+    ), name='LinkRowCountToElementCoordinates')
+    '''
 
     # The area of the grid in terms of cells, i.e. col_count * row_count
     grid_cell_count = m.addVar(vtype=GRB.INTEGER, lb=1, name='GridCellCount')
@@ -261,6 +274,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     elem_cell_count = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElemCellCount')
     m.addConstrs((
         # Using indicator constraint to avoid quadratic constraints
+        # TODO compare performance
         (col_span_selected[e, n] == 1) >> (elem_cell_count[e] == n * row_span[e])
         for e, n in product(elem_ids, col_counts)
     ), name='LinkElemCellCountToColumnCount')
@@ -391,7 +405,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     gap_count = grid_cell_count - elem_cell_count.sum()
     m.addConstr(gap_count >= 0, name='GapCountSanity')
 
-    obj.add(gap_count)
+    # TODO: test which one is better, hard or soft constraint
+    m.addConstr(gap_count == 0)
+    #obj.add(gap_count)
 
 
 
