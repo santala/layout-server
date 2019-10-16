@@ -41,13 +41,20 @@ def optimize_layout() -> Response:
     # TODO: consider adding checks for security
     request_props = json.loads(request.data)
     layout = classes.Layout(request_props['layout'])
+
     time_out = min(30, max(1, int(request_props.get('timeOut', 30))))
+
     number_of_solutions = min(10, max(1, int(request_props.get('numberOfSolutions', 1))))
 
     # Testing code
     #guidelines.solve(layout)
 
-    return jsonify(guidelines.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions))
+    if time_out < 30:
+        result = guidelines.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions)
+    else:
+        result = guidelines.solve(layout, number_of_solutions=number_of_solutions)
+
+    return jsonify(result)
 
 
 @app.route('/api/v1.0/apply-template/', methods=['POST'])

@@ -6,7 +6,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 from .classes import Layout, Element
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
     m.Params.MIPFocus = 1
@@ -14,7 +14,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     print('Time out:', time_out)
 
-    m.Params.PoolSearchMode = 2
+    # https://www.gurobi.com/documentation/8.1/refman/poolsearchmode.html#parameter:PoolSearchMode
+    m.Params.PoolSearchMode = 0 # Use 2 to find high quality solutions
     m.Params.PoolSolutions = 1
     # model.Params.MIPGap = 0.01
 
@@ -40,6 +41,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     min_gutter_width = 1
     max_gutter_width = 4
 
+    # TODO: margins
+
     # Maximum number of columns that can fit on the layout
     max_col_count = int((layout_width + min_gutter_width) / (min_col_width + min_gutter_width))
     max_row_count = int((layout_height + min_gutter_width) / (min_row_height + min_gutter_width))
@@ -55,18 +58,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY, name='SelectedColumnCount')
     m.addConstr(col_count_selected.sum() == 1, name='SelectOneColumnCount') # One option must always be selected
     m.addConstrs((
-        # (col_count_selected[n] == 1) >> (col_count == n)
         # TODO compare performance:
-        col_count_selected[n] * n == col_count_selected[n] * col_count
+        # (col_count_selected[n] == 1) >> (col_count == n)
+        # col_count_selected[n] * n == col_count_selected[n] * col_count
+        col_count_selected[n] * (n - col_count) == 0
         for n in col_counts
     ), name='LinkColumnCountToSelection')
 
     row_count_selected = m.addVars(row_counts, vtype=GRB.BINARY, name='SelectedRowCount')
     m.addConstr(row_count_selected.sum() == 1, name='SelectOneRowCount')  # One option must always be selected
     m.addConstrs((
-        #(row_count_selected[n] == 1) >> (row_count == n)
         # TODO compare performance:
-        row_count_selected[n] * n == row_count_selected[n] * col_count
+        # (row_count_selected[n] == 1) >> (row_count == n)
+        # row_count_selected[n] * n == row_count_selected[n] * row_count
+        row_count_selected[n] * (n - row_count) == 0
         for n in row_counts
     ), name='LinkRowCountToSelection')
 
@@ -90,7 +95,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     actual_width = m.addVar(vtype=GRB.INTEGER, name='ActualWidth')
     m.addConstr(actual_width <= available_width, name='FitGridIntoAvailableSpace')
     m.addConstrs((
-        (col_count_selected[n] == 1) >> (actual_width == n * col_width - gutter_width)
+        # TODO compare performance:
+        # (col_count_selected[n] == 1) >> (actual_width == n * col_width - gutter_width)
+        # col_count_selected[n] * n * col_width == col_count_selected[n] * (gutter_width + actual_width)
+        col_count_selected[n] * (n * col_width - gutter_width - actual_width) == 0
         for n in col_counts
     ), name='LinkActualWidthToColumnCount')
 
@@ -103,7 +111,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     actual_height = m.addVar(vtype=GRB.INTEGER, name='ActualHeight')
     m.addConstr(actual_height <= available_height, name='FitGridIntoAvailableSpace')
     m.addConstrs((
-        (row_count_selected[n] == 1) >> (actual_height == n * row_height - gutter_width)
+        # TODO compare performance:
+        # (row_count_selected[n] == 1) >> (actual_height == n * row_height - gutter_width)
+        row_count_selected[n] * (n * row_height - gutter_width - actual_height) == 0
         for n in row_counts
     ), name='LinkActualHeightToRowCount')
 
@@ -132,8 +142,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for e in elem_ids
     ), name='SelectOneColumnSpan')
     m.addConstrs((
-        (col_span_selected[e, n] == 1) >> (col_span[e] == n)
-        # TODO compare performance: col_span_selected[n] * n == col_span_selected[n] * col_span[e]
+        # TODO compare performance
+        # (col_span_selected[e, n] == 1) >> (col_span[e] == n)
+        # col_span_selected[e, n] * n == col_span_selected[e, n] * col_span[e]
+        col_span_selected[e, n] * (n - col_span[e]) == 0
         for e, n in product(elem_ids, col_counts)
     ), name='LinkColumnSpanToSelection')
 
@@ -162,15 +174,16 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for e in elem_ids
     ), name='SelectOneColumnSpan')
     m.addConstrs((
-        (row_span_selected[e, n] == 1) >> (row_span[e] == n)
-        # TODO compare performance: row_span_selected[n] * n == row_span_selected[n] * col_span[e]
+        # TODO compare performance
+        # (row_span_selected[e, n] == 1) >> (row_span[e] == n)
+        # row_span_selected[n] * n == row_span_selected[n] * col_span[e]
+        row_span_selected[e, n] * (n - row_span[e]) == 0
         for e, n in product(elem_ids, row_counts)
     ), name='LinkRowSpanToSelection')
 
     # Element height in base units
     elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
     m.addConstrs((
-        #elem_height[e] == row_span[e] # TODO: implement gutter
         (row_span_selected[e, n] == 1) >> (elem_height[e] == n * row_height - gutter_width)
         for e, n in product(elem_ids, row_counts)
     ), name='LinkElementHeightToRowSpan')
