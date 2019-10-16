@@ -32,7 +32,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # Parameters
 
     layout_width = int(layout.canvas_width / base_unit)
+    layout_height = int(layout.canvas_height / base_unit)
+
     min_col_width = 1 # Not including gutter
+
     min_gutter_width = 1
     max_gutter_width = 4
 
@@ -49,13 +52,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY, name='SelectedColumnCount')
     m.addConstr(col_count_selected.sum() == 1, name='SelectOneColumnCount') # One option must always be selected
     m.addConstrs((
-        (col_count_selected[n] == 1) >> (col_count == n)
-        # TODO compare performance: col_count_selected[n] * n == col_count_selected[n] * col_count
+        # (col_count_selected[n] == 1) >> (col_count == n)
+        # TODO compare performance:
+        col_count_selected[n] * n == col_count_selected[n] * col_count
         for n in col_counts
     ), name='LinkColumnCountToSelection')
 
     # Maximum width for the grid to take (not including left/right margins)
     available_width = m.addVar(vtype=GRB.INTEGER, name='AvailableWidth')
+    m.addConstr(available_width == layout_width)
+    # Maximum height for the grid to take (not including left/right margins)
+    available_height = m.addVar(vtype=GRB.INTEGER, name='AvailableHeight')
+    m.addConstr(available_height == layout_height)
 
     # Width of the gutter (i.e. the space between adjacent columns)
     gutter_width = m.addVar(lb=min_gutter_width, ub=max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
@@ -73,7 +81,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     ), name='LinkActualWidthToColumnCount')
     m.addConstr(actual_width <= available_width, name='FitGridIntoAvailableSpace')
 
-
+    # Actual height of the grid (not including top/bottom margins)
+    actual_height = m.addVar(vtype=GRB.INTEGER, name='ActualHeight')
+    m.addConstr(actual_height <= available_width, name='FitGridIntoAvailableSpace')
 
 
     # Number of rows
@@ -105,6 +115,12 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         # TODO compare performance: col_span_selected[n] * n == col_span_selected[n] * col_span[e]
         for e, n in product(elem_ids, col_counts)
     ), name='LinkColumnCountToSelection')
+    # Element width in base units
+    elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
+    m.addConstrs((
+        (col_span_selected[e, n] == 1) >> (elem_width[e] == n * col_width - gutter_width)
+        for e, n in product(elem_ids, col_counts)
+    ), name='LinkElementWidthToColumnSpan')
 
 
     row_start = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='StartRow')
@@ -118,6 +134,144 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         row_span[e] == row_end[e] - row_start[e] + 1
         for e in elem_ids
     ), name='LinkRowSpan')
+
+
+    # Element y coordinates in base units
+    elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='ElementY0')
+    elem_y1 = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='ElementY1')
+    m.addConstrs((
+        elem_y0[e] <= elem_y1[e] + 1
+        for e in elem_ids
+    ), name='Y0Y1OrderAndMinHeight')
+    m.addConstrs((
+        elem_y1[e] <= available_height
+        for e in elem_ids
+    ), name='Y1Sanity')
+
+    # Element height in base units
+    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementHeight')
+    m.addConstrs((
+        elem_height[e] == elem_y1[e] - elem_y0[e]
+        for e in elem_ids
+    ), name='LinkElementHeight')
+
+    # TODO: col_span–elem_height relationship
+    # TODO: col_start–elem_y relationship
+    # TODO: adjacent rows > gutter_width apart
+
+    # Integer: The number of rows between element start rows
+    row_start_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='StartRowDifference')
+    m.addConstrs((
+        row_start_diff[e1, e2] == row_start[e1] - row_start[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+    # Integer: The number of rows between element start rows
+    row_end_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='EndRowDifference')
+    m.addConstrs((
+        row_end_diff[e1, e2] == row_end[e1] - row_end[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+    # Integer: The number of base units between element Y0 coordinates
+    elem_y0_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='YDifference')
+    m.addConstrs((
+        elem_y0_diff[e1, e2] == elem_y0[e1] - elem_y0[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+    # Integer: The number of base units between element Y1 coordinates
+    elem_y1_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='YDifference')
+    m.addConstrs((
+        elem_y1_diff[e1, e2] == elem_y1[e1] - elem_y1[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+
+    # Binary: whether e1 starts on a any row before e2
+    start_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
+    m.addConstrs((
+        (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkStartRowLessThan1')
+    m.addConstrs((
+        (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkStartRowLessThan2')
+
+    # Binary: whether e1 ends on a any row before e2
+    end_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkEndRowOrder1')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkEndRowOrder2')
+
+    # Element Y coordinates must follow the order of the start/end rows
+    m.addConstrs((
+        (start_row_before[e1, e2] == 1) >> (elem_y0_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkYOrder1')
+    m.addConstrs((
+        (start_row_before[e1, e2] == 0) >> (elem_y0_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkYOrder2')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 1) >> (elem_y1_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkYPlusHeightOrder1')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 0) >> (elem_y1_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkYPlusHeightOrder2')
+
+
+    '''
+    row_end_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='EndRowDifference')
+    m.addConstrs((
+        row_end_diff[e1, e2] == row_end[e1] - row_end[e2]
+        for e1, e2 in permutations(elem_ids, 2)
+    ))
+
+    start_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
+    m.addConstrs((
+        (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkStartRowLessThan1')
+    m.addConstrs((
+        (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkStartRowLessThan2')
+
+    end_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='EndRowLessThan')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkEndRowLessThan1')
+    m.addConstrs((
+        (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkEndRowLessThan2')
+
+    y0_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='StartRowGroup')
+    y1_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='EndRowGroup')
+
+    m.addConstrs((
+        (start_row_before[i1, i2] == 1) >> (y0_group[i1] <= y0_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0Group1')
+    m.addConstrs((
+        (start_row_before[i1, i2] == 0) >> (y0_group[i1] >= y0_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0Group2')
+    m.addConstrs((
+        (end_row_before[i1, i2] == 1) >> (y1_group[i1] <= y1_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1Group1')
+    m.addConstrs((
+        (end_row_before[i1, i2] == 0) >> (y1_group[i1] >= y1_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1Group2')
+    '''
 
 
     # At least one element must start at the first column/row
@@ -155,26 +309,34 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkAbove1')
     m.addConstrs((
-        (above[i1, i2] == 0) >> (row_end[i1] >= row_start[i2])
-        for i1, i2 in permutations(elem_ids, 2)
+        (above[e1, e2] == 0) >> (row_end[e1] >= row_start[e2])
+        for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkAbove2')
     m.addConstrs((
-        above[i1, i2] + above[i2, i1] <= 1
-        for i1, i2 in permutations(elem_ids, 2)
-    ), name='AboveSanity')  # TODO: check if sanity checks are necessary
+        (above[e1, e2] == 1) >> (elem_y1[e1] + 1 <= elem_y0[e2])
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove1')
+    m.addConstrs((
+        (above[e1, e2] == 0) >> (elem_y1[e1] >= elem_y0[e2])
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove2')
+    m.addConstrs((
+        above[e1, e2] + above[e2, e1] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='AboveSanity') # TODO: check if sanity checks are necessary
 
     on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='OnLeft')
     m.addConstrs((
-        (on_left[i1, i2] == 1) >> (col_end[i1] + 1 <= col_start[i2])
-        for i1, i2 in permutations(elem_ids, 2)
+        (on_left[e1, e2] == 1) >> (col_end[e1] + 1 <= col_start[e2])
+        for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkOnLeft1')
     m.addConstrs((
-        (on_left[i1, i2] == 0) >> (col_end[i1] >= col_start[i2])
-        for i1, i2 in permutations(elem_ids, 2)
+        (on_left[e1, e2] == 0) >> (col_end[e1] >= col_start[e2])
+        for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkOnLeft2')
     m.addConstrs((
-        on_left[i1, i2] + on_left[i2, i1] <= 1
-        for i1, i2 in permutations(elem_ids, 2)
+        on_left[e1, e2] + on_left[e2, e1] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
     ), name='OnLeftSanity')
 
     # Overlap of elements
@@ -203,6 +365,40 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     obj = LinExpr()
 
+
+    # Element scaling
+
+    # Difference of the element width to the original in pixels (not in base units)
+    # Note, the constraints below define this variable to be *at least* the actual difference,
+    # i.e. the variable may take a larger value. However, we will define an objective of minimizing
+    # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
+
+    min_width_diff_px = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
+    m.addConstrs((
+        min_width_diff_px[element.id] >= elem_width[element.id] - round(element.width/base_unit)
+        for element in layout.elements
+    ), name='LinkWidthDiff1')
+    m.addConstrs((
+        min_width_diff_px[element.id] >= round(element.width/base_unit) - elem_width[element.id]
+        for element in layout.elements
+    ), name='LinkWidthDiff2')
+
+
+    min_height_diff_px = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
+    m.addConstrs((
+        min_height_diff_px[element.id] >= elem_height[element.id] - round(element.height/base_unit)
+        for element in layout.elements
+    ), name='LinkHeightDiff1')
+    m.addConstrs((
+        min_height_diff_px[element.id] >= round(element.height/base_unit) - elem_height[element.id]
+        for element in layout.elements
+    ), name='LinkHeightDiff2')
+
+    # Minimize size difference
+
+    obj.add(min_width_diff_px.sum(), .1)
+    obj.add(min_height_diff_px.sum(), .1)
+
     # Aim for best fit of grid
     width_error = available_width - actual_width
     # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
@@ -214,6 +410,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.addConstr(gap_count >= 0, name='GapCountSanity')
 
     obj.add(gap_count)
+
+
 
     m.setObjective(obj, GRB.MINIMIZE)
 
@@ -228,17 +426,19 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             print('Width Error', width_error.getValue())
             print('Gap Count', gap_count.getValue())
-            print('Column count', col_count.X)
-            print('Column width', col_width.X)
+            print('Area', grid_cell_count.X, elem_cell_count.sum().getValue())
+            print('Column Count', col_count.X)
+            print('Column Width', col_width.X)
+            print('Row Count', row_count.X)
 
 
             elements = [
                 {
                     'id': e,
                     'x': (col_start[e].X - 1) * col_width.X * base_unit,
-                    'y': (row_start[e].X - 1) * col_width.X * base_unit,
+                    'y': elem_y0[e].X * base_unit,
                     'width': (col_span[e].X * col_width.X - gutter_width.X ) * base_unit,
-                    'height': (row_span[e].X * col_width.X - gutter_width.X ) * base_unit,
+                    'height': elem_height[e].X * base_unit,
                 } for e in elem_ids
             ]
 
@@ -315,3 +515,4 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 # TODO minimize resizing of elements
 # TODO width difference, height difference
+# TODO (aim to fill available height)

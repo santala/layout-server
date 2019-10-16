@@ -164,6 +164,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
         ), name='LinkOverlap')
 
         # EXPL: the existence of below variable speeds up the optimizer, even if the variable isn’t used
+        '''
         edge_diff = m.addVars(edge_indices, elem_indices, elem_indices, lb=-GRB.INFINITY, vtype=GRB.INTEGER,
                               name='EdgeDistance')
         for edge, edge_var in zip(edge_indices, [x0, y0, x1, y1]):
@@ -171,7 +172,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
                 edge_diff[edge, i1, i2] == edge_var[i1] - edge_var[i2]
                 for i1, i2 in product(elem_indices, elem_indices)
             ), name='Link' + str(edge) + 'Diff')
-
+        '''
 
         # IN PREV COL
 
