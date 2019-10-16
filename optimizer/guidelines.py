@@ -209,73 +209,32 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     # Binary: whether e1 starts on a any row before e2
     start_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
     m.addConstrs((
-        (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
+        # TODO compare performance
+        # (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
+        start_row_before[e1, e2] * (row_start_diff[e1, e2] + 1) <= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkStartRowLessThan1')
     m.addConstrs((
-        (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
+        # TODO compare performance
+        # (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
+        (1 - start_row_before[e1, e2]) * row_start_diff[e1, e2] >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkStartRowLessThan2')
 
     # Binary: whether e1 ends on a any row before e2
     end_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
     m.addConstrs((
-        (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
+        # TODO compare performance
+        # (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
+        end_row_before[e1, e2] * (row_end_diff[e1, e2] + 1) <= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkEndRowOrder1')
     m.addConstrs((
-        (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
+        # TODO compare performance
+        # (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
+        (1 - end_row_before[e1, e2]) * row_end_diff[e1, e2] >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkEndRowOrder2')
-
-
-    '''
-    row_end_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='EndRowDifference')
-    m.addConstrs((
-        row_end_diff[e1, e2] == row_end[e1] - row_end[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-
-    start_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
-    m.addConstrs((
-        (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkStartRowLessThan1')
-    m.addConstrs((
-        (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkStartRowLessThan2')
-
-    end_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='EndRowLessThan')
-    m.addConstrs((
-        (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkEndRowLessThan1')
-    m.addConstrs((
-        (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkEndRowLessThan2')
-
-    y0_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='StartRowGroup')
-    y1_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='EndRowGroup')
-
-    m.addConstrs((
-        (start_row_before[i1, i2] == 1) >> (y0_group[i1] <= y0_group[i2] - 1)
-        for i1, i2 in permutations(elem_ids, 2)
-    ), name='LinkY0Group1')
-    m.addConstrs((
-        (start_row_before[i1, i2] == 0) >> (y0_group[i1] >= y0_group[i2])
-        for i1, i2 in permutations(elem_ids, 2)
-    ), name='LinkY0Group2')
-    m.addConstrs((
-        (end_row_before[i1, i2] == 1) >> (y1_group[i1] <= y1_group[i2] - 1)
-        for i1, i2 in permutations(elem_ids, 2)
-    ), name='LinkY1Group1')
-    m.addConstrs((
-        (end_row_before[i1, i2] == 0) >> (y1_group[i1] >= y1_group[i2])
-        for i1, i2 in permutations(elem_ids, 2)
-    ), name='LinkY1Group2')
-    '''
 
 
     # At least one element must start at the first column/row
@@ -301,6 +260,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     # cell_coverage: row_span_equals[e,n] >> cell_coverage == n * row_span
     elem_cell_count = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElemCellCount')
     m.addConstrs((
+        # Using indicator constraint to avoid quadratic constraints
         (col_span_selected[e, n] == 1) >> (elem_cell_count[e] == n * row_span[e])
         for e, n in product(elem_ids, col_counts)
     ), name='LinkElemCellCountToColumnCount')
@@ -309,14 +269,26 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     # Directional relationships
 
     above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Above')
+    '''
     m.addConstrs((
+        # TODO compare performance
+        above[e1, e2] * (row_start[e2] - row_end[e1] - 1) + (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove1')
+    '''
+    m.addConstrs((
+        # TODO compare performance
         (above[e1, e2] == 1) >> (row_end[e1] + 1 <= row_start[e2])
+        # above[e1, e2] * (row_start[e2] - row_end[e1] - 1) >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkAbove1')
     m.addConstrs((
+        # TODO compare performance
         (above[e1, e2] == 0) >> (row_end[e1] >= row_start[e2])
+        # (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkAbove2')
+
     m.addConstrs((
         above[e1, e2] + above[e2, e1] <= 1
         for e1, e2 in permutations(elem_ids, 2)
@@ -324,11 +296,15 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
     on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='OnLeft')
     m.addConstrs((
+        # TODO compare performance
         (on_left[e1, e2] == 1) >> (col_end[e1] + 1 <= col_start[e2])
+        # on_left[e1, e2] * (col_start[e2] - col_end[e1] - 1) >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkOnLeft1')
     m.addConstrs((
+        # TODO compare performance
         (on_left[e1, e2] == 0) >> (col_end[e1] >= col_start[e2])
+        # (1 - on_left[e1, e2]) * (col_end[e1] - col_start[e2]) >= 0
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkOnLeft2')
     m.addConstrs((
@@ -350,13 +326,22 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkVerticalOverlap')
 
+    '''
     overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Overlap')
     m.addConstrs((
+        # TODO test alternatives for performance
         overlap[e1, e2] == and_(h_overlap[e1, e2], v_overlap[e1, e2])
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkOverlap')
 
     m.addConstr(overlap.sum() == 0)
+    '''
+    # EXPL: this may be faster way to constrain overlap
+    m.addConstrs((
+        # Prevent overlap
+        h_overlap[e1, e2] + v_overlap[e1, e2] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='PreventOverlap')
 
     # OBJECTIVES
 
