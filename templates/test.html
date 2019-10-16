@@ -56,6 +56,7 @@ async function submitLayoutEngine() {
     try {
         console.log("Parsing layout…");
         let layout = await readJSON(document.getElementById("layoutEngineFile"));
+        console.log('Request Body:', layout);
 
         drawLayout("layoutEngineInput", layout);
 
@@ -65,7 +66,7 @@ async function submitLayoutEngine() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(layout), // body data type must match "Content-Type" header
+            body: JSON.stringify({ layout }), // body data type must match "Content-Type" header
         });
         console.log(response);
 

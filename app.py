@@ -6,7 +6,7 @@ from flask import Flask, abort, jsonify, render_template, request, Response
 from layout_engine import ElementaryPlacement
 from tools import JSONLoader
 
-from optimizer import classes, layout_difference, layout_quality
+from optimizer import classes, layout_difference, layout_quality, guidelines
 
 app = Flask(__name__)
 
@@ -43,7 +43,11 @@ def optimize_layout() -> Response:
     layout = classes.Layout(request_props['layout'])
     time_out = min(30, max(1, int(request_props.get('timeOut', 30))))
     number_of_solutions = min(10, max(1, int(request_props.get('numberOfSolutions', 1))))
-    return jsonify(layout_quality.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions))
+
+    # Testing code
+    #guidelines.solve(layout)
+
+    return jsonify(guidelines.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions))
 
 
 @app.route('/api/v1.0/apply-template/', methods=['POST'])
