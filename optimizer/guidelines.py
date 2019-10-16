@@ -350,42 +350,42 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
     # Element scaling
 
-    # Difference of the element width to the original in pixels (not in base units)
+    # Difference of the element width to the original in base units
     # Note, the constraints below define this variable to be *at least* the actual difference,
     # i.e. the variable may take a larger value. However, we will define an objective of minimizing
     # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
 
-    min_width_diff_px = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
+    min_width_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
     m.addConstrs((
-        min_width_diff_px[element.id] >= elem_width[element.id] - round(element.width/base_unit)
+        min_width_diff[element.id] >= elem_width[element.id] - round(element.width/base_unit)
         for element in layout.elements
     ), name='LinkWidthDiff1')
     m.addConstrs((
-        min_width_diff_px[element.id] >= round(element.width/base_unit) - elem_width[element.id]
+        min_width_diff[element.id] >= round(element.width/base_unit) - elem_width[element.id]
         for element in layout.elements
     ), name='LinkWidthDiff2')
 
 
-    min_height_diff_px = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
+    min_height_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
     m.addConstrs((
-        min_height_diff_px[element.id] >= elem_height[element.id] - round(element.height/base_unit)
+        min_height_diff[element.id] >= elem_height[element.id] - round(element.height/base_unit)
         for element in layout.elements
     ), name='LinkHeightDiff1')
     m.addConstrs((
-        min_height_diff_px[element.id] >= round(element.height/base_unit) - elem_height[element.id]
+        min_height_diff[element.id] >= round(element.height/base_unit) - elem_height[element.id]
         for element in layout.elements
     ), name='LinkHeightDiff2')
 
     # Minimize size difference
 
-    obj.add(min_width_diff_px.sum(), .1)
-    obj.add(min_height_diff_px.sum(), .1)
+    obj.add(min_width_diff.sum(), .5)
+    obj.add(min_height_diff.sum(), .5)
 
     # Aim for best fit of grid
     width_error = available_width - actual_width
     # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
 
-    obj.add(width_error)
+    obj.add(width_error, 2)
 
     # Aim for best coverage/packing, i.e. minimize gaps in the grid
     gap_count = grid_cell_count - elem_cell_count.sum()
@@ -412,7 +412,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
             print('Column Count', col_count.X)
             print('Column Width', col_width.X)
             print('Row Count', row_count.X)
-            print('Resize Error', min_width_diff_px.sum().getValue(), min_height_diff_px.sum().getValue())
+            print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
 
 
             elements = [
