@@ -6,7 +6,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 from .classes import Layout, Element
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1, max_col_count: int=None):
+def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
     m.Params.MIPFocus = 1
@@ -35,19 +35,22 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     layout_height = int(layout.canvas_height / base_unit)
 
     min_col_width = 1 # Not including gutter
+    min_row_height = 1 # Not including gutter
 
     min_gutter_width = 1
     max_gutter_width = 4
 
-    if max_col_count is None:
-        # Maximum number of columns that can fit on the layout
-        max_col_count = int((layout_width + min_gutter_width) / (min_col_width + min_gutter_width))
+    # Maximum number of columns that can fit on the layout
+    max_col_count = int((layout_width + min_gutter_width) / (min_col_width + min_gutter_width))
+    max_row_count = int((layout_height + min_gutter_width) / (min_row_height + min_gutter_width))
 
     col_counts = range(1, max_col_count + 1)
+    row_counts = range(1, max_row_count + 1)
 
     # Number of columns
     col_count = m.addVar(lb=1, ub=max_col_count, vtype=GRB.INTEGER, name='ColumnCount')
-    # TODO: col_count == max(col_end)
+    # Number of rows
+    row_count = m.addVar(vtype=GRB.INTEGER, lb=1, ub=elem_count, name='RowCount')
 
     col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY, name='SelectedColumnCount')
     m.addConstr(col_count_selected.sum() == 1, name='SelectOneColumnCount') # One option must always be selected
@@ -58,12 +61,22 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for n in col_counts
     ), name='LinkColumnCountToSelection')
 
+    row_count_selected = m.addVars(row_counts, vtype=GRB.BINARY, name='SelectedRowCount')
+    m.addConstr(row_count_selected.sum() == 1, name='SelectOneRowCount')  # One option must always be selected
+    m.addConstrs((
+        # (row_count_selected[n] == 1) >> (col_count == n)
+        # TODO compare performance:
+        row_count_selected[n] * n == row_count_selected[n] * col_count
+        for n in row_counts
+    ), name='LinkRowCountToSelection')
+
     # Maximum width for the grid to take (not including left/right margins)
     available_width = m.addVar(vtype=GRB.INTEGER, name='AvailableWidth')
-    m.addConstr(available_width == layout_width)
+    m.addConstr(available_width == layout_width) # TODO change this when making this group specific
+
     # Maximum height for the grid to take (not including left/right margins)
     available_height = m.addVar(vtype=GRB.INTEGER, name='AvailableHeight')
-    m.addConstr(available_height == layout_height)
+    m.addConstr(available_height == layout_height) # TODO change this when making this group specific
 
     # Width of the gutter (i.e. the space between adjacent columns)
     gutter_width = m.addVar(lb=min_gutter_width, ub=max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
@@ -81,13 +94,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     ), name='LinkActualWidthToColumnCount')
     m.addConstr(actual_width <= available_width, name='FitGridIntoAvailableSpace')
 
+    # Row height (fixed to one base unit)
+    row_height = m.addVar(vtype=GRB.INTEGER, lb=1, name='RowHeight')
+    m.addConstr(row_height <= available_height, name='FitRowIntoAvailableSpace')
+    m.addConstr(row_height - gutter_width >= min_row_height, name='AdjustMinRowHeightAccordingToGutterWidth')
+
     # Actual height of the grid (not including top/bottom margins)
     actual_height = m.addVar(vtype=GRB.INTEGER, name='ActualHeight')
     m.addConstr(actual_height <= available_width, name='FitGridIntoAvailableSpace')
 
 
-    # Number of rows
-    row_count = m.addVar(lb=1, ub=elem_count, vtype=GRB.INTEGER, name='RowCount')
+
+
 
     # Element coordinates
     col_start = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='StartColumn')
@@ -114,7 +132,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         (col_span_selected[e, n] == 1) >> (col_span[e] == n)
         # TODO compare performance: col_span_selected[n] * n == col_span_selected[n] * col_span[e]
         for e, n in product(elem_ids, col_counts)
-    ), name='LinkColumnCountToSelection')
+    ), name='LinkColumnSpanToSelection')
+
     # Element width in base units
     elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
     m.addConstrs((
@@ -134,55 +153,24 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         row_span[e] == row_end[e] - row_start[e] + 1
         for e in elem_ids
     ), name='LinkRowSpan')
-
-
-    # Element y coordinates in base units
-    elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='ElementY0')
-    elem_y1 = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='ElementY1')
+    row_span_selected = m.addVars(product(elem_ids, row_counts), vtype=GRB.BINARY, name='SelectedColumnSpan')
     m.addConstrs((
-        elem_y0[e] <= elem_y1[e] + 1
+        row_span_selected.sum(e, '*') == 1
         for e in elem_ids
-    ), name='Y0Y1OrderAndMinHeight')
+    ), name='SelectOneColumnSpan')
     m.addConstrs((
-        elem_y1[e] <= available_height
-        for e in elem_ids
-    ), name='Y1Sanity')
+        (row_span_selected[e, n] == 1) >> (row_span[e] == n)
+        # TODO compare performance: row_span_selected[n] * n == row_span_selected[n] * col_span[e]
+        for e, n in product(elem_ids, row_counts)
+    ), name='LinkRowSpanToSelection')
 
     # Element height in base units
-    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementHeight')
+    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
     m.addConstrs((
-        elem_height[e] == elem_y1[e] - elem_y0[e]
-        for e in elem_ids
-    ), name='LinkElementHeight')
-
-    elem_height_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='HeightDifference')
-    m.addConstrs((
-        elem_height_diff[e1, e2] == elem_height[e1] - elem_height[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-    row_span_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='RowSpanDifference')
-    m.addConstrs((
-        row_span_diff[e1, e2] == row_span[e1] - row_span[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-    # Binary: whether e1 is taller than e2
-    is_taller = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='IsTaller')
-    m.addConstrs((
-        (is_taller[e1, e2] == 1) >> (row_span_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkIsTaller1')
-    m.addConstrs((
-        (is_taller[e1, e2] == 0) >> (row_span_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkIsTaller2')
-    m.addConstrs((
-        (is_taller[e1, e2] == 1) >> (elem_height_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkIsTaller3')
-    m.addConstrs((
-        (is_taller[e1, e2] == 0) >> (elem_height_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkIsTaller4')
+        #elem_height[e] == row_span[e] # TODO: implement gutter
+        (row_span_selected[e, n] == 1) >> (elem_height[e] == n * row_height - gutter_width)
+        for e, n in product(elem_ids, row_counts)
+    ), name='LinkElementHeightToRowSpan')
 
 
     # TODO: col_span–elem_height relationship
@@ -199,18 +187,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     row_end_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='EndRowDifference')
     m.addConstrs((
         row_end_diff[e1, e2] == row_end[e1] - row_end[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-    # Integer: The number of base units between element Y0 coordinates
-    elem_y0_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='YDifference')
-    m.addConstrs((
-        elem_y0_diff[e1, e2] == elem_y0[e1] - elem_y0[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-    # Integer: The number of base units between element Y1 coordinates
-    elem_y1_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='YDifference')
-    m.addConstrs((
-        elem_y1_diff[e1, e2] == elem_y1[e1] - elem_y1[e2]
         for e1, e2 in permutations(elem_ids, 2)
     ))
 
@@ -235,24 +211,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkEndRowOrder2')
-
-    # Element Y coordinates must follow the order of the start/end rows
-    m.addConstrs((
-        (start_row_before[e1, e2] == 1) >> (elem_y0_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkYOrder1')
-    m.addConstrs((
-        (start_row_before[e1, e2] == 0) >> (elem_y0_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkYOrder2')
-    m.addConstrs((
-        (end_row_before[e1, e2] == 1) >> (elem_y1_diff[e1, e2] <= -1)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkYPlusHeightOrder1')
-    m.addConstrs((
-        (end_row_before[e1, e2] == 0) >> (elem_y1_diff[e1, e2] >= 0)
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkYPlusHeightOrder2')
 
 
     '''
@@ -309,6 +267,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.addConstr(min_col_start == min_(col_start), name='EnsureElementInFirstColumn')
     min_row_start = m.addVar(vtype=GRB.INTEGER, lb=1, ub=1, name='MinStartRow')
     m.addConstr(min_row_start == min_(row_start), name='EnsureElementOnFirstRow')
+
     # Bind column/row count
     m.addConstr(col_count == max_(col_end), name='LinkColumnCountToElementCoordinates')
     m.addConstr(row_count == max_(row_end), name='LinkRowCountToElementCoordinates')
@@ -340,14 +299,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     ), name='LinkAbove1')
     m.addConstrs((
         (above[e1, e2] == 0) >> (row_end[e1] >= row_start[e2])
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove2')
-    m.addConstrs((
-        (above[e1, e2] == 1) >> (elem_y1[e1] + 1 <= elem_y0[e2])
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove1')
-    m.addConstrs((
-        (above[e1, e2] == 0) >> (elem_y1[e1] >= elem_y0[e2])
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkAbove2')
     m.addConstrs((
@@ -454,19 +405,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
             # ‘X’ is the value of the variable in the current solution
 
-            print('Width Error', width_error.getValue())
+            print('Grid Width Error', width_error.getValue())
             print('Gap Count', gap_count.getValue())
             print('Area', grid_cell_count.X, elem_cell_count.sum().getValue())
             print('Column Count', col_count.X)
             print('Column Width', col_width.X)
             print('Row Count', row_count.X)
+            print('Resize Error', min_width_diff_px.sum().getValue(), min_height_diff_px.sum().getValue())
 
 
             elements = [
                 {
                     'id': e,
                     'x': (col_start[e].X - 1) * col_width.X * base_unit,
-                    'y': elem_y0[e].X * base_unit,
+                    'y': (row_start[e].X - 1) * row_height.X * base_unit,
                     'width': elem_width[e].X * base_unit,
                     'height': elem_height[e].X * base_unit,
                 } for e in elem_ids
