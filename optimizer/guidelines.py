@@ -64,18 +64,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     row_count_selected = m.addVars(row_counts, vtype=GRB.BINARY, name='SelectedRowCount')
     m.addConstr(row_count_selected.sum() == 1, name='SelectOneRowCount')  # One option must always be selected
     m.addConstrs((
-        # (row_count_selected[n] == 1) >> (col_count == n)
+        #(row_count_selected[n] == 1) >> (row_count == n)
         # TODO compare performance:
         row_count_selected[n] * n == row_count_selected[n] * col_count
         for n in row_counts
     ), name='LinkRowCountToSelection')
 
     # Maximum width for the grid to take (not including left/right margins)
-    available_width = m.addVar(vtype=GRB.INTEGER, name='AvailableWidth')
+    available_width = m.addVar(vtype=GRB.INTEGER, ub=layout_width, name='AvailableWidth')
     m.addConstr(available_width == layout_width) # TODO change this when making this group specific
 
     # Maximum height for the grid to take (not including left/right margins)
-    available_height = m.addVar(vtype=GRB.INTEGER, name='AvailableHeight')
+    available_height = m.addVar(vtype=GRB.INTEGER, ub=layout_height, name='AvailableHeight')
     m.addConstr(available_height == layout_height) # TODO change this when making this group specific
 
     # Width of the gutter (i.e. the space between adjacent columns)
@@ -88,11 +88,11 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     # Actual width of the grid (not including left/right margins)
     actual_width = m.addVar(vtype=GRB.INTEGER, name='ActualWidth')
+    m.addConstr(actual_width <= available_width, name='FitGridIntoAvailableSpace')
     m.addConstrs((
         (col_count_selected[n] == 1) >> (actual_width == n * col_width - gutter_width)
         for n in col_counts
     ), name='LinkActualWidthToColumnCount')
-    m.addConstr(actual_width <= available_width, name='FitGridIntoAvailableSpace')
 
     # Row height (fixed to one base unit)
     row_height = m.addVar(vtype=GRB.INTEGER, lb=1, name='RowHeight')
@@ -101,8 +101,11 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     # Actual height of the grid (not including top/bottom margins)
     actual_height = m.addVar(vtype=GRB.INTEGER, name='ActualHeight')
-    m.addConstr(actual_height <= available_width, name='FitGridIntoAvailableSpace')
-
+    m.addConstr(actual_height <= available_height, name='FitGridIntoAvailableSpace')
+    m.addConstrs((
+        (row_count_selected[n] == 1) >> (actual_height == n * row_height - gutter_width)
+        for n in row_counts
+    ), name='LinkActualHeightToRowCount')
 
 
 
