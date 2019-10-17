@@ -68,7 +68,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # Note, the constraints below define this variable to be *at least* the actual difference,
     # i.e. the variable may take a larger value. However, we will define an objective of minimizing
     # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
-
+    '''
     min_width_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
     m.addConstrs((
         min_width_diff[element.id] >= elem_width[element.id] - round(element.width/base_unit)
@@ -89,18 +89,33 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         min_height_diff[element.id] >= round(element.height/base_unit) - elem_height[element.id]
         for element in layout.elements
     ), name='LinkHeightDiff2')
+    '''
+
+    min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
+    m.addConstrs((
+        min_width_loss[element.id] >= round(element.width / base_unit) - elem_width[element.id]
+        for element in layout.elements
+    ), name='LinkWidthLoss')
+
+    min_height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
+    m.addConstrs((
+        min_height_loss[element.id] >= round(element.height / base_unit) - elem_height[element.id]
+        for element in layout.elements
+    ), name='LinkHeightLoss')
 
     # Minimize size difference
 
-    obj.add(min_width_diff.sum(), 1)
-    obj.add(min_height_diff.sum(), 1)
+    #obj.add(min_width_diff.sum(), 1)
+    #obj.add(min_height_diff.sum(), 1)
+    obj.add(min_width_loss.sum())
+    obj.add(min_height_loss.sum())
 
     # Aim for best fit of grid
 
     # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
     obj.add(width_error, 1)
 
-    obj.add(height_error, 1)
+    #obj.add(height_error, 1)
 
 
     # TODO: test which one is better, hard or soft constraint
@@ -126,7 +141,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             print('Column Width', col_width.X)
             print('Row Count', row_count.X)
             print('Row Height', row_height.X)
-            print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
+            #print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
+            print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
 
 
             elements = [
