@@ -1,3 +1,4 @@
+from operator import itemgetter
 
 class Layout:
     def __init__(self, props: dict):
@@ -15,6 +16,15 @@ class Layout:
         self.elements = [
             Element(element_props, self) for element_props in props.get('elements', [])
         ]
+
+        for element in self.elements:
+            parents = [other for other in self.elements if element is not other and element.is_contained_within(other)]
+            print('parents',element.id, [p.id for p in parents])
+            if len(parents) == 1:
+                element.parent = parents[0]
+            elif len(parents) > 1:
+                # If there are multiple containing elements, pick the smallest as the parent
+                element.parent = min(parents, itemgetter('area'))
 
         self.n = len(self.elements)
 
@@ -35,23 +45,17 @@ class Element:
         self.layout = layout
 
         self.id = str(props.get('id'))
-        self.x0 = int(props.get('x'))
-        self.y0 = int(props.get('y'))
-        self.width = props.get('width', None)   # TODO: choose default number values and/or validate input
-        self.height = props.get('height', None)
-        self.x1 = self.x0 + self.width
-        self.y1 = self.y0 + self.height
-        self.area = self.width * self.height \
-            if self.width is not None and self.height is not None \
-               and self.width > 0 and self.height > 0 \
-            else None
-        self.horizontalPreference = props.get('horizontalPreference', 'None')
-        self.verticalPreference = props.get('verticalPreference', 'None')
-        self.aspectRatio = props.get('aspectRatio', None)
-        self.elementType = props.get('type')
+        self.elementType = props.get('type', None)
         self.componentName = props.get('componentName', '?')
 
-        print(self.elementType, self.componentName)
+        self.x0 = int(props.get('x', 0))
+        self.y0 = int(props.get('y', 0))
+        self.width = props.get('width', 1)   # TODO: choose default number values and/or validate input
+        self.height = props.get('height', 1)
+        self.x1 = self.x0 + self.width
+        self.y1 = self.y0 + self.height
+        self.area = self.width * self.height
+
 
         self.constrainLeft = bool(props.get('constrainLeft', False))
         self.constrainRight = bool(props.get('constrainRight', False))
@@ -62,31 +66,21 @@ class Element:
 
         self.isLocked = bool(props.get('isLocked', False))
 
-        self.PenaltyIfSkipped = None
-
-        # TODO: make grid size configurable
-
-        choice = 2
-        if choice == 1:
-            if self.width is not None and self.width >= 0:
-                self.minWidth = self.width #1#int(self.width / 8) * 8
-                self.maxWidth = self.width #1000#int(self.width / 8 + 1) * 8
-            if self.height is not None and self.height >= 0:
-                self.minHeight = self.height #1#int(self.height / 8) * 8
-                self.maxHeight = self.height # 1000#int(self.height / 8 + 1) * 8
-        elif choice == 2:
-            if self.width is not None and self.width >= 0:
-                self.minWidth = 1
-                self.maxWidth = layout.canvas_width
-            if self.height is not None and self.height >= 0:
-                self.minHeight = 1
-                self.maxHeight = layout.canvas_height
-        else:
-            if self.width is not None and self.width >= 0:
-                self.minWidth = int(self.width * .5)
-                self.maxWidth = int(self.width * 1.5)
-            if self.height is not None and self.height >= 0:
-                self.minHeight = int(self.height * .5)
-                self.maxHeight = int(self.height * 1.5)
+        self.parent = None
 
 
+
+    def overlap_width(self, other):
+        return (self.width + other.width) - (max(self.x0 + self.width, other.x0 + other.width) - min(self.x0, other.x0))
+
+    def overlap_height(self, other):
+        return (self.height + other.height) - (max(self.y0 + self.height, other.y0 + other.height) - min(self.y0, other.y0))
+
+    def overlap_area(self, other):
+        return self.overlap_width(other) * self.overlap_height(other)
+
+    def do_overlap(self, other):
+        return self.overlap_width(other) > 0 and self.overlap_height(other) > 0
+
+    def is_contained_within(self, other):
+        return self.overlap_area(other) == self.area

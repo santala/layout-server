@@ -9,7 +9,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 from .classes import Layout, Element
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -33,6 +33,15 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             # E.g. y0 limit must be max value of top edge elements y1
         # Define a grid (if reasonable)
 
+
+    groups = {}
+
+    for element in layout.elements:
+        if element.parent not in groups:
+            groups[element.parent] = []
+        groups[element.parent].append(element)
+
+
     elem_ids = [element.id for element in layout.elements]
 
     m._base_unit = base_unit
@@ -54,8 +63,19 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     available_width = m.addVar(vtype=GRB.INTEGER, lb=m._layout_width, ub=m._layout_width, name='AvailableWidth')
     available_height = m.addVar(vtype=GRB.INTEGER, lb=m._layout_height, ub=m._layout_height, name='AvailableHeight')
 
+
+    grid_containers = groups[None]
+
     col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count \
-        = build_grid(m, layout.elements, available_width, available_height, elem_width, elem_height, gutter_width)
+        = build_grid(m, grid_containers, available_width, available_height, elem_width, elem_height, gutter_width)
+
+    child_coordinates = {}
+
+    for parent, elements in groups.items():
+        if parent is not None:
+            aw = elem_width[parent.id]
+            ah = elem_height[parent.id]
+            child_coordinates[parent] = improve_alignment(m, elements, aw, ah, elem_width, elem_height)
 
     # OBJECTIVES
 
@@ -144,16 +164,32 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             #print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
             print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
 
+            def container_x(e):
+                return (col_start[e].X - 1) * col_width.X
+            def container_y(e):
+                return (row_start[e].X - 1) * row_height.X
 
             elements = [
                 {
                     'id': e,
-                    'x': (col_start[e].X - 1) * col_width.X * base_unit,
-                    'y': (row_start[e].X - 1) * row_height.X * base_unit,
+                    'x': container_x(e) * base_unit,
+                    'y': container_y(e) * base_unit,
                     'width': elem_width[e].X * base_unit,
                     'height': elem_height[e].X * base_unit,
-                } for e in elem_ids
+                } for e in [c.id for c in grid_containers] #elem_ids
             ]
+
+            for parent, children in groups.items():
+                if parent is not None:
+                    x0, y0 = child_coordinates[parent]
+                    for child in children:
+                        elements.append({
+                            'id': child.id,
+                            'x': (container_x(parent.id) + x0[child.id].X) * base_unit,
+                            'y': (container_y(parent.id) + y0[child.id].X) * base_unit,
+                            'width': elem_width[child.id].X * base_unit,
+                            'height': elem_height[child.id].X * base_unit,
+                        })
 
             return {
                 'status': 0,
@@ -175,6 +211,38 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         raise e
 
+
+def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
+
+    elem_ids = [element.id for element in elements]
+
+    elem_x0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementX0')
+    elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementY0')
+    elem_x1 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementX1')
+    elem_y1 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementY1')
+
+    m.addConstrs((
+        elem_x0[e] + elem_width[e] == elem_x1[e]
+        for e in elem_ids
+    ), name='LinkX1ToWidth')
+    m.addConstrs((
+        elem_y0[e] + elem_height[e] == elem_y1[e]
+        for e in elem_ids
+    ), name='ContainElementToAvailableHeight')
+    m.addConstrs((
+        elem_x1[e] <= available_width
+        for e in elem_ids
+    ), name='ContainElementToAvailableWidth')
+    m.addConstrs((
+        elem_y1[e] <= available_height
+        for e in elem_ids
+    ), name='ContainElementToAvailableHeight')
+
+    on_left, above = get_directional_relationships(m, elem_ids, elem_x0, elem_x1, elem_y0, elem_y1)
+
+    prevent_overlap(m, elem_ids, on_left, above)
+
+    return elem_x0, elem_y0
 
 def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width):
     '''
@@ -329,6 +397,8 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
     # TODO: col_start–elem_y relationship
     # TODO: adjacent rows > gutter_width apart
 
+    '''
+    
     # Integer: The number of rows between element start rows
     row_start_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY,
                                name='StartRowDifference')
@@ -373,6 +443,8 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkEndRowOrder2')
 
+    '''
+
     # At least one element must start at the first column/row
     min_col_start = m.addVar(vtype=GRB.INTEGER, lb=1, ub=1, name='MinStartColumn')
     m.addConstr(min_col_start == min_(col_start), name='EnsureElementInFirstColumn')
@@ -413,52 +485,11 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
     # Directional relationships
 
-    above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Above')
+    on_left, above = get_directional_relationships(m, elem_ids, col_start, col_end, row_start, row_end)
+
+    prevent_overlap(m, elem_ids, on_left, above)
+
     '''
-    m.addConstrs((
-        # TODO compare performance
-        above[e1, e2] * (row_start[e2] - row_end[e1] - 1) + (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove1')
-    '''
-    m.addConstrs((
-        # TODO compare performance
-        (above[e1, e2] == 1) >> (row_end[e1] + 1 <= row_start[e2])
-        # above[e1, e2] * (row_start[e2] - row_end[e1] - 1) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove1')
-    m.addConstrs((
-        # TODO compare performance
-        (above[e1, e2] == 0) >> (row_end[e1] >= row_start[e2])
-        # (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove2')
-
-    m.addConstrs((
-        above[e1, e2] + above[e2, e1] <= 1
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='AboveSanity')  # TODO: check if sanity checks are necessary
-
-    on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='OnLeft')
-    m.addConstrs((
-        # TODO compare performance
-        (on_left[e1, e2] == 1) >> (col_end[e1] + 1 <= col_start[e2])
-        # on_left[e1, e2] * (col_start[e2] - col_end[e1] - 1) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkOnLeft1')
-    m.addConstrs((
-        # TODO compare performance
-        (on_left[e1, e2] == 0) >> (col_end[e1] >= col_start[e2])
-        # (1 - on_left[e1, e2]) * (col_end[e1] - col_start[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkOnLeft2')
-    m.addConstrs((
-        on_left[e1, e2] + on_left[e2, e1] <= 1
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='OnLeftSanity')
-
-    # Overlap of elements
-
     h_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='HorizontalOverlap')
     m.addConstrs((
         h_overlap[e1, e2] == 1 - (on_left[e1, e2] + on_left[e2, e1])
@@ -470,24 +501,16 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
         v_overlap[e1, e2] == 1 - (above[e1, e2] + above[e2, e1])
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkVerticalOverlap')
-
-    '''
-    overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Overlap')
-    m.addConstrs((
-        # TODO test alternatives for performance
-        overlap[e1, e2] == and_(h_overlap[e1, e2], v_overlap[e1, e2])
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkOverlap')
-
-    m.addConstr(overlap.sum() == 0)
-    '''
+    
+    
+    
     # EXPL: this may be faster way to constrain overlap
     m.addConstrs((
         # Prevent overlap
         h_overlap[e1, e2] + v_overlap[e1, e2] <= 1
         for e1, e2 in permutations(elem_ids, 2)
     ), name='PreventOverlap')
-
+    '''
     # Starting values
 
     col_count.Start = max_col_count
@@ -515,3 +538,72 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
 
     return col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count
+
+def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
+
+    # TODO: use consistent x1 and y1 coordinates, i.e. choose whether they are inclusive or exclusive
+
+    above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Above')
+    '''
+    m.addConstrs((
+        # TODO compare performance
+        above[e1, e2] * (row_start[e2] - row_end[e1] - 1) + (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove1')
+    '''
+    m.addConstrs((
+        # TODO compare performance
+        (above[e1, e2] == 1) >> (y1[e1] + 1 <= y0[e2])
+        # above[e1, e2] * (row_start[e2] - row_end[e1] - 1) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove1')
+    m.addConstrs((
+        # TODO compare performance
+        (above[e1, e2] == 0) >> (y1[e1] >= y0[e2])
+        # (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkAbove2')
+
+    m.addConstrs((
+        above[e1, e2] + above[e2, e1] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='AboveSanity')  # TODO: check if sanity checks are necessary
+
+    on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='OnLeft')
+    m.addConstrs((
+        # TODO compare performance
+        (on_left[e1, e2] == 1) >> (x1[e1] + 1 <= x0[e2])
+        # on_left[e1, e2] * (col_start[e2] - col_end[e1] - 1) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkOnLeft1')
+    m.addConstrs((
+        # TODO compare performance
+        (on_left[e1, e2] == 0) >> (x1[e1] >= x0[e2])
+        # (1 - on_left[e1, e2]) * (col_end[e1] - col_start[e2]) >= 0
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkOnLeft2')
+    m.addConstrs((
+        on_left[e1, e2] + on_left[e2, e1] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='OnLeftSanity')
+
+    return on_left, above
+
+
+def prevent_overlap(m: Model, elem_ids: List[str], on_left: tupledict, above: tupledict):
+    h_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='HorizontalOverlap')
+    m.addConstrs((
+        h_overlap[e1, e2] == 1 - (on_left[e1, e2] + on_left[e2, e1])
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkHorizontalOverlap')
+
+    v_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='VerticalOverlap')
+    m.addConstrs((
+        v_overlap[e1, e2] == 1 - (above[e1, e2] + above[e2, e1])
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='LinkVerticalOverlap')
+
+    m.addConstrs((
+        h_overlap[e1, e2] + v_overlap[e1, e2] <= 1
+        for e1, e2 in permutations(elem_ids, 2)
+    ), name='PreventOverlap')
