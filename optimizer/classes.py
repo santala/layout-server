@@ -84,3 +84,9 @@ class Element:
 
     def is_contained_within(self, other):
         return self.overlap_area(other) == self.area
+
+    def is_above(self, other):
+        return self.y1 <= other.y0
+
+    def is_on_left(self, other):
+        return self.x1 <= other.x0

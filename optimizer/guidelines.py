@@ -66,7 +66,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 
     grid_containers = groups[None]
 
-    col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count \
+    col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count, on_left, above \
         = build_grid(m, grid_containers, available_width, available_height, elem_width, elem_height, gutter_width)
 
     child_coordinates = {}
@@ -81,6 +81,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 
     obj = LinExpr()
 
+
+    # Try to retain directional relationships
+
+    relationship_change = LinExpr()
+
+    for container, other in permutations(grid_containers, 2):
+        if container.is_above(other):
+            relationship_change.add(1 - above[container.id, other.id])
+        if container.is_on_left(other):
+            relationship_change.add(1 - on_left[container.id, other.id])
+
+    obj.add(relationship_change)
 
     # Element scaling
 
@@ -537,7 +549,7 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
     m.addConstr(gap_count >= 0, name='GapCountSanity')
 
 
-    return col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count
+    return col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count, on_left, above
 
 def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
 
