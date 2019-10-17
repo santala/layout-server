@@ -1,4 +1,7 @@
+import math
+
 from itertools import permutations, product
+from typing import List
 
 from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
@@ -6,9 +9,10 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 from .classes import Layout, Element
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
+
     m.Params.MIPFocus = 1
     m.Params.TimeLimit = time_out
 
@@ -19,7 +23,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     m.Params.PoolSolutions = 1 # Number of solutions to be saved
     # model.Params.MIPGap = 0.01
 
-    m.Params.MIPGapAbs = 0.97
+    m.Params.MIPGapAbs = 10
     m.Params.OutputFlag = 1
 
     # TODO
@@ -29,36 +33,169 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
             # E.g. y0 limit must be max value of top edge elements y1
         # Define a grid (if reasonable)
 
-    elem_count = len(layout.elements)
-    elem_ids = [e.id for e in layout.elements]
+    elem_ids = [element.id for element in layout.elements]
+
+    m._base_unit = base_unit
+    m._min_gutter_width = 1
+    m._max_gutter_width = 4
+
+    # Layout dimensions in base units
+    m._layout_width = int(layout.canvas_width / m._base_unit)
+    m._layout_height = int(layout.canvas_height / m._base_unit)
+
+    # Element width in base units
+    elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
+    # Element height in base units
+    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
+
+    # Width of the gutter (i.e. the space between adjacent columns)
+    gutter_width = m.addVar(lb=m._min_gutter_width, ub=m._max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
+
+    available_width = m.addVar(vtype=GRB.INTEGER, lb=m._layout_width, ub=m._layout_width, name='AvailableWidth')
+    available_height = m.addVar(vtype=GRB.INTEGER, lb=m._layout_height, ub=m._layout_height, name='AvailableHeight')
+
+    col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count \
+        = build_grid(m, layout.elements, available_width, available_height, elem_width, elem_height, gutter_width)
+
+    # OBJECTIVES
+
+    obj = LinExpr()
+
+
+    # Element scaling
+
+    # Difference of the element width to the original in base units
+    # Note, the constraints below define this variable to be *at least* the actual difference,
+    # i.e. the variable may take a larger value. However, we will define an objective of minimizing
+    # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
+
+    min_width_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
+    m.addConstrs((
+        min_width_diff[element.id] >= elem_width[element.id] - round(element.width/base_unit)
+        for element in layout.elements
+    ), name='LinkWidthDiff1')
+    m.addConstrs((
+        min_width_diff[element.id] >= round(element.width/base_unit) - elem_width[element.id]
+        for element in layout.elements
+    ), name='LinkWidthDiff2')
+
+
+    min_height_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
+    m.addConstrs((
+        min_height_diff[element.id] >= elem_height[element.id] - round(element.height/base_unit)
+        for element in layout.elements
+    ), name='LinkHeightDiff1')
+    m.addConstrs((
+        min_height_diff[element.id] >= round(element.height/base_unit) - elem_height[element.id]
+        for element in layout.elements
+    ), name='LinkHeightDiff2')
+
+    # Minimize size difference
+
+    obj.add(min_width_diff.sum(), 1)
+    obj.add(min_height_diff.sum(), 1)
+
+    # Aim for best fit of grid
+
+    # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
+    obj.add(width_error, 1)
+
+    obj.add(height_error, 1)
+
+
+    # TODO: test which one is better, hard or soft constraint
+    m.addConstr(gap_count == 0)
+    #obj.add(gap_count, 10)
+
+
+
+    m.setObjective(obj, GRB.MINIMIZE)
+
+
+
+    try:
+
+        m.optimize()
+
+        if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
+            # ‘X’ is the value of the variable in the current solution
+
+            print('Grid Width Error', width_error.getValue())
+            print('Gap Count', gap_count.getValue())
+            print('Column Count', col_count.X)
+            print('Column Width', col_width.X)
+            print('Row Count', row_count.X)
+            print('Row Height', row_height.X)
+            print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
+
+
+            elements = [
+                {
+                    'id': e,
+                    'x': (col_start[e].X - 1) * col_width.X * base_unit,
+                    'y': (row_start[e].X - 1) * row_height.X * base_unit,
+                    'width': elem_width[e].X * base_unit,
+                    'height': elem_height[e].X * base_unit,
+                } for e in elem_ids
+            ]
+
+            return {
+                'status': 0,
+                'layout': {
+                    'canvasWidth': layout.canvas_width,
+                    'canvasHeight': layout.canvas_height,
+                    'elements': elements
+                }
+            }
+        else:
+            if m.Status == GRB.Status.INFEASIBLE:
+                m.computeIIS()
+                m.write("output/SimoPracticeModel.ilp")
+            print('Non-optimal status:', m.Status)
+
+            return {'status': 1}
+
+    except GurobiError as e:
+        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
+        raise e
+
+
+def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width):
+    '''
+
+    :param m: The Gurobi model
+    :param elements: List of elements to align into a grid
+    :param available_width: Variable for the maximum width for the grid to take (not including left/right margins)
+    :param available_height: Variable for the maximum height for the grid to take (not including left/right margins)
+    :return:
+    '''
+    elem_count = len(elements)
+    elem_ids = [element.id for element in elements]
 
     # Parameters
 
-    layout_width = int(layout.canvas_width / base_unit)
-    layout_height = int(layout.canvas_height / base_unit)
 
-    min_col_width = 1 # Not including gutter
-    min_row_height = 1 # Not including gutter
+    min_col_width = 1  # Not including gutter
+    min_row_height = 1  # Not including gutter
 
-    min_gutter_width = 1
-    max_gutter_width = 4
 
     # TODO: margins
 
     # Maximum number of columns that can fit on the layout
-    max_col_count = int((layout_width + min_gutter_width) / (min_col_width + min_gutter_width))
-    max_row_count = int((layout_height + min_gutter_width) / (min_row_height + min_gutter_width))
+    max_col_count = int((m._layout_width + m._min_gutter_width) / (min_col_width + m._min_gutter_width))
+    max_row_count = int((m._layout_height + m._min_gutter_width) / (min_row_height + m._min_gutter_width))
 
     col_counts = range(1, max_col_count + 1)
     row_counts = range(1, max_row_count + 1)
 
     # Number of columns
     col_count = m.addVar(lb=1, ub=max_col_count, vtype=GRB.INTEGER, name='ColumnCount')
+
     # Number of rows
     row_count = m.addVar(vtype=GRB.INTEGER, lb=1, ub=elem_count, name='RowCount')
 
     col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY, name='SelectedColumnCount')
-    m.addConstr(col_count_selected.sum() == 1, name='SelectOneColumnCount') # One option must always be selected
+    m.addConstr(col_count_selected.sum() == 1, name='SelectOneColumnCount')  # One option must always be selected
     m.addConstrs((
         # TODO compare performance:
         # (col_count_selected[n] == 1) >> (col_count == n)
@@ -77,19 +214,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for n in row_counts
     ), name='LinkRowCountToSelection')
 
-    # Maximum width for the grid to take (not including left/right margins)
-    available_width = m.addVar(vtype=GRB.INTEGER, ub=layout_width, name='AvailableWidth')
-    m.addConstr(available_width == layout_width) # TODO change this when making this group specific
-
-    # Maximum height for the grid to take (not including left/right margins)
-    available_height = m.addVar(vtype=GRB.INTEGER, ub=layout_height, name='AvailableHeight')
-    m.addConstr(available_height == layout_height) # TODO change this when making this group specific
-
-    # Width of the gutter (i.e. the space between adjacent columns)
-    gutter_width = m.addVar(lb=min_gutter_width, ub=max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
 
     # Width of a single column (including gutter width)
-    col_width = m.addVar(lb=min_col_width+min_gutter_width, vtype=GRB.INTEGER, name='ColumnWidth')
+    col_width = m.addVar(lb=min_col_width + m._min_gutter_width, vtype=GRB.INTEGER, name='ColumnWidth')
     m.addConstr(col_width <= available_width, name='FitColumnIntoAvailableSpace')
     m.addConstr(col_width - gutter_width >= min_col_width, name='AdjustMinColumnWidthAccordingToGutterWidth')
 
@@ -118,9 +245,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         row_count_selected[n] * (n * row_height - gutter_width - actual_height) == 0
         for n in row_counts
     ), name='LinkActualHeightToRowCount')
-
-
-
 
     # Element coordinates
     col_start = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='StartColumn')
@@ -151,13 +275,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for e, n in product(elem_ids, col_counts)
     ), name='LinkColumnSpanToSelection')
 
-    # Element width in base units
-    elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
     m.addConstrs((
         (col_span_selected[e, n] == 1) >> (elem_width[e] == n * col_width - gutter_width)
         for e, n in product(elem_ids, col_counts)
     ), name='LinkElementWidthToColumnSpan')
-
 
     row_start = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='StartRow')
     row_end = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='EndRow')
@@ -183,20 +304,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for e, n in product(elem_ids, row_counts)
     ), name='LinkRowSpanToSelection')
 
-    # Element height in base units
-    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
     m.addConstrs((
         (row_span_selected[e, n] == 1) >> (elem_height[e] == n * row_height - gutter_width)
         for e, n in product(elem_ids, row_counts)
     ), name='LinkElementHeightToRowSpan')
-
 
     # TODO: col_span–elem_height relationship
     # TODO: col_start–elem_y relationship
     # TODO: adjacent rows > gutter_width apart
 
     # Integer: The number of rows between element start rows
-    row_start_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='StartRowDifference')
+    row_start_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY,
+                               name='StartRowDifference')
     m.addConstrs((
         row_start_diff[e1, e2] == row_start[e1] - row_start[e2]
         for e1, e2 in permutations(elem_ids, 2)
@@ -238,7 +357,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for e1, e2 in permutations(elem_ids, 2)
     ), name='LinkEndRowOrder2')
 
-
     # At least one element must start at the first column/row
     min_col_start = m.addVar(vtype=GRB.INTEGER, lb=1, ub=1, name='MinStartColumn')
     m.addConstr(min_col_start == min_(col_start), name='EnsureElementInFirstColumn')
@@ -267,8 +385,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for n in col_counts
     ), name='LinkGridCellCountToColumnCount')
 
-
-
     # The area of the elements in terms of cells, i.e. col_span * row_span
     # cell_coverage: row_span_equals[e,n] >> cell_coverage == n * row_span
     elem_cell_count = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElemCellCount')
@@ -278,7 +394,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         (col_span_selected[e, n] == 1) >> (elem_cell_count[e] == n * row_span[e])
         for e, n in product(elem_ids, col_counts)
     ), name='LinkElemCellCountToColumnCount')
-
 
     # Directional relationships
 
@@ -306,7 +421,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     m.addConstrs((
         above[e1, e2] + above[e2, e1] <= 1
         for e1, e2 in permutations(elem_ids, 2)
-    ), name='AboveSanity') # TODO: check if sanity checks are necessary
+    ), name='AboveSanity')  # TODO: check if sanity checks are necessary
 
     on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='OnLeft')
     m.addConstrs((
@@ -357,161 +472,30 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         for e1, e2 in permutations(elem_ids, 2)
     ), name='PreventOverlap')
 
-    # OBJECTIVES
+    # Starting values
 
-    obj = LinExpr()
+    col_count.Start = max_col_count
+    row_count.Start = max_row_count
+    gutter_width.Start = m._min_gutter_width
+    col_width.Start = min_col_width + m._min_gutter_width
+    row_height.Start = min_row_height + m._min_gutter_width
 
+    for element in elements:
+        # (elem_width[e] + gutter_width) / col_width == col_span
+        col_span[element.id].Start = round(
+            (round(element.width / m._base_unit) + m._min_gutter_width) / (min_col_width + m._min_gutter_width))
+        row_span[element.id].Start = round(
+            (round(element.height / m._base_unit) + m._min_gutter_width) / (min_row_height + m._min_gutter_width))
+        # elem_width[element.id].Start = round(element.width / base_unit)
+        # elem_height[element.id].Start = round(element.height / base_unit)
 
-    # Element scaling
-
-    # Difference of the element width to the original in base units
-    # Note, the constraints below define this variable to be *at least* the actual difference,
-    # i.e. the variable may take a larger value. However, we will define an objective of minimizing
-    # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
-
-    min_width_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
-    m.addConstrs((
-        min_width_diff[element.id] >= elem_width[element.id] - round(element.width/base_unit)
-        for element in layout.elements
-    ), name='LinkWidthDiff1')
-    m.addConstrs((
-        min_width_diff[element.id] >= round(element.width/base_unit) - elem_width[element.id]
-        for element in layout.elements
-    ), name='LinkWidthDiff2')
-
-
-    min_height_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
-    m.addConstrs((
-        min_height_diff[element.id] >= elem_height[element.id] - round(element.height/base_unit)
-        for element in layout.elements
-    ), name='LinkHeightDiff1')
-    m.addConstrs((
-        min_height_diff[element.id] >= round(element.height/base_unit) - elem_height[element.id]
-        for element in layout.elements
-    ), name='LinkHeightDiff2')
-
-    # Minimize size difference
-
-    obj.add(min_width_diff.sum(), .5)
-    obj.add(min_height_diff.sum(), .5)
-
-    # Aim for best fit of grid
+    # Expressions
     width_error = available_width - actual_width
-    # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
-
-    obj.add(width_error, 2)
+    height_error = available_height - actual_height
 
     # Aim for best coverage/packing, i.e. minimize gaps in the grid
     gap_count = grid_cell_count - elem_cell_count.sum()
     m.addConstr(gap_count >= 0, name='GapCountSanity')
 
-    # TODO: test which one is better, hard or soft constraint
-    m.addConstr(gap_count == 0)
-    #obj.add(gap_count)
 
-
-
-    m.setObjective(obj, GRB.MINIMIZE)
-
-
-
-    try:
-
-        m.optimize()
-
-        if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
-            # ‘X’ is the value of the variable in the current solution
-
-            print('Grid Width Error', width_error.getValue())
-            print('Gap Count', gap_count.getValue())
-            print('Area', grid_cell_count.X, elem_cell_count.sum().getValue())
-            print('Column Count', col_count.X)
-            print('Column Width', col_width.X)
-            print('Row Count', row_count.X)
-            print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
-
-
-            elements = [
-                {
-                    'id': e,
-                    'x': (col_start[e].X - 1) * col_width.X * base_unit,
-                    'y': (row_start[e].X - 1) * row_height.X * base_unit,
-                    'width': elem_width[e].X * base_unit,
-                    'height': elem_height[e].X * base_unit,
-                } for e in elem_ids
-            ]
-
-            return {
-                'status': 0,
-                'layout': {
-                    'canvasWidth': layout.canvas_width,
-                    'canvasHeight': layout.canvas_height,
-                    'elements': elements
-                }
-            }
-        else:
-            if m.Status == GRB.Status.INFEASIBLE:
-                m.computeIIS()
-                m.write("output/SimoPracticeModel.ilp")
-            print('Non-optimal status:', m.Status)
-
-            return {'status': 1}
-
-    except GurobiError as e:
-        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
-        raise e
-
-# GRID
-
-
-
-
-
-# w = column_span * column_width - gutter_width
-
-# w >= column_width - gutter_width
-
-
-
-# VARIABLES
-
-# General:
-    # margin_left
-    # margin_right
-    # cell_count; col_count_equals[n] >> cell_count == n * row_count
-
-# Per element:
-    # col_start
-    # col_end >= col_start
-    # col_span == col_end - col_start + 1
-    # row_start
-    # row_end >= row_start
-    # row_span == row_end - row_start + 1
-    # row_span_equals[e,n] * row_span[e] == row_span_equals[e,n] * n
-    # width: row_span_equals[e,n] >> width == n * column_width
-    # height: row_span[e1] == row_span[e2] >> height[e1] == height[e2]
-    # cell_coverage: row_span_equals[e,n] >> cell_coverage == n * row_span
-
-# CONSTRAINTS
-
-# All columns must fit within the available space
-# layout_width + gutter_width >= col_width * col_count
-
-# At least one element must start at the first column/row
-# min(col_start) == 1
-# min(row_start) == 1
-
-# TODO One element must be in top left corner
-# TODO If elements are on adjacent rows, distance should be gutter_width
-
-# OBJECTIVES
-
-# Aim for best fit of grid
-# minimize( layout_width + gutter_width - col_width * col_count )
-
-# Minimize gaps in the grid (or maximize coverage)
-# minimize( cell_count - sum( cell_coverage ) )
-
-# TODO minimize resizing of elements
-# TODO width difference, height difference
-# TODO (aim to fill available height)
+    return col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count

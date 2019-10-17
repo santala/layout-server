@@ -1,5 +1,4 @@
-import json
-
+import json, time
 from flask import Flask, abort, jsonify, render_template, request, Response
 
 
@@ -46,6 +45,9 @@ def optimize_layout() -> Response:
 
     number_of_solutions = min(10, max(1, int(request_props.get('numberOfSolutions', 1))))
 
+    if False:
+        with open('./output/layouts/' + str(int(time.time_ns() / 1000)) + '.json', 'w', encoding='utf-8') as f:
+            json.dump(request_props['layout'], f, ensure_ascii=False, indent=4)
     # Testing code
     #guidelines.solve(layout)
 
