@@ -126,6 +126,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
                 pass
             else:
                 pass
+            # TODO alignment function should take in:
+            # TODO gutter/min.margin
+            # TODO alignment function should return:
+            # TODO objective functions, function to compute x/y/w/h
 
 
     # Element width in base units
@@ -140,7 +144,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 
     grid_containers = groups[None]
 
-    col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count, on_left, above \
+    get_rel_xywh, width_error, height_error, gap_count, on_left, above \
         = build_grid(m, grid_containers, m._layout_width, m._layout_height, elem_width, elem_height, gutter_width)
 
     child_coordinates = {}
@@ -243,25 +247,22 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 
             print('Grid Width Error', width_error.getValue())
             print('Gap Count', gap_count.getValue())
-            print('Column Count', col_count.X)
-            print('Column Width', col_width.X)
-            print('Row Count', row_count.X)
-            print('Row Height', row_height.X)
             #print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
             print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
 
-            def container_x(e):
-                return (col_start[e].X - 1) * col_width.X
-            def container_y(e):
-                return (row_start[e].X - 1) * row_height.X
+
+            coord = {
+                e: get_rel_xywh(e)
+                for e in [c.id for c in grid_containers]
+            }
 
             elements = [
                 {
                     'id': e,
-                    'x': container_x(e) * base_unit,
-                    'y': container_y(e) * base_unit,
-                    'width': elem_width[e].X * base_unit,
-                    'height': elem_height[e].X * base_unit,
+                    'x': coord[e][0] * base_unit,
+                    'y': coord[e][1] * base_unit,
+                    'width': coord[e][2] * base_unit,
+                    'height': coord[e][3] * base_unit,
                 } for e in [c.id for c in grid_containers] #elem_ids
             ]
 
@@ -271,8 +272,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
                     for child in children:
                         elements.append({
                             'id': child.id,
-                            'x': (container_x(parent_id) + x0[child.id].X) * base_unit,
-                            'y': (container_y(parent_id) + y0[child.id].X) * base_unit,
+                            'x': (coord[parent_id][0] + x0[child.id].X) * base_unit,
+                            'y': (coord[parent_id][1] + y0[child.id].X) * base_unit,
                             'width': elem_width[child.id].X * base_unit,
                             'height': elem_height[child.id].X * base_unit,
                         })
@@ -479,58 +480,6 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
         for e, n in product(elem_ids, row_counts)
     ), name='LinkElementHeightToRowSpan')
 
-    # TODO: col_span–elem_height relationship
-    # TODO: col_start–elem_y relationship
-    # TODO: adjacent rows > gutter_width apart
-
-    '''
-    
-    # Integer: The number of rows between element start rows
-    row_start_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY,
-                               name='StartRowDifference')
-    m.addConstrs((
-        row_start_diff[e1, e2] == row_start[e1] - row_start[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-    # Integer: The number of rows between element start rows
-    row_end_diff = m.addVars(permutations(elem_ids, 2), vtype=GRB.INTEGER, lb=-GRB.INFINITY, name='EndRowDifference')
-    m.addConstrs((
-        row_end_diff[e1, e2] == row_end[e1] - row_end[e2]
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-
-    # Binary: whether e1 starts on a any row before e2
-    start_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
-    m.addConstrs((
-        # TODO compare performance
-        # (start_row_before[e1, e2] == 1) >> (row_start_diff[e1, e2] <= -1)
-        start_row_before[e1, e2] * (row_start_diff[e1, e2] + 1) <= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkStartRowLessThan1')
-    m.addConstrs((
-        # TODO compare performance
-        # (start_row_before[e1, e2] == 0) >> (row_start_diff[e1, e2] >= 0)
-        (1 - start_row_before[e1, e2]) * row_start_diff[e1, e2] >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkStartRowLessThan2')
-
-    # Binary: whether e1 ends on a any row before e2
-    end_row_before = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='StartRowLessThan')
-    m.addConstrs((
-        # TODO compare performance
-        # (end_row_before[e1, e2] == 1) >> (row_end_diff[e1, e2] <= -1)
-        end_row_before[e1, e2] * (row_end_diff[e1, e2] + 1) <= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkEndRowOrder1')
-    m.addConstrs((
-        # TODO compare performance
-        # (end_row_before[e1, e2] == 0) >> (row_end_diff[e1, e2] >= 0)
-        (1 - end_row_before[e1, e2]) * row_end_diff[e1, e2] >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkEndRowOrder2')
-
-    '''
-
     # At least one element must start at the first column/row
     min_col_start = m.addVar(vtype=GRB.INTEGER, lb=1, ub=1, name='MinStartColumn')
     m.addConstr(min_col_start == min_(col_start), name='EnsureElementInFirstColumn')
@@ -598,21 +547,24 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
     ), name='PreventOverlap')
     '''
     # Starting values
+    # TODO test starting values
+    if False:
+        col_count.Start = max_col_count
+        row_count.Start = max_row_count
+        gutter_width.Start = m._min_gutter_width
+        col_width.Start = min_col_width + m._min_gutter_width
+        row_height.Start = min_row_height + m._min_gutter_width
 
-    col_count.Start = max_col_count
-    row_count.Start = max_row_count
-    gutter_width.Start = m._min_gutter_width
-    col_width.Start = min_col_width + m._min_gutter_width
-    row_height.Start = min_row_height + m._min_gutter_width
 
-    for element in elements:
-        # (elem_width[e] + gutter_width) / col_width == col_span
-        col_span[element.id].Start = round(
-            (round(element.width / m._base_unit) + m._min_gutter_width) / (min_col_width + m._min_gutter_width))
-        row_span[element.id].Start = round(
-            (round(element.height / m._base_unit) + m._min_gutter_width) / (min_row_height + m._min_gutter_width))
-        # elem_width[element.id].Start = round(element.width / base_unit)
-        # elem_height[element.id].Start = round(element.height / base_unit)
+        for element in elements:
+            # (elem_width[e] + gutter_width) / col_width == col_span
+            col_span[element.id].Start = round(
+                (round(element.width / m._base_unit) + m._min_gutter_width) / (min_col_width + m._min_gutter_width))
+            row_span[element.id].Start = round(
+                (round(element.height / m._base_unit) + m._min_gutter_width) / (min_row_height + m._min_gutter_width))
+            # elem_width[element.id].Start = round(element.width / base_unit)
+            # elem_height[element.id].Start = round(element.height / base_unit)
+
 
     # Expressions
     width_error = available_width - actual_width
@@ -622,8 +574,20 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
     gap_count = grid_cell_count - elem_cell_count.sum()
     m.addConstr(gap_count >= 0, name='GapCountSanity')
 
+    def get_rel_xywh(element_id):
+        # Returns the element position (relative to the grid top left corner)
 
-    return col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count, on_left, above
+        # Attribute Xn refers to the variable value in the solution selected using SolutionNumber parameter.
+        # When SolutionNumber equals 0 (default), Xn refers to the variable value in the best solution.
+        # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
+        x = (col_start[element_id].Xn - 1) * col_width.Xn
+        y = (row_start[element_id].Xn - 1) * row_height.Xn
+        w = elem_width[element_id].Xn
+        h = elem_height[element_id].Xn
+
+        return x, y, w, h
+
+    return get_rel_xywh, width_error, height_error, gap_count, on_left, above
 
 def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
 
