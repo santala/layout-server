@@ -7,11 +7,11 @@ from typing import List
 from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 
-from .classes import Layout, Element
+from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=5, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -75,7 +75,13 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
     # TODO compute sizes and positions
 
 
+    # Element width in base units
+    elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
+    # Element height in base units
+    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
 
+    # Width of the gutter (i.e. the space between adjacent columns)
+    gutter_width = m.addVar(lb=m._min_gutter_width, ub=m._max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
 
     groups = {}
 
@@ -105,48 +111,89 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
     ), name='LinkGroupHeight')
 
 
+    obj = LinExpr()
+
+    # Try to retain directional relationships
+    relationship_change = LinExpr()
+
+
+    get_rel_coord = {}
+
+    def get_abs_coord(element_id):
+        x, y, w, h = get_rel_coord[element_id](element_id)
+        parent_id = layout.element_dict[element_id].parent_id
+        if parent_id is not None:
+            px, py, *rest = get_abs_coord(parent_id)
+            x += px
+            y += py
+        return x, y, w, h
+
+
     for parent_id, elements in groups.items():
+        print('P:', parent_id, 'nE', len(elements))
 
         content_width = group_content_width[parent_id]
         content_height = group_content_height[parent_id]
 
         enable_grid = layout.enable_grid if parent_id is None else layout.element_dict[parent_id].enable_grid
 
-        edge_elements = [e for e in elements if e.snap_to_edge is not None]
+        edge_elements = [e for e in elements if e.snap_to_edge is not Edge.NONE]
 
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
             pass
 
-        content_elements = [e for e in elements if e.snap_to_edge is None]
-
+        content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
+        print('ce',len(content_elements))
         if len(content_elements) > 0:
             # TODO align other elements within the content area
             if enable_grid:
-                pass
+                get_rel_xywh, width_error, height_error, gap_count, on_left, above \
+                    = build_grid(m, content_elements, content_width, content_height, elem_width, elem_height, gutter_width)
+
+                # TODO: test which one is better, hard or soft constraint
+                m.addConstr(gap_count == 0)
+                # obj.add(gap_count, 10)
+
+                # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
+                obj.add(width_error, 1)
+                # obj.add(height_error, 1)
+
             else:
-                pass
+                get_rel_xywh, on_left, above \
+                    = improve_alignment(m, content_elements, content_width, content_height, elem_width, elem_height)
             # TODO alignment function should take in:
             # TODO gutter/min.margin
             # TODO alignment function should return:
             # TODO objective functions, function to compute x/y/w/h
 
+            for element in content_elements:
+                get_rel_coord[element.id] = get_rel_xywh
 
-    # Element width in base units
-    elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
-    # Element height in base units
-    elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
+            for element, other in permutations(content_elements, 2):
+                if element.is_above(other):
+                    relationship_change.add(1 - above[element.id, other.id])
+                if element.is_on_left(other):
+                    relationship_change.add(1 - on_left[element.id, other.id])
 
-    # Width of the gutter (i.e. the space between adjacent columns)
-    gutter_width = m.addVar(lb=m._min_gutter_width, ub=m._max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
+
+    print('__', len(get_rel_coord.keys()))
+    for k in get_rel_coord.keys():
+        print('_', k)
+    for element in layout.element_list:
+        if element.id not in get_rel_coord.keys():
+            print('???', element.id, element.component_name)
+        else:
+            print('!!!')
 
 
 
     grid_containers = groups[None]
 
-    get_rel_xywh, width_error, height_error, gap_count, on_left, above \
-        = build_grid(m, grid_containers, m._layout_width, m._layout_height, elem_width, elem_height, gutter_width)
+    #get_rel_xywh, width_error, height_error, gap_count, on_left, above \
+    #    = build_grid(m, grid_containers, m._layout_width, m._layout_height, elem_width, elem_height, gutter_width)
 
+    '''
     child_coordinates = {}
 
     for parent_id, elements in groups.items():
@@ -154,52 +201,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
             aw = elem_width[parent_id]
             ah = elem_height[parent_id]
             child_coordinates[parent_id] = improve_alignment(m, elements, aw, ah, elem_width, elem_height)
-
+    '''
     # OBJECTIVES
 
-    obj = LinExpr()
 
 
-    # Try to retain directional relationships
-
-    relationship_change = LinExpr()
-
-    for container, other in permutations(grid_containers, 2):
-        if container.is_above(other):
-            relationship_change.add(1 - above[container.id, other.id])
-        if container.is_on_left(other):
-            relationship_change.add(1 - on_left[container.id, other.id])
 
     obj.add(relationship_change)
 
     # Element scaling
 
-    # Difference of the element width to the original in base units
+    # Decrease of the element width compared to the original in base units
     # Note, the constraints below define this variable to be *at least* the actual difference,
-    # i.e. the variable may take a larger value. However, we will define an objective of minimizing
-    # the difference, so it won’t be a problem. This is faster than defining an absolute value constraint.
-    '''
-    min_width_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinWidthDifferenceToOriginal')
-    m.addConstrs((
-        min_width_diff[element.id] >= elem_width[element.id] - round(element.width/base_unit)
-        for element in layout.elements
-    ), name='LinkWidthDiff1')
-    m.addConstrs((
-        min_width_diff[element.id] >= round(element.width/base_unit) - elem_width[element.id]
-        for element in layout.elements
-    ), name='LinkWidthDiff2')
-
-
-    min_height_diff = m.addVars(elem_ids, vtype=GRB.INTEGER, name='MinHeightDifferenceToOriginal')
-    m.addConstrs((
-        min_height_diff[element.id] >= elem_height[element.id] - round(element.height/base_unit)
-        for element in layout.elements
-    ), name='LinkHeightDiff1')
-    m.addConstrs((
-        min_height_diff[element.id] >= round(element.height/base_unit) - elem_height[element.id]
-        for element in layout.elements
-    ), name='LinkHeightDiff2')
-    '''
+    # i.e. the variable may take a larger value. However, we will define an objective of minimizing the difference,
+    # so the solver will minimize it for us. This is faster than defining an absolute value constraint.
 
     min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
@@ -215,22 +230,11 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 
     # Minimize size difference
 
-    #obj.add(min_width_diff.sum(), 1)
-    #obj.add(min_height_diff.sum(), 1)
     obj.add(min_width_loss.sum())
     obj.add(min_height_loss.sum())
 
     # Aim for best fit of grid
 
-    # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
-    obj.add(width_error, 1)
-
-    #obj.add(height_error, 1)
-
-
-    # TODO: test which one is better, hard or soft constraint
-    m.addConstr(gap_count == 0)
-    #obj.add(gap_count, 10)
 
 
 
@@ -245,38 +249,35 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
             # ‘X’ is the value of the variable in the current solution
 
-            print('Grid Width Error', width_error.getValue())
-            print('Gap Count', gap_count.getValue())
             #print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
             print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
 
 
-            coord = {
-                e: get_rel_xywh(e)
-                for e in [c.id for c in grid_containers]
-            }
+            elements = []
 
-            elements = [
-                {
+            for e in elem_ids:
+                x, y, w, h = get_abs_coord(e)
+                elements.append({
                     'id': e,
-                    'x': coord[e][0] * base_unit,
-                    'y': coord[e][1] * base_unit,
-                    'width': coord[e][2] * base_unit,
-                    'height': coord[e][3] * base_unit,
-                } for e in [c.id for c in grid_containers] #elem_ids
-            ]
-
+                    'x': x * base_unit,
+                    'y': y * base_unit,
+                    'width': w * base_unit,
+                    'height': h * base_unit,
+                })
+            '''
             for parent_id, children in groups.items():
                 if parent_id is not None:
-                    x0, y0 = child_coordinates[parent_id]
                     for child in children:
+                        x, y, w, h = get_coord[child.id]()
+
                         elements.append({
                             'id': child.id,
-                            'x': (coord[parent_id][0] + x0[child.id].X) * base_unit,
-                            'y': (coord[parent_id][1] + y0[child.id].X) * base_unit,
-                            'width': elem_width[child.id].X * base_unit,
-                            'height': elem_height[child.id].X * base_unit,
+                            'x': x * base_unit,
+                            'y': y * base_unit,
+                            'width': w * base_unit,
+                            'height': h * base_unit,
                         })
+            '''
 
             return {
                 'status': 0,
@@ -302,6 +303,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
 def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
     elem_ids = [element.id for element in elements]
+
+    print('ia', elem_ids)
 
     elem_x0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementX0')
     elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementY0')
@@ -329,7 +332,22 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
     prevent_overlap(m, elem_ids, on_left, above)
 
-    return elem_x0, elem_y0
+    def get_rel_xywh(element_id):
+        # Returns the element position (relative to the parent top left corner)
+
+        # Attribute Xn refers to the variable value in the solution selected using SolutionNumber parameter.
+        # When SolutionNumber equals 0 (default), Xn refers to the variable value in the best solution.
+        # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
+        print(element_id in elem_ids, element_id)
+        print(elem_ids)
+        x = elem_x0[element_id].Xn
+        y = elem_y0[element_id].Xn
+        w = elem_width[element_id].Xn
+        h = elem_height[element_id].Xn
+
+        return x, y, w, h
+
+    return get_rel_xywh, on_left, above
 
 def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width):
     '''
@@ -490,16 +508,6 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
     # TODO compare performance
     m.addConstr(col_count == max_(col_end), name='LinkColumnCountToElementCoordinates')
     m.addConstr(row_count == max_(row_end), name='LinkRowCountToElementCoordinates')
-    '''
-    m.addConstrs((
-        col_count >= col_end[e]
-        for e in elem_ids
-    ), name='LinkColumnCountToElementCoordinates')
-    m.addConstrs((
-        row_count >= row_end[e]
-        for e in elem_ids
-    ), name='LinkRowCountToElementCoordinates')
-    '''
 
     # The area of the grid in terms of cells, i.e. col_count * row_count
     grid_cell_count = m.addVar(vtype=GRB.INTEGER, lb=1, name='GridCellCount')
@@ -524,28 +532,6 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
     prevent_overlap(m, elem_ids, on_left, above)
 
-    '''
-    h_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='HorizontalOverlap')
-    m.addConstrs((
-        h_overlap[e1, e2] == 1 - (on_left[e1, e2] + on_left[e2, e1])
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkHorizontalOverlap')
-
-    v_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='VerticalOverlap')
-    m.addConstrs((
-        v_overlap[e1, e2] == 1 - (above[e1, e2] + above[e2, e1])
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkVerticalOverlap')
-    
-    
-    
-    # EXPL: this may be faster way to constrain overlap
-    m.addConstrs((
-        # Prevent overlap
-        h_overlap[e1, e2] + v_overlap[e1, e2] <= 1
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='PreventOverlap')
-    '''
     # Starting values
     # TODO test starting values
     if False:
