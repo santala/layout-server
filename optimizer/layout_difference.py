@@ -50,7 +50,7 @@ def solve(layout1: Layout, layout2: Layout):
 
     # In cases, where all of the elements from the first layout can’t be mapped (i.e. the second layout has fewer
     # elements), prioritize mapping of larger elements
-    element_ignored_expr = layout1_unmapped.prod({(i): e.area / e.layout.area_sum for i, e in enumerate(layout1.elements)})
+    element_ignored_expr = layout1_unmapped.prod({(i): e.area / e.layout.area_sum for i, e in enumerate(layout1.element_list)})
 
     # TODO: consider taking weights as input
     obj_expr = LinExpr()
@@ -95,7 +95,7 @@ def solve(layout1: Layout, layout2: Layout):
             },
             'elementMapping': [
                 (e1.id, e2.id)
-                for (i1, e1), (i2, e2) in product(enumerate(layout1.elements), enumerate(layout2.elements))
+                for (i1, e1), (i2, e2) in product(enumerate(layout1.element_list), enumerate(layout2.element_list))
                 if element_mapping[i1, i2].X == 1
             ]
         }
@@ -111,7 +111,7 @@ def get_prod_coeff(coeff_func: Callable[[Element, Element], float], layout1: Lay
     # https://www.gurobi.com/documentation/8.1/refman/py_tupledict_prod.html
     return {
         (i1, i2): coeff_func(e1, e2)
-        for (i1, e1), (i2, e2) in product(enumerate(layout1.elements), enumerate(layout2.elements))
+        for (i1, e1), (i2, e2) in product(enumerate(layout1.element_list), enumerate(layout2.element_list))
     }
 
 def euclidean_distance(e1: Element, e2: Element):
@@ -129,13 +129,13 @@ def euclidean_size_diff(e1, e2):
 
 def element_similarity(e1: Element, e2: Element) -> float:
     # Returns a similarity measure between 0 (same element type or same component type) and 1 (different element types)
-    if e1.elementType != e2.elementType:
+    if e1.element_type != e2.element_type:
         return 1
-    elif e1.elementType == 'component': # Same element type, which is component
+    elif e1.element_type == 'component': # Same element type, which is component
         # Use the component name similarity as a metric of component similarity
         return 1 - max(
-            SequenceMatcher(None, e1.componentName, e2.componentName).ratio(),
-            SequenceMatcher(None, e2.componentName, e1.componentName).ratio()
+            SequenceMatcher(None, e1.component_name, e2.component_name).ratio(),
+            SequenceMatcher(None, e2.component_name, e1.component_name).ratio()
         )
     else: # Same element type, but not components (e.g. text)
         return 0

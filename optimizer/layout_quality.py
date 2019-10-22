@@ -1,3 +1,4 @@
+from typing import List
 from itertools import combinations, product
 from math import ceil, factorial, floor, sqrt
 from collections import namedtuple
@@ -64,7 +65,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
 
 
-        for i, element in enumerate(layout.elements):
+        for i, element in enumerate(layout.element_list):
             x0[i].start = round(element.x0 / m._grid_size)
             y0[i].start = round(element.y0 / m._grid_size)
             w[i].start = round(element.width / m._grid_size)
@@ -75,7 +76,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
         resize_width = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='ResizeW')
         m.addConstrs((
-            resize_width[i] == w[i] - round(element.width / m._grid_size) for i, element in enumerate(layout.elements)
+            resize_width[i] == w[i] - round(element.width / m._grid_size) for i, element in enumerate(layout.element_list)
         ), name='LinkResizeW')
         resize_width_abs = m.addVars(n, vtype=GRB.INTEGER, name='ResizeWAbs')
         m.addConstrs((
@@ -83,7 +84,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
         ), name='LinkResizeWAbs')
         resize_height = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='ResizeH')
         m.addConstrs((
-            resize_height[i] == h[i] - round(element.height / m._grid_size) for i, element in enumerate(layout.elements)
+            resize_height[i] == h[i] - round(element.height / m._grid_size) for i, element in enumerate(layout.element_list)
         ), name='LinkResizeH')
         resize_height_abs = m.addVars(n, vtype=GRB.INTEGER, name='ResizeHAbs')
         m.addConstrs((
@@ -94,7 +95,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
         move_x = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveX')
         m.addConstrs((
-            move_x[i] == x0[i] - round(element.x0 / m._grid_size) for i, element in enumerate(layout.elements)
+            move_x[i] == x0[i] - round(element.x0 / m._grid_size) for i, element in enumerate(layout.element_list)
         ), name='LinkMoveX')
         move_x_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveXAbs')
         m.addConstrs((
@@ -103,7 +104,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
         move_y = m.addVars(n, lb=-GRB.INFINITY, vtype=GRB.INTEGER, name='MoveY')
         m.addConstrs((
-            move_y[i] == y0[i] - round(element.y0 / m._grid_size) for i, element in enumerate(layout.elements)
+            move_y[i] == y0[i] - round(element.y0 / m._grid_size) for i, element in enumerate(layout.element_list)
         ), name='LinkMoveY')
         move_y_abs = m.addVars(n, vtype=GRB.INTEGER, name='MoveYAbs')
         m.addConstrs((
@@ -302,8 +303,8 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
 
         # Minimize scaling of elements
 
-        element_width_coeffs = [1 / e.width for e in layout.elements]
-        element_height_coeffs = [1 / e.height for e in layout.elements]
+        element_width_coeffs = [1 / e.width for e in layout.element_list]
+        element_height_coeffs = [1 / e.height for e in layout.element_list]
 
         resize_expr = LinExpr(0.0)
         for i in range(layout.n):
@@ -348,15 +349,15 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
         if True:
 
             m.addConstrs((
-                overlap[i1, i2] == do_overlap(layout.elements[i1], layout.elements[i2])
+                overlap[i1, i2] == do_overlap(layout.element_list[i1], layout.element_list[i2])
                 for i1, i2 in element_pairs
             ), name='PreserveOverlap')
 
             for i1, i2 in element_pairs:
 
-                e1: Element = layout.elements[i1]
-                e2: Element = layout.elements[i2]
-                print(e1.elementType, e2.elementType, do_overlap(e1, e2))
+                e1: Element = layout.element_list[i1]
+                e2: Element = layout.element_list[i2]
+                print(e1.element_type, e2.element_type, do_overlap(e1, e2))
                 if do_overlap(e1, e2):
                     # x0
                     if e1.x0 < e2.x0:
@@ -524,7 +525,7 @@ def solve(layout: Layout, time_out: int=30, number_of_solutions: int=1):
                     'y': int(y0[i].X) * m._grid_size,
                     'width': int(w[i].X) * m._grid_size,
                     'height': int(h[i].X) * m._grid_size,
-                } for i, element in enumerate(layout.elements)
+                } for i, element in enumerate(layout.element_list)
             ]
 
             return {

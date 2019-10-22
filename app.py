@@ -50,7 +50,7 @@ def optimize_layout() -> Response:
             json.dump(request_props['layout'], f, ensure_ascii=False, indent=4)
     # Testing code
     #guidelines.solve(layout)
-
+    print('starting solve')
     if time_out < 30:
         result = guidelines.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions)
     else:

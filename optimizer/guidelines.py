@@ -1,5 +1,6 @@
 import math
 
+from functools import reduce
 from itertools import permutations, product
 from typing import List
 
@@ -7,6 +8,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 
 from .classes import Layout, Element
+
 
 
 def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions: int=1):
@@ -34,23 +36,97 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
         # Define a grid (if reasonable)
 
 
-    groups = {}
-
-    for element in layout.elements:
-        if element.parent not in groups:
-            groups[element.parent] = []
-        groups[element.parent].append(element)
-
-
-    elem_ids = [element.id for element in layout.elements]
+    # TODO edge elements
+    # Compute the main content area by subtracting the horizontally aligned edge element widths from the convas width
+    # and do the same in the vertical direction. Be careful to account for margins as well.
+    # TODO: decide how to deal with the margin between content area and edge elements with defined margins
+    # I.e. compute the effect of a margin differently depending on whether the element is the inner most of the edge
+    # elements
 
     m._base_unit = base_unit
     m._min_gutter_width = 1
     m._max_gutter_width = 4
-
     # Layout dimensions in base units
     m._layout_width = int(layout.canvas_width / m._base_unit)
     m._layout_height = int(layout.canvas_height / m._base_unit)
+
+    elem_ids = [element.id for element in layout.element_list]
+
+    # ELEMENT GROUPS
+
+    # We divide elements into groups based on their containers. I.e. elements that are contained within the same element
+    # (or are not contained by any element, but rather the canvas) are treated as groups.
+    # On the top level group, if there are elements with affinity for certain edges, those elements are placed
+    # deterministically according to their priority. The widths, heights, and paddings of the edge elements are,
+    # however, optimized to provide the best remaining content area for the content elements.
+    # The rest of the elements in the top level group are then aligned in a grid.
+
+    # For lower level groups (i.e. elements that are contained within other elements), elements are simply aligned with
+    # each other, without any specific dimensions.
+
+
+
+    # TODO groups
+    # TODO in each group: edge elements and non-edge elements
+    # TODO if edge elements exist, compute widths or heights, as well as content area
+    # TODO for other elements, decide type of alignment, and do it
+
+    # TODO optimise
+    # TODO compute sizes and positions
+
+
+
+
+    groups = {}
+
+    for element in layout.element_list:
+        if element.parent_id not in groups:
+            groups[element.parent_id] = []
+        groups[element.parent_id].append(element)
+
+
+    group_ids = groups.keys()
+
+    # TODO implement support for scrolling (i.e., infinite width or height)
+    group_full_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupFullWidth')
+    group_full_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_height, name='GroupFullHeight')
+    group_edge_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupEdgeWidth')
+    group_edge_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupEdgeHeight')
+    group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupContentWidth')
+    group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_height, name='GroupContentHeight')
+
+    m.addConstrs((
+        group_full_width[g] == group_edge_width[g] + group_content_width[g]
+        for g in group_ids
+    ), name='LinkGroupWidth')
+    m.addConstrs((
+        group_full_height[g] == group_edge_height[g] + group_content_height[g]
+        for g in group_ids
+    ), name='LinkGroupHeight')
+
+
+    for parent_id, elements in groups.items():
+
+        content_width = group_content_width[parent_id]
+        content_height = group_content_height[parent_id]
+
+        enable_grid = layout.enable_grid if parent_id is None else layout.element_dict[parent_id].enable_grid
+
+        edge_elements = [e for e in elements if e.snap_to_edge is not None]
+
+        if len(edge_elements) > 0:
+            # TODO compute space required for the edge elements and constrain the content width/height accordingly
+            pass
+
+        content_elements = [e for e in elements if e.snap_to_edge is None]
+
+        if len(content_elements) > 0:
+            # TODO align other elements within the content area
+            if enable_grid:
+                pass
+            else:
+                pass
+
 
     # Element width in base units
     elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
@@ -60,22 +136,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
     # Width of the gutter (i.e. the space between adjacent columns)
     gutter_width = m.addVar(lb=m._min_gutter_width, ub=m._max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
 
-    available_width = m.addVar(vtype=GRB.INTEGER, lb=m._layout_width, ub=m._layout_width, name='AvailableWidth')
-    available_height = m.addVar(vtype=GRB.INTEGER, lb=m._layout_height, ub=m._layout_height, name='AvailableHeight')
 
 
     grid_containers = groups[None]
 
     col_count, row_count, col_width, row_height, gutter_width, col_start, row_start, width_error, height_error, gap_count, on_left, above \
-        = build_grid(m, grid_containers, available_width, available_height, elem_width, elem_height, gutter_width)
+        = build_grid(m, grid_containers, m._layout_width, m._layout_height, elem_width, elem_height, gutter_width)
 
     child_coordinates = {}
 
-    for parent, elements in groups.items():
-        if parent is not None:
-            aw = elem_width[parent.id]
-            ah = elem_height[parent.id]
-            child_coordinates[parent] = improve_alignment(m, elements, aw, ah, elem_width, elem_height)
+    for parent_id, elements in groups.items():
+        if parent_id is not None:
+            aw = elem_width[parent_id]
+            ah = elem_height[parent_id]
+            child_coordinates[parent_id] = improve_alignment(m, elements, aw, ah, elem_width, elem_height)
 
     # OBJECTIVES
 
@@ -126,13 +200,13 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
     min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
         min_width_loss[element.id] >= round(element.width / base_unit) - elem_width[element.id]
-        for element in layout.elements
+        for element in layout.element_list
     ), name='LinkWidthLoss')
 
     min_height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
     m.addConstrs((
         min_height_loss[element.id] >= round(element.height / base_unit) - elem_height[element.id]
-        for element in layout.elements
+        for element in layout.element_list
     ), name='LinkHeightLoss')
 
     # Minimize size difference
@@ -191,14 +265,14 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=8, number_of_solutions
                 } for e in [c.id for c in grid_containers] #elem_ids
             ]
 
-            for parent, children in groups.items():
-                if parent is not None:
-                    x0, y0 = child_coordinates[parent]
+            for parent_id, children in groups.items():
+                if parent_id is not None:
+                    x0, y0 = child_coordinates[parent_id]
                     for child in children:
                         elements.append({
                             'id': child.id,
-                            'x': (container_x(parent.id) + x0[child.id].X) * base_unit,
-                            'y': (container_y(parent.id) + y0[child.id].X) * base_unit,
+                            'x': (container_x(parent_id) + x0[child.id].X) * base_unit,
+                            'y': (container_y(parent_id) + y0[child.id].X) * base_unit,
                             'width': elem_width[child.id].X * base_unit,
                             'height': elem_height[child.id].X * base_unit,
                         })
