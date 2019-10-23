@@ -11,7 +11,7 @@ from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=5, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -142,6 +142,11 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=5, number_of_solutions
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
             pass
+        elif parent_id is not None:
+            # TODO add padding
+            # TODO fix group id None
+            m.addConstr(group_content_width[parent_id] == elem_width[parent_id])
+            m.addConstr(group_content_height[parent_id] == elem_height[parent_id])
 
         content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
         print('ce',len(content_elements))
@@ -177,14 +182,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=5, number_of_solutions
                     relationship_change.add(1 - on_left[element.id, other.id])
 
 
-    print('__', len(get_rel_coord.keys()))
-    for k in get_rel_coord.keys():
-        print('_', k)
-    for element in layout.element_list:
-        if element.id not in get_rel_coord.keys():
-            print('???', element.id, element.component_name)
-        else:
-            print('!!!')
 
 
 
