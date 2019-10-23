@@ -62,7 +62,7 @@ async function submitLayoutEngine() {
         let layout = await readJSON(document.getElementById("layoutEngineFile"));
         console.log('Request Body:', layout);
 
-        drawLayout("layoutEngineInput", layout);
+        drawLayout(document.getElementById('layoutEngineInput'), layout);
 
         console.log("Uploading layout…");
         let response = await fetch("{{ url_for('optimize_layout') }}", {
@@ -76,9 +76,11 @@ async function submitLayoutEngine() {
 
         if (response.ok) {
             console.log("Parsing response…");
-            let optimizedLayout = (await response.json()).layout;
-            console.log(optimizedLayout);
-            drawLayout("layoutEngineOutput", optimizedLayout);
+            let result = (await response.json());
+            console.log(result);
+            if (result.status === 0) {
+                drawLayouts('layoutEngineOutput', result.layouts);
+            }
         }
 
     } catch (e) {
@@ -86,9 +88,17 @@ async function submitLayoutEngine() {
     }
 }
 
-function drawLayout(canvasId, layout) {
-    console.log(canvasId, layout);
-    let canvas = document.getElementById(canvasId);
+function drawLayouts(canvasContainerId, layouts) {
+    let container = document.getElementById(canvasContainerId);
+    container.innerHTML = '';
+    (layouts || []).forEach(layout => {
+        let canvas = document.createElement('canvas');
+        drawLayout(canvas, layout);
+        container.appendChild(canvas);
+    });
+}
+
+function drawLayout(canvas, layout) {
     canvas.width = layout.canvasWidth;
     canvas.height = layout.canvasHeight;
 
@@ -163,7 +173,7 @@ function readJSON(input) {
 </form>
 
 <canvas id="layoutEngineInput"></canvas>
-<canvas id="layoutEngineOutput"></canvas>
+<div id="layoutEngineOutput"></div>
 
 <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
     <fieldset>

@@ -51,10 +51,7 @@ def optimize_layout() -> Response:
     # Testing code
     #guidelines.solve(layout)
     print('starting solve')
-    if time_out < 30:
-        result = guidelines.solve(layout, time_out=time_out, number_of_solutions=number_of_solutions)
-    else:
-        result = guidelines.solve(layout, number_of_solutions=number_of_solutions)
+    result = guidelines.solve(layout)
 
     return jsonify(result)
 

@@ -11,7 +11,7 @@ from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=5):
 
     m = Model('LayoutGuidelines')
 
@@ -21,8 +21,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     print('Time out:', time_out)
 
     # https://www.gurobi.com/documentation/8.1/refman/poolsearchmode.html#parameter:PoolSearchMode
-    m.Params.PoolSearchMode = 0 # Use 2 to find high quality solutions
-    m.Params.PoolSolutions = 1 # Number of solutions to be saved
+    m.Params.PoolSearchMode = 1 # Use 2 to find high quality solutions
+    m.Params.PoolSolutions = number_of_solutions # Number of solutions to be saved
     # model.Params.MIPGap = 0.01
 
     m.Params.MIPGapAbs = 10
@@ -134,14 +134,14 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         return x, y, w, h
 
 
-    for group_id, group_elements in groups.items():
+    for group_id, elements in groups.items():
         print(group_id)
-        print([e.id for e in group_elements])
+        print([e.id for e in elements])
 
 
         enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
 
-        edge_elements = [e for e in group_elements if e.snap_to_edge is not Edge.NONE]
+        edge_elements = [e for e in elements if e.snap_to_edge is not Edge.NONE]
 
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
@@ -162,7 +162,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
         # TODO add padding
 
-        content_elements = [e for e in group_elements if e.snap_to_edge is Edge.NONE]
+        content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
         if len(content_elements) > 0:
             # TODO align other elements within the content area
             if enable_grid:
@@ -248,31 +248,34 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
-            # ‘X’ is the value of the variable in the current solution
 
-            #print('Resize Error', min_width_diff.sum().getValue(), min_height_diff.sum().getValue())
-            print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
+            layouts = []
 
+            for s in range(m.SolCount):
+                m.Params.SolutionNumber = s
 
-            group_elements = []
+                elements = []
 
-            for e in elem_ids:
-                x, y, w, h = get_abs_coord(e)
-                group_elements.append({
-                    'id': e,
-                    'x': x * base_unit,
-                    'y': y * base_unit,
-                    'width': w * base_unit,
-                    'height': h * base_unit,
+                for e in elem_ids:
+                    x, y, w, h = get_abs_coord(e)
+                    elements.append({
+                        'id': e,
+                        'x': x * base_unit,
+                        'y': y * base_unit,
+                        'width': w * base_unit,
+                        'height': h * base_unit,
+                    })
+
+                layouts.append({
+                    'solutionNumber': s,
+                    'canvasWidth': layout.canvas_width,
+                    'canvasHeight': layout.canvas_height,
+                    'elements': elements
                 })
 
             return {
                 'status': 0,
-                'layout': {
-                    'canvasWidth': layout.canvas_width,
-                    'canvasHeight': layout.canvas_height,
-                    'elements': group_elements
-                }
+                'layouts': layouts
             }
         else:
             if m.Status == GRB.Status.INFEASIBLE:
