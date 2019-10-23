@@ -11,7 +11,7 @@ from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -119,6 +119,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     # Try to retain directional relationships
     relationship_change = LinExpr()
+    total_group_count = LinExpr()
 
 
     get_rel_coord = {}
@@ -178,8 +179,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                 # obj.add(height_error, 1)
 
             else:
-                get_rel_xywh, on_left, above \
+                get_rel_xywh, on_left, above, group_count \
                     = improve_alignment(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
+
+                total_group_count.add(group_count)
             # TODO alignment function should take in:
             # TODO gutter/min.margin
             # TODO alignment function should return:
@@ -202,6 +205,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # OBJECTIVES
 
     obj.add(relationship_change)
+    obj.add(total_group_count)
+
 
     # Element scaling
 
@@ -371,6 +376,7 @@ def align_edge_elements(m: Model, elements: List[Element], available_width, avai
 def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
     elem_ids = [element.id for element in elements]
+    elem_count = len(elem_ids)
 
     elem_x0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementX0')
     elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementY0')
@@ -384,7 +390,9 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
     m.addConstrs((
         elem_y0[e] + elem_height[e] == elem_y1[e]
         for e in elem_ids
-    ), name='ContainElementToAvailableHeight')
+    ), name='LinkY1ToHeight')
+
+    # Constrain element to the available area
     m.addConstrs((
         elem_x1[e] <= available_width
         for e in elem_ids
@@ -393,6 +401,106 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
         elem_y1[e] <= available_height
         for e in elem_ids
     ), name='ContainElementToAvailableHeight')
+
+    x0_diff, y0_diff, x1_diff, y1_diff = [
+        m.addVars(permutations(elem_ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER, name=name)
+        for name in ['X0Diff', 'Y0Diff', 'X1Diff', 'Y1Diff']
+    ]
+    for diff, var in zip([x0_diff, y0_diff, x1_diff, y1_diff], [elem_x0, elem_y0, elem_x1, elem_y1]):
+        m.addConstrs((
+            diff[i1, i2] == var[i1] - var[i2]
+            for i1, i2 in permutations(elem_ids, 2)
+        ))
+
+    x0_less_than = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='X0LessThan')
+    m.addConstrs((
+        (x0_less_than[i1, i2] == 1) >> (x0_diff[i1, i2] <= -1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX0LessThan1')
+    m.addConstrs((
+        (x0_less_than[i1, i2] == 0) >> (x0_diff[i1, i2] >= 0)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX0LessThan2')
+
+    y0_less_than = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Y0LessThan')
+    m.addConstrs((
+        (y0_less_than[i1, i2] == 1) >> (y0_diff[i1, i2] <= -1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0LessThan1')
+    m.addConstrs((
+        (y0_less_than[i1, i2] == 0) >> (y0_diff[i1, i2] >= 0)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0LessThan2')
+
+    x1_less_than = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='X1LessThan')
+    m.addConstrs((
+        (x1_less_than[i1, i2] == 1) >> (x1_diff[i1, i2] <= -1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX1LessThan1')
+    m.addConstrs((
+        (x1_less_than[i1, i2] == 0) >> (x1_diff[i1, i2] >= 0)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX1LessThan2')
+
+    y1_less_than = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='Y1LessThan')
+    m.addConstrs((
+        (y1_less_than[i1, i2] == 1) >> (y1_diff[i1, i2] <= -1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1LessThan1')
+    m.addConstrs((
+        (y1_less_than[i1, i2] == 0) >> (y1_diff[i1, i2] >= 0)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1LessThan2')
+
+    # ALT NUMBER OF GROUPS
+    x0_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='X0Group')
+    y0_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='Y0Group')
+    x1_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='X1Group')
+    y1_group = m.addVars(elem_ids, lb=1, ub=elem_count, vtype=GRB.INTEGER, name='Y1Group')
+    m.addConstrs((
+        (x0_less_than[i1, i2] == 1) >> (x0_group[i1] <= x0_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX0Group1')
+    m.addConstrs((
+        (x0_less_than[i1, i2] == 0) >> (x0_group[i1] >= x0_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX0Group2')
+    m.addConstrs((
+        (y0_less_than[i1, i2] == 1) >> (y0_group[i1] <= y0_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0Group1')
+    m.addConstrs((
+        (y0_less_than[i1, i2] == 0) >> (y0_group[i1] >= y0_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY0Group2')
+    m.addConstrs((
+        (x1_less_than[i1, i2] == 1) >> (x1_group[i1] <= x1_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX1Group1')
+    m.addConstrs((
+        (x1_less_than[i1, i2] == 0) >> (x1_group[i1] >= x1_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkX1Group2')
+    m.addConstrs((
+        (y1_less_than[i1, i2] == 1) >> (y1_group[i1] <= y1_group[i2] - 1)
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1Group1')
+    m.addConstrs((
+        (y1_less_than[i1, i2] == 0) >> (y1_group[i1] >= y1_group[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ), name='LinkY1Group2')
+
+    x0_group_count = m.addVar(lb=1, ub=elem_count, vtype=GRB.INTEGER, name='X0GroupCount')
+    y0_group_count = m.addVar(lb=1, ub=elem_count, vtype=GRB.INTEGER, name='Y0GroupCount')
+    x1_group_count = m.addVar(lb=1, ub=elem_count, vtype=GRB.INTEGER, name='X1GroupCount')
+    y1_group_count = m.addVar(lb=1, ub=elem_count, vtype=GRB.INTEGER, name='Y1GroupCount')
+    m.addConstr(x0_group_count == max_(x0_group))
+    m.addConstr(y0_group_count == max_(y0_group))
+    m.addConstr(x1_group_count == max_(x1_group))
+    m.addConstr(y1_group_count == max_(y1_group))
+
+    total_group_count = x0_group_count + y0_group_count + x1_group_count + y1_group_count
+    m.addConstr(total_group_count >= compute_minimum_grid(elem_count)) # Prevent over-optimization
 
     on_left, above = get_directional_relationships(m, elem_ids, elem_x0, elem_x1, elem_y0, elem_y1)
 
@@ -411,7 +519,22 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
         return x, y, w, h
 
-    return get_rel_xywh, on_left, above
+    return get_rel_xywh, on_left, above, total_group_count
+
+def compute_minimum_grid(n: int) -> int:
+    min_grid_width = int(math.sqrt(n))
+    elements_in_min_grid = min_grid_width**2
+    extra_elements = n - elements_in_min_grid
+    if extra_elements == 0:
+        result = 4 * min_grid_width
+    else:
+        extra_columns = int(extra_elements / min_grid_width)
+        remainder = (extra_elements - (extra_columns * min_grid_width))
+        if remainder == 0:
+            result = (4 * min_grid_width) + (2 * extra_columns)
+        else:
+            result = (4 * min_grid_width) + (2 * extra_columns) + 2
+    return result
 
 def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
     '''
