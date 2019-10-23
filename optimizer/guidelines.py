@@ -43,6 +43,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     # I.e. compute the effect of a margin differently depending on whether the element is the inner most of the edge
     # elements
 
+    m._layout = layout
+
     m._base_unit = base_unit
     m._min_gutter_width = 1
     m._max_gutter_width = 4
@@ -88,7 +90,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
     group_full_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupFullWidth')
     group_full_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupFullHeight')
     group_edge_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupEdgeWidth')
-    group_edge_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupEdgeHeight')
+    group_edge_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupEdgeHeight')
     group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupContentWidth')
     group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupContentHeight')
 
@@ -108,6 +110,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         group_full_height[g] == elem_height[g]
         for g in group_ids if g is not layout.id
     ), name='LinkGroupFullHeight')
+    m.addConstr(group_full_width[layout.id] == m._layout_width, name='LinkLayoutFullWidth')
+    m.addConstr(group_full_height[layout.id] == m._layout_height, name='LinkLayoutFullHeight')
 
 
 
@@ -133,62 +137,27 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         print(group_id)
         print([e.id for e in group_elements])
 
-        edge_width = LinExpr(0)
-        edge_height = LinExpr(0)
-        content_width = group_content_width[group_id]
-        content_height = group_content_height[group_id]
 
         enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
 
         edge_elements = [e for e in group_elements if e.snap_to_edge is not Edge.NONE]
 
-        print('Edge elements', len(edge_elements))
-
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
 
+            get_rel_xywh, edge_top_height, edge_right_width, edge_bottom_height, edge_left_width \
+                = align_edge_elements(m, edge_elements, group_full_width[group_id], group_full_height[group_id], elem_width, elem_height)
+
             for element in edge_elements:
-                higher_priority_elements = [other for other in edge_elements if other.snap_priority < element.snap_priority]
-                if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
-                    edge_height.add(elem_height[element.id])
+                get_rel_coord[element.id] = get_rel_xywh
+        else:
+            edge_top_height = LinExpr(0)
+            edge_right_width = LinExpr(0)
+            edge_bottom_height = LinExpr(0)
+            edge_left_width = LinExpr(0)
 
-                    # Edge elements will span the whole edge, except when there are higher priority elements
-                    # on adjacent edges
-                    higher_priority_elements_on_adjadent_edges = [
-                        other for other in higher_priority_elements
-                        if other.snap_to_edge in [Edge.LEFT, Edge.RIGHT]
-                    ]
-                    higher_priority_elements_on_adjadent_edges_width = LinExpr()
-
-                    #TODO support for margins
-
-                    for other in higher_priority_elements_on_adjadent_edges:
-                        higher_priority_elements_on_adjadent_edges_width.add(elem_width[other.id])
-
-                    m.addConstr(elem_width[element.id] == group_full_width[group_id] - higher_priority_elements_on_adjadent_edges_width)
-
-                else: # Left or right
-                    edge_width.add(elem_width[element.id])
-
-                    higher_priority_elements_on_adjadent_edges = [
-                        other for other in higher_priority_elements
-                        if other.snap_to_edge in [Edge.TOP, Edge.BOTTOM]
-                    ]
-
-                    higher_priority_elements_on_adjadent_edges_height = LinExpr()
-
-                    # TODO support for margins
-
-                    for other in higher_priority_elements_on_adjadent_edges:
-                        higher_priority_elements_on_adjadent_edges_height.add(elem_height[other.id])
-
-                    m.addConstr(elem_height[element.id] == group_full_height[group_id] - higher_priority_elements_on_adjadent_edges_height)
-
-                get_rel_coord[element.id] = lambda e: (0, 0, elem_width[e].Xn, elem_height[e].Xn)
-
-
-        m.addConstr(group_edge_width[group_id] == edge_width)
-        m.addConstr(group_edge_height[group_id] == edge_height)
+        m.addConstr(group_edge_width[group_id] == edge_left_width + edge_right_width)
+        m.addConstr(group_edge_height[group_id] == edge_top_height + edge_bottom_height)
 
         # TODO add padding
 
@@ -197,7 +166,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
             # TODO align other elements within the content area
             if enable_grid:
                 get_rel_xywh, width_error, height_error, gap_count, on_left, above \
-                    = build_grid(m, content_elements, content_width, content_height, elem_width, elem_height, gutter_width)
+                    = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
+                                 elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
                 # TODO: test which one is better, hard or soft constraint
                 m.addConstr(gap_count == 0)
@@ -209,7 +179,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
             else:
                 get_rel_xywh, on_left, above \
-                    = improve_alignment(m, content_elements, content_width, content_height, elem_width, elem_height)
+                    = improve_alignment(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
             # TODO alignment function should take in:
             # TODO gutter/min.margin
             # TODO alignment function should return:
@@ -300,6 +270,92 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         raise e
 
+def align_edge_elements(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
+    #edge_width = LinExpr(0)
+    #edge_height = LinExpr(0)
+
+    print('IA', [e.component_name for e in elements])
+
+    edge_top_height = LinExpr()
+    edge_right_width = LinExpr()
+    edge_bottom_height = LinExpr()
+    edge_left_width = LinExpr()
+
+    for element in elements:
+        higher_priority_elements = [other for other in elements if other.snap_priority < element.snap_priority]
+        print('???', element.snap_to_edge)
+        if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
+            if element.snap_to_edge == Edge.TOP:
+                print('1', element.snap_to_edge)
+                edge_top_height.add(elem_height[element.id])
+            else:
+                print('2', element.snap_to_edge)
+                edge_bottom_height.add(elem_height[element.id])
+
+
+            # Edge elements will span the whole edge, except when there are higher priority elements
+            # on adjacent edges
+            higher_priority_elements_on_adjacent_edges = [
+                other for other in higher_priority_elements
+                if other.snap_to_edge in [Edge.LEFT, Edge.RIGHT]
+            ]
+            higher_priority_elements_on_adjadent_edges_width = LinExpr(0)
+
+            # TODO support for margins
+
+            for other in higher_priority_elements_on_adjacent_edges:
+                higher_priority_elements_on_adjadent_edges_width.add(elem_width[other.id])
+
+            m.addConstr(elem_width[element.id] == available_width - higher_priority_elements_on_adjadent_edges_width)
+
+        else:  # Left or right
+            if element.snap_to_edge == Edge.LEFT:
+                edge_left_width.add(elem_width[element.id])
+            else:
+                edge_right_width.add(elem_width[element.id])
+
+            higher_priority_elements_on_adjacent_edges = [
+                other for other in higher_priority_elements
+                if other.snap_to_edge in [Edge.TOP, Edge.BOTTOM]
+            ]
+
+            higher_priority_elements_on_adjadent_edges_height = LinExpr(0)
+
+            # TODO support for margins
+
+            for other in higher_priority_elements_on_adjacent_edges:
+                higher_priority_elements_on_adjadent_edges_height.add(elem_height[other.id])
+
+            m.addConstr(elem_height[element.id] == available_height - higher_priority_elements_on_adjadent_edges_height)
+
+    def get_rel_xywh(elem_id):
+        element = m._layout.element_dict[elem_id]
+        x_expr = LinExpr()
+        y_expr = LinExpr()
+
+        if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
+            higher_priority_elements = [
+                other for other in elements
+                if other.snap_priority < element.snap_priority and other.snap_to_edge == Edge.LEFT
+            ]
+
+            for other in higher_priority_elements:
+                x_expr.add(elem_width[other.id])
+        else:
+            higher_priority_elements = [
+                other for other in elements
+                if other.snap_priority < element.snap_priority and other.snap_to_edge == Edge.TOP
+            ]
+            for other in higher_priority_elements:
+                y_expr.add(elem_height[other.id])
+
+        x = x_expr.getValue()
+        y = y_expr.getValue()
+        w = elem_width[elem_id].Xn
+        h = elem_height[elem_id].Xn
+        return x, y, w, h
+
+    return get_rel_xywh, edge_top_height, edge_right_width, edge_bottom_height, edge_left_width
 
 def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
@@ -346,7 +402,7 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
     return get_rel_xywh, on_left, above
 
-def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width):
+def build_grid(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
     '''
 
     :param m: The Gurobi model
@@ -563,8 +619,8 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
         # Attribute Xn refers to the variable value in the solution selected using SolutionNumber parameter.
         # When SolutionNumber equals 0 (default), Xn refers to the variable value in the best solution.
         # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
-        x = (col_start[element_id].Xn - 1) * col_width.Xn
-        y = (row_start[element_id].Xn - 1) * row_height.Xn
+        x = offset_x.getValue() + (col_start[element_id].Xn - 1) * col_width.Xn
+        y = offset_y.getValue() + (row_start[element_id].Xn - 1) * row_height.Xn
         w = elem_width[element_id].Xn
         h = elem_height[element_id].Xn
 
