@@ -11,7 +11,7 @@ from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -212,20 +212,31 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solution
 
     min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
-        min_width_loss[element.id] >= round(element.width / base_unit) - elem_width[element.id]
+        min_width_loss[element.id] >= (round(element.width / base_unit) - elem_width[element.id])
         for element in layout.element_list
     ), name='LinkWidthLoss')
 
     min_height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
     m.addConstrs((
-        min_height_loss[element.id] >= round(element.height / base_unit) - elem_height[element.id]
+        min_height_loss[element.id] >= (round(element.height / base_unit) - elem_height[element.id])
         for element in layout.element_list
     ), name='LinkHeightLoss')
 
-    # Minimize size difference
+    # Minimize overall size difference
 
     obj.add(min_width_loss.sum())
     obj.add(min_height_loss.sum())
+
+    max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
+    m.addConstr(max_width_loss == max_(min_width_loss))
+
+    max_height_loss = m.addVar(vtype=GRB.INTEGER, name='MaxHeightLoss')
+    m.addConstr(max_height_loss == max_(min_height_loss))
+
+
+    # Minimize individual size difference
+    obj.add(max_width_loss)
+    obj.add(max_height_loss)
 
     try:
         m.setObjective(obj, GRB.MINIMIZE)
