@@ -41,6 +41,8 @@ class Layout:
             elif len(parents) > 1:
                 # If there are multiple containing elements, pick the smallest as the parent
                 element.parent_id = min(parents, itemgetter('area')).id
+            else:
+                element.parent_id = self.id # Define the layout as the parent
 
         self.n = len(self.element_list)
 
@@ -95,7 +97,7 @@ class Element:
         self.snap_margin = int(props.get('snapMargin', 0))
 
         # TODO: move these to client side
-        if self.snap_to_edge is None and False:
+        if self.snap_to_edge is Edge.NONE:
             if 'ABB Stripe' in self.component_name:
                 self.snap_to_edge = Edge.TOP
                 self.snap_priority = 1

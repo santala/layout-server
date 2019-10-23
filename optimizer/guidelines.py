@@ -11,7 +11,7 @@ from .classes import Layout, Element, Edge
 
 
 
-def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=1):
+def solve(layout: Layout, base_unit: int=8, time_out: int=10, number_of_solutions: int=1):
 
     m = Model('LayoutGuidelines')
 
@@ -65,16 +65,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # each other, without any specific dimensions.
 
 
-
-    # TODO groups
-    # TODO in each group: edge elements and non-edge elements
-    # TODO if edge elements exist, compute widths or heights, as well as content area
-    # TODO for other elements, decide type of alignment, and do it
-
-    # TODO optimise
-    # TODO compute sizes and positions
-
-
     # Element width in base units
     elem_width = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=1, name='ElementWidth')
     # Element height in base units
@@ -91,24 +81,34 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         groups[element.parent_id].append(element)
 
 
+
     group_ids = groups.keys()
 
     # TODO implement support for scrolling (i.e., infinite width or height)
-    group_full_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupFullWidth')
-    group_full_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_height, name='GroupFullHeight')
-    group_edge_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupEdgeWidth')
-    group_edge_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupEdgeHeight')
-    group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_width, name='GroupContentWidth')
-    group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=1, ub=m._layout_height, name='GroupContentHeight')
+    group_full_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupFullWidth')
+    group_full_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupFullHeight')
+    group_edge_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupEdgeWidth')
+    group_edge_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupEdgeHeight')
+    group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupContentWidth')
+    group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupContentHeight')
 
     m.addConstrs((
         group_full_width[g] == group_edge_width[g] + group_content_width[g]
         for g in group_ids
-    ), name='LinkGroupWidth')
+    ), name='LinkGroupEdgeAndContentWidth')
     m.addConstrs((
         group_full_height[g] == group_edge_height[g] + group_content_height[g]
         for g in group_ids
-    ), name='LinkGroupHeight')
+    ), name='LinkGroupEdgeAndContentHeight')
+    m.addConstrs((
+        group_full_width[g] == elem_width[g]
+        for g in group_ids if g is not layout.id
+    ), name='LinkGroupFullWidth')
+    m.addConstrs((
+        group_full_height[g] == elem_height[g]
+        for g in group_ids if g is not layout.id
+    ), name='LinkGroupFullHeight')
+
 
 
     obj = LinExpr()
@@ -122,34 +122,77 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     def get_abs_coord(element_id):
         x, y, w, h = get_rel_coord[element_id](element_id)
         parent_id = layout.element_dict[element_id].parent_id
-        if parent_id is not None:
+        if parent_id is not layout.id:
             px, py, *rest = get_abs_coord(parent_id)
             x += px
             y += py
         return x, y, w, h
 
 
-    for parent_id, elements in groups.items():
-        print('P:', parent_id, 'nE', len(elements))
+    for group_id, group_elements in groups.items():
+        print(group_id)
+        print([e.id for e in group_elements])
 
-        content_width = group_content_width[parent_id]
-        content_height = group_content_height[parent_id]
+        edge_width = LinExpr(0)
+        edge_height = LinExpr(0)
+        content_width = group_content_width[group_id]
+        content_height = group_content_height[group_id]
 
-        enable_grid = layout.enable_grid if parent_id is None else layout.element_dict[parent_id].enable_grid
+        enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
 
-        edge_elements = [e for e in elements if e.snap_to_edge is not Edge.NONE]
+        edge_elements = [e for e in group_elements if e.snap_to_edge is not Edge.NONE]
+
+        print('Edge elements', len(edge_elements))
 
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
-            pass
-        elif parent_id is not None:
-            # TODO add padding
-            # TODO fix group id None
-            m.addConstr(group_content_width[parent_id] == elem_width[parent_id])
-            m.addConstr(group_content_height[parent_id] == elem_height[parent_id])
 
-        content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
-        print('ce',len(content_elements))
+            for element in edge_elements:
+                higher_priority_elements = [other for other in edge_elements if other.snap_priority < element.snap_priority]
+                if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
+                    edge_height.add(elem_height[element.id])
+
+                    # Edge elements will span the whole edge, except when there are higher priority elements
+                    # on adjacent edges
+                    higher_priority_elements_on_adjadent_edges = [
+                        other for other in higher_priority_elements
+                        if other.snap_to_edge in [Edge.LEFT, Edge.RIGHT]
+                    ]
+                    higher_priority_elements_on_adjadent_edges_width = LinExpr()
+
+                    #TODO support for margins
+
+                    for other in higher_priority_elements_on_adjadent_edges:
+                        higher_priority_elements_on_adjadent_edges_width.add(elem_width[other.id])
+
+                    m.addConstr(elem_width[element.id] == group_full_width[group_id] - higher_priority_elements_on_adjadent_edges_width)
+
+                else: # Left or right
+                    edge_width.add(elem_width[element.id])
+
+                    higher_priority_elements_on_adjadent_edges = [
+                        other for other in higher_priority_elements
+                        if other.snap_to_edge in [Edge.TOP, Edge.BOTTOM]
+                    ]
+
+                    higher_priority_elements_on_adjadent_edges_height = LinExpr()
+
+                    # TODO support for margins
+
+                    for other in higher_priority_elements_on_adjadent_edges:
+                        higher_priority_elements_on_adjadent_edges_height.add(elem_height[other.id])
+
+                    m.addConstr(elem_height[element.id] == group_full_height[group_id] - higher_priority_elements_on_adjadent_edges_height)
+
+                get_rel_coord[element.id] = lambda e: (0, 0, elem_width[e].Xn, elem_height[e].Xn)
+
+
+        m.addConstr(group_edge_width[group_id] == edge_width)
+        m.addConstr(group_edge_height[group_id] == edge_height)
+
+        # TODO add padding
+
+        content_elements = [e for e in group_elements if e.snap_to_edge is Edge.NONE]
         if len(content_elements) > 0:
             # TODO align other elements within the content area
             if enable_grid:
@@ -185,24 +228,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
 
-    grid_containers = groups[None]
 
-    #get_rel_xywh, width_error, height_error, gap_count, on_left, above \
-    #    = build_grid(m, grid_containers, m._layout_width, m._layout_height, elem_width, elem_height, gutter_width)
-
-    '''
-    child_coordinates = {}
-
-    for parent_id, elements in groups.items():
-        if parent_id is not None:
-            aw = elem_width[parent_id]
-            ah = elem_height[parent_id]
-            child_coordinates[parent_id] = improve_alignment(m, elements, aw, ah, elem_width, elem_height)
-    '''
     # OBJECTIVES
-
-
-
 
     obj.add(relationship_change)
 
@@ -230,17 +257,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     obj.add(min_width_loss.sum())
     obj.add(min_height_loss.sum())
 
-    # Aim for best fit of grid
-
-
-
-
-    m.setObjective(obj, GRB.MINIMIZE)
-
-
-
     try:
-
+        m.setObjective(obj, GRB.MINIMIZE)
         m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
@@ -250,38 +268,24 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             print('Resize Loss', min_width_loss.sum().getValue(), min_height_loss.sum().getValue())
 
 
-            elements = []
+            group_elements = []
 
             for e in elem_ids:
                 x, y, w, h = get_abs_coord(e)
-                elements.append({
+                group_elements.append({
                     'id': e,
                     'x': x * base_unit,
                     'y': y * base_unit,
                     'width': w * base_unit,
                     'height': h * base_unit,
                 })
-            '''
-            for parent_id, children in groups.items():
-                if parent_id is not None:
-                    for child in children:
-                        x, y, w, h = get_coord[child.id]()
-
-                        elements.append({
-                            'id': child.id,
-                            'x': x * base_unit,
-                            'y': y * base_unit,
-                            'width': w * base_unit,
-                            'height': h * base_unit,
-                        })
-            '''
 
             return {
                 'status': 0,
                 'layout': {
                     'canvasWidth': layout.canvas_width,
                     'canvasHeight': layout.canvas_height,
-                    'elements': elements
+                    'elements': group_elements
                 }
             }
         else:
@@ -300,8 +304,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
     elem_ids = [element.id for element in elements]
-
-    print('ia', elem_ids)
 
     elem_x0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementX0')
     elem_y0 = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementY0')
@@ -335,8 +337,6 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
         # Attribute Xn refers to the variable value in the solution selected using SolutionNumber parameter.
         # When SolutionNumber equals 0 (default), Xn refers to the variable value in the best solution.
         # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
-        print(element_id in elem_ids, element_id)
-        print(elem_ids)
         x = elem_x0[element_id].Xn
         y = elem_y0[element_id].Xn
         w = elem_width[element_id].Xn
