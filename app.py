@@ -41,9 +41,9 @@ def optimize_layout() -> Response:
     request_props = json.loads(request.data)
     layout = classes.Layout(request_props['layout'])
 
-    time_out = min(30, max(1, int(request_props.get('timeOut', 30))))
+    time_out = int(request_props.get('timeOut', 30))
 
-    number_of_solutions = min(10, max(1, int(request_props.get('numberOfSolutions', 1))))
+    number_of_solutions = int(request_props.get('numberOfSolutions', 1))
 
     if False:
         with open('./output/layouts/' + str(int(time.time_ns() / 1000)) + '.json', 'w', encoding='utf-8') as f:
@@ -51,7 +51,7 @@ def optimize_layout() -> Response:
     # Testing code
     #guidelines.solve(layout)
     print('starting solve')
-    result = guidelines.solve(layout)
+    result = guidelines.solve(layout, number_of_solutions=number_of_solutions, time_out=time_out)
 
     return jsonify(result)
 

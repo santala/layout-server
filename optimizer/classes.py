@@ -40,7 +40,7 @@ class Layout:
                 element.parent_id = parents[0].id
             elif len(parents) > 1:
                 # If there are multiple containing elements, pick the smallest as the parent
-                element.parent_id = min(parents, itemgetter('area')).id
+                element.parent_id = min(parents, key=itemgetter('area')).id
             else:
                 element.parent_id = self.id # Define the layout as the parent
 
