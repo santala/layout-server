@@ -48180,3 +48180,35 @@ Changed value of parameter SolutionNumber to 3
    Prev: 2  Min: 0  Max: 2000000000  Default: 0
 Changed value of parameter SolutionNumber to 4
    Prev: 3  Min: 0  Max: 2000000000  Default: 0
+
+Gurobi 8.1.0 (mac64, Python) logging started Thu Oct 24 14:05:42 2019
+
+Academic license - for non-commercial use only
+Changed value of parameter MIPFocus to 1
+   Prev: 0  Min: 0  Max: 3  Default: 0
+Changed value of parameter TimeLimit to 10.0
+   Prev: 1e+100  Min: 0.0  Max: 1e+100  Default: 1e+100
+Changed value of parameter PoolSearchMode to 1
+   Prev: 0  Min: 0  Max: 2  Default: 0
+Changed value of parameter PoolSolutions to 5
+   Prev: 10  Min: 1  Max: 2000000000  Default: 10
+Changed value of parameter MIPGapAbs to 10.0
+   Prev: 1e-10  Min: 0.0  Max: 1e+100  Default: 1e-10
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Optimize a model with 11150 rows, 18695 columns and 34047 nonzeros
+Model has 6204 quadratic constraints
+Model has 25714 general constraints
+Variable types: 0 continuous, 18695 integer (14600 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+02]
+  QLMatrix range   [1e+00, 1e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 2e+02]
+  RHS range        [1e+00, 2e+02]
+Presolve added 18024 rows and 2651 columns
+Presolve time: 0.94s
+Presolved: 50530 rows, 26779 columns, 139409 nonzeros
+Presolved model has 8411 SOS constraint(s)
+Variable types: 0 continuous, 26779 integer (10704 binary)

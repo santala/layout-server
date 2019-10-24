@@ -1,5 +1,5 @@
 from enum import Enum
-from operator import itemgetter
+from operator import attrgetter
 
 class Edge(Enum):
     NONE = None
@@ -40,7 +40,7 @@ class Layout:
                 element.parent_id = parents[0].id
             elif len(parents) > 1:
                 # If there are multiple containing elements, pick the smallest as the parent
-                element.parent_id = min(parents, key=itemgetter('area')).id
+                element.parent_id = min(parents, key=attrgetter('area')).id
             else:
                 element.parent_id = self.id # Define the layout as the parent
 
