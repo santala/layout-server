@@ -1,5 +1,6 @@
 output/
 ssl/
+gurobi.log
 .idea/
 .DS_STORE
 **/__pycache__/
