@@ -34,6 +34,9 @@ class Layout:
         }
 
 
+        # TODO: prevent elements from being each others parents
+        # EXPL: this will happen if elements have identical size and position
+
         for element in self.element_list:
             parents = [other for other in self.element_list if element is not other and element.is_contained_within(other)]
             if len(parents) == 1:

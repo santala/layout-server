@@ -115,7 +115,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
 
-    obj = LinExpr()
+
 
     # Try to retain directional relationships
     relationship_change = LinExpr()
@@ -134,9 +134,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         return x, y, w, h
 
 
+    width_error_sum = LinExpr()
+
     for group_id, elements in groups.items():
-        print(group_id)
-        print([e.id for e in elements])
 
 
         enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
@@ -175,7 +175,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                 # obj.add(gap_count, 10)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
-                obj.add(width_error, 1)
+                width_error_sum.add(width_error)
                 # obj.add(height_error, 1)
 
             else:
@@ -202,12 +202,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
 
-    # OBJECTIVES
-
-    obj.add(relationship_change)
-    obj.add(total_group_count)
-
-
     # Element scaling
 
     # Decrease of the element width compared to the original in base units
@@ -227,10 +221,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         for element in layout.element_list
     ), name='LinkHeightLoss')
 
-    # Minimize overall size difference
-
-    obj.add(min_width_loss.sum())
-    obj.add(min_height_loss.sum())
 
     max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
     m.addConstr(max_width_loss == max_(min_width_loss))
@@ -239,12 +229,28 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.addConstr(max_height_loss == max_(min_height_loss))
 
 
-    # Minimize individual size difference
-    obj.add(max_width_loss)
-    obj.add(max_height_loss)
-
     try:
-        m.setObjective(obj, GRB.MINIMIZE)
+        m.Params.ModelSense = GRB.MINIMIZE
+
+
+        #m.setObjectiveN(relationship_change, index=1, priority=10, weight=4)
+        m.addConstr(relationship_change == 0)
+
+        # Minimize total downscaling
+        m.setObjectiveN(min_width_loss.sum(), index=3, priority=5, weight=1, name='MinimizeElementWidthLoss')
+        m.setObjectiveN(min_height_loss.sum(), index=4, priority=5, weight=1, name='MinimizeElementWidthLoss')
+
+        # Minimize the maximum downscaling
+        m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
+        m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
+
+        # Optimize for grid fitness within available space
+        m.setObjectiveN(width_error_sum, index=7, priority=1, weight=1, name='MinimizeWidthError')
+
+        # Optimize alignment within containers
+        m.setObjectiveN(total_group_count, index=2, priority=2, weight=1)
+
+
         m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
@@ -293,7 +299,6 @@ def align_edge_elements(m: Model, elements: List[Element], available_width, avai
     #edge_width = LinExpr(0)
     #edge_height = LinExpr(0)
 
-    print('IA', [e.component_name for e in elements])
 
     edge_top_height = LinExpr()
     edge_right_width = LinExpr()
@@ -302,13 +307,10 @@ def align_edge_elements(m: Model, elements: List[Element], available_width, avai
 
     for element in elements:
         higher_priority_elements = [other for other in elements if other.snap_priority < element.snap_priority]
-        print('???', element.snap_to_edge)
         if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
             if element.snap_to_edge == Edge.TOP:
-                print('1', element.snap_to_edge)
                 edge_top_height.add(elem_height[element.id])
             else:
-                print('2', element.snap_to_edge)
                 edge_bottom_height.add(elem_height[element.id])
 
 
