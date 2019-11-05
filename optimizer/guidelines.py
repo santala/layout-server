@@ -98,12 +98,17 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupContentWidth')
     group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupContentHeight')
 
+    group_padding_top = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingTop')
+    group_padding_right = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingRight')
+    group_padding_bottom = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingBottom')
+    group_padding_left = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingLeft')
+
     m.addConstrs((
-        group_full_width[g] == group_edge_width[g] + group_content_width[g]
+        group_full_width[g] == group_edge_width[g] + group_content_width[g] + group_padding_left[g] + group_padding_right[g]
         for g in group_ids
     ), name='LinkGroupEdgeAndContentWidth')
     m.addConstrs((
-        group_full_height[g] == group_edge_height[g] + group_content_height[g]
+        group_full_height[g] == group_edge_height[g] + group_content_height[g] + group_padding_top[g] + group_padding_bottom[g]
         for g in group_ids
     ), name='LinkGroupEdgeAndContentHeight')
     m.addConstrs((
@@ -121,12 +126,16 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
 
-    # Try to retain directional relationships
-    relationship_change = LinExpr()
-    total_group_count = LinExpr()
+
 
 
     get_rel_coord = {}
+
+    def get_content_offset(element_id):
+        if element_id in group_ids:
+            return group_padding_left[element_id].X, group_padding_top[element_id].X
+        else:
+            return 0, 0
 
     def get_abs_coord(element_id):
         x, y, w, h = get_rel_coord[element_id](element_id)
@@ -135,19 +144,42 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             px, py, *rest = get_abs_coord(parent_id)
             x += px
             y += py
+            px, py = get_content_offset(parent_id)
+            x += px
+            y += py
         return x, y, w, h
 
-
+    # Try to retain directional relationships
+    relationship_change = LinExpr()
+    total_group_count = LinExpr()
     width_error_sum = LinExpr()
     height_error_sum = LinExpr()
     gap_count_sum = LinExpr()
 
+    # Loop through all groups and return
+    # * grid fitness to available space
+    # * number of gaps in grids (for grid alignment)
+    # * group count (for basic alignment)
+    # * element relationship expression
+
+    '''
+    for group_id, elements in groups.items():
+        # divide elements into two categories: edge elements and content elements
+        # align edge elements
+        # compute content area bbox
+        # align content elements
+    '''
+
     for group_id, elements in groups.items():
 
+        edge_elements = []
+        content_elements = []
 
-        enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
-
-        edge_elements = [e for e in elements if e.snap_to_edge is not Edge.NONE]
+        for e in elements:
+            if e.snap_to_edge is Edge.NONE:
+                content_elements.append(e)
+            else:
+                edge_elements.append(e)
 
         if len(edge_elements) > 0:
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
@@ -163,18 +195,13 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             edge_bottom_height = LinExpr(0)
             edge_left_width = LinExpr(0)
 
-        # TODO configurable padding
-        edge_top_height.add(2)
-        edge_right_width.add(2)
-        edge_bottom_height.add(2)
-        edge_left_width.add(2)
-
         m.addConstr(group_edge_width[group_id] == edge_left_width + edge_right_width)
         m.addConstr(group_edge_height[group_id] == edge_top_height + edge_bottom_height)
 
 
-        content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
         if len(content_elements) > 0:
+            enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
+
             # TODO align other elements within the content area
             if enable_grid:
                 get_rel_xywh, width_error, height_error, gap_count, on_left, above \
