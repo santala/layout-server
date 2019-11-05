@@ -40,14 +40,19 @@ class Layout:
         for element in self.element_list:
             parents = [other for other in self.element_list if element is not other and element.is_contained_within(other)]
             if len(parents) == 1:
-                element.parent_id = parents[0].id
+                element.parent = parents[0]
+                #element.parent_id = parents[0].id
             elif len(parents) > 1:
                 # If there are multiple containing elements, pick the smallest as the parent
-                element.parent_id = min(parents, key=attrgetter('area')).id
+                element.parent = min(parents, key=attrgetter('area'))
+                #element.parent_id = min(parents, key=attrgetter('area')).id
             else:
-                element.parent_id = self.id # Define the layout as the parent
+                element.parent = self # Define the layout as the parent
+                #element.parent_id = self.id
 
         self.n = len(self.element_list)
+
+        self.depth = max([e.get_ancestor_count() for e in self.element_list])
 
 
         # The following are for the layout difference algorithm
@@ -60,7 +65,8 @@ class Layout:
         self.area_sum = sum([element.area for element in self.element_list])
 
 
-
+    def get_ancestor_count(self):
+        return 0
 
 
 class Element:
@@ -93,7 +99,8 @@ class Element:
 
         self.isLocked = bool(props.get('isLocked', False))
 
-        self.parent_id = None
+        self.parent = None
+        #self.parent_id = None
 
         self.snap_to_edge = Edge(props.get('snapToEdge', None))
         self.snap_priority = int(props.get('snapPriority', 1))
@@ -108,7 +115,17 @@ class Element:
                 self.snap_to_edge = Edge.LEFT
                 self.snap_priority = 2
 
+    def get_parent_id(self):
+        if self.parent is None:
+            return None
+        else:
+            return self.parent.id
 
+    def get_ancestor_count(self):
+        if self.parent is None:
+            return 0
+        else:
+            return 1 + self.parent.get_ancestor_count()
 
     def overlap_width(self, other):
         return (self.width + other.width) - (max(self.x0 + self.width, other.x0 + other.width) - min(self.x0, other.x0))

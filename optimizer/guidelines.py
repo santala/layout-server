@@ -1,6 +1,7 @@
 import math
 
 from collections import namedtuple
+from enum import Enum
 from functools import reduce
 from itertools import permutations, product
 from typing import List
@@ -13,6 +14,8 @@ from .classes import Layout, Element, Edge
 
 BBox = namedtuple('BBox', 'x y w h')
 Padding = namedtuple('Padding', 'top right bottom left')
+
+DirectionalRelationships = namedtuple('DirectionalRelationships', 'above on_left')
 
 
 def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=5):
@@ -82,9 +85,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     groups = {}
 
     for element in layout.element_list:
-        if element.parent_id not in groups:
-            groups[element.parent_id] = []
-        groups[element.parent_id].append(element)
+        if element.get_parent_id() not in groups:
+            groups[element.get_parent_id()] = []
+        groups[element.get_parent_id()].append(element)
 
 
 
@@ -122,13 +125,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.addConstr(group_full_width[layout.id] == m._layout_width, name='LinkLayoutFullWidth')
     m.addConstr(group_full_height[layout.id] == m._layout_height, name='LinkLayoutFullHeight')
 
-
-
-
-
-
-
-
     get_rel_coord = {}
 
     def get_content_offset(element_id):
@@ -139,7 +135,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     def get_abs_coord(element_id):
         x, y, w, h = get_rel_coord[element_id](element_id)
-        parent_id = layout.element_dict[element_id].parent_id
+        parent_id = layout.element_dict[element_id].get_parent_id()
         if parent_id is not layout.id:
             px, py, *rest = get_abs_coord(parent_id)
             x += px
@@ -149,12 +145,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             y += py
         return x, y, w, h
 
-    # Try to retain directional relationships
-    relationship_change = LinExpr()
-    total_group_count = LinExpr()
-    width_error_sum = LinExpr()
-    height_error_sum = LinExpr()
-    gap_count_sum = LinExpr()
 
     # Loop through all groups and return
     # * grid fitness to available space
@@ -168,9 +158,16 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         # align edge elements
         # compute content area bbox
         # align content elements
+        # (maybe) add objective for group alignment, priority from hierarchy depth
     '''
 
     for group_id, elements in groups.items():
+
+        relationship_change = LinExpr()
+        total_group_count = LinExpr()
+        width_error_sum = LinExpr()
+        height_error_sum = LinExpr()
+        gap_count_sum = LinExpr()
 
         edge_elements = []
         content_elements = []
@@ -204,7 +201,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             # TODO align other elements within the content area
             if enable_grid:
-                get_rel_xywh, width_error, height_error, gap_count, on_left, above \
+                get_rel_xywh, width_error, height_error, gap_count, directional_relationships\
                     = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
                                  elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
@@ -217,7 +214,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                 height_error_sum.add(height_error)
 
             else:
-                get_rel_xywh, on_left, above, group_count \
+                get_rel_xywh, directional_relationships, group_count \
                     = improve_alignment(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
 
                 total_group_count.add(group_count)
@@ -231,10 +228,27 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             for element, other in permutations(content_elements, 2):
                 if element.is_above(other):
-                    relationship_change.add(1 - above[element.id, other.id])
+                    relationship_change.add(1 - directional_relationships.above[element.id, other.id])
                 if element.is_on_left(other):
-                    relationship_change.add(1 - on_left[element.id, other.id])
+                    relationship_change.add(1 - directional_relationships.on_left[element.id, other.id])
 
+        if group_id in layout.element_dict:
+            group_priority = layout.depth - layout.element_dict[group_id].get_ancestor_count()
+        else:
+            group_priority = layout.depth
+
+        #m.setObjectiveN(relationship_change, index=1, priority=group_priority, weight=10)
+        m.addConstr(relationship_change == 0)
+
+        m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=10)
+        #m.addConstr(gap_count_sum == 0)
+
+
+        # Optimize for grid fitness within available space
+        m.setObjectiveN(width_error_sum, index=7, priority=group_priority, weight=1, name='MinimizeWidthError')
+
+        # Optimize alignment within containers
+        m.setObjectiveN(total_group_count, index=2, priority=group_priority, weight=1)
 
 
 
@@ -249,13 +263,13 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
-        min_width_loss[element.id] >= (round(element.width / base_unit) - elem_width[element.id])
+        min_width_loss[element.id] >= (math.ceil(element.width / base_unit) - elem_width[element.id])
         for element in layout.element_list
     ), name='LinkWidthLoss')
 
     min_height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
     m.addConstrs((
-        min_height_loss[element.id] >= (round(element.height / base_unit) - elem_height[element.id])
+        min_height_loss[element.id] >= (math.ceil(element.height / base_unit) - elem_height[element.id])
         for element in layout.element_list
     ), name='LinkHeightLoss')
 
@@ -266,31 +280,16 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     max_height_loss = m.addVar(vtype=GRB.INTEGER, name='MaxHeightLoss')
     m.addConstr(max_height_loss == max_(min_height_loss))
 
+    # Minimize total downscaling
+    m.setObjectiveN(min_width_loss.sum(), index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+    m.setObjectiveN(min_height_loss.sum(), index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+
+    # Minimize the maximum downscaling
+    m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
+    m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
 
     try:
         m.Params.ModelSense = GRB.MINIMIZE
-
-
-        #m.setObjectiveN(relationship_change, index=1, priority=10, weight=4)
-        m.addConstr(relationship_change == 0)
-
-        m.setObjectiveN(gap_count_sum, index=13, priority=6)
-        #m.addConstr(gap_count_sum == 0)
-
-
-        # Minimize total downscaling
-        m.setObjectiveN(min_width_loss.sum(), index=3, priority=5, weight=1, name='MinimizeElementWidthLoss')
-        m.setObjectiveN(min_height_loss.sum(), index=4, priority=5, weight=1, name='MinimizeElementWidthLoss')
-
-        # Minimize the maximum downscaling
-        m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
-        m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
-
-        # Optimize for grid fitness within available space
-        m.setObjectiveN(width_error_sum, index=7, priority=1, weight=1, name='MinimizeWidthError')
-
-        # Optimize alignment within containers
-        m.setObjectiveN(total_group_count, index=2, priority=2, weight=1)
 
 
         m.optimize()
@@ -340,6 +339,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 def align_edge_elements(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
     #edge_width = LinExpr(0)
     #edge_height = LinExpr(0)
+
 
 
     edge_top_height = LinExpr()
@@ -420,6 +420,7 @@ def align_edge_elements(m: Model, elements: List[Element], available_width, avai
 
     return get_rel_xywh, edge_top_height, edge_right_width, edge_bottom_height, edge_left_width
 
+
 def improve_alignment(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
     elem_ids = [element.id for element in elements]
@@ -448,6 +449,8 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
         elem_y1[e] <= available_height
         for e in elem_ids
     ), name='ContainElementToAvailableHeight')
+
+
 
     x0_diff, y0_diff, x1_diff, y1_diff = [
         m.addVars(permutations(elem_ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER, name=name)
@@ -549,9 +552,9 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
     total_group_count = x0_group_count + y0_group_count + x1_group_count + y1_group_count
     m.addConstr(total_group_count >= compute_minimum_grid(elem_count)) # Prevent over-optimization
 
-    on_left, above = get_directional_relationships(m, elem_ids, elem_x0, elem_x1, elem_y0, elem_y1)
+    directional_relationships = get_directional_relationships(m, elem_ids, elem_x0, elem_x1, elem_y0, elem_y1)
 
-    prevent_overlap(m, elem_ids, on_left, above)
+    prevent_overlap(m, elem_ids, directional_relationships)
 
     def get_rel_xywh(element_id):
         # Returns the element position (relative to the parent top left corner)
@@ -566,7 +569,7 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
         return x, y, w, h
 
-    return get_rel_xywh, on_left, above, total_group_count
+    return get_rel_xywh, directional_relationships, total_group_count
 
 def compute_minimum_grid(n: int) -> int:
     min_grid_width = int(math.sqrt(n))
@@ -762,9 +765,9 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
     # Directional relationships
 
-    on_left, above = get_directional_relationships(m, elem_ids, col_start, col_end, row_start, row_end)
+    directional_relationships = get_directional_relationships(m, elem_ids, col_start, col_end, row_start, row_end)
 
-    prevent_overlap(m, elem_ids, on_left, above)
+    prevent_overlap(m, elem_ids, directional_relationships)
 
     # Starting values
     # TODO test starting values
@@ -807,7 +810,7 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
         return x, y, w, h
 
-    return get_rel_xywh, width_error, height_error, gap_count, on_left, above
+    return get_rel_xywh, width_error, height_error, gap_count, directional_relationships
 
 def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
 
@@ -857,10 +860,13 @@ def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, 
         for e1, e2 in permutations(elem_ids, 2)
     ), name='OnLeftSanity')
 
-    return on_left, above
+    return DirectionalRelationships(above=above, on_left=on_left)
 
 
-def prevent_overlap(m: Model, elem_ids: List[str], on_left: tupledict, above: tupledict):
+def prevent_overlap(m: Model, elem_ids: List[str], directional_relationships: DirectionalRelationships):
+    above = directional_relationships.above
+    on_left = directional_relationships.on_left
+
     h_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY, name='HorizontalOverlap')
     m.addConstrs((
         h_overlap[e1, e2] == 1 - (on_left[e1, e2] + on_left[e2, e1])
