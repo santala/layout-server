@@ -1,5 +1,6 @@
 import math
 
+from collections import namedtuple
 from functools import reduce
 from itertools import permutations, product
 from typing import List
@@ -9,6 +10,9 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element, Edge
 
+
+BBox = namedtuple('BBox', 'x y w h')
+Padding = namedtuple('Padding', 'top right bottom left')
 
 
 def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=5):
@@ -135,6 +139,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
     width_error_sum = LinExpr()
+    height_error_sum = LinExpr()
+    gap_count_sum = LinExpr()
 
     for group_id, elements in groups.items():
 
@@ -157,10 +163,15 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             edge_bottom_height = LinExpr(0)
             edge_left_width = LinExpr(0)
 
+        # TODO configurable padding
+        edge_top_height.add(2)
+        edge_right_width.add(2)
+        edge_bottom_height.add(2)
+        edge_left_width.add(2)
+
         m.addConstr(group_edge_width[group_id] == edge_left_width + edge_right_width)
         m.addConstr(group_edge_height[group_id] == edge_top_height + edge_bottom_height)
 
-        # TODO add padding
 
         content_elements = [e for e in elements if e.snap_to_edge is Edge.NONE]
         if len(content_elements) > 0:
@@ -171,12 +182,12 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                                  elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
                 # TODO: test which one is better, hard or soft constraint
-                m.addConstr(gap_count == 0)
-                # obj.add(gap_count, 10)
+                #m.addConstr(gap_count == 0)
+                gap_count_sum.add(gap_count)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
                 width_error_sum.add(width_error)
-                # obj.add(height_error, 1)
+                height_error_sum.add(height_error)
 
             else:
                 get_rel_xywh, on_left, above, group_count \
@@ -235,6 +246,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
         #m.setObjectiveN(relationship_change, index=1, priority=10, weight=4)
         m.addConstr(relationship_change == 0)
+
+        m.setObjectiveN(gap_count_sum, index=13, priority=6)
+        #m.addConstr(gap_count_sum == 0)
+
 
         # Minimize total downscaling
         m.setObjectiveN(min_width_loss.sum(), index=3, priority=5, weight=1, name='MinimizeElementWidthLoss')
@@ -835,3 +850,12 @@ def prevent_overlap(m: Model, elem_ids: List[str], on_left: tupledict, above: tu
         h_overlap[e1, e2] + v_overlap[e1, e2] <= 1
         for e1, e2 in permutations(elem_ids, 2)
     ), name='PreventOverlap')
+
+
+def get_inner_bbox(outer: BBox, padding: Padding):
+    return BBox(
+        x=outer.x + padding.left,
+        y=outer.y + padding.top,
+        w=outer.w - padding.left - padding.right,
+        h=outer.h - padding.top - padding.bottom
+    )
