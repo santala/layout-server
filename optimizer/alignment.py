@@ -4,7 +4,7 @@ from itertools import product, permutations
 from math import ceil, floor, sqrt
 from typing import List
 
-from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
+from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, or_, QuadExpr, GurobiError
 
 from .classes import Layout, Element
 
@@ -61,6 +61,10 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     # Element coordinates in rows and columns
     c0, r0, c1, r1 = add_coord_vars(m, elem_ids, max_col_count, max_row_count)
 
+    c0_min = m.addVar(vtype=GRB.INTEGER)
+    m.addConstr(c0_min == min_(c0))
+    m.addConstr(c0_min == 0) # At least one element must be in the first column
+
     col_span, row_span = [
         add_diff_vars(m, elem_ids, var1, var2)
         for var1, var2 in [(c1, c0), (r1, r0)]
@@ -91,10 +95,10 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     m.addConstrs((y0_less_than[i1, i2] == r0_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
     m.addConstrs((y1_less_than[i1, i2] == r1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
-    m.addConstrs((x0_less_than_x1[i1, i2] == c0_less_than_c1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
-    m.addConstrs((x1_less_than_x0[i1, i2] == c1_less_than_c0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
-    m.addConstrs((y0_less_than_y1[i1, i2] == r0_less_than_r1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
-    m.addConstrs((y1_less_than_y0[i1, i2] == r1_less_than_r0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    #m.addConstrs((x0_less_than_x1[i1, i2] == c0_less_than_c1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    #m.addConstrs((x1_less_than_x0[i1, i2] == c1_less_than_c0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    #m.addConstrs((y0_less_than_y1[i1, i2] == r0_less_than_r1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    #m.addConstrs((y1_less_than_y0[i1, i2] == r1_less_than_r0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
     # COLUMN/ROW SIZE & COUNT
 
@@ -163,25 +167,42 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (c0_equals_c1[i1, i2] == 1) >> (x0[i1] - x1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    m.addConstrs((
+        (on_left[i1, i2] == 1) >> (x0[i2] - x1[i1] >= gutter_width)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
 
-    no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
+    in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
-        no_gap_on_left[i] >= 1 - c0[i] # If element is in the first column (c0[i]==0), there is no gap on the left
+        (in_first_col[i] == 1) >> (c0[i] == 0)
         for i in elem_ids
     ))
     m.addConstrs((
-        no_gap_on_left[i] >= 0
+        (in_first_col[i] == 0) >> (c0[i] >= 1)
         for i in elem_ids
     ))
+
     neighbor_exists_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
         neighbor_exists_on_left[i1] == and_(on_same_row[i1, i2], c0_equals_c1[i1, i2])
         for i1, i2 in permutations(elem_ids, 2)
     ))
+
+    something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
-        no_gap_on_left[i] <= neighbor_exists_on_left[i]
+        #something_on_left[i] <= c0_equals_c1.sum(i)
+        # TODO compare performance
+        something_on_left[i] == max_(c0_equals_c1.select(i, '*'))
         for i in elem_ids
     ))
+
+    no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
+    m.addConstrs((
+        no_gap_on_left[i] == or_(something_on_left[i], in_first_col[i])
+        for i in elem_ids
+    ))
+
+
 
     # Vertical
     r0_equals_r1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
@@ -195,29 +216,47 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (r0_equals_r1[i1, i2] == 1) >> (y0[i1] - y1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    m.addConstrs((
+        (above[i1, i2] == 1) >> (y0[i2] - y1[i1] >= gutter_width)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
 
-    no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    on_first_row = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
-        no_gap_above[i] >= 1 - r0[i]  # If element is in the first column (c0[i]==0), there is no gap on the left
+        (on_first_row[i] == 1) >> (r0[i] == 0)
         for i in elem_ids
     ))
     m.addConstrs((
-        no_gap_above[i] >= 0
+        (on_first_row[i] == 0) >> (r0[i] >= 1)
         for i in elem_ids
     ))
+
     neighbor_exists_above = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
         neighbor_exists_above[i1] == and_(in_same_col[i1, i2], r0_equals_r1[i1, i2])
         for i1, i2 in permutations(elem_ids, 2)
     ))
+
+    something_above = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
-        no_gap_above[i] <= neighbor_exists_above[i]
+        #something_above[i] <= r0_equals_r1.sum(i)
+        # TODO compare performance
+        something_above[i] == max_(r0_equals_r1.select(i, '*'))
+        for i in elem_ids
+    ))
+
+    no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    m.addConstrs((
+        no_gap_above[i] == or_(something_above[i], on_first_row[i])
         for i in elem_ids
     ))
 
 
     if True:
         gap_count = (2 * elem_count) - no_gap_on_left.sum() - no_gap_above.sum()
+        m.addConstr(no_gap_on_left.sum() >= elem_count)
+        #m.addConstr(no_gap_above.sum() >= elem_count)
+        #m.addConstr(no_gap_above.sum() >= 1)
     else:
         cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
         total_cell_count = cell_count.sum()
@@ -265,12 +304,18 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         h = height[element_id].Xn
 
         print(
-            'Col count', col_count.Xn,
-            'Row count', row_count.Xn,
-            'Col width', col_width.Xn,
-            'Row height', row_height.Xn,
-            'w', w, 'h', h,
-            'col_span', col_span[element_id].Xn
+            'Gaps', gap_count.getValue(),
+            'Cols', col_count.Xn,
+            'Rows', row_count.Xn,
+            'ColW', col_width.Xn,
+            'RowH', row_height.Xn,
+            'ElemW', w, 'ElemH', h,
+            'Col0', c0[element_id].Xn,
+            'ColSpan', col_span[element_id].Xn,
+            'NoGapL', no_gap_on_left[element_id].Xn,
+            'NoGapA', no_gap_above[element_id].Xn,
+            'Neighbor', neighbor_exists_on_left[element_id].Xn,
+            'PrevCol', c0_equals_c1.sum(element_id).getValue()
         )
 
         return x, y, w, h
