@@ -305,7 +305,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     number_of_groups_expr.add(row_count)
     m.addConstr(number_of_groups_expr >= compute_minimum_grid(elem_count), name='PreventOvertOptimization')
 
-    # MINIMIZE DIFFERENCE BETWEEN LEFT AND RIGHT MARGINS
+    # TODO: consider this MINIMIZE DIFFERENCE BETWEEN LEFT AND RIGHT MARGINS
+    '''
     left_margin = m.addVar(lb=0, vtype=GRB.INTEGER, name='LeftMargin')
     m.addConstr(left_margin == min_(x0), name='LinkLeftMargin')
 
@@ -321,7 +322,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     margin_diff_abs_expr = LinExpr()
     margin_diff_abs_expr.add(margin_diff_loose_abs)
-
+    '''
 
 
     height_error = LinExpr(0) # TODO
@@ -354,7 +355,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
         return x, y, w, h
 
-    return get_rel_xywh, margin_diff_abs_expr, height_error, gap_count, above, on_left
+    return get_rel_xywh, width_error, height_error, gap_count, above, on_left
 
 
 def add_coord_vars(m: Model, elem_ids, available_width, available_height):
