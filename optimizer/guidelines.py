@@ -169,7 +169,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         total_group_count = LinExpr()
         width_error_sum = LinExpr()
         height_error_sum = LinExpr()
-        gap_count_sum = QuadExpr()
+        gap_count_sum = LinExpr()
 
         edge_elements = []
         content_elements = []
@@ -247,8 +247,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         #m.setObjectiveN(relationship_change, index=1, priority=group_priority, weight=10)
         m.addConstr(relationship_change == 0)
 
-        #m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=10)
-        m.addConstr(gap_count_sum == 0)
+        m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=10)
+        #m.addConstr(gap_count_sum == 0)
 
 
         # Optimize for grid fitness within available space
