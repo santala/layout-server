@@ -103,6 +103,10 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     # COLUMN/ROW SIZE & COUNT
 
     grid_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+    actual_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+    m.addConstr(actual_width == grid_width - gutter_width)
+    width_error = m.addVar(lb=1, vtype=GRB.INTEGER)
+    m.addConstr(width_error == available_width - actual_width)
 
     col_width = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
     m.addConstr(col_width >= gutter_width + 1)
@@ -120,8 +124,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (col_count_selected[c] == 1) >> (grid_width == c * col_width)
         for c in col_counts
     ))
-    m.addConstr(grid_width - gutter_width <= available_width)
-    m.addConstr(grid_width >= available_width)
+    m.addConstr(actual_width <= available_width)
+    m.addConstr(actual_width + col_width - gutter_width >= available_width + 1) # This should stretch the column width to match the layout width
 
     row_height = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
     m.addConstr(row_height >= gutter_width + 1)
