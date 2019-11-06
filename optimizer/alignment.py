@@ -8,7 +8,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element
 
-def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, offset_x, offset_y):
+def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
 
     elem_count = len(elements)
     elem_ids = [e.id for e in elements]
@@ -99,13 +99,14 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     # COLUMN/ROW SIZE & COUNT
 
     col_width = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
+    m.addConstr(col_width >= gutter_width + 1)
     col_count = m.addVar(lb=1, vtype=GRB.INTEGER)
     m.addConstr(col_count == max_(c1))
 
     row_height = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
+    m.addConstr(row_height >= gutter_width + 1)
     row_count= m.addVar(lb=1, vtype=GRB.INTEGER)
     m.addConstr(row_count == max_(r1))
-
 
     # Column width must be at max the smallest difference between two column lines
     m.addConstrs((
@@ -150,9 +151,16 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     # Minimize gaps in the grid
 
+    # Horizontal
     c0_equals_c1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
     m.addConstrs((
         (c0_equals_c1[i1, i2] == 1) >> (c0[i1] == c1[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
+    m.addConstrs((
+        # Set gutter
+        (c0_equals_c1[i1, i2] == 1) >> (x0[i1] - x1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
@@ -161,20 +169,55 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         no_gap_on_left[i] >= 1 - c0[i] # If element is in the first column (c0[i]==0), there is no gap on the left
         for i in elem_ids
     ))
+    m.addConstrs((
+        no_gap_on_left[i] >= 0
+        for i in elem_ids
+    ))
     neighbor_exists_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
         neighbor_exists_on_left[i1] == and_(on_same_row[i1, i2], c0_equals_c1[i1, i2])
         for i1, i2 in permutations(elem_ids, 2)
     ))
     m.addConstrs((
-        no_gap_on_left[i] >= neighbor_exists_on_left[i]
+        no_gap_on_left[i] <= neighbor_exists_on_left[i]
+        for i in elem_ids
+    ))
+
+    # Vertical
+    r0_equals_r1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
+    m.addConstrs((
+        (r0_equals_r1[i1, i2] == 1) >> (r0[i1] == r1[i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
+    m.addConstrs((
+        # Set gutter
+        (r0_equals_r1[i1, i2] == 1) >> (y0[i1] - y1[i2] == gutter_width)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
+    no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    m.addConstrs((
+        no_gap_above[i] >= 1 - r0[i]  # If element is in the first column (c0[i]==0), there is no gap on the left
+        for i in elem_ids
+    ))
+    m.addConstrs((
+        no_gap_above[i] >= 0
+        for i in elem_ids
+    ))
+    neighbor_exists_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    m.addConstrs((
+        neighbor_exists_above[i1] == and_(in_same_col[i1, i2], r0_equals_r1[i1, i2])
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+    m.addConstrs((
+        no_gap_above[i] <= neighbor_exists_above[i]
         for i in elem_ids
     ))
 
 
     if True:
-        gap_count = elem_count - no_gap_on_left.sum()
-        m.addConstr(gap_count == 0)
+        gap_count = (2 * elem_count) - no_gap_on_left.sum() - no_gap_above.sum()
     else:
         cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
         total_cell_count = cell_count.sum()
@@ -220,6 +263,15 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         y = offset_y.getValue() + y0[element_id].Xn
         w = width[element_id].Xn
         h = height[element_id].Xn
+
+        print(
+            'Col count', col_count.Xn,
+            'Row count', row_count.Xn,
+            'Col width', col_width.Xn,
+            'Row height', row_height.Xn,
+            'w', w, 'h', h,
+            'col_span', col_span[element_id].Xn
+        )
 
         return x, y, w, h
 

@@ -209,7 +209,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                                  elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
                 '''
                 get_rel_xywh, width_error, height_error, gap_count, above, on_left\
-                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, edge_left_width, edge_top_height)
+                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
                 directional_relationships = DirectionalRelationships(above, on_left)
                 gap_count_sum.add(gap_count)
@@ -246,9 +246,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         m.addConstr(relationship_change == 0)
 
         # TODO: test which one is better, hard or soft constraint
-        #m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=1)
+        m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=1)
         #m.addConstr(gap_count_sum <= len(content_elements))
-        m.addConstr(gap_count_sum == 0)
+        #m.addConstr(gap_count_sum == 0)
 
 
         # Optimize for grid fitness within available space
