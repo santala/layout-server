@@ -11,14 +11,14 @@ from .classes import Layout, Element
 DirectionalRelationships = namedtuple('DirectionalRelationships', 'above on_left')
 
 
-def equal_width_columns(m: Model, elements: List[Element], available_width, available_height):
-
-    # TODO: compute a proper maximum column/row count
-    max_col_count = 100
-    max_row_count = 100
+def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
 
     elem_count = len(elements)
     elem_ids = [e.id for e in elements]
+
+    # TODO: compute a proper maximum column/row count
+    max_col_count = elem_count
+    max_row_count = elem_count
 
     # MINIMIZE LAYOUT COLUMNS
     # TODO: what about preferred number of columns?
@@ -32,6 +32,15 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for var1, var2 in [(x1, x0), (y1, y0)]
     ]
 
+    m.addConstrs((
+        elem_width[i] == width[i]
+        for i in elem_ids
+    ))
+    m.addConstrs((
+        elem_height[i] == height[i]
+        for i in elem_ids
+    ))
+
     x0_diff, y0_diff, x1_diff, y1_diff = [
         add_pairwise_diff_vars(m, elem_ids, vars)
         for vars in [x0, y0, x1, y1]
@@ -40,6 +49,16 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     x0_less_than, y0_less_than, x1_less_than, y1_less_than = [
         add_less_than_vars(m, elem_ids, vars)
         for vars in [x0_diff, y0_diff, x1_diff, y1_diff]
+    ]
+
+    x0x1_diff, x1x0_diff, y0y1_diff, y1y0_diff  = [
+        add_pairwise_cross_diff_vars(m, elem_ids, var1, var2)
+        for var1, var2 in [(x0, x1), (x1, x0), (y0, y1), (y1, y0)]
+    ]
+
+    x0_less_than_x1, x1_less_than_x0, y0_less_than_y1, y1_less_than_y0 = [
+        add_less_than_vars(m, elem_ids, vars)
+        for vars in [x0x1_diff, x1x0_diff, y0y1_diff, y1y0_diff]
     ]
 
     # Element coordinates in rows and columns
@@ -52,7 +71,19 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     c0_diff, r0_diff, c1_diff, r1_diff = [add_pairwise_diff_vars(m, elem_ids, vars) for vars in [c0, r0, c1, r1]]
 
-    c0_less_than, c1_less_than = [add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, c1_diff]]
+    c0_less_than, r0_less_than, c1_less_than, r1_less_than = [add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
+
+
+    c0c1_diff, c1c0_diff, r0r1_diff, r1r0_diff = [
+        add_pairwise_cross_diff_vars(m, elem_ids, var1, var2)
+        for var1, var2 in [(c0, c1), (c1, c0), (r0, r1), (r1, r0)]
+    ]
+
+    c0_less_than_c1, c1_less_than_c0, r0_less_than_r1, r1_less_than_r0 = [
+        add_less_than_vars(m, elem_ids, vars)
+        for vars in [c0c1_diff, c1c0_diff, r0r1_diff, r1r0_diff]
+    ]
+
 
     # Link order of coordinates, e.g.
     # * if x0[A] < x0[B], then c0[A] < c0[B]
@@ -60,8 +91,13 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     # * if x0[A] > x0[B], then c0[A] > c0[B]
     m.addConstrs((x0_less_than[i1, i2] == c0_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
     m.addConstrs((x1_less_than[i1, i2] == c1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((y0_less_than[i1, i2] == r0_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((y1_less_than[i1, i2] == r1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
-
+    m.addConstrs((x0_less_than_x1[i1, i2] == c0_less_than_c1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((x1_less_than_x0[i1, i2] == c1_less_than_c0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((y0_less_than_y1[i1, i2] == r0_less_than_r1[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((y1_less_than_y0[i1, i2] == r1_less_than_r0[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
     # COLUMN/ROW SIZE & COUNT
 
@@ -112,14 +148,14 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
 
     # Minimize gaps in the grid
-    '''
+
     cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
     total_cell_count = cell_count.sum()
 
     grid_area = add_area_var(m, col_count, row_count, max_col_count, max_row_count)
 
     gap_count = grid_area - total_cell_count
-    '''
+
 
     number_of_groups_expr = LinExpr()
     number_of_groups_expr.add(col_count)
@@ -163,7 +199,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
         return x, y, w, h
 
-    return get_rel_xywh, margin_diff_abs_expr, height_error, number_of_groups_expr, directional_relationships
+    return get_rel_xywh, margin_diff_abs_expr, height_error, gap_count, directional_relationships
 
 
 def add_coord_vars(m: Model, elem_ids, available_width, available_height):
@@ -172,10 +208,10 @@ def add_coord_vars(m: Model, elem_ids, available_width, available_height):
     x1 = m.addVars(elem_ids, lb=1, vtype=GRB.INTEGER)
     y1 = m.addVars(elem_ids, lb=1, vtype=GRB.INTEGER)
 
-    m.addConstrs((x0[e] <= x1[e] - 1 for e in elem_ids)) # x0 < x1 sanity
+    m.addConstrs((x0[i] <= x1[i] - 1 for i in elem_ids)) # x0 < x1 sanity
     m.addConstrs((y0[i] <= y1[i] - 1 for i in elem_ids)) # y0 < y1 sanity
-    m.addConstrs((x1[e] <= available_width for e in elem_ids)) # contain to available width
-    m.addConstrs((y1[e] <= available_height for e in elem_ids)) # contain to available height
+    m.addConstrs((x1[i] <= available_width for i in elem_ids)) # contain to available width
+    m.addConstrs((y1[i] <= available_height for i in elem_ids)) # contain to available height
 
     return x0, y0, x1, y1
 
@@ -191,6 +227,14 @@ def add_pairwise_diff_vars(m: Model, ids: List, var: tupledict):
     diff = m.addVars(permutations(ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER)
     m.addConstrs((
         diff[i1, i2] == var[i1] - var[i2]
+        for i1, i2 in permutations(ids, 2)
+    ))
+    return diff
+
+def add_pairwise_cross_diff_vars(m: Model, ids: List, var1: tupledict, var2: tupledict):
+    diff = m.addVars(permutations(ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER)
+    m.addConstrs((
+        diff[i1, i2] == var1[i1] - var2[i2]
         for i1, i2 in permutations(ids, 2)
     ))
     return diff
@@ -305,16 +349,16 @@ def prevent_overlap(m: Model, elem_ids: List[str], directional_relationships: Di
     ), name='PreventOverlap')
 
 def add_area_var(m: Model, width, height, max_width, max_height):
-    widths = list(range(1, max_width + 1))
-    heights = list(range(1, max_height + 1))
+    widths = range(1, max_width + 1)
+    heights = range(1, max_height + 1)
 
     chosen_width = m.addVars(widths, vtype=GRB.BINARY)
     m.addConstr(chosen_width.sum() == 1)  # One option must always be selected
     m.addConstrs((
         # TODO compare performance:
-        # (chosen_width[w] == 1) >> (width == w)
+        (chosen_width[w] == 1) >> (width == w)
         # chosen_width[w] * w == chosen_width[w] * width
-        chosen_width[w] * (width - w) == 0
+        # chosen_width[w] * (width - w) == 0
         for w in widths
     ))
 
@@ -322,9 +366,9 @@ def add_area_var(m: Model, width, height, max_width, max_height):
     m.addConstr(chosen_height.sum() == 1) # One option must always be selected
     m.addConstrs((
         # TODO compare performance:
-        # (chosen_height[h] == 1) >> (height == h)
+        (chosen_height[h] == 1) >> (height == h)
         # chosen_height[h] * w == chosen_height[h] * height
-        chosen_height[h] * (height - h) == 0
+        # chosen_height[h] * (height - h) == 0
         for h in heights
     ))
 
@@ -357,9 +401,9 @@ def add_area_vars(m: Model, ids, width, height, max_width, max_height):
     ))
     m.addConstrs((
         # TODO compare performance:
-        # (chosen_width[w] == 1) >> (width == w)
+        (chosen_width[i, w] == 1) >> (width[i] == w)
         # chosen_width[w] * w == chosen_width[w] * width
-        chosen_width[i, w] * (width[i] - w) == 0
+        # chosen_width[i, w] * (width[i] - w) == 0
         for i, w in product(ids, widths)
     ))
 
@@ -370,9 +414,9 @@ def add_area_vars(m: Model, ids, width, height, max_width, max_height):
     ))
     m.addConstrs((
         # TODO compare performance:
-        # (chosen_height[h] == 1) >> (height == h)
+        (chosen_height[i, h] == 1) >> (height[i] == h)
         # chosen_height[h] * w == chosen_height[h] * height
-        chosen_height[i, h] * (height[i] - h) == 0
+        # chosen_height[i, h] * (height[i] - h) == 0
         for i, h in product(ids, heights)
     ))
 

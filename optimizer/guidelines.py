@@ -209,11 +209,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                                  elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
                 '''
                 get_rel_xywh, width_error, height_error, gap_count, directional_relationships\
-                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id])
+                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
 
 
-                # TODO: test which one is better, hard or soft constraint
-                #m.addConstr(gap_count == 0)
                 gap_count_sum.add(gap_count)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
@@ -247,7 +245,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         #m.setObjectiveN(relationship_change, index=1, priority=group_priority, weight=10)
         m.addConstr(relationship_change == 0)
 
+        # TODO: test which one is better, hard or soft constraint
         m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=10)
+        m.addConstr(gap_count_sum <= len(content_elements))
         #m.addConstr(gap_count_sum == 0)
 
 
