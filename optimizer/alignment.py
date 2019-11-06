@@ -306,26 +306,10 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     m.addConstr(number_of_groups_expr >= compute_minimum_grid(elem_count), name='PreventOvertOptimization')
 
     # TODO: consider this MINIMIZE DIFFERENCE BETWEEN LEFT AND RIGHT MARGINS
-    '''
-    left_margin = m.addVar(lb=0, vtype=GRB.INTEGER, name='LeftMargin')
-    m.addConstr(left_margin == min_(x0), name='LinkLeftMargin')
 
-    max_x1 = m.addVar(lb=0, vtype=GRB.INTEGER, name='MaxX1')
-    m.addConstr(max_x1 == max_(x1), name='LinkMaxX1')
-
-    right_margin = m.addVar(lb=0, vtype=GRB.INTEGER, name='MaxX1')
-    m.addConstr(right_margin == available_width - max_x1, name='LinkRightMargin')
-
-    margin_diff_loose_abs = m.addVar(lb=0, vtype=GRB.INTEGER, name='MarginDiffLooseAbs')
-    m.addConstr(margin_diff_loose_abs >= left_margin - right_margin, name='LinkMarginDiffLooseAbs1')
-    m.addConstr(margin_diff_loose_abs >= right_margin - left_margin, name='LinkMarginDiffLooseAbs2')
-
-    margin_diff_abs_expr = LinExpr()
-    margin_diff_abs_expr.add(margin_diff_loose_abs)
-    '''
-
-
-    height_error = LinExpr(0) # TODO
+    actual_height = m.addVar(vtype=GRB.INTEGER)
+    m.addConstr(actual_height == max_(y1))
+    height_error = available_height - actual_height
 
     def get_rel_xywh(element_id):
         # Returns the element position (relative to the grid top left corner)
