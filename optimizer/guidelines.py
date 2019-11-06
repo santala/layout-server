@@ -209,7 +209,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                                  elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
                 '''
                 get_rel_xywh, width_error, height_error, gap_count, above, on_left\
-                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
+                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, edge_left_width, edge_top_height)
 
                 directional_relationships = DirectionalRelationships(above, on_left)
                 gap_count_sum.add(gap_count)

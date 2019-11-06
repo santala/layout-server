@@ -8,7 +8,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element
 
-def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
+def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, offset_x, offset_y):
 
     elem_count = len(elements)
     elem_ids = [e.id for e in elements]
@@ -174,6 +174,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     if True:
         gap_count = elem_count - no_gap_on_left.sum()
+        m.addConstr(gap_count == 0)
     else:
         cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
         total_cell_count = cell_count.sum()
@@ -215,8 +216,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         # Attribute Xn refers to the variable value in the solution selected using SolutionNumber parameter.
         # When SolutionNumber equals 0 (default), Xn refers to the variable value in the best solution.
         # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
-        x = x0[element_id].Xn
-        y = y0[element_id].Xn
+        x = offset_x.getValue() + x0[element_id].Xn
+        y = offset_y.getValue() + y0[element_id].Xn
         w = width[element_id].Xn
         h = height[element_id].Xn
 
