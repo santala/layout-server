@@ -102,10 +102,26 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     # COLUMN/ROW SIZE & COUNT
 
+    grid_width = m.addVar(lb=1, vtype=GRB.INTEGER)
+
     col_width = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
     m.addConstr(col_width >= gutter_width + 1)
     col_count = m.addVar(lb=1, vtype=GRB.INTEGER)
     m.addConstr(col_count == max_(c1))
+
+    col_counts = range(1, max_col_count + 1)
+    col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY)
+    m.addConstr(col_count_selected.sum() == 1)
+    m.addConstrs((
+        (col_count_selected[c] == 1) >> (col_count == c)
+        for c in col_counts
+    ))
+    m.addConstrs((
+        (col_count_selected[c] == 1) >> (grid_width == c * col_width)
+        for c in col_counts
+    ))
+    m.addConstr(grid_width - gutter_width <= available_width)
+    m.addConstr(grid_width >= available_width)
 
     row_height = m.addVar(lb=1, vtype=GRB.INTEGER) # in base units
     m.addConstr(row_height >= gutter_width + 1)
@@ -132,17 +148,31 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
+
+
+    # Consecutive column/row lines must be column width/row height apart
+    # e.g. if element A starts in column 2, and element B starts in column 3, x0[B] - x0[A] == col_width
     c0_one_less_than = add_one_less_than_vars(m, elem_ids, c0_less_than, c0_diff)
     c1_one_less_than = add_one_less_than_vars(m, elem_ids, c1_less_than, c1_diff)
 
-    # Consecutive column lines must be column width apart
-    # e.g. if element A starts in column 2, and element B starts in column 3, x0[B] - x0[A] == col_width
     m.addConstrs((
         (c0_one_less_than[i1, i2] == 1) >> (x0_diff[i2, i1] == col_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
     m.addConstrs((
         (c1_one_less_than[i1, i2] == 1) >> (x1_diff[i2, i1] == col_width)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
+    r0_one_less_than = add_one_less_than_vars(m, elem_ids, r0_less_than, r0_diff)
+    r1_one_less_than = add_one_less_than_vars(m, elem_ids, r1_less_than, r1_diff)
+
+    m.addConstrs((
+        (r0_one_less_than[i1, i2] == 1) >> (y0_diff[i2, i1] == row_height)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+    m.addConstrs((
+        (r1_one_less_than[i1, i2] == 1) >> (y1_diff[i2, i1] == row_height)
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
