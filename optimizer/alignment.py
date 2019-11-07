@@ -10,6 +10,19 @@ from .classes import Layout, Element
 
 def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
 
+    # TODO: one of the desktop layouts produces infeasible model
+    # TODO: desktop web layouts take too long for presolve (check the number of top level elements)
+    # TODO: try to simplify this grid alignment, but add an objective to standardize grid width
+    # TODO: e.g. for above: add binary variable to check if width is correct multiple of col width (minimize wrong values)
+    # TODO: (maybe) add variables so that if element is wider than another, its colspan must also be wider
+
+    # TODO: (maybe) add weight for size loss based on element original size (smaller elements should be scaled down less)
+
+    # TODO: make a simpler version of this for inner alignment
+    # TODO: (maybe add rule that if two elements are next to each other, and their top and bottom edges align, link those coordinates together)
+
+
+
     elem_count = len(elements)
     elem_ids = [e.id for e in elements]
 
