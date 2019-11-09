@@ -234,8 +234,12 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             for element, other in permutations(content_elements, 2):
                 if element.is_above(other):
                     relationship_change.add(1 - directional_relationships.above[element.id, other.id])
+                else:
+                    relationship_change.add(directional_relationships.above[element.id, other.id])
                 if element.is_on_left(other):
                     relationship_change.add(1 - directional_relationships.on_left[element.id, other.id])
+                else:
+                    relationship_change.add(directional_relationships.on_left[element.id, other.id])
 
         if group_id in layout.element_dict:
             group_priority = layout.depth - layout.element_dict[group_id].get_ancestor_count()
@@ -298,7 +302,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     try:
         m.Params.ModelSense = GRB.MINIMIZE
-
+        m.Params.Presolve = -1 # -1=auto, 0=off, 1=conservative, 2=aggressive
 
         m.optimize()
 

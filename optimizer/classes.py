@@ -128,10 +128,10 @@ class Element:
             return 1 + self.parent.get_ancestor_count()
 
     def overlap_width(self, other):
-        return (self.width + other.width) - (max(self.x0 + self.width, other.x0 + other.width) - min(self.x0, other.x0))
+        return (self.width + other.width) - (max(self.x1, other.x1) - min(self.x0, other.x0))
 
     def overlap_height(self, other):
-        return (self.height + other.height) - (max(self.y0 + self.height, other.y0 + other.height) - min(self.y0, other.y0))
+        return (self.height + other.height) - (max(self.y1, other.y1) - min(self.y0, other.y0))
 
     def overlap_area(self, other):
         return self.overlap_width(other) * self.overlap_height(other)
