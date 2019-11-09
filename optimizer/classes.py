@@ -14,8 +14,8 @@ class Layout:
 
 
         self.id = str(props.get('id'))
-        self.canvas_width = props.get('canvasWidth', 0)
-        self.canvas_height = props.get('canvasHeight', 0)
+        self.canvas_width = float(props.get('canvasWidth', 0))
+        self.canvas_height = float(props.get('canvasHeight', 0))
         self.canvas_aspect_ratio = self.canvas_width / self.canvas_height
         self.canvas_area = self.canvas_width * self.canvas_height
 
@@ -78,10 +78,10 @@ class Element:
         self.element_type = props.get('type', None)
         self.component_name = props.get('componentName', '?')
 
-        self.x0 = int(props.get('x', 0))
-        self.y0 = int(props.get('y', 0))
-        self.width = props.get('width', 1)   # TODO: choose default number values and/or validate input
-        self.height = props.get('height', 1)
+        self.x0 = round(float(props.get('x', 0)))
+        self.y0 = round(float(props.get('y', 0)))
+        self.width = round(float(props.get('width', 1)))   # TODO: choose default number values and/or validate input
+        self.height = round(float(props.get('height', 1)))
         self.x1 = self.x0 + self.width
         self.y1 = self.y0 + self.height
         self.area = self.width * self.height
@@ -140,7 +140,7 @@ class Element:
         return self.overlap_width(other) > 0 and self.overlap_height(other) > 0
 
     def is_contained_within(self, other):
-        return self.overlap_area(other) == self.area
+        return self.do_overlap(other) and self.overlap_area(other) == self.area
 
     def is_above(self, other):
         return self.y1 <= other.y0

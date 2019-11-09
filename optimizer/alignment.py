@@ -8,6 +8,12 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element
 
+
+
+
+
+
+
 def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
 
     # TODO: one of the desktop layouts produces infeasible model
@@ -20,6 +26,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     # TODO: make a simpler version of this for inner alignment
     # TODO: (maybe add rule that if two elements are next to each other, and their top and bottom edges align, link those coordinates together)
+    # TODO: (maybe) add an objective to maintain horizontal and vertical overlap (e.g. if at least half of the other element share the same vertical/horizontal space)
 
 
 
