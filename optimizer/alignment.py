@@ -16,6 +16,17 @@ from .classes import Layout, Element
 
 '''
 
+def preserve_relationships(m: Model, elements: List[Element], x0, x1, y0, y1):
+    for element, other in permutations(elements, 2):
+        if element.y1 <= other.y0: # element is above the other
+            m.addConstr(y1[element.id] <= y0[other.id])
+        if element.x1 <= other.x0: # element is on the left side of the other
+            m.addConstr(x1[element.id] <= x0[other.id])
+        # TODO: test these out
+        if element.x1 >= other.x0:
+            pass#m.addConstr(x1[element.id] >= x0[other.id])
+
+
 
 
 def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
@@ -212,12 +223,14 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
-    above, on_left = get_directional_relationships(m, elem_ids, x0, x1, y0, y1)
 
-    in_same_col, on_same_row = add_overlap_vars(m, elem_ids, above, on_left)
+    #in_same_col, on_same_row = add_overlap_vars(m, elem_ids, above, on_left)
 
     # Prevent overlap
-    prevent_overlap(m, elem_ids, in_same_col, on_same_row)
+    #prevent_overlap(m, elem_ids, in_same_col, on_same_row)
+    prevent_overlap2(m, elem_ids, x0x1_diff, y0y1_diff)
+
+    preserve_relationships(m, elements, x0, x1, y0, y1)
 
 
     rel_error = LinExpr()
@@ -230,7 +243,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
             #m.addConstr(on_same_row[i1, i2] == 1)
         if e1.overlap_width(e2) > min(e1.width, e2.width) / 2: # TODO: is this a good heuristic?
             print('overlap w', e1.width, e1.height, '<>', e2.width, e2.height)
-            m.addConstr(in_same_col[i1, i2] == 1)
+            #m.addConstr(in_same_col[i1, i2] == 1)
             #rel_error.add(1 - in_same_col[i1, i2])
 
     # Minimize gaps in the grid
@@ -247,10 +260,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (c0_equals_c1[i1, i2] == 1) >> (x0[i1] - x1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    '''
     m.addConstrs((
         (on_left[i1, i2] == 1) >> (x0[i2] - x1[i1] >= gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
-    ))
+    ))'''
 
     in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
@@ -261,12 +275,13 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (in_first_col[i] == 0) >> (c0[i] >= 1)
         for i in elem_ids
     ))
-
+    '''
     neighbor_exists_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
         neighbor_exists_on_left[i1] == and_(on_same_row[i1, i2], c0_equals_c1[i1, i2])
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    '''
 
     something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
@@ -296,10 +311,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (r0_equals_r1[i1, i2] == 1) >> (y0[i1] - y1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    '''
     m.addConstrs((
         (above[i1, i2] == 1) >> (y0[i2] - y1[i1] >= gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
-    ))
+    ))'''
 
     on_first_row = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
@@ -310,12 +326,13 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         (on_first_row[i] == 0) >> (r0[i] >= 1)
         for i in elem_ids
     ))
-
+    '''
     neighbor_exists_above = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
         neighbor_exists_above[i1] == and_(in_same_col[i1, i2], r0_equals_r1[i1, i2])
         for i1, i2 in permutations(elem_ids, 2)
     ))
+    '''
 
     something_above = m.addVars(elem_ids, vtype=GRB.BINARY)
     m.addConstrs((
@@ -376,10 +393,10 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
             e2: Element = m._layout.element_dict[i2]
             if e1.overlap_height(e2) > min(e1.height, e2.height) / 2:  # TODO: is this a good heuristic?
                 print('overlap h', e1.width, e1.height, '<>', e2.width, e2.height)
-                print(on_same_row[i1, i2].Xn)
+                #print(on_same_row[i1, i2].Xn)
             if e1.overlap_width(e2) > min(e1.width, e2.width) / 2:  # TODO: is this a good heuristic?
                 print('overlap w', e1.width, e1.height, '<>', e2.width, e2.height)
-                print(in_same_col[i1, i2].Xn, on_left[i1, i2].Xn, on_left[i2, i1].Xn)
+                #print(in_same_col[i1, i2].Xn, on_left[i1, i2].Xn, on_left[i2, i1].Xn)
                 print(x0[i1].Xn, x1[i1].Xn, x0[i2].Xn, x1[i2].Xn)
 
         if False:
@@ -394,11 +411,14 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
                 'ColSpan', col_span[element_id].Xn,
                 'NoGapL', no_gap_on_left[element_id].Xn,
                 'NoGapA', no_gap_above[element_id].Xn,
-                'Neighbor', neighbor_exists_on_left[element_id].Xn,
                 'PrevCol', c0_equals_c1.sum(element_id).getValue()
             )
 
         return x, y, w, h
+
+    # TODO: remove unnecessary variables
+    above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
+    on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
 
     return get_rel_xywh, width_error, height_error, gap_count, above, on_left
 
@@ -478,57 +498,21 @@ def add_one_less_than_vars(m: Model, ids: List, less_than: tupledict, diff: tupl
 
 
 
-def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
 
-    # TODO: use consistent x1 and y1 coordinates, i.e. choose whether they are inclusive or exclusive
 
-    above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-    '''
-    m.addConstrs((
-        # TODO compare performance
-        above[e1, e2] * (row_start[e2] - row_end[e1] - 1) + (1 - above[e1, e2]) * (row_end[e1] - row_start[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove1')
-    '''
-    m.addConstrs((
-        # TODO compare performance
-        # (above[e1, e2] == 1) >> (y1[e1] <= y0[e2]) # Presolve seems to remove this
-        above[e1, e2] * (y0[e2] - y1[e1]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove1')
-    m.addConstrs((
-        # TODO compare performance
-        #(above[e1, e2] == 0) >> (y1[e1] + 1 >= y0[e2]) # Presolve seems to remove this
-        (1 - above[e1, e2]) * (y1[e1] + 1 - y0[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='LinkAbove2')
+def prevent_overlap2(m: Model, elem_ids: List[str], x0x1diff: tupledict, y0y1diff: tupledict, min_distance: int=0):
+
+    distance = m.addVars(permutations(elem_ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER)
 
     m.addConstrs((
-        above[e1, e2] + above[e2, e1] <= 1
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='AboveSanity')  # TODO: check if sanity checks are necessary
-
-    on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
+        distance[i1, i2] == max_(x0x1diff[i1, i2], x0x1diff[i2, i1], y0y1diff[i1, i2], y0y1diff[i2, i1])
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
     m.addConstrs((
-        # TODO compare performance
-        #(on_left[e1, e2] == 1) >> (x1[e1] <= x0[e2])
-        on_left[e1, e2] * (x0[e2] - x1[e1]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
+        distance[i1, i2] >= min_distance
+        for i1, i2 in permutations(elem_ids, 2)
     ))
 
-    m.addConstrs((
-        # TODO compare performance
-        #(on_left[e1, e2] == 0) >> (x1[e1] + 1 >= x0[e2])
-        (1 - on_left[e1, e2]) * (x1[e1] + 1 - x0[e2]) >= 0
-        for e1, e2 in permutations(elem_ids, 2)
-    ))
-
-    m.addConstrs((
-        on_left[e1, e2] + on_left[e2, e1] <= 1
-        for e1, e2 in permutations(elem_ids, 2)
-    ), name='OnLeftSanity')
-
-    return above, on_left
 
 def add_overlap_vars(m: Model, elem_ids: List[str], above: tupledict, on_left: tupledict):
     horizontal_overlap = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
