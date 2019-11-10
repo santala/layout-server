@@ -188,6 +188,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
+    # If two elements are different widths, the difference must be at least one col_width
+    m.addConstrs((
+        (w_less_than[i1, i2] == 1) >> (w_diff[i2, i1] >= col_width)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
     # Row height must be at max the smallest difference between two row lines
     m.addConstrs((
         (y0_less_than[i1, i2] == 1) >> (y0_diff[i2, i1] >= row_height)
@@ -195,6 +201,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ))
     m.addConstrs((
         (y1_less_than[i1, i2] == 1) >> (y1_diff[i2, i1] >= row_height)
+        for i1, i2 in permutations(elem_ids, 2)
+    ))
+
+    # If two elements are different heights, the difference must be at least one row_height
+    m.addConstrs((
+        (h_less_than[i1, i2] == 1) >> (h_diff[i2, i1] >= row_height)
         for i1, i2 in permutations(elem_ids, 2)
     ))
 
