@@ -80,6 +80,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for i in elem_ids
     ))
 
+    w_diff, h_diff = [
+        add_pairwise_diff(m, elem_ids, var)
+        for var in [width, height]
+    ]
+
     x0_diff, y0_diff, x1_diff, y1_diff = [
         add_pairwise_diff(m, elem_ids, var)
         for var in [x0, y0, x1, y1]
@@ -107,6 +112,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for var1, var2 in [(c1, c0), (r1, r0)]
     ]
 
+    cs_diff, rs_diff = [
+        add_pairwise_diff(m, elem_ids, var)
+        for var in [col_span, row_span]
+    ]
+
     c0_diff, r0_diff, c1_diff, r1_diff = [add_pairwise_diff(m, elem_ids, var) for var in [c0, r0, c1, r1]]
 
     c0_less_than, r0_less_than, c1_less_than, r1_less_than = [add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
@@ -114,8 +124,16 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
 
 
+    w_less_than, h_less_than, cs_less_than, rs_less_than = [
+        add_less_than_vars(m, elem_ids, var)
+        for var in [w_diff, h_diff, cs_diff, rs_diff]
+    ]
 
-    # Link order of coordinates, e.g.
+
+
+
+
+    # Link order of variables, e.g.
     # * if x0[A] < x0[B], then c0[A] < c0[B]
     # * if x0[A] = x0[B], then c0[A] = c0[B]
     # * if x0[A] > x0[B], then c0[A] > c0[B]
@@ -123,6 +141,9 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     m.addConstrs((x1_less_than[i1, i2] == c1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
     m.addConstrs((y0_less_than[i1, i2] == r0_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
     m.addConstrs((y1_less_than[i1, i2] == r1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+
+    m.addConstrs((w_less_than[i1, i2] == cs_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
+    m.addConstrs((h_less_than[i1, i2] == rs_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
     # COLUMN/ROW SIZE & COUNT
 
