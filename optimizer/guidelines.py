@@ -11,7 +11,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element, Edge
 
-from.alignment import equal_width_columns
+from.grid import equal_width_columns
 
 
 BBox = namedtuple('BBox', 'x y w h')
@@ -203,15 +203,18 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             # TODO align other elements within the content area
             if enable_grid:
-                '''
-                get_rel_xywh, width_error, height_error, gap_count, directional_relationships\
-                    = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
-                                 elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
-                '''
-                get_rel_xywh, width_error, height_error, gap_count, above, on_left\
-                    = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
-                directional_relationships = DirectionalRelationships(above, on_left)
+                if False:
+                    get_rel_xywh, width_error, height_error, gap_count, directional_relationships\
+                        = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
+                                     elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
+                else:
+                    get_rel_xywh, width_error, height_error, gap_count, above, on_left\
+                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
+
+                    directional_relationships = DirectionalRelationships(above, on_left)
+
+
                 gap_count_sum.add(gap_count)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
@@ -273,18 +276,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # i.e. the variable may take a larger value. However, we will define an objective of minimizing the difference,
     # so the solver will minimize it for us. This is faster than defining an absolute value constraint.
 
-    min_width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
+    min_width_loss = m.addVars(elem_ids, vtype=GRB.CONTINUOUS, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
         min_width_loss[element.id] >= (math.ceil(element.width / base_unit) - elem_width[element.id])
         for element in layout.element_list
     ), name='LinkWidthLoss')
 
-    min_height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
+    min_height_loss = m.addVars(elem_ids, vtype=GRB.CONTINUOUS, lb=0, name='MinHeightLossFromOriginal')
     m.addConstrs((
         min_height_loss[element.id] >= (math.ceil(element.height / base_unit) - elem_height[element.id])
         for element in layout.element_list
     ), name='LinkHeightLoss')
 
+    width_loss_weights = [(e.id, 1 / e.width) for e in layout.element_list]
+    height_loss_weights = [(e.id, 1 / e.height) for e in layout.element_list]
 
     max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
     m.addConstr(max_width_loss == max_(min_width_loss))
@@ -293,8 +298,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.addConstr(max_height_loss == max_(min_height_loss))
 
     # Minimize total downscaling
-    m.setObjectiveN(min_width_loss.sum(), index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
-    m.setObjectiveN(min_height_loss.sum(), index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+    m.setObjectiveN(min_width_loss.prod(width_loss_weights), index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+    m.setObjectiveN(min_height_loss.prod(height_loss_weights), index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
 
     # Minimize the maximum downscaling
     m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
@@ -319,10 +324,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                     x, y, w, h = get_abs_coord(e)
                     elements.append({
                         'id': e,
-                        'x': x * base_unit,
-                        'y': y * base_unit,
-                        'width': w * base_unit,
-                        'height': h * base_unit,
+                        'x': int(round(x)) * base_unit,
+                        'y': int(round(y)) * base_unit,
+                        'width': int(round(w)) * base_unit,
+                        'height': int(round(h)) * base_unit,
                     })
 
                 layouts.append({

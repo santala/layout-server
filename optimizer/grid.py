@@ -10,11 +10,6 @@ from .classes import Layout, Element
 
 
 
-'''
-
-
-
-'''
 
 def preserve_relationships(m: Model, elements: List[Element], x0, x1, y0, y1):
     for element, other in permutations(elements, 2):
@@ -48,8 +43,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     elem_ids = [e.id for e in elements]
 
     # TODO: compute a proper maximum column/row count
-    max_col_count = elem_count
-    max_row_count = elem_count
+    max_col_count = 12
+    max_row_count = 100
 
     # MINIMIZE LAYOUT COLUMNS
     # TODO: what about preferred number of columns?
@@ -325,26 +320,21 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for i in elem_ids
     ))
 
+    m.addConstr(no_gap_on_left.sum() == elem_count)
+    m.addConstr(no_gap_above.sum() == elem_count)
 
-    if True:
-        gap_count = (2 * elem_count) - no_gap_on_left.sum() - no_gap_above.sum()
-        m.addConstr(no_gap_on_left.sum() >= elem_count)
-        m.addConstr(no_gap_above.sum() >= elem_count)
-    else:
+
+
+    if False:
         cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
         total_cell_count = cell_count.sum()
 
         grid_area = add_area_var(m, col_count, row_count, max_col_count, max_row_count)
 
         gap_count = grid_area - total_cell_count
+    else:
+        gap_count = LinExpr(0)
 
-
-    number_of_groups_expr = LinExpr()
-    number_of_groups_expr.add(col_count)
-    number_of_groups_expr.add(row_count)
-    m.addConstr(number_of_groups_expr >= compute_minimum_grid(elem_count), name='PreventOvertOptimization')
-
-    # TODO: consider this MINIMIZE DIFFERENCE BETWEEN LEFT AND RIGHT MARGINS
 
     actual_height = m.addVar(vtype=GRB.INTEGER)
     m.addConstr(actual_height == max_(y1))
@@ -361,33 +351,16 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         w = width[element_id].Xn
         h = height[element_id].Xn
 
-        for i2 in elem_ids:
-            i1 = element_id
-            if i1 == i2:
-                continue
-            e1: Element = m._layout.element_dict[element_id]
-            e2: Element = m._layout.element_dict[i2]
-            if e1.overlap_height(e2) > min(e1.height, e2.height) / 2:  # TODO: is this a good heuristic?
-                print('overlap h', e1.width, e1.height, '<>', e2.width, e2.height)
-                #print(on_same_row[i1, i2].Xn)
-            if e1.overlap_width(e2) > min(e1.width, e2.width) / 2:  # TODO: is this a good heuristic?
-                print('overlap w', e1.width, e1.height, '<>', e2.width, e2.height)
-                #print(in_same_col[i1, i2].Xn, on_left[i1, i2].Xn, on_left[i2, i1].Xn)
-                print(x0[i1].Xn, x1[i1].Xn, x0[i2].Xn, x1[i2].Xn)
 
-        if False:
+
+        if True:
             print(
-                'Gaps', gap_count.getValue(),
                 'Cols', col_count.Xn,
-                'Rows', row_count.Xn,
                 'ColW', col_width.Xn,
-                'RowH', row_height.Xn,
                 'ElemW', w, 'ElemH', h,
-                'Col0', c0[element_id].Xn,
                 'ColSpan', col_span[element_id].Xn,
-                'NoGapL', no_gap_on_left[element_id].Xn,
-                'NoGapA', no_gap_above[element_id].Xn,
-                'PrevCol', c0_equals_c1.sum(element_id).getValue()
+                'Error', ((col_span[element_id].Xn * col_width.Xn - gutter_width.Xn ) - w),
+                'Id', element_id
             )
 
         return x, y, w, h
