@@ -276,34 +276,15 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # i.e. the variable may take a larger value. However, we will define an objective of minimizing the difference,
     # so the solver will minimize it for us. This is faster than defining an absolute value constraint.
 
-    min_width_loss = m.addVars(elem_ids, vtype=GRB.CONTINUOUS, lb=0, name='MinWidthLossFromOriginal')
-    m.addConstrs((
-        min_width_loss[element.id] >= (math.ceil(element.width / base_unit) - elem_width[element.id])
-        for element in layout.element_list
-    ), name='LinkWidthLoss')
-
-    min_height_loss = m.addVars(elem_ids, vtype=GRB.CONTINUOUS, lb=0, name='MinHeightLossFromOriginal')
-    m.addConstrs((
-        min_height_loss[element.id] >= (math.ceil(element.height / base_unit) - elem_height[element.id])
-        for element in layout.element_list
-    ), name='LinkHeightLoss')
-
-    width_loss_weights = [(e.id, 1 / e.width) for e in layout.element_list]
-    height_loss_weights = [(e.id, 1 / e.height) for e in layout.element_list]
-
-    max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
-    m.addConstr(max_width_loss == max_(min_width_loss))
-
-    max_height_loss = m.addVar(vtype=GRB.INTEGER, name='MaxHeightLoss')
-    m.addConstr(max_height_loss == max_(min_height_loss))
+    width_loss, height_loss = get_size_loss(m, layout.element_list, elem_width, elem_height)
 
     # Minimize total downscaling
-    m.setObjectiveN(min_width_loss.prod(width_loss_weights), index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
-    m.setObjectiveN(min_height_loss.prod(height_loss_weights), index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+    m.setObjectiveN(width_loss, index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
+    m.setObjectiveN(height_loss, index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
 
     # Minimize the maximum downscaling
-    m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
-    m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
+    #m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
+    #m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
 
     try:
         m.Params.ModelSense = GRB.MINIMIZE
@@ -352,6 +333,40 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     except GurobiError as e:
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         raise e
+
+
+def get_size_loss(m: Model, elements: List[Element], width: tupledict, height: tupledict):
+    elem_ids = [e.id for e in elements]
+
+    width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
+    m.addConstrs((
+        width_loss[e.id] >= (math.ceil(e.width / m._base_unit) - width[e.id])
+        for e in elements
+    ), name='LinkWidthLoss')
+
+    height_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinHeightLossFromOriginal')
+    m.addConstrs((
+        height_loss[e.id] >= (math.ceil(e.height / m._base_unit) - height[e.id])
+        for e in elements
+    ), name='LinkHeightLoss')
+
+
+
+    weighted_width_loss = LinExpr(0)
+    weighted_height_loss = LinExpr(0)
+    for e in elements:
+        weighted_width_loss.add(width_loss[e.id], 1 / e.width)
+        weighted_height_loss.add(height_loss[e.id], 1 / e.height)
+    '''
+    max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
+    m.addConstr(max_width_loss == max_(width_loss))
+
+    max_height_loss = m.addVar(vtype=GRB.INTEGER, name='MaxHeightLoss')
+    m.addConstr(max_height_loss == max_(height_loss))
+    '''
+    return weighted_width_loss, weighted_height_loss
+
+
 
 def align_edge_elements(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height):
     #edge_width = LinExpr(0)
