@@ -14,7 +14,7 @@ from optimizer import util
 
 
 
-def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, elem_width, elem_height, gutter_width, offset_x, offset_y):
+def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, width, height, gutter_width, offset_x, offset_y):
 
     # TODO: desktop web layouts take too long for presolve (check the number of top level elements)
     # TODO: try to simplify this grid alignment, but add an objective to standardize grid width
@@ -41,19 +41,15 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
 
     # Element coordinates in base units
-    x0, y0, x1, y1 = add_coord_vars(m, elem_ids, available_width, available_height)
+    x0, y0, x1, y1 = util.add_coord_vars(m, elem_ids, available_width, available_height)
 
-    width, height = [
-        add_diff_vars(m, elem_ids, var1, var2)
-        for var1, var2 in [(x1, x0), (y1, y0)]
-    ]
     m.addConstrs((
-        elem_width[i] == width[i]
-        for i in elem_ids
+        x0[e] + width[e] == x1[e]
+        for e in elem_ids
     ))
     m.addConstrs((
-        elem_height[i] == height[i]
-        for i in elem_ids
+        y0[e] + height[e] == y1[e]
+        for e in elem_ids
     ))
 
     m.addConstrs((
@@ -76,7 +72,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ]
 
     x0_less_than, y0_less_than, x1_less_than, y1_less_than = [
-        add_less_than_vars(m, elem_ids, vars)
+        util.add_less_than_vars(m, elem_ids, vars)
         for vars in [x0_diff, y0_diff, x1_diff, y1_diff]
     ]
 
@@ -86,7 +82,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ]
 
     # Element coordinates in rows and columns
-    c0, r0, c1, r1 = add_coord_vars(m, elem_ids, max_col_count, max_row_count)
+    c0, r0, c1, r1 = util.add_coord_vars(m, elem_ids, max_col_count, max_row_count)
 
     c0_min = m.addVar(vtype=GRB.INTEGER)
     m.addConstr(c0_min == min_(c0))
@@ -104,13 +100,13 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     c0_diff, r0_diff, c1_diff, r1_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [c0, r0, c1, r1]]
 
-    c0_less_than, r0_less_than, c1_less_than, r1_less_than = [add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
+    c0_less_than, r0_less_than, c1_less_than, r1_less_than = [util.add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
 
 
 
 
     w_less_than, h_less_than, cs_less_than, rs_less_than = [
-        add_less_than_vars(m, elem_ids, var)
+        util.add_less_than_vars(m, elem_ids, var)
         for var in [w_diff, h_diff, cs_diff, rs_diff]
     ]
 
@@ -356,18 +352,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     return get_rel_xywh, width_error, height_error, gap_count
 
 
-def add_coord_vars(m: Model, elem_ids, available_width, available_height):
-    x0 = m.addVars(elem_ids, lb=0, vtype=GRB.INTEGER)
-    y0 = m.addVars(elem_ids, lb=0, vtype=GRB.INTEGER)
-    x1 = m.addVars(elem_ids, lb=1, vtype=GRB.INTEGER)
-    y1 = m.addVars(elem_ids, lb=1, vtype=GRB.INTEGER)
 
-    m.addConstrs((x0[i] <= x1[i] - 1 for i in elem_ids)) # x0 < x1 sanity
-    m.addConstrs((y0[i] <= y1[i] - 1 for i in elem_ids)) # y0 < y1 sanity
-    m.addConstrs((x1[i] <= available_width for i in elem_ids)) # contain to available width
-    m.addConstrs((y1[i] <= available_height for i in elem_ids)) # contain to available height
-
-    return x0, y0, x1, y1
 
 def add_diff_vars(m: Model, ids: List, var1, var2):
     diff = m.addVars(ids, lb=-GRB.INFINITY, vtype=GRB.INTEGER)
@@ -378,17 +363,6 @@ def add_diff_vars(m: Model, ids: List, var1, var2):
     return diff
 
 
-def add_less_than_vars(m: Model, ids: List, diff: tupledict):
-    less_than = m.addVars(permutations(ids, 2), vtype=GRB.BINARY)
-    m.addConstrs((
-        (less_than[i1, i2] == 1) >> (diff[i1, i2] <= -1)
-        for i1, i2 in permutations(ids, 2)
-    ))
-    m.addConstrs((
-        (less_than[i1, i2] == 0) >> (diff[i1, i2] >= 0)
-        for i1, i2 in permutations(ids, 2)
-    ))
-    return less_than
 
 def add_one_less_than_vars(m: Model, ids: List, less_than: tupledict, diff: tupledict):
     # Variable whose value is true if the difference between two elements equals 1

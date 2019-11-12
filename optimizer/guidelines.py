@@ -165,11 +165,9 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     for group_id, elements in groups.items():
 
-        relationship_change = LinExpr()
-        total_group_count = LinExpr()
+        layout_quality = LinExpr()
         width_error_sum = LinExpr()
         height_error_sum = LinExpr()
-        gap_count_sum = LinExpr()
 
         edge_elements = []
         content_elements = []
@@ -206,26 +204,24 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 
                 if False:
-                    get_rel_xywh, width_error, height_error, gap_count\
+                    get_rel_xywh, width_error, height_error, layout_quality\
                         = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
                                      elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
                 else:
-                    get_rel_xywh, width_error, height_error, gap_count\
+                    get_rel_xywh, width_error, height_error, layout_quality\
                         = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
 
-                gap_count_sum.add(gap_count)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
                 width_error_sum.add(width_error)
                 height_error_sum.add(height_error)
 
             else:
-                get_rel_xywh, group_count \
+                get_rel_xywh, layout_quality \
                     = improve_alignment(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
 
-                total_group_count.add(group_count)
             # TODO alignment function should take in:
             # TODO gutter/min.margin
             # TODO alignment function should return:
@@ -242,18 +238,14 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             group_priority = layout.depth
 
         # TODO: test which one is better, hard or soft constraint
-        m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=1)
-        #m.addConstr(gap_count_sum <= len(content_elements))
-        #m.addConstr(gap_count_sum == 0)
+        m.setObjectiveN(layout_quality, index=13, priority=group_priority, weight=1)
 
 
         # Optimize for grid fitness within available space
         m.setObjectiveN(width_error_sum, index=7, priority=group_priority, weight=1, name='MinimizeWidthError')
         m.setObjectiveN(height_error_sum, index=8, priority=group_priority, weight=.5, name='MinimizeWidthError')
 
-        # Optimize alignment within containers
-        #m.setObjectiveN(total_group_count, index=2, priority=group_priority, weight=1)
-
+        
 
 
 
