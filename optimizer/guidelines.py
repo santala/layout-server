@@ -204,15 +204,15 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             # TODO align other elements within the content area
             if enable_grid:
 
+
                 if False:
-                    get_rel_xywh, width_error, height_error, gap_count, directional_relationships\
+                    get_rel_xywh, width_error, height_error, gap_count\
                         = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
                                      elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
-                else:
-                    get_rel_xywh, width_error, height_error, gap_count, above, on_left\
-                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
-                    directional_relationships = DirectionalRelationships(above, on_left)
+                else:
+                    get_rel_xywh, width_error, height_error, gap_count\
+                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
 
                 gap_count_sum.add(gap_count)
@@ -234,23 +234,12 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             for element in content_elements:
                 get_rel_coord[element.id] = get_rel_xywh
 
-            for element, other in permutations(content_elements, 2):
-                if element.is_above(other):
-                    relationship_change.add(1 - directional_relationships.above[element.id, other.id])
-                else:
-                    relationship_change.add(directional_relationships.above[element.id, other.id])
-                if element.is_on_left(other):
-                    relationship_change.add(1 - directional_relationships.on_left[element.id, other.id])
-                else:
-                    relationship_change.add(directional_relationships.on_left[element.id, other.id])
+
 
         if group_id in layout.element_dict:
             group_priority = layout.depth - layout.element_dict[group_id].get_ancestor_count()
         else:
             group_priority = layout.depth
-
-        #m.setObjectiveN(relationship_change, index=1, priority=group_priority, weight=10)
-        m.addConstr(relationship_change == 0)
 
         # TODO: test which one is better, hard or soft constraint
         m.setObjectiveN(gap_count_sum, index=13, priority=group_priority, weight=1)
@@ -318,6 +307,12 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                     'elements': elements
                 })
 
+            try:
+                print('Width loss', width_loss.getValue())
+                print('Height loss', width_loss.getValue())
+            except e:
+                print(e)
+
             return {
                 'status': 0,
                 'layouts': layouts
@@ -337,6 +332,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
 def get_size_loss(m: Model, elements: List[Element], width: tupledict, height: tupledict):
     elem_ids = [e.id for e in elements]
+    max_width = max([e.width for e in elements])
+    max_height = max([e.height for e in elements])
 
     width_loss = m.addVars(elem_ids, vtype=GRB.INTEGER, lb=0, name='MinWidthLossFromOriginal')
     m.addConstrs((
@@ -350,20 +347,14 @@ def get_size_loss(m: Model, elements: List[Element], width: tupledict, height: t
         for e in elements
     ), name='LinkHeightLoss')
 
-
-
     weighted_width_loss = LinExpr(0)
     weighted_height_loss = LinExpr(0)
     for e in elements:
-        weighted_width_loss.add(width_loss[e.id], 1 / e.width)
-        weighted_height_loss.add(height_loss[e.id], 1 / e.height)
-    '''
-    max_width_loss = m.addVar(vtype=GRB.INTEGER, name='MaxWidthLoss')
-    m.addConstr(max_width_loss == max_(width_loss))
+        # The smaller the element, the larger the weight
+        # Weight for the element with the largest width/height equals 1
+        weighted_width_loss.add(width_loss[e.id], max_width / e.width)
+        weighted_height_loss.add(height_loss[e.id], max_height / e.height)
 
-    max_height_loss = m.addVar(vtype=GRB.INTEGER, name='MaxHeightLoss')
-    m.addConstr(max_height_loss == max_(height_loss))
-    '''
     return weighted_width_loss, weighted_height_loss
 
 
@@ -801,6 +792,13 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
     prevent_overlap(m, elem_ids, directional_relationships)
 
+    # Prevent relationship change
+    for element, other in permutations(elements, 2):
+        if element.is_above(other):
+            m.addConstr(directional_relationships.above[element.id, other.id] == 1)
+        if element.is_on_left(other):
+            m.addConstr(directional_relationships.on_left[element.id, other.id] == 1)
+
     # Starting values
     # TODO test starting values
     if False:
@@ -842,7 +840,7 @@ def build_grid(m: Model, elements: List[Element], available_width, available_hei
 
         return x, y, w, h
 
-    return get_rel_xywh, width_error, height_error, gap_count, directional_relationships
+    return get_rel_xywh, width_error, height_error, gap_count
 
 def get_directional_relationships(m: Model, elem_ids: List[str], x0: tupledict, x1: tupledict, y0: tupledict, y1: tupledict):
 

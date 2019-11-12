@@ -324,6 +324,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     m.addConstr(no_gap_above.sum() == elem_count)
 
 
+    # TODO: add expression (needs to be linear) for the column width error, i.e. ((col_span[i] * col_width - gutter_width) - width[i])
+
 
     if False:
         cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
@@ -351,8 +353,6 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         w = width[element_id].Xn
         h = height[element_id].Xn
 
-
-
         if True:
             print(
                 'Cols', col_count.Xn,
@@ -365,11 +365,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
         return x, y, w, h
 
-    # TODO: remove unnecessary variables
-    above = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-    on_left = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-
-    return get_rel_xywh, width_error, height_error, gap_count, above, on_left
+    return get_rel_xywh, width_error, height_error, gap_count
 
 
 def add_coord_vars(m: Model, elem_ids, available_width, available_height):
