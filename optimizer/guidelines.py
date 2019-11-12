@@ -27,6 +27,8 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     m.Params.MIPFocus = 1
     m.Params.TimeLimit = time_out
 
+    obj_i = 1
+
     print('Time out:', time_out)
 
     # https://www.gurobi.com/documentation/8.1/refman/poolsearchmode.html#parameter:PoolSearchMode
@@ -163,7 +165,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         # (maybe) add objective for group alignment, priority from hierarchy depth
     '''
 
-    for group_id, elements in groups.items():
+    for group_idx, (group_id, elements) in enumerate(groups.items()):
 
         layout_quality = LinExpr()
         width_error_sum = LinExpr()
@@ -238,7 +240,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             group_priority = layout.depth
 
         # TODO: test which one is better, hard or soft constraint
-        m.setObjectiveN(layout_quality, index=13, priority=group_priority, weight=1)
+        m.setObjectiveN(layout_quality, index=10+group_idx, priority=group_priority, weight=1)
 
 
         # Optimize for grid fitness within available space

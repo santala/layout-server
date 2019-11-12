@@ -17,6 +17,9 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
     x0, y0, x1, y1 = util.add_coord_vars(m, elem_ids, available_width, available_height)
 
+    # TODO: preference that all of the available space is used
+    # TODO: preference that distance to adjacent elements would be constant
+
     m.addConstrs((
         x0[e] + width[e] == x1[e]
         for e in elem_ids
