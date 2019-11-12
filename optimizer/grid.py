@@ -8,18 +8,8 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 
 from .classes import Layout, Element
 
+from optimizer import util
 
-
-
-def preserve_relationships(m: Model, elements: List[Element], x0, x1, y0, y1):
-    for element, other in permutations(elements, 2):
-        if element.y1 <= other.y0: # element is above the other
-            m.addConstr(y1[element.id] <= y0[other.id])
-        if element.x1 <= other.x0: # element is on the left side of the other
-            m.addConstr(x1[element.id] <= x0[other.id])
-        # TODO: test these out
-        if element.x1 >= other.x0:
-            pass#m.addConstr(x1[element.id] >= x0[other.id])
 
 
 
@@ -76,12 +66,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ))
 
     w_diff, h_diff = [
-        add_pairwise_diff(m, elem_ids, var)
+        util.add_pairwise_diff(m, elem_ids, var)
         for var in [width, height]
     ]
 
     x0_diff, y0_diff, x1_diff, y1_diff = [
-        add_pairwise_diff(m, elem_ids, var)
+        util.add_pairwise_diff(m, elem_ids, var)
         for var in [x0, y0, x1, y1]
     ]
 
@@ -91,7 +81,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ]
 
     x0x1_diff, y0y1_diff  = [
-        add_pairwise_diff(m, elem_ids, var1, var2)
+        util.add_pairwise_diff(m, elem_ids, var1, var2)
         for var1, var2 in [(x0, x1), (y0, y1)]
     ]
 
@@ -108,11 +98,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ]
 
     cs_diff, rs_diff = [
-        add_pairwise_diff(m, elem_ids, var)
+        util.add_pairwise_diff(m, elem_ids, var)
         for var in [col_span, row_span]
     ]
 
-    c0_diff, r0_diff, c1_diff, r1_diff = [add_pairwise_diff(m, elem_ids, var) for var in [c0, r0, c1, r1]]
+    c0_diff, r0_diff, c1_diff, r1_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [c0, r0, c1, r1]]
 
     c0_less_than, r0_less_than, c1_less_than, r1_less_than = [add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
 
@@ -234,14 +224,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ))
 
 
-
     # Prevent overlap
-    prevent_overlap(m, elem_ids, x0x1_diff, y0y1_diff, min_distance=gutter_width)
+    util.prevent_overlap(m, elem_ids, x0x1_diff, y0y1_diff, min_distance=gutter_width)
 
-    preserve_relationships(m, elements, x0, x1, y0, y1)
+    util.preserve_relationships(m, elements, x0, x1, y0, y1)
 
-
-    # Minimize gaps in the grid
+    # Prevent empty rows and columns
 
     # Horizontal
     c0_equals_c1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
@@ -251,7 +239,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     ))
 
     m.addConstrs((
-        # Set gutter
+        # Set gutter TODO: check if this is necessary
         (c0_equals_c1[i1, i2] == 1) >> (x0[i1] - x1[i2] == gutter_width)
         for i1, i2 in permutations(elem_ids, 2)
     ))
@@ -389,15 +377,6 @@ def add_diff_vars(m: Model, ids: List, var1, var2):
     ))
     return diff
 
-def add_pairwise_diff(m: Model, ids: List, var1: tupledict, var2: tupledict=None):
-    if var2 is None:
-        var2 = var1
-    diff = m.addVars(permutations(ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER)
-    m.addConstrs((
-        diff[i1, i2] == var1[i1] - var2[i2]
-        for i1, i2 in permutations(ids, 2)
-    ))
-    return diff
 
 def add_less_than_vars(m: Model, ids: List, diff: tupledict):
     less_than = m.addVars(permutations(ids, 2), vtype=GRB.BINARY)
@@ -439,18 +418,6 @@ def add_one_less_than_vars(m: Model, ids: List, less_than: tupledict, diff: tupl
 
 
 
-def prevent_overlap(m: Model, elem_ids: List[str], x0x1diff: tupledict, y0y1diff: tupledict, min_distance: int=0):
-
-    distance = m.addVars(permutations(elem_ids, 2), lb=-GRB.INFINITY, vtype=GRB.INTEGER)
-
-    m.addConstrs((
-        distance[i1, i2] == max_(x0x1diff[i1, i2], x0x1diff[i2, i1], y0y1diff[i1, i2], y0y1diff[i2, i1])
-        for i1, i2 in permutations(elem_ids, 2)
-    ))
-    m.addConstrs((
-        distance[i1, i2] >= min_distance
-        for i1, i2 in permutations(elem_ids, 2)
-    ))
 
 
 
