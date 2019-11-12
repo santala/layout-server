@@ -245,7 +245,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         m.setObjectiveN(width_error_sum, index=7, priority=group_priority, weight=1, name='MinimizeWidthError')
         m.setObjectiveN(height_error_sum, index=8, priority=group_priority, weight=.5, name='MinimizeWidthError')
 
-        
+
 
 
 

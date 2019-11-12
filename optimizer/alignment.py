@@ -80,6 +80,32 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
     util.prevent_overlap(m, elem_ids, x0x1_diff, y0y1_diff, min_distance=1) # TODO: configurable minimum width
 
+    # Preserve alignment
+
+    loss_of_alignment = LinExpr(0)
+
+    for element, other in permutations(elements, 2):
+        if element.is_adjacent(other):
+
+            if element.x0 == other.x0:
+                x0_equals = util.add_equals_var(m, x0[element.id], x0[other.id])
+                loss_of_alignment.add(1 - x0_equals)
+            if element.x1 == other.x1:
+                x1_equals = util.add_equals_var(m, x1[element.id], x1[other.id])
+                loss_of_alignment.add(1 - x1_equals)
+            if element.y0 == other.y0:
+                y0_equals = util.add_equals_var(m, y0[element.id], y0[other.id])
+                loss_of_alignment.add(1 - y0_equals)
+            if element.y1 == other.y1:
+                y1_equals = util.add_equals_var(m, y1[element.id], y1[other.id])
+                loss_of_alignment.add(1 - y1_equals)
+            if element.width == other.width:
+                w_equals = util.add_equals_var(m, width[element.id], width[other.id])
+                loss_of_alignment.add(1 - w_equals)
+            if element.height == other.height:
+                h_equals = util.add_equals_var(m, height[element.id], height[other.id])
+                loss_of_alignment.add(1 - h_equals)
+
     def get_rel_xywh(element_id):
         # Returns the element position (relative to the parent top left corner)
 
@@ -91,9 +117,15 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
         w = width[element_id].Xn
         h = height[element_id].Xn
 
+        print('Loss of alignment', loss_of_alignment.getValue())
+
         return x, y, w, h
 
-    return get_rel_xywh, total_group_count
+    quality = LinExpr()
+    quality.add(total_group_count, 1)
+    quality.add(loss_of_alignment, 10)
+
+    return get_rel_xywh, quality
 
 def compute_minimum_grid(n: int) -> int:
     min_grid_width = int(sqrt(n))

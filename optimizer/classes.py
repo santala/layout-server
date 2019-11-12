@@ -1,4 +1,5 @@
 from enum import Enum
+from math import sqrt
 from operator import attrgetter
 
 class Edge(Enum):
@@ -18,6 +19,11 @@ class Layout:
         self.canvas_height = float(props.get('canvasHeight', 0))
         self.canvas_aspect_ratio = self.canvas_width / self.canvas_height
         self.canvas_area = self.canvas_width * self.canvas_height
+
+        self.x0 = 0
+        self.y0 = 0
+        self.x1 = self.canvas_width
+        self.y1 = self.canvas_height
 
         # If this element contains children, align them into a grid
         # By default, top level elements are aligned in a grid
@@ -147,3 +153,54 @@ class Element:
 
     def is_on_left(self, other):
         return self.x1 <= other.x0
+
+    def distance_to(self, other):
+        if self.does_overlap(other):
+            return 0
+        else:
+            h_dist = min(abs(self.x0 - other.x1), abs(self.x1 - other.x0))
+            v_dist = min(abs(self.y0 - other.y1), abs(self.y1 - other.y0))
+
+            if self.overlap_width(other) <= 0:
+                return h_dist
+            elif self.overlap_height(other) <= 0:
+                return v_dist
+            else:
+                return sqrt(h_dist**2, v_dist**2)
+
+
+    def is_adjacent(self, other):
+        # Element is considered adjacent, if it can be on the same ‘row’ or ‘column’ and is ‘close enough’
+
+        # Elements won’t be considered adjacent if they belong to different groups
+        if self.get_parent_id() != other.get_parent_id():
+            print('Different groups')
+            return False
+
+        if self.overlap_width(other) <= 0 and self.overlap_height(other):
+            # The other element is not in the same row or column
+            print('Not in same row or col')
+            return False
+
+        distance_to_other = self.distance_to(other)
+
+        if self.overlap_width(other) > 0 and distance_to_other > max(self.height, other.height):
+            print('Too far away (v)')
+            return False
+        elif self.overlap_height(other) > 0 and distance_to_other > max(self.width, other.width):
+            print('Too far away (h)')
+            return False
+
+        closer_elements_in_same_group = [
+            e for e in self.layout.element_list
+            if e is not self and e.get_parent_id() == self.get_parent_id() and self.distance_to(e) < distance_to_other
+        ]
+
+        for e in closer_elements_in_same_group:
+            if self.is_above(other) == self.is_above(e) or self.is_on_left(other) == self.is_on_left(e):
+                # There is an element between self and other
+                print('There is an element between self and other')
+                print(self.id, other.id, e.id)
+                return False
+
+        return True

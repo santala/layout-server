@@ -78,3 +78,15 @@ def add_less_than_vars(m: Model, ids: List, diff: tupledict):
         for i1, i2 in permutations(ids, 2)
     ))
     return less_than
+
+def add_equals_var(m: Model, var1: tupledict, var2: tupledict):
+    var_max = m.addVar(vtype=GRB.INTEGER)
+    var_min = m.addVar(vtype=GRB.INTEGER)
+    m.addConstr(var_max == max_(var1, var2))
+    m.addConstr(var_min == min_(var1, var2))
+
+    equals = m.addVar(vtype=GRB.BINARY)
+    m.addConstr((equals == 1) >> (var_max == var_min))
+    m.addConstr((equals == 0) >> (var_max >= 1 + var_min))
+
+    return equals
