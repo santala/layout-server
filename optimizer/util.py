@@ -10,13 +10,24 @@ from .classes import Layout, Element
 
 def preserve_relationships(m: Model, elements: List[Element], x0, x1, y0, y1):
     for element, other in permutations(elements, 2):
-        if element.y1 <= other.y0: # element is above the other
-            m.addConstr(y1[element.id] <= y0[other.id])
-        if element.x1 <= other.x0: # element is on the left side of the other
-            m.addConstr(x1[element.id] <= x0[other.id])
-        # TODO: test these out
-        if element.x1 >= other.x0:
-            pass#m.addConstr(x1[element.id] >= x0[other.id])
+        # If elements overlap, don’t force relationship
+        if not element.does_overlap(other):
+            # If an element is above or to the left of the other, it should stay there
+            if element.y1 <= other.y0: # element is above the other
+                m.addConstr(y1[element.id] <= y0[other.id])
+            if element.x1 <= other.x0: # element is on the left side of the other
+                m.addConstr(x1[element.id] <= x0[other.id])
+
+            # Preferences for overlap in a single dimension
+            if element.x0 <= other.x0: # Element begins before the other
+                m.addConstr(x0[element.id] <= x1[other.id])
+            if element.x1 >= other.x1: # Element ends after the other
+                m.addConstr(x1[element.id] >= x0[other.id])
+            if element.y0 <= other.y0: # Element begins before the other
+                m.addConstr(y0[element.id] <= y1[other.id])
+            if element.y1 >= other.y1: # Element ends after the other
+                m.addConstr(y1[element.id] >= y0[other.id])
+
 
 def prevent_overlap(m: Model, elem_ids: List[str], x0x1diff: tupledict, y0y1diff: tupledict, min_distance: int=0):
 

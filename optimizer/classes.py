@@ -136,11 +136,11 @@ class Element:
     def overlap_area(self, other):
         return self.overlap_width(other) * self.overlap_height(other)
 
-    def do_overlap(self, other):
+    def does_overlap(self, other):
         return self.overlap_width(other) > 0 and self.overlap_height(other) > 0
 
     def is_contained_within(self, other):
-        return self.do_overlap(other) and self.overlap_area(other) == self.area
+        return self.does_overlap(other) and self.overlap_area(other) == self.area
 
     def is_above(self, other):
         return self.y1 <= other.y0
