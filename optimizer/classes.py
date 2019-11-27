@@ -124,6 +124,29 @@ class Element:
                 self.snap_to_edge = Edge.TOP
                 self.snap_priority = 2
 
+        # TODO: these should be on client side as well
+        # TODO: base unit width should come from client side as well
+        self.fixed_width = None
+        self.fixed_height = None
+
+        if self.element_type == 'component':
+            print(self.component_name)
+            if 'Mobile Menu Bar' in self.component_name:
+                self.fixed_height = 6
+            elif 'Menu Bar' in self.component_name:
+                print('!!!')
+                self.fixed_height = 5
+            elif 'ABB Stripe' in self.component_name:
+                self.fixed_height = 4
+            elif 'Select-32' in self.component_name:
+                self.fixed_height = 9
+            elif 'Slider' in self.component_name:
+                self.fixed_height = 8
+            elif 'H1' in self.component_name:
+                self.fixed_height = 6
+            elif 'Left pane / Compact mode' in self.component_name:
+                self.fixed_width = 12
+
     def get_parent_id(self):
         if self.parent is None:
             return None

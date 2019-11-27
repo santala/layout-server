@@ -92,6 +92,13 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # Element height in base units
     elem_height = m.addVars(elem_ids, vtype=GRB.INTEGER, name='ElementHeight')
 
+    # TODO: theoretically, this might lead to infeasible model if there are too many fixed size elements and too little space
+    for element in layout.element_list:
+        if element.fixed_width is not None:
+            m.addConstr(elem_width[element.id] == element.fixed_width)
+        if element.fixed_height is not None:
+            m.addConstr(elem_height[element.id] == element.fixed_height)
+
     # Width of the gutter (i.e. the space between adjacent columns)
     gutter_width = m.addVar(lb=m._min_gutter_width, ub=m._max_gutter_width, vtype=GRB.INTEGER, name='GutterWidth')
 
@@ -440,21 +447,35 @@ def align_edge_elements(m: Model, elements: List[Element], available_width, avai
         x_expr = LinExpr()
         y_expr = LinExpr()
 
+
         if element.snap_to_edge in [Edge.TOP, Edge.BOTTOM]:
             higher_priority_elements = [
                 other for other in elements
-                if other.snap_priority < element.snap_priority and other.snap_to_edge == Edge.LEFT
+                if other.snap_priority < element.snap_priority
             ]
 
             for other in higher_priority_elements:
-                x_expr.add(elem_width[other.id])
+                if other.snap_to_edge == Edge.LEFT:
+                    x_expr.add(elem_width[other.id])
+                if element.snap_to_edge == other.snap_to_edge:
+                    y_expr.add(elem_height[other.id])
+
         else:
             higher_priority_elements = [
                 other for other in elements
-                if other.snap_priority < element.snap_priority and other.snap_to_edge == Edge.TOP
+                if other.snap_priority < element.snap_priority
             ]
             for other in higher_priority_elements:
-                y_expr.add(elem_height[other.id])
+                if other.snap_to_edge == Edge.TOP:
+                    y_expr.add(elem_height[other.id])
+                if element.snap_to_edge == other.snap_to_edge:
+                    x_expr.add(elem_width[other.id])
+
+        # TODO: this is untested
+        if element.snap_to_edge == Edge.RIGHT:
+            x_expr = available_width - x_expr - elem_width[elem_id]
+        if element.snap_to_edge == Edge.BOTTOM:
+            y_expr = available_height - y_expr - elem_height[elem_id]
 
         x = x_expr.getValue()
         y = y_expr.getValue()
