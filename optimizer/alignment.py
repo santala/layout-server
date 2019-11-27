@@ -17,8 +17,13 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
 
     x0, y0, x1, y1 = util.add_coord_vars(m, elem_ids, available_width, available_height)
 
-    # TODO: preference that all of the available space is used
+    # TODO: preference that all of the available space is used, i.e. elements should span
+
     # TODO: preference that distance to adjacent elements would be constant
+    # TODO: e.g. if an element has two adjacent elements that are the same distance away, prefer to keep those distances equal
+
+    # TODO: (maybe) if two elements are ≤ 16px (2*‘related distance’) from each other, prefer them to be 8px distance,
+    # TODO: i.e. treat them as ‘related’
 
     m.addConstrs((
         x0[e] + width[e] == x1[e]

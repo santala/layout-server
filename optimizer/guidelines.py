@@ -58,7 +58,16 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     m._base_unit = base_unit
     m._min_gutter_width = 1
-    m._max_gutter_width = 4
+
+    if layout.canvas_width < 1280:      # widescreen
+        m._max_gutter_width = 4
+    elif layout.canvas_width < 1280:    # desktop 24px
+        m._max_gutter_width = 3
+    elif layout.canvas_width < 599:     # tablet 16px
+        m._max_gutter_width = 2
+    else:                               # mobile 8px
+        m._max_gutter_width = 1
+
     # Layout dimensions in base units
     m._layout_width = int(layout.canvas_width / m._base_unit)
     m._layout_height = int(layout.canvas_height / m._base_unit)
@@ -105,10 +114,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     group_content_width = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_width, name='GroupContentWidth')
     group_content_height = m.addVars(group_ids, vtype=GRB.INTEGER, lb=0, ub=m._layout_height, name='GroupContentHeight')
 
-    group_padding_top = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingTop')
-    group_padding_right = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingRight')
-    group_padding_bottom = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingBottom')
-    group_padding_left = m.addVars(group_ids, vtype=GRB.INTEGER, lb=2, ub=2, name='GroupPaddingLeft')
+    group_padding_top = m.addVars(group_ids, vtype=GRB.INTEGER, name='GroupPaddingTop')
+    group_padding_right = m.addVars(group_ids, vtype=GRB.INTEGER, name='GroupPaddingRight')
+    group_padding_bottom = m.addVars(group_ids, vtype=GRB.INTEGER, name='GroupPaddingBottom')
+    group_padding_left = m.addVars(group_ids, vtype=GRB.INTEGER, name='GroupPaddingLeft')
 
     m.addConstrs((
         group_full_width[g] == group_edge_width[g] + group_content_width[g] + group_padding_left[g] + group_padding_right[g]
@@ -166,6 +175,20 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     '''
 
     for group_idx, (group_id, elements) in enumerate(groups.items()):
+
+        if group_id != layout.id:
+            group_element = layout.element_dict[group_id]
+            if group_element.element_type == 'component' and 'Card' in group_element.component_name:
+                m.addConstr(group_padding_top[group_id] == 10)
+                m.addConstr(group_padding_bottom[group_id] == 4)
+                m.addConstr(group_padding_left[group_id] == 4)
+                m.addConstr(group_padding_right[group_id] == 4)
+            else:
+                print(group_element.element_type)
+                m.addConstr(group_padding_top[group_id] == gutter_width)
+                m.addConstr(group_padding_bottom[group_id] == gutter_width)
+                m.addConstr(group_padding_left[group_id] == gutter_width)
+                m.addConstr(group_padding_right[group_id] == gutter_width)
 
         layout_quality = LinExpr()
         width_error_sum = LinExpr()
