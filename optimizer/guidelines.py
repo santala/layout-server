@@ -142,7 +142,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     def get_content_offset(element_id):
         if element_id in group_ids:
-            return group_padding_left[element_id].X, group_padding_top[element_id].X
+            return group_padding_left[element_id].Xn, group_padding_top[element_id].Xn
         else:
             return 0, 0
 
@@ -176,19 +176,21 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
     for group_idx, (group_id, elements) in enumerate(groups.items()):
 
-        if group_id != layout.id:
+        if group_id in layout.element_dict:
             group_element = layout.element_dict[group_id]
-            if group_element.element_type == 'component' and 'Card' in group_element.component_name:
-                m.addConstr(group_padding_top[group_id] == 10)
-                m.addConstr(group_padding_bottom[group_id] == 4)
-                m.addConstr(group_padding_left[group_id] == 4)
-                m.addConstr(group_padding_right[group_id] == 4)
-            else:
-                print(group_element.element_type)
-                m.addConstr(group_padding_top[group_id] == gutter_width)
-                m.addConstr(group_padding_bottom[group_id] == gutter_width)
-                m.addConstr(group_padding_left[group_id] == gutter_width)
-                m.addConstr(group_padding_right[group_id] == gutter_width)
+        else:
+            group_element = None
+
+        if group_element is not None and group_element.element_type == 'component' and 'Card' in group_element.component_name:
+            m.addConstr(group_padding_top[group_id] == 10)
+            m.addConstr(group_padding_bottom[group_id] == 4)
+            m.addConstr(group_padding_left[group_id] == 4)
+            m.addConstr(group_padding_right[group_id] == 4)
+        else:
+            m.addConstr(group_padding_top[group_id] == gutter_width)
+            m.addConstr(group_padding_bottom[group_id] == gutter_width)
+            m.addConstr(group_padding_left[group_id] == gutter_width)
+            m.addConstr(group_padding_right[group_id] == gutter_width)
 
         layout_quality = LinExpr()
         width_error_sum = LinExpr()
@@ -234,8 +236,10 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
                                      elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
 
                 else:
+                    offset_x = edge_left_width + group_padding_left[group_id]
+                    offset_y = edge_top_height + group_padding_top[group_id]
                     get_rel_xywh, width_error, height_error, layout_quality\
-                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
+                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, offset_x, offset_y)
 
 
 

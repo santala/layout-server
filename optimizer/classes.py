@@ -117,8 +117,11 @@ class Element:
             if 'ABB Stripe' in self.component_name:
                 self.snap_to_edge = Edge.TOP
                 self.snap_priority = 1
-            elif 'Collapsible' in self.component_name:
+            elif 'Collapsible' in self.component_name or 'Left pane' in self.component_name:
                 self.snap_to_edge = Edge.LEFT
+                self.snap_priority = 3
+            elif 'Menu Bar' in self.component_name:
+                self.snap_to_edge = Edge.TOP
                 self.snap_priority = 2
 
     def get_parent_id(self):
