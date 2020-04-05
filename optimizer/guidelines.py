@@ -12,7 +12,7 @@ from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, 
 from .classes import Layout, Element, Edge
 
 from .alignment import improve_alignment
-from .grid import equal_width_columns
+from .grid2 import equal_width_columns
 
 
 BBox = namedtuple('BBox', 'x y w h')

@@ -119,14 +119,14 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     # Horizontal
     c0_equals_c1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
     in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
-    something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
-    no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
+    #something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
+    #no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
 
     # Vertical
     r0_equals_r1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
     on_first_row = m.addVars(elem_ids, vtype=GRB.BINARY)
-    something_above = m.addVars(elem_ids, vtype=GRB.BINARY)
-    no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    #something_above = m.addVars(elem_ids, vtype=GRB.BINARY)
+    #no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
 
     for i in elem_ids:
 
@@ -138,15 +138,15 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         m.addConstr((in_first_col[i] == 1) >> (c0[i] == 0))
         m.addConstr((in_first_col[i] == 0) >> (c0[i] >= 1))
 
-        m.addConstr(something_on_left[i] == max_(c0_equals_c1.select(i, '*'))) # something_on_left[i] <= c0_equals_c1.sum(i) # TODO compare performance
-        m.addConstr(no_gap_on_left[i] == or_(something_on_left[i], in_first_col[i]))
+        #m.addConstr(something_on_left[i] == max_(c0_equals_c1.select(i, '*'))) # something_on_left[i] <= c0_equals_c1.sum(i) # TODO compare performance
+        #m.addConstr(no_gap_on_left[i] == or_(something_on_left[i], in_first_col[i]))
 
         # Vertical
         m.addConstr((on_first_row[i] == 1) >> (r0[i] == 0))
         m.addConstr((on_first_row[i] == 0) >> (r0[i] >= 1))
 
-        m.addConstr(something_above[i] == max_(r0_equals_r1.select(i, '*'))) # something_above[i] <= r0_equals_r1.sum(i) # TODO compare performance
-        m.addConstr(no_gap_above[i] == or_(something_above[i], on_first_row[i]))
+        #m.addConstr(something_above[i] == max_(r0_equals_r1.select(i, '*'))) # something_above[i] <= r0_equals_r1.sum(i) # TODO compare performance
+        #m.addConstr(no_gap_above[i] == or_(something_above[i], on_first_row[i]))
 
         #m.addConstr()
 
@@ -196,7 +196,9 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     # GRID CONSTRAINTS
     # no gaps in columns
+    prevent_gaps_in_grid(m, elem_ids, c0, c1)
     # no gaps in rows
+    prevent_gaps_in_grid(m, elem_ids, r0, r1)
 
 
     # Prevent overlap
@@ -205,8 +207,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     util.preserve_relationships(m, elements, x0, x1, y0, y1)
 
     # Prevent empty rows and columns
-    m.addConstr(no_gap_on_left.sum() == elem_count)
-    m.addConstr(no_gap_above.sum() == elem_count)
+    # m.addConstr(no_gap_on_left.sum() == elem_count)
+    # m.addConstr(no_gap_above.sum() == elem_count)
 
 
     # TODO: add expression (needs to be linear) for the column width error, i.e. ((col_span[i] * col_width - gutter_width) - width[i])
@@ -253,21 +255,30 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     return get_rel_xywh, width_error, height_error, gap_count
 
 
+def prevent_gaps_in_grid(m: Model, ids: List, start_coord: tupledict, end_coord: tupledict):
+    id_pairs = list(permutations(ids, 2))
 
-def ensure_no_gap_on_left(m: Model, elem_ids: List, c0: tupledict, c1: tupledict):
-    in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
-    no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
-    start_end_diff = m.addVars(elem_ids, lb=-GRB.INFINITY, vtype=GRB.INTEGER)
-    starts_where_other_ends = m.addVars(elem_ids, vtype=GRB.BINARY)
+    starts_from_zero = m.addVars(ids, vtype=GRB.BINARY)
+    no_gap_on_left = m.addVars(ids, vtype=GRB.BINARY)
+    start_end_diff = m.addVars(id_pairs, vtype=GRB.INTEGER, lb=-GRB.INFINITY)
+    starts_right_after = m.addVars(id_pairs, vtype=GRB.BINARY)
 
-    for i, j in permutations(elem_ids, 2):
-        m.addConstr(start_end_diff[i, j] == c0[i] - c1[j])
-        m.addConstr(starts_where_other_ends[i, j] * start_end_diff[i, j] == 0)
+    for i in ids:
+        # Element must either start either in the 1st column,
+        # or right after another element ends
+        m.addConstr(starts_from_zero[i] + no_gap_on_left[i] >= 1)
+        # If the element starts from zero, the start coord must equal 0
+        m.addConstr((starts_from_zero[i] == 1) >> (start_coord[i] == 0))
+        # If this element does not start right after any other, there is a gap
+        m.addConstr(no_gap_on_left[i] <= starts_right_after.sum(i, '*'))
 
-    for i in elem_ids:
-        m.addConstr(no_gap_on_left[i] <= starts_where_other_ends.sum())
-        m.addConstr(in_first_col[i] * c0[i] == 0)
-        m.addConstr(in_first_col[i] + no_gap_on_left[i] >= 1)
+    for i, j in id_pairs:
+        # Difference between the start coordinate (inclusive) of this element
+        # and the end coordinate (exclusive) of another element
+        m.addConstr(start_end_diff[i, j] == start_coord[i] - end_coord[j])
+        # If the element starts right after another, its start coordinate
+        # must equal the end coordinate of the other
+        m.addConstr((starts_right_after[i, j] == 1) >> (start_end_diff[i, j] == 0))
 
 
 
