@@ -2,7 +2,7 @@ from itertools import product, permutations
 from math import ceil, floor, sqrt
 from typing import List
 
-from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, or_, QuadExpr, GurobiError
+from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, or_, QuadExpr, GurobiError, Var
 
 from .classes import Layout, Element
 
@@ -70,34 +70,38 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         for var in [w_diff, h_diff, cs_diff, rs_diff]
     ]
 
-    # COLUMN/ROW SIZE & COUNT
+    # AVAILABLE WIDTH vs ACTUAL WIDTH
 
     grid_width = m.addVar(lb=1, vtype=GRB.INTEGER)
     actual_width = m.addVar(lb=1, vtype=GRB.INTEGER)
     m.addConstr(actual_width == grid_width - gutter_width)
     width_error = m.addVar(lb=1, vtype=GRB.INTEGER)
     m.addConstr(width_error == available_width - actual_width)
+    m.addConstr(actual_width <= available_width)
 
+    # COLUMN WIDTH
     col_width = m.addVar(lb=1, vtype=GRB.INTEGER)  # in base units
+    # must be wider than gutter
     m.addConstr(col_width >= gutter_width + 1)
 
+    # The width error must be less than one column width
+    m.addConstr(width_error + 1 <= col_width - gutter_width)  # This should stretch the column width to match the layout width
+
+    # COLUMN COUNT
     col_count = m.addVar(lb=1, vtype=GRB.INTEGER)
+    # is equal to the rightmost end column
     m.addConstr(col_count == max_(c1))
 
-    col_counts = range(1, max_col_count + 1)
-    col_count_selected = m.addVars(col_counts, vtype=GRB.BINARY)
+    # helpers for column count
+    col_count_options = range(1, max_col_count + 1)
+    col_count_selected = m.addVars(col_count_options, vtype=GRB.BINARY)
     m.addConstr(col_count_selected.sum() == 1)
-    m.addConstrs((
-        (col_count_selected[c] == 1) >> (col_count == c)
-        for c in col_counts
-    ))
-    m.addConstrs((
-        (col_count_selected[c] == 1) >> (grid_width == c * col_width)
-        for c in col_counts
-    ))
-    m.addConstr(actual_width <= available_width)
-    m.addConstr(
-        actual_width + col_width - gutter_width >= available_width + 1)  # This should stretch the column width to match the layout width
+    for c in col_count_options:
+        m.addConstr((col_count_selected[c] == 1) >> (col_count == c))
+        m.addConstr((col_count_selected[c] == 1) >> (grid_width == c * col_width))
+
+    
+    # GRID ROWS
 
     row_height = m.addVar(lb=1, vtype=GRB.INTEGER)  # in base units
     m.addConstr(row_height >= gutter_width + 1)
@@ -112,12 +116,8 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     r0_one_less_than = add_one_less_than_vars(m, elem_ids, r0_less_than, r0_diff)
     r1_one_less_than = add_one_less_than_vars(m, elem_ids, r1_less_than, r1_diff)
 
-    # Prevent empty rows and columns
-
     # Horizontal
     c0_equals_c1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-
-
     in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
     something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
     no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
@@ -148,7 +148,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         m.addConstr(something_above[i] == max_(r0_equals_r1.select(i, '*'))) # something_above[i] <= r0_equals_r1.sum(i) # TODO compare performance
         m.addConstr(no_gap_above[i] == or_(something_above[i], on_first_row[i]))
 
-        m.addConstr()
+        #m.addConstr()
 
     for i, j in permutations(elem_ids, 2):
 
@@ -165,25 +165,24 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         m.addConstr(h_less_than[i, j] == rs_less_than[i, j])
 
         # Column width must be at max the smallest difference between two column lines
-        m.addConstr((x0_less_than[i, j] == 1) >> (x0_diff[j, i] >= col_width))
-        m.addConstr((x1_less_than[i, j] == 1) >> (x1_diff[j, i] >= col_width))
+        m.addConstr((x0_less_than[i, j] == 1) >> (x0[j] - x0[i] >= col_width))
+        m.addConstr((x1_less_than[i, j] == 1) >> (x1[j] - x1[i] >= col_width))
 
         # If two elements are different widths, the difference must be at least one col_width
-        m.addConstr((w_less_than[i, j] == 1) >> (w_diff[j, i] >= col_width))
+        m.addConstr((w_less_than[i, j] == 1) >> (width[j] - width[i] >= col_width))
 
         # Row height must be at max the smallest difference between two row lines
-        m.addConstr((y0_less_than[i, j] == 1) >> (y0_diff[j, i] >= row_height))
+        m.addConstr((y0_less_than[i, j] == 1) >> (y0[j] - y0[i] >= row_height))
 
-
-        m.addConstr((y1_less_than[i, j] == 1) >> (y1_diff[j, i] >= row_height))
+        m.addConstr((y1_less_than[i, j] == 1) >> (y1[j] - y1[i] >= row_height))
 
         # If two elements are different heights, the difference must be at least one row_height
-        m.addConstr((h_less_than[i, j] == 1) >> (h_diff[j, i] >= row_height))
+        m.addConstr((h_less_than[i, j] == 1) >> (height[j] - height[i] >= row_height))
 
-        m.addConstr((c0_one_less_than[i, j] == 1) >> (x0_diff[j, i] == col_width))
-        m.addConstr((c1_one_less_than[i, j] == 1) >> (x1_diff[j, i] == col_width))
-        m.addConstr((r0_one_less_than[i, j] == 1) >> (y0_diff[j, i] == row_height))
-        m.addConstr((r1_one_less_than[i, j] == 1) >> (y1_diff[j, i] == row_height))
+        m.addConstr((c0_one_less_than[i, j] == 1) >> (x0[j] - x0[i] == col_width))
+        m.addConstr((c1_one_less_than[i, j] == 1) >> (x1[j] - x1[i] == col_width))
+        m.addConstr((r0_one_less_than[i, j] == 1) >> (y0[j] - y0[i] == row_height))
+        m.addConstr((r1_one_less_than[i, j] == 1) >> (y1[j] - y1[i] == row_height))
 
         m.addConstr((c0_equals_c1[i, j] == 1) >> (c0[i] == c1[j]))
         m.addConstr((c0_equals_c1[i, j] == 1) >> (x0[i] - x1[j] == gutter_width)) # Set gutter TODO: check if this is necessary
@@ -192,9 +191,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         # Set gutter
         m.addConstr((r0_equals_r1[i, j] == 1) >> (y0[i] - y1[j] == gutter_width))
 
-        m.addConstr()
+        #m.addConstr()
 
 
+    # GRID CONSTRAINTS
+    # no gaps in columns
+    # no gaps in rows
 
 
     # Prevent overlap
@@ -202,7 +204,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
 
     util.preserve_relationships(m, elements, x0, x1, y0, y1)
 
-
+    # Prevent empty rows and columns
     m.addConstr(no_gap_on_left.sum() == elem_count)
     m.addConstr(no_gap_above.sum() == elem_count)
 
@@ -249,6 +251,24 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         return x, y, w, h
 
     return get_rel_xywh, width_error, height_error, gap_count
+
+
+
+def ensure_no_gap_on_left(m: Model, elem_ids: List, c0: tupledict, c1: tupledict):
+    in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
+    no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
+    start_end_diff = m.addVars(elem_ids, lb=-GRB.INFINITY, vtype=GRB.INTEGER)
+    starts_where_other_ends = m.addVars(elem_ids, vtype=GRB.BINARY)
+
+    for i, j in permutations(elem_ids, 2):
+        m.addConstr(start_end_diff[i, j] == c0[i] - c1[j])
+        m.addConstr(starts_where_other_ends[i, j] * start_end_diff[i, j] == 0)
+
+    for i in elem_ids:
+        m.addConstr(no_gap_on_left[i] <= starts_where_other_ends.sum())
+        m.addConstr(in_first_col[i] * c0[i] == 0)
+        m.addConstr(in_first_col[i] + no_gap_on_left[i] >= 1)
+
 
 
 
