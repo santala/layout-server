@@ -9,66 +9,37 @@ from .classes import Layout, Element
 from optimizer import util
 
 
-def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, width, height, gutter_width, offset_x, offset_y):
+def equal_width_columns(m: Model, elements: List[Element], available_width, available_height, w, h, gutter_width, offset_x, offset_y):
 
-    elem_count = len(elements)
     elem_ids = [e.id for e in elements]
 
     # TODO: compute a proper maximum column/row count
     max_col_count = 12
     max_row_count = 100
 
-    # MINIMIZE LAYOUT COLUMNS
-    # TODO: what about preferred number of columns?
+    # VARIABLES
 
     # Element coordinates in base units
     x0, y0, x1, y1 = util.add_coord_vars(m, elem_ids, available_width, available_height)
     # Element coordinates in rows and columns
     c0, r0, c1, r1 = util.add_coord_vars(m, elem_ids, max_col_count, max_row_count)
 
-    w_diff, h_diff = [
-        util.add_pairwise_diff(m, elem_ids, var)
-        for var in [width, height]
-    ]
+    w_diff, h_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [w, h]]
+    x0_diff, y0_diff, x1_diff, y1_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [x0, y0, x1, y1]]
 
-    x0_diff, y0_diff, x1_diff, y1_diff = [
-        util.add_pairwise_diff(m, elem_ids, var)
-        for var in [x0, y0, x1, y1]
-    ]
+    x0_less_than, y0_less_than, x1_less_than, y1_less_than = [util.add_less_than_vars(m, elem_ids, vars) for vars in [x0_diff, y0_diff, x1_diff, y1_diff]]
 
-    x0_less_than, y0_less_than, x1_less_than, y1_less_than = [
-        util.add_less_than_vars(m, elem_ids, vars)
-        for vars in [x0_diff, y0_diff, x1_diff, y1_diff]
-    ]
+    x0x1_diff, y0y1_diff = [util.add_pairwise_diff(m, elem_ids, var1, var2) for var1, var2 in [(x0, x1), (y0, y1)]]
 
-    x0x1_diff, y0y1_diff = [
-        util.add_pairwise_diff(m, elem_ids, var1, var2)
-        for var1, var2 in [(x0, x1), (y0, y1)]
-    ]
+    col_span, row_span = [add_diff_vars(m, elem_ids, var1, var2) for var1, var2 in [(c1, c0), (r1, r0)]]
 
-    c0_min = m.addVar(vtype=GRB.INTEGER)
-    m.addConstr(c0_min == min_(c0))
-    m.addConstr(c0_min == 0)  # At least one element must be in the first column
-
-    col_span, row_span = [
-        add_diff_vars(m, elem_ids, var1, var2)
-        for var1, var2 in [(c1, c0), (r1, r0)]
-    ]
-
-    cs_diff, rs_diff = [
-        util.add_pairwise_diff(m, elem_ids, var)
-        for var in [col_span, row_span]
-    ]
+    cs_diff, rs_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [col_span, row_span]]
 
     c0_diff, r0_diff, c1_diff, r1_diff = [util.add_pairwise_diff(m, elem_ids, var) for var in [c0, r0, c1, r1]]
 
-    c0_less_than, r0_less_than, c1_less_than, r1_less_than = [util.add_less_than_vars(m, elem_ids, vars) for vars in
-                                                              [c0_diff, r0_diff, c1_diff, r1_diff]]
+    c0_less_than, r0_less_than, c1_less_than, r1_less_than = [util.add_less_than_vars(m, elem_ids, vars) for vars in [c0_diff, r0_diff, c1_diff, r1_diff]]
 
-    w_less_than, h_less_than, cs_less_than, rs_less_than = [
-        util.add_less_than_vars(m, elem_ids, var)
-        for var in [w_diff, h_diff, cs_diff, rs_diff]
-    ]
+    w_less_than, h_less_than, cs_less_than, rs_less_than = [util.add_less_than_vars(m, elem_ids, var) for var in [w_diff, h_diff, cs_diff, rs_diff]]
 
     # AVAILABLE WIDTH vs ACTUAL WIDTH
 
@@ -88,7 +59,7 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     m.addConstr(width_error + 1 <= col_width - gutter_width)  # This should stretch the column width to match the layout width
 
     # COLUMN COUNT
-    col_count = m.addVar(lb=1, vtype=GRB.INTEGER)
+    col_count = m.addVar(lb=1, ub=max_col_count, vtype=GRB.INTEGER)
     # is equal to the rightmost end column
     m.addConstr(col_count == max_(c1))
 
@@ -100,12 +71,11 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         m.addConstr((col_count_selected[c] == 1) >> (col_count == c))
         m.addConstr((col_count_selected[c] == 1) >> (grid_width == c * col_width))
 
-    
     # GRID ROWS
 
     row_height = m.addVar(lb=1, vtype=GRB.INTEGER)  # in base units
     m.addConstr(row_height >= gutter_width + 1)
-    row_count = m.addVar(lb=1, vtype=GRB.INTEGER)
+    row_count = m.addVar(lb=1, ub=max_row_count, vtype=GRB.INTEGER)
     m.addConstr(row_count == max_(r1))
 
     # Consecutive column/row lines must be column width/row height apart
@@ -116,39 +86,12 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
     r0_one_less_than = add_one_less_than_vars(m, elem_ids, r0_less_than, r0_diff)
     r1_one_less_than = add_one_less_than_vars(m, elem_ids, r1_less_than, r1_diff)
 
-    # Horizontal
-    c0_equals_c1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-    in_first_col = m.addVars(elem_ids, vtype=GRB.BINARY)
-    #something_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
-    #no_gap_on_left = m.addVars(elem_ids, vtype=GRB.BINARY)
-
-    # Vertical
-    r0_equals_r1 = m.addVars(permutations(elem_ids, 2), vtype=GRB.BINARY)
-    on_first_row = m.addVars(elem_ids, vtype=GRB.BINARY)
-    #something_above = m.addVars(elem_ids, vtype=GRB.BINARY)
-    #no_gap_above = m.addVars(elem_ids, vtype=GRB.BINARY)
-
     for i in elem_ids:
 
-        m.addConstr(x0[i] + width[i] == x1[i])
-        m.addConstr(y0[i] + height[i] == y1[i])
-        m.addConstr(width[i] >= 1)
-        m.addConstr(height[i] >= 1)
-
-        m.addConstr((in_first_col[i] == 1) >> (c0[i] == 0))
-        m.addConstr((in_first_col[i] == 0) >> (c0[i] >= 1))
-
-        #m.addConstr(something_on_left[i] == max_(c0_equals_c1.select(i, '*'))) # something_on_left[i] <= c0_equals_c1.sum(i) # TODO compare performance
-        #m.addConstr(no_gap_on_left[i] == or_(something_on_left[i], in_first_col[i]))
-
-        # Vertical
-        m.addConstr((on_first_row[i] == 1) >> (r0[i] == 0))
-        m.addConstr((on_first_row[i] == 0) >> (r0[i] >= 1))
-
-        #m.addConstr(something_above[i] == max_(r0_equals_r1.select(i, '*'))) # something_above[i] <= r0_equals_r1.sum(i) # TODO compare performance
-        #m.addConstr(no_gap_above[i] == or_(something_above[i], on_first_row[i]))
-
-        #m.addConstr()
+        m.addConstr(x0[i] + w[i] == x1[i])
+        m.addConstr(y0[i] + h[i] == y1[i])
+        m.addConstr(w[i] >= 1)
+        m.addConstr(h[i] >= 1)
 
     for i, j in permutations(elem_ids, 2):
 
@@ -160,70 +103,42 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         m.addConstr(x1_less_than[i, j] == c1_less_than[i, j])
         m.addConstr(y0_less_than[i, j] == r0_less_than[i, j])
         m.addConstr(y1_less_than[i, j] == r1_less_than[i, j])
-
         m.addConstr(w_less_than[i, j] == cs_less_than[i, j])
         m.addConstr(h_less_than[i, j] == rs_less_than[i, j])
 
-        # Column width must be at max the smallest difference between two column lines
+        # If element x-coordinates differ, they must be at least one column width apart
         m.addConstr((x0_less_than[i, j] == 1) >> (x0[j] - x0[i] >= col_width))
         m.addConstr((x1_less_than[i, j] == 1) >> (x1[j] - x1[i] >= col_width))
 
-        # If two elements are different widths, the difference must be at least one col_width
-        m.addConstr((w_less_than[i, j] == 1) >> (width[j] - width[i] >= col_width))
+        # If element widths differ, they must differ at least one column width
+        m.addConstr((w_less_than[i, j] == 1) >> (w[j] - w[i] >= col_width))
 
-        # Row height must be at max the smallest difference between two row lines
+        # If element y-coordinates differ, they must be at least one row height apart
         m.addConstr((y0_less_than[i, j] == 1) >> (y0[j] - y0[i] >= row_height))
-
         m.addConstr((y1_less_than[i, j] == 1) >> (y1[j] - y1[i] >= row_height))
 
-        # If two elements are different heights, the difference must be at least one row_height
-        m.addConstr((h_less_than[i, j] == 1) >> (height[j] - height[i] >= row_height))
+        # If element heights differ, they must differ at least one row height
+        m.addConstr((h_less_than[i, j] == 1) >> (h[j] - h[i] >= row_height))
 
+        # If the difference is one row/column, the matching coordinates must be
+        # exactly one row height/column width apart
         m.addConstr((c0_one_less_than[i, j] == 1) >> (x0[j] - x0[i] == col_width))
         m.addConstr((c1_one_less_than[i, j] == 1) >> (x1[j] - x1[i] == col_width))
         m.addConstr((r0_one_less_than[i, j] == 1) >> (y0[j] - y0[i] == row_height))
         m.addConstr((r1_one_less_than[i, j] == 1) >> (y1[j] - y1[i] == row_height))
 
-        m.addConstr((c0_equals_c1[i, j] == 1) >> (c0[i] == c1[j]))
-        m.addConstr((c0_equals_c1[i, j] == 1) >> (x0[i] - x1[j] == gutter_width)) # Set gutter TODO: check if this is necessary
-
-        m.addConstr((r0_equals_r1[i, j] == 1) >> (r0[i] == r1[j]))
-        # Set gutter
-        m.addConstr((r0_equals_r1[i, j] == 1) >> (y0[i] - y1[j] == gutter_width))
-
-        #m.addConstr()
-
-
     # GRID CONSTRAINTS
     # no gaps in columns
-    prevent_gaps_in_grid(m, elem_ids, c0, c1)
+    reduce_gaps_in_grid(m, elem_ids, c0, c1, x0, x1, gutter_width)
     # no gaps in rows
-    prevent_gaps_in_grid(m, elem_ids, r0, r1)
-
+    reduce_gaps_in_grid(m, elem_ids, r0, r1, y0, y1, gutter_width)
 
     # Prevent overlap
     util.prevent_overlap(m, elem_ids, x0x1_diff, y0y1_diff, min_distance=gutter_width)
 
     util.preserve_relationships(m, elements, x0, x1, y0, y1)
 
-    # Prevent empty rows and columns
-    # m.addConstr(no_gap_on_left.sum() == elem_count)
-    # m.addConstr(no_gap_above.sum() == elem_count)
-
-
-    # TODO: add expression (needs to be linear) for the column width error, i.e. ((col_span[i] * col_width - gutter_width) - width[i])
-
-
-    if False:
-        cell_count = add_area_vars(m, elem_ids, col_span, row_span, max_col_count, max_row_count)
-        total_cell_count = cell_count.sum()
-
-        grid_area = add_area_var(m, col_count, row_count, max_col_count, max_row_count)
-
-        gap_count = grid_area - total_cell_count
-    else:
-        gap_count = LinExpr(0)
-
+    gap_count = LinExpr(0)
 
     actual_height = m.addVar(vtype=GRB.INTEGER)
     m.addConstr(actual_height == max_(y1))
@@ -237,30 +152,31 @@ def equal_width_columns(m: Model, elements: List[Element], available_width, avai
         # https://www.gurobi.com/documentation/8.1/refman/xn.html#attr:Xn
         x = offset_x.getValue() + x0[element_id].Xn
         y = offset_y.getValue() + y0[element_id].Xn
-        w = width[element_id].Xn
-        h = height[element_id].Xn
+        width = w[element_id].Xn
+        height = h[element_id].Xn
 
         if True:
             print(
                 'Cols', col_count.Xn,
                 'ColW', col_width.Xn,
-                'ElemW', w, 'ElemH', h,
+                'ElemW', width, 'ElemH', height,
                 'ColSpan', col_span[element_id].Xn,
-                'Error', ((col_span[element_id].Xn * col_width.Xn - gutter_width.Xn ) - w),
+                'Error', ((col_span[element_id].Xn * col_width.Xn - gutter_width.Xn ) - width),
                 'Id', element_id
             )
 
-        return x, y, w, h
+        return x, y, width, height
 
     return get_rel_xywh, width_error, height_error, gap_count
 
 
-def prevent_gaps_in_grid(m: Model, ids: List, start_coord: tupledict, end_coord: tupledict):
+def reduce_gaps_in_grid(m: Model, ids: List, grid_start: tupledict, grid_end: tupledict, coord_start: tupledict, coord_end: tupledict, gutter_width: Var):
     id_pairs = list(permutations(ids, 2))
 
     starts_from_zero = m.addVars(ids, vtype=GRB.BINARY)
     no_gap_on_left = m.addVars(ids, vtype=GRB.BINARY)
-    start_end_diff = m.addVars(id_pairs, vtype=GRB.INTEGER, lb=-GRB.INFINITY)
+    grid_start_end_diff = m.addVars(id_pairs, vtype=GRB.INTEGER, lb=-GRB.INFINITY)
+    coord_start_end_diff = m.addVars(id_pairs, vtype=GRB.INTEGER, lb=-GRB.INFINITY)
     starts_right_after = m.addVars(id_pairs, vtype=GRB.BINARY)
 
     for i in ids:
@@ -268,17 +184,21 @@ def prevent_gaps_in_grid(m: Model, ids: List, start_coord: tupledict, end_coord:
         # or right after another element ends
         m.addConstr(starts_from_zero[i] + no_gap_on_left[i] >= 1)
         # If the element starts from zero, the start coord must equal 0
-        m.addConstr((starts_from_zero[i] == 1) >> (start_coord[i] == 0))
+        m.addConstr((starts_from_zero[i] == 1) >> (grid_start[i] == 0))
         # If this element does not start right after any other, there is a gap
         m.addConstr(no_gap_on_left[i] <= starts_right_after.sum(i, '*'))
 
     for i, j in id_pairs:
-        # Difference between the start coordinate (inclusive) of this element
-        # and the end coordinate (exclusive) of another element
-        m.addConstr(start_end_diff[i, j] == start_coord[i] - end_coord[j])
-        # If the element starts right after another, its start coordinate
-        # must equal the end coordinate of the other
-        m.addConstr((starts_right_after[i, j] == 1) >> (start_end_diff[i, j] == 0))
+        # Difference between the start row/column (inclusive) of this element
+        # and the end row/column (exclusive) of another element
+        m.addConstr(grid_start_end_diff[i, j] == grid_start[i] - grid_end[j])
+        # Difference in coordinate units
+        m.addConstr(coord_start_end_diff[i, j] == coord_start[i] - coord_end[j])
+        # If the element starts right after another, its start row/column
+        # must equal the end row/column of the other
+        m.addConstr((starts_right_after[i, j] == 1) >> (grid_start_end_diff[i, j] == 0))
+        # and the coordinate unit difference must match the gutter
+        m.addConstr((starts_right_after[i, j] == 1) >> (coord_start_end_diff[i, j] == gutter_width))
 
 
 
@@ -433,3 +353,10 @@ def compute_minimum_grid(n: int) -> int:
         else:
             result = (4 * min_grid_width) + (2 * extra_columns) + 2
     return result
+
+
+def less_than(m: Model, v1: Var, v2: Var):
+    lt = m.addVar(vtype=GRB.BINARY)
+    m.addConstr((lt == 1) >> (v1 <= v2 - 1))
+    m.addConstr((lt == 0) >> (v1 >= v2))
+    return lt

@@ -6,7 +6,7 @@ from functools import reduce
 from itertools import permutations, product
 from typing import List
 
-from gurobipy import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
+from gurobi import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError
 
 
 from .classes import Layout, Element, Edge
@@ -17,7 +17,6 @@ from .grid2 import equal_width_columns
 
 BBox = namedtuple('BBox', 'x y w h')
 Padding = namedtuple('Padding', 'top right bottom left')
-
 
 
 def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solutions: int=5):
@@ -181,27 +180,39 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
         # (maybe) add objective for group alignment, priority from hierarchy depth
     '''
 
-    for group_idx, (group_id, elements) in enumerate(groups.items()):
+    layout_quality_obj_index = 10
 
-        if group_id in layout.element_dict:
-            group_element = layout.element_dict[group_id]
-        else:
-            group_element = None
-
-        if group_element is not None and group_element.element_type == 'component' and 'Card' in group_element.component_name:
-            m.addConstr(group_padding_top[group_id] == 10)
-            m.addConstr(group_padding_bottom[group_id] == 4)
-            m.addConstr(group_padding_left[group_id] == 4)
-            m.addConstr(group_padding_right[group_id] == 4)
-        else:
-            m.addConstr(group_padding_top[group_id] == gutter_width)
-            m.addConstr(group_padding_bottom[group_id] == gutter_width)
-            m.addConstr(group_padding_left[group_id] == gutter_width)
-            m.addConstr(group_padding_right[group_id] == gutter_width)
+    for container_id, elements in groups.items():
+        layout_quality_obj_index += 1
 
         layout_quality = LinExpr()
         width_error_sum = LinExpr()
         height_error_sum = LinExpr()
+
+        if container_id in layout.element_dict:
+            container = layout.element_dict[container_id]
+            group_priority = layout.depth - layout.element_dict[container_id].get_ancestor_count()
+        else:
+            container = None
+            group_priority = layout.depth
+
+        # TODO: test which one is better, hard or soft constraint
+        m.setObjectiveN(layout_quality, index=layout_quality_obj_index, priority=group_priority, weight=1)
+
+        # Optimize for grid fitness within available space
+        m.setObjectiveN(width_error_sum, index=7, priority=group_priority, weight=1, name='MinimizeWidthError')
+        m.setObjectiveN(height_error_sum, index=8, priority=group_priority, weight=.5, name='MinimizeWidthError')
+
+        if container is not None and container.element_type == 'component' and 'Card' in container.component_name:
+            m.addConstr(group_padding_top[container_id] == 10)
+            m.addConstr(group_padding_bottom[container_id] == 4)
+            m.addConstr(group_padding_left[container_id] == 4)
+            m.addConstr(group_padding_right[container_id] == 4)
+        else:
+            m.addConstr(group_padding_top[container_id] == gutter_width)
+            m.addConstr(group_padding_bottom[container_id] == gutter_width)
+            m.addConstr(group_padding_left[container_id] == gutter_width)
+            m.addConstr(group_padding_right[container_id] == gutter_width)
 
         edge_elements = []
         content_elements = []
@@ -216,7 +227,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             # TODO compute space required for the edge elements and constrain the content width/height accordingly
 
             get_rel_xywh, edge_top_height, edge_right_width, edge_bottom_height, edge_left_width \
-                = align_edge_elements(m, edge_elements, group_full_width[group_id], group_full_height[group_id], elem_width, elem_height)
+                = align_edge_elements(m, edge_elements, group_full_width[container_id], group_full_height[container_id], elem_width, elem_height)
 
             for element in edge_elements:
                 get_rel_coord[element.id] = get_rel_xywh
@@ -226,29 +237,19 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
             edge_bottom_height = LinExpr(0)
             edge_left_width = LinExpr(0)
 
-        m.addConstr(group_edge_width[group_id] == edge_left_width + edge_right_width)
-        m.addConstr(group_edge_height[group_id] == edge_top_height + edge_bottom_height)
-
+        m.addConstr(group_edge_width[container_id] == edge_left_width + edge_right_width)
+        m.addConstr(group_edge_height[container_id] == edge_top_height + edge_bottom_height)
 
         if len(content_elements) > 0:
-            enable_grid = layout.enable_grid if group_id is layout.id else layout.element_dict[group_id].enable_grid
+            enable_grid = layout.enable_grid if container_id is layout.id else layout.element_dict[container_id].enable_grid
 
             # TODO align other elements within the content area
             if enable_grid:
 
-
-                if False:
-                    get_rel_xywh, width_error, height_error, layout_quality\
-                        = build_grid(m, content_elements, group_content_width[group_id], group_content_height[group_id],
-                                     elem_width, elem_height, gutter_width, edge_left_width, edge_top_height)
-
-                else:
-                    offset_x = edge_left_width + group_padding_left[group_id]
-                    offset_y = edge_top_height + group_padding_top[group_id]
-                    get_rel_xywh, width_error, height_error, layout_quality\
-                        = equal_width_columns(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height, gutter_width, offset_x, offset_y)
-
-
+                offset_x = edge_left_width + group_padding_left[container_id]
+                offset_y = edge_top_height + group_padding_top[container_id]
+                get_rel_xywh, width_error, height_error, layout_quality\
+                    = equal_width_columns(m, content_elements, group_content_width[container_id], group_content_height[container_id], elem_width, elem_height, gutter_width, offset_x, offset_y)
 
                 # TODO: add penalty if error is an odd number (i.e. prefer symmetry)
                 width_error_sum.add(width_error)
@@ -256,7 +257,7 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             else:
                 get_rel_xywh, layout_quality \
-                    = improve_alignment(m, content_elements, group_content_width[group_id], group_content_height[group_id], elem_width, elem_height)
+                    = improve_alignment(m, content_elements, group_content_width[container_id], group_content_height[container_id], elem_width, elem_height)
 
             # TODO alignment function should take in:
             # TODO gutter/min.margin
@@ -265,26 +266,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
 
             for element in content_elements:
                 get_rel_coord[element.id] = get_rel_xywh
-
-
-
-        if group_id in layout.element_dict:
-            group_priority = layout.depth - layout.element_dict[group_id].get_ancestor_count()
-        else:
-            group_priority = layout.depth
-
-        # TODO: test which one is better, hard or soft constraint
-        m.setObjectiveN(layout_quality, index=10+group_idx, priority=group_priority, weight=1)
-
-
-        # Optimize for grid fitness within available space
-        m.setObjectiveN(width_error_sum, index=7, priority=group_priority, weight=1, name='MinimizeWidthError')
-        m.setObjectiveN(height_error_sum, index=8, priority=group_priority, weight=.5, name='MinimizeWidthError')
-
-
-
-
-
 
     # Element scaling
 
@@ -298,10 +279,6 @@ def solve(layout: Layout, base_unit: int=8, time_out: int=30, number_of_solution
     # Minimize total downscaling
     m.setObjectiveN(width_loss, index=3, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
     m.setObjectiveN(height_loss, index=4, priority=layout.depth+1, weight=1, name='MinimizeElementWidthLoss')
-
-    # Minimize the maximum downscaling
-    #m.setObjectiveN(max_width_loss, index=5, priority=5, weight=1, name='MinimizeMaxElementWidthLoss')
-    #m.setObjectiveN(max_height_loss, index=6, priority=5, weight=1, name='MinimizeMaxElementHeightLoss')
 
     try:
         m.Params.ModelSense = GRB.MINIMIZE

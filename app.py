@@ -5,7 +5,7 @@ from flask import Flask, abort, jsonify, render_template, request, Response
 from layout_engine import ElementaryPlacement
 from tools import JSONLoader
 
-from optimizer import classes, layout_difference, layout_quality, guidelines
+from optimizer import classes, layout_difference, layout_quality, guidelines, model
 
 app = Flask(__name__)
 
@@ -51,7 +51,10 @@ def optimize_layout() -> Response:
     # Testing code
     #guidelines.solve(layout)
     print('starting solve')
-    result = guidelines.solve(layout, number_of_solutions=number_of_solutions, time_out=time_out)
+    if True:
+        result = guidelines.solve(layout, number_of_solutions=number_of_solutions, time_out=time_out)
+    else:
+        result = model.solve(request_props['layout'], time_out=time_out)
 
     return jsonify(result)
 

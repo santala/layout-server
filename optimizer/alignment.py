@@ -63,7 +63,6 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
     m.addConstrs((y0_less_than[i1, i2] == r0_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
     m.addConstrs((y1_less_than[i1, i2] == r1_less_than[i1, i2] for i1, i2 in permutations(elem_ids, 2)))
 
-
     max_c0 = m.addVar(lb=0, ub=elem_count, vtype=GRB.INTEGER, name='X0GroupCount')
     max_r0 = m.addVar(lb=0, ub=elem_count, vtype=GRB.INTEGER, name='Y0GroupCount')
     max_c1 = m.addVar(lb=0, ub=elem_count, vtype=GRB.INTEGER, name='X1GroupCount')
@@ -73,7 +72,6 @@ def improve_alignment(m: Model, elements: List[Element], available_width, availa
     m.addConstr(max_c1 == max_(c1))
     m.addConstr(max_r1 == max_(r1))
 
-    
     total_group_count = 4 + max_c0 + max_r0 + max_c1 + max_r1
     #m.addConstr(total_group_count >= compute_minimum_grid(elem_count)) # Prevent over-optimization
     # TODO: minimum grid computation should probably take into account preservation of relationships,

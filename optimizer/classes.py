@@ -2,12 +2,14 @@ from enum import Enum
 from math import sqrt
 from operator import attrgetter
 
+
 class Edge(Enum):
     NONE = None
     TOP = 'top'
     RIGHT = 'right'
     BOTTOM = 'bottom'
     LEFT = 'left'
+
 
 class Layout:
     def __init__(self, props: dict):
