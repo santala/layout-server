@@ -3,8 +3,8 @@ import math
 from collections import namedtuple
 from enum import Enum
 from functools import lru_cache
-from typing import Dict, List, Optional, Union
-from itertools import permutations, product
+from typing import Dict, List, Optional, Union, Tuple
+from itertools import combinations, permutations, product
 from gurobi import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError, Var
 
 
@@ -20,6 +20,20 @@ class Alignment(Enum):
     CHROME_LEFT = 'ChromeLeft'
 
 
+class Cardinal(Enum):
+    N = 'N'
+    E = 'E'
+    S = 'S'
+    W = 'W'
+
+
+class Intercardinal(Enum):
+    NE = 'NE'
+    SE = 'SE'
+    SW = 'SW'
+    NW = 'NW'
+
+
 class LayoutProps:
     def __init__(self, props: dict):
         self.id = str(props.get('id'))
@@ -30,6 +44,7 @@ class LayoutProps:
 class ElementProps:
     def __init__(self, props: dict):
         self.id = str(props.get('id'))
+        self.name = str(props.get('name'))
         self.element_type = props.get('type', None)
         self.component_name = props.get('componentName', '?')
         self.x0 = float(props.get('x', 0))
@@ -38,14 +53,15 @@ class ElementProps:
         self.h = float(props.get('height', 0))
         self.x1 = self.x0 + self.w
         self.y1 = self.y0 + self.h
-
+        self.fixed_width = bool(props.get('fixedWidth', False))
+        self.fixed_height = 'Stripe' in self.component_name or 'Main Menu' in self.component_name
         print(self.component_name)
 
 
 class Layout:
     def __init__(self, m: Model, props: LayoutProps, fixed_width: bool = True, fixed_height: bool = True):
         self.m = m
-        self.initial = props
+        self.initial: LayoutProps = props
 
         self.w = m.addVar(lb=1, vtype=GRB.CONTINUOUS)
         self.h = m.addVar(lb=1, vtype=GRB.CONTINUOUS)
@@ -54,7 +70,7 @@ class Layout:
 class Element:
     def __init__(self, m: Model, props: ElementProps):
         self.m = m
-        self.initial = props
+        self.initial: ElementProps = props
 
         # Variables
 
@@ -123,6 +139,69 @@ class Element:
         return self.initial.y1 <= other.initial.y0
 
     @lru_cache(maxsize=None)
+    def overlaps_horizontally_with(self, other: 'Element') -> bool:
+        return not self.is_left_of(other) and not other.is_left_of(self)
+
+    @lru_cache(maxsize=None)
+    def overlaps_vertically_with(self, other: 'Element') -> bool:
+        return not self.is_above(other) and not other.is_above(self)
+
+    @lru_cache(maxsize=None)
+    def overlaps_with(self, other: 'Element') -> bool:
+        return self.overlaps_horizontally_with(other) and self.overlaps_vertically_with(other)
+
+    @lru_cache(maxsize=None)
+    def distance_to(self, other: 'Element') -> float:
+        # Returns negative distance if the elements overlap each other
+
+        horizontal_dist = max(self.initial.x0, other.initial.x0) - min(self.initial.x1, other.initial.x1)
+        vertical_dist = max(self.initial.y0, other.initial.y0) - min(self.initial.y1, other.initial.y1)
+
+        if horizontal_dist < 0 and vertical_dist < 0:
+            # Overlap, return the value closer to zero
+            return max(horizontal_dist, vertical_dist)
+        elif horizontal_dist < 0:
+            return vertical_dist
+        elif vertical_dist < 0:
+            return horizontal_dist
+        else:
+            return math.sqrt(horizontal_dist**2 + vertical_dist**2)
+
+    @lru_cache(maxsize=None)
+    def direction_to(self, other: 'Element') -> Union[Cardinal, Intercardinal, None]:
+        if other.overlaps_with(self):
+            return None
+        elif other.overlaps_vertically_with(self):
+            return Cardinal.W if other.is_left_of(self) else Cardinal.E
+        elif other.overlaps_horizontally_with(other):
+            return Cardinal.N if other.is_above(self) else Cardinal.S
+        elif other.is_above(self):
+            return Intercardinal.NW if other.is_left_of(self) else Intercardinal.NE
+        else:
+            return Intercardinal.SW if other.is_left_of(self) else Intercardinal.SE
+
+    @lru_cache(maxsize=None)
+    def is_neighbor_of(self, other: 'Element') -> bool:
+        dir_to_other = self.direction_to(other)
+        if dir_to_other is None:
+            return False
+        dist_to_other = self.distance_to(other)
+
+        for third in [e for e in self.m._elements if e not in [self, other]]:
+            dir_to_third = self.direction_to(third)
+            if dir_to_third != dir_to_other:
+                continue
+            dist_to_third = self.distance_to(third)
+            if 0 <= dist_to_third < dist_to_other:
+                return False
+
+        return True
+
+    @lru_cache(maxsize=None)
+    def neighbors(self):
+        return [e for e in self.m._elements if e is not self and e.is_neighbor_of(self)]
+
+    @lru_cache(maxsize=None)
     def is_content(self) -> bool:
         return self.parent() is not None
 
@@ -163,18 +242,23 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     # Fix layout size
     m.addConstr(layout.w == layout.initial.w)
-    m.addConstr(layout.h == layout.initial.h)
+    if False:
+        m.addConstr(layout.h == layout.initial.h)
 
     # Layout Parameters
     column_count = 24
     grid_margin = 16
     grid_gutter = 8
     baseline_height = 8
+    tolerance = 8
 
     # TODO: Match distances to neighbors
+    # TODO: Grid gaps
     # TODO: Match the internal layout of identical groups
     # TODO: Consider supporting reflow and resolution changes
     # TODO: Consider supporting locking aspect ratio
+
+    apply_component_specific_constraints(m, elements)
 
     chrome_elements = [element for element in elements if element.is_chrome()]
     horizontal_chrome_elements = [
@@ -193,10 +277,16 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     maintain_relationships(m, top_level_elements)
     maintain_alignment(m, top_level_elements)
-    maintain_matching_dimensions(m, top_level_elements)
+    maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
+    #maintain_matching_dimensions(m, top_level_elements, tolerance)
+    maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
+    #keep_neighbors_together(m, top_level_elements, grid_gutter)
+    #snap_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
     apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
+    make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
     apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
+    #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
 
     for top_level_element in top_level_elements:
 
@@ -205,9 +295,13 @@ def solve(layout_dict: dict, time_out: int = 30):
         bind_to_edges_of(m, top_level_element, children)
         maintain_relationships(m, children)
         maintain_alignment(m, children)
-        maintain_matching_dimensions(m, children)
+        maintain_matching_neighbor_dimensions(m, children, tolerance)
+        #maintain_matching_dimensions(m, children, tolerance)
+        maintain_matching_neighbor_distances(m, children, tolerance)
+        #keep_neighbors_together(m, children, grid_gutter)
+        #snap_distances(m, children)
 
-    apply_vertical_baseline(m, content_elements, 8)
+    apply_vertical_baseline(m, content_elements, baseline_height)
 
     size_loss = get_size_loss(m, elements)
 
@@ -333,6 +427,60 @@ def maintain_matching_dimensions(m: Model, elements: List[Element], tolerance: f
             m.addConstr(element.h == other.h)
 
 
+def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tolerance: float = 8):
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            if abs(element.initial.w - other.initial.w) <= tolerance:
+                m.addConstr(element.w == other.w)
+            if abs(element.initial.h - other.initial.h) <= tolerance:
+                m.addConstr(element.h == other.h)
+
+
+def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8):
+    for element in elements:
+        for other, third in combinations([e for e in elements if e is not element], 2):
+            if element.is_neighbor_of(other) and element.is_neighbor_of(third):
+                dist_to_other = element.distance_to(other)
+                dist_to_third = element.distance_to(third)
+                if abs(dist_to_other - dist_to_third) <= tolerance:
+                    m.addConstr(get_distance_var(m, element, other) == get_distance_var(m, element, third))
+
+
+def keep_neighbors_together(m: Model, elements: List[Element], distance):
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            m.addConstr(get_distance_var(m, element, other) == distance)
+
+
+def snap_distances(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            distance = element.distance_to(other)
+            distance_var = get_distance_var(m, element, other)
+            if 0 <= distance <= (close + far) / 2:
+                m.addConstr(distance_var == close)
+            elif (close + far) / 2 < distance <= far + (close + far) / 2:
+                m.addConstr(distance_var == far)
+
+
+def get_distance_var(m: Model, element: Element, other: Element):
+    distance_var = m.addVar(vtype=GRB.CONTINUOUS)
+    direction = element.direction_to(other)
+
+    if direction == Cardinal.W:
+        m.addConstr(distance_var == element.x0 - other.x1)
+    elif direction == Cardinal.E:
+        m.addConstr(distance_var == other.x0 - element.x1)
+    elif direction == Cardinal.N:
+        m.addConstr(distance_var == element.y0 - other.y1)
+    elif direction == Cardinal.S:
+        m.addConstr(distance_var == other.y0 - element.y1)
+    else:
+        pass # Distance is undefined for intercardinal directions
+
+    return distance_var
+
+
 def get_size_loss(m: Model, elements: List[Element]):
     max_initial_width = max([element.initial.w for element in elements])
     max_initial_height = max([element.initial.h for element in elements])
@@ -377,8 +525,33 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
             col_x1 = LinExpr(grid_x0 + margin + (col_index + 1) * (col_width + gutter) - gutter)
             m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
 
+        # There are no other elements before this one, this element should start in the first column
+        others_before = [other for other in elements if other.is_left_of(element)]
+        if len(others_before) == 0:
+            m.addConstr(col_start_flags[0] == 1)
+
+
     m.addConstr(starting_in_first_col >= 1)
     m.addConstr(ending_in_last_col >= 1)
+
+
+def make_edges_even(m: Model, elements: List[Element], bbox: BoundingBox):
+    for element in elements:
+        others_on_left = [other for other in elements if other.is_left_of(element)]
+        if len(others_on_left) == 0:
+            m.addConstr(element.x0 == bbox.x0)
+
+        others_above = [other for other in elements if other.is_above(element)]
+        if len(others_above) == 0:
+            m.addConstr(element.y0 == bbox.y0)
+
+        others_on_right = [other for other in elements if element.is_left_of(other)]
+        if len(others_on_right) == 0:
+            m.addConstr(element.x1 == bbox.x1)
+
+        others_below = [other for other in elements if element.is_above(other)]
+        if len(others_below) == 0:
+            m.addConstr(element.y1 == bbox.y1)
 
 
 def apply_vertical_baseline(m: Model, elements: List[Element], baseline_height: int):
@@ -408,9 +581,6 @@ def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
     last_on_right = None
 
     for element in sorted_chrome_elements:
-        print(element.get_margin())
-        print(element.get_alignment())
-        print(last_above, last_below, last_on_left, last_on_right)
         if element.get_alignment() is not Alignment.CHROME_RIGHT:
             if last_on_left is None:
                 m.addConstr(element.x0 == element.get_margin().left)
@@ -470,3 +640,11 @@ def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
         m.addConstr(content_y1 == last_below.y0 - last_above.get_margin().top)
 
     return BoundingBox(content_x0, content_y0, content_x1, content_y1)
+
+
+def apply_component_specific_constraints(m: Model, elements: List[Element]):
+    for element in elements:
+        if element.initial.fixed_width:
+            m.addConstr(element.w == element.initial.w)
+        if element.initial.fixed_height:
+            m.addConstr(element.h == element.initial.h)
