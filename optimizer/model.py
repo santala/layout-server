@@ -256,7 +256,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     grid_margin = 16
     grid_gutter = 8
     baseline_height = 8
-    tolerance = 0
+    tolerance = 8
 
     # TODO: Match distances to neighbors
     # TODO: Grid gaps
@@ -442,14 +442,15 @@ def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tol
                 m.addConstr(element.h == other.h)
 
 
-def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8):
+def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8, close: float = 8, far: float = 32):
     for element in elements:
         for other, third in combinations([e for e in elements if e is not element], 2):
             if element.is_neighbor_of(other) and element.is_neighbor_of(third):
                 dist_to_other = element.distance_to(other)
                 dist_to_third = element.distance_to(third)
                 if abs(dist_to_other - dist_to_third) <= tolerance:
-                    m.addConstr(get_distance_var(m, element, other) == get_distance_var(m, element, third))
+                    dist_to_other_var = get_distance_var(m, element, other)
+                    m.addConstr(dist_to_other_var == get_distance_var(m, element, third))
 
 
 def keep_neighbors_together(m: Model, elements: List[Element], distance):
