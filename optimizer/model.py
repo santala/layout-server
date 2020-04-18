@@ -240,6 +240,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     m.Params.MIPFocus = 1
     m.Params.ModelSense = GRB.MINIMIZE
     m.Params.Presolve = -1  # -1=auto, 0=off, 1=conservative, 2=aggressive
+    m.Params.PoolSearchMode = 0
 
     layout = Layout(m, LayoutProps(layout_dict))
     m._layout = layout
@@ -317,7 +318,9 @@ def solve(layout_dict: dict, time_out: int = 30):
     size_loss = get_size_loss(m, elements)
 
     # Minimize downscaling of elements
-    m.setObjective(alignment + size_loss)
+    #m.setObjective(alignment + size_loss)
+    m.setObjectiveN(alignment, 0, priority=1, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(size_loss, 1, priority=10, weight=1, abstol=0, reltol=0)
 
     try:
         m.optimize()
