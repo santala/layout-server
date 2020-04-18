@@ -1,9 +1,23 @@
 import sys
 import math
+from collections import namedtuple
+from enum import Enum
 from functools import lru_cache
-from typing import Dict, List
+from typing import Dict, List, Optional, Union
 from itertools import permutations, product
 from gurobi import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError, Var
+
+
+Margin = namedtuple('Margin', 'top right bottom left')
+Padding = namedtuple('Margin', 'top right bottom left')
+BoundingBox = namedtuple('BBox', 'x0 y0 x1 y1')
+
+
+class Alignment(Enum):
+    CHROME_TOP = 'ChromeTop'
+    CHROME_RIGHT = 'ChromeRight'
+    CHROME_BOTTOM = 'ChromeBottom'
+    CHROME_LEFT = 'ChromeLeft'
 
 
 class LayoutProps:
@@ -55,33 +69,61 @@ class Element:
         m.addConstr(self.y1 - self.y0 == self.h)
 
     @lru_cache(maxsize=None)
-    def is_chrome(self):
+    def is_chrome(self) -> bool:
         for name in ["Left pane", "Menu Bar", "Stripe"]:
             if name in self.initial.component_name:
                 return True
         return False
 
     @lru_cache(maxsize=None)
-    def is_left_of(self, other):
+    def get_alignment(self) -> Optional[Alignment]:
+        for name, alignment in {
+            'Stripe': Alignment.CHROME_TOP,
+            'Menu Bar': Alignment.CHROME_TOP,
+            'Left pane': Alignment.CHROME_LEFT,
+            'Footer': Alignment.CHROME_BOTTOM,
+        }.items():
+            if name in self.initial.component_name:
+                return alignment
+        return None
+
+    @lru_cache(maxsize=None)
+    def get_priority(self) -> int:
+        for name, priority in {
+            'Stripe': 1,
+            'Menu Bar': 2,
+            'Left pane': 3,
+            'Footer': 4,
+        }.items():
+            if name in self.initial.component_name:
+                return priority
+        return 999
+
+    @lru_cache(maxsize=None)
+    def get_margin(self, other: Optional['Element'] = None) -> Margin:
+        return Margin(0, 0, 0, 0)
+
+    @lru_cache(maxsize=None)
+    def get_padding(self, other: Optional['Element'] = None) -> Padding:
+        if "Card" in self.initial.component_name:
+            return Padding(80, 32, 32, 32)
+        else:
+            return Padding(32, 32, 32, 32)
+
+    @lru_cache(maxsize=None)
+    def is_left_of(self, other: 'Element') -> bool:
         return self.initial.x1 <= other.initial.x0
 
     @lru_cache(maxsize=None)
-    def is_above(self, other):
+    def is_above(self, other: 'Element') -> bool:
         return self.initial.y1 <= other.initial.y0
 
     @lru_cache(maxsize=None)
-    def is_content(self):
+    def is_content(self) -> bool:
         return self.parent() is not None
 
     @lru_cache(maxsize=None)
-    def get_padding(self, other):
-        if "Card" in self.initial.component_name:
-            return [80, 32, 32, 32]
-        else:
-            return [32] * 4
-
-    @lru_cache(maxsize=None)
-    def parent(self):
+    def parent(self) -> Optional['Element']:
         potential_parents = [other for other in self.m._elements if other is not self and self.is_within(other)]
         if len(potential_parents) == 0:
             return None
@@ -90,11 +132,11 @@ class Element:
             return min(potential_parents, key=lambda e: e.initial.w * e.initial.h)
 
     @lru_cache(maxsize=None)
-    def children(self):
+    def children(self) -> List['Element']:
         return [other for other in self.m._elements if other.parent() == self]
 
     @lru_cache(maxsize=None)
-    def is_within(self, other):
+    def is_within(self, other: 'Element'):
         return self.initial.x0 > other.initial.x0 and self.initial.y0 > other.initial.y0 \
                and self.initial.x1 < other.initial.x1 and self.initial.y1 < other.initial.y1
 
@@ -119,26 +161,46 @@ def solve(layout_dict: dict, time_out: int = 30):
     m.addConstr(layout.w == layout.initial.w)
     m.addConstr(layout.h == layout.initial.h)
 
+    # Layout Parameters
+    column_count = 24
+    grid_margin = 16
+    grid_gutter = 8
+    baseline_height = 8
+
     # Match the internal layout of identical groups
     #
 
     chrome_elements = [element for element in elements if element.is_chrome()]
-    top_level_elements = [element for element in elements if element.parent() is None]
-    content_elements = [element for element in elements if element.parent() is not None]
+    horizontal_chrome_elements = [
+        element for element in chrome_elements
+        if element.get_alignment() in [Alignment.CHROME_BOTTOM, Alignment.CHROME_BOTTOM]
+    ]
+    top_level_elements = [element for element in elements if element.parent() is None and not element.is_chrome()]
+    content_elements = [element for element in elements if element.parent() is not None and not element.is_chrome()]
 
-    apply_vertical_baseline(m, elements, 8)
+    if len(chrome_elements) > 0:
+        content_area = align_chrome(m, chrome_elements)
+    else:
+        content_area = BoundingBox(0, 0, layout.w, layout.h)
+
+    apply_vertical_baseline(m, horizontal_chrome_elements, baseline_height)
 
     maintain_relationships(m, top_level_elements)
     maintain_alignment(m, top_level_elements)
-    maintain_equal_dimensions(m, top_level_elements)
-    apply_horizontal_grid(m, top_level_elements, 0, layout.w, 24, 16, 8)
+    maintain_matching_dimensions(m, top_level_elements)
+    apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
+    apply_vertical_baseline(m, top_level_elements, baseline_height)
+    contain_within(m, add_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
 
     for top_level_element in top_level_elements:
+
         children = top_level_element.children()
         contain_within(m, top_level_element, children)
         maintain_relationships(m, children)
         maintain_alignment(m, children)
-        maintain_equal_dimensions(m, children)
+        maintain_matching_dimensions(m, children)
+
+    apply_vertical_baseline(m, content_elements, 8)
 
     size_loss = get_size_loss(m, elements)
 
@@ -196,13 +258,16 @@ def solve(layout_dict: dict, time_out: int = 30):
         raise e
 
 
-def contain_within(m: Model, container: Element, elements: List[Element], padding: float = 0):
+def contain_within(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
     for element in elements:
-        p_top, p_right, p_bottom, p_left = container.get_padding(element)
-        m.addConstr(element.x0 >= container.x0 + p_left)
-        m.addConstr(element.y0 >= container.y0 + p_top)
-        m.addConstr(element.x1 <= container.x1 - p_right)
-        m.addConstr(element.y1 <= container.y1 - p_bottom)
+        if isinstance(container, Element):
+            padding = container.get_padding(element)
+        else:
+            padding = Padding(0, 0, 0, 0)
+        m.addConstr(element.x0 >= container.x0 + padding.left)
+        m.addConstr(element.y0 >= container.y0 + padding.top)
+        m.addConstr(element.x1 <= container.x1 - padding.right)
+        m.addConstr(element.y1 <= container.y1 - padding.bottom)
 
 
 def maintain_relationships(m: Model, elements: List[Element]):
@@ -225,7 +290,7 @@ def maintain_alignment(m: Model, elements: List[Element]):
             m.addConstr(element.y1 == other.y1)
 
 
-def maintain_equal_dimensions(m: Model, elements: List[Element]):
+def maintain_matching_dimensions(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
         if element.initial.w == other.initial.w:
             m.addConstr(element.w == other.w)
@@ -252,11 +317,11 @@ def get_size_loss(m: Model, elements: List[Element]):
     return size_loss
 
 
-def apply_horizontal_grid(m: Model, elements: List[Element], offset: Var, grid_width: Var, col_count: int, margin: float, gutter: float):
+def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, col_count: int, margin: float, gutter: float):
 
     gutter_count = col_count - 1
     col_width = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(grid_width == 2 * margin + col_count * col_width + gutter_count * gutter)
+    m.addConstr(grid_x1 == grid_x0 + 2 * margin + col_count * col_width + gutter_count * gutter)
 
     # Ensure that the whole grid is used
     starting_in_first_col = LinExpr(0)
@@ -273,9 +338,9 @@ def apply_horizontal_grid(m: Model, elements: List[Element], offset: Var, grid_w
         ending_in_last_col.add(col_end_flags[col_count - 1])
 
         for col_index in range(col_count):
-            col_x0 = LinExpr(offset + margin + col_index * (col_width + gutter))
+            col_x0 = LinExpr(grid_x0 + margin + col_index * (col_width + gutter))
             m.addConstr(col_start_flags[col_index] * element.x0 == col_start_flags[col_index] * col_x0)
-            col_x1 = LinExpr(offset + margin + (col_index + 1) * (col_width + gutter) - gutter)
+            col_x1 = LinExpr(grid_x0 + margin + (col_index + 1) * (col_width + gutter) - gutter)
             m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
 
     m.addConstr(starting_in_first_col >= 1)
@@ -289,3 +354,86 @@ def apply_vertical_baseline(m: Model, elements: List[Element], baseline_height: 
         end_line = m.addVar(vtype=GRB.INTEGER)
         m.addConstr(baseline_height * start_line == element.y0)
         m.addConstr(baseline_height * end_line == element.y1)
+
+
+def add_padding(bbox: BoundingBox, padding: Padding):
+    return BoundingBox(
+        bbox.x0 + padding.left,
+        bbox.y0 + padding.top,
+        bbox.x1 - padding.right,
+        bbox.y1 - padding.bottom,
+    )
+
+
+def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
+    layout = m._layout
+    sorted_chrome_elements = sorted(chrome_elements, key=lambda e: e.get_priority())
+
+    last_above = None
+    last_on_left = None
+    last_below = None
+    last_on_right = None
+
+    for element in sorted_chrome_elements:
+        print(element.get_margin())
+        print(element.get_alignment())
+        print(last_above, last_below, last_on_left, last_on_right)
+        if element.get_alignment() is not Alignment.CHROME_RIGHT:
+            if last_on_left is None:
+                m.addConstr(element.x0 == element.get_margin().left)
+            else:
+                m.addConstr(element.x0 == last_on_left.x1 + element.get_margin(last_on_left).left)
+
+        if element.get_alignment() is not Alignment.CHROME_BOTTOM:
+            if last_above is None:
+                m.addConstr(element.y0 == element.get_margin().top)
+            else:
+                m.addConstr(element.y0 == last_above.y1 + element.get_margin(last_above).top)
+
+        if element.get_alignment() is not Alignment.CHROME_LEFT:
+            if last_on_left is None:
+                m.addConstr(element.x1 == layout.w - element.get_margin().left)
+            else:
+                m.addConstr(element.x1 == last_on_left.x0 - element.get_margin(last_on_right).left)
+
+        if element.get_alignment() is not Alignment.CHROME_TOP:
+            if last_below is None:
+                m.addConstr(element.y1 == layout.h - element.get_margin().bottom)
+            else:
+                m.addConstr(element.y1 == last_above.y0 - element.get_margin(last_below).bottom)
+
+        if element.get_alignment() is Alignment.CHROME_LEFT:
+            last_on_left = element
+        if element.get_alignment() is Alignment.CHROME_BOTTOM:
+            last_below = element
+        if element.get_alignment() is Alignment.CHROME_RIGHT:
+            last_on_right = element
+        if element.get_alignment() is Alignment.CHROME_TOP:
+            last_above = element
+
+    content_x0 = m.addVar(vtype=GRB.INTEGER)
+    content_y0 = m.addVar(vtype=GRB.INTEGER)
+    content_x1 = m.addVar(vtype=GRB.INTEGER)
+    content_y1 = m.addVar(vtype=GRB.INTEGER)
+
+    if last_on_left is None:
+        m.addConstr(content_x0 == 0)
+    else:
+        m.addConstr(content_x0 == last_on_left.x1 + last_on_left.get_margin().right)
+
+    if last_above is None:
+        m.addConstr(content_y0 == 0)
+    else:
+        m.addConstr(content_y0 == last_above.y1 + last_above.get_margin().bottom)
+
+    if last_on_right is None:
+        m.addConstr(content_x1 == layout.w)
+    else:
+        m.addConstr(content_x1 == last_on_right.x0 - last_on_left.get_margin().left)
+
+    if last_below is None:
+        m.addConstr(content_y1 == layout.h)
+    else:
+        m.addConstr(content_y1 == last_below.y0 - last_above.get_margin().top)
+
+    return BoundingBox(content_x0, content_y0, content_x1, content_y1)
