@@ -234,7 +234,7 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     m = Model("DesignSystem")
 
-    m.Params.OutputFlag = 0
+    m.Params.OutputFlag = 1
 
     m.Params.TimeLimit = time_out
     m.Params.MIPFocus = 1
@@ -263,6 +263,8 @@ def solve(layout_dict: dict, time_out: int = 30):
     # TODO: Match the internal layout of identical groups
     # TODO: Consider supporting reflow and resolution changes
     # TODO: Consider supporting locking aspect ratio
+
+    alignment = LinExpr()
 
     apply_component_specific_constraints(m, elements)
 
@@ -293,6 +295,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     #apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
+    #alignment.add(improve_alignment(m, top_level_elements))
 
     for top_level_element in top_level_elements:
         children = top_level_element.children()
@@ -307,12 +310,14 @@ def solve(layout_dict: dict, time_out: int = 30):
         #keep_neighbors_together(m, children, grid_gutter)
         #snap_distances(m, children)
 
+        alignment.add(improve_alignment(m, children))
+
     apply_vertical_baseline(m, content_elements, baseline_height)
 
     size_loss = get_size_loss(m, elements)
 
     # Minimize downscaling of elements
-    m.setObjective(size_loss)
+    m.setObjective(alignment + size_loss)
 
     try:
         m.optimize()
@@ -344,6 +349,7 @@ def solve(layout_dict: dict, time_out: int = 30):
 
             try:
                 print('Size loss', size_loss.getValue())
+                print('Alignment', alignment.getValue())
             except:
                 e = sys.exc_info()[0]
                 print(e)
@@ -656,3 +662,65 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
             m.addConstr(element.w == element.initial.w)
         if element.initial.fixed_height:
             m.addConstr(element.h == element.initial.h)
+
+
+def improve_alignment(m: Model, elements: List[Element], weight: float = 1):
+    n = len(elements)
+    max_groups = n
+
+    group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_x1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_y1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+
+    group_x0_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
+    group_y0_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
+    group_x1_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
+    group_y1_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
+
+    element_in_group_x0 = m.addVars(n, max_groups, vtype=GRB.BINARY)
+    element_in_group_y0 = m.addVars(n, max_groups, vtype=GRB.BINARY)
+    element_in_group_x1 = m.addVars(n, max_groups, vtype=GRB.BINARY)
+    element_in_group_y1 = m.addVars(n, max_groups, vtype=GRB.BINARY)
+
+    for i, element in enumerate(elements):
+        # Element can belong to a single group only
+        m.addConstr(element_in_group_x0.sum(i, '*') == 1)
+        m.addConstr(element_in_group_y0.sum(i, '*') == 1)
+        m.addConstr(element_in_group_x1.sum(i, '*') == 1)
+        m.addConstr(element_in_group_y1.sum(i, '*') == 1)
+        for g in range(max_groups):
+            # If an element belongs to a group, the group must be enabled
+            m.addConstr(group_x0_enabled[g] >= element_in_group_x0[i, g])
+            m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
+            m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
+            m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
+            # If element belongs to a group, the group coordinate value must equal the element coordinate value
+            # i.e. if multiple elements belong to a group, they must have the same coordinate value
+            m.addConstr(element_in_group_x0[i, g] * element.x0 == element_in_group_x0[i, g] * group_x0[g])
+            m.addConstr(element_in_group_y0[i, g] * element.y0 == element_in_group_y0[i, g] * group_y0[g])
+            m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
+            m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
+
+    group_count = m.addVar(lb=0, vtype=GRB.INTEGER)
+    m.addConstr(group_count >= group_x0_enabled.sum() + group_y0_enabled.sum() \
+                + group_x1_enabled.sum() + group_y1_enabled.sum())
+    m.addConstr(group_count >= compute_minimum_grid(n))
+
+    return LinExpr(group_count * weight)
+
+
+def compute_minimum_grid(n: int) -> int:
+    min_grid_width = int(math.sqrt(n))
+    elements_in_min_grid = min_grid_width**2
+    extra_elements = n - elements_in_min_grid
+    if extra_elements == 0:
+        result = 4 * min_grid_width
+    else:
+        extra_columns = int(extra_elements / min_grid_width)
+        remainder = (extra_elements - (extra_columns * min_grid_width))
+        if remainder == 0:
+            result = (4 * min_grid_width) + (2 * extra_columns)
+        else:
+            result = (4 * min_grid_width) + (2 * extra_columns) + 2
+    return result
