@@ -51,7 +51,7 @@ def optimize_layout() -> Response:
     # Testing code
     #guidelines.solve(layout)
     print('starting solve')
-    if True:
+    if False:
         result = guidelines.solve(layout, number_of_solutions=number_of_solutions, time_out=time_out)
     else:
         result = model.solve(request_props['layout'], time_out=time_out)
