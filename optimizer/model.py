@@ -54,8 +54,14 @@ class ElementProps:
         self.x1 = self.x0 + self.w
         self.y1 = self.y0 + self.h
         self.fixed_width = bool(props.get('fixedWidth', False))
+
         self.fixed_height = 'Stripe' in self.component_name or 'Main Menu' in self.component_name
-        print(self.component_name)
+
+        if 'Stripe' in self.component_name:
+            self.h = 32
+        if 'Main Menu' in self.component_name:
+            self.h = 48
+
 
 
 class Layout:
@@ -250,7 +256,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     grid_margin = 16
     grid_gutter = 8
     baseline_height = 8
-    tolerance = 8
+    tolerance = 0
 
     # TODO: Match distances to neighbors
     # TODO: Grid gaps
@@ -284,13 +290,13 @@ def solve(layout_dict: dict, time_out: int = 30):
     #snap_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
     apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
     make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
-    apply_vertical_baseline(m, top_level_elements, baseline_height)
+    #apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
 
     for top_level_element in top_level_elements:
-
         children = top_level_element.children()
+
         contain_within(m, top_level_element, children)
         bind_to_edges_of(m, top_level_element, children)
         maintain_relationships(m, children)
@@ -559,7 +565,8 @@ def apply_vertical_baseline(m: Model, elements: List[Element], baseline_height: 
         start_line = m.addVar(vtype=GRB.INTEGER)
         end_line = m.addVar(vtype=GRB.INTEGER)
         m.addConstr(baseline_height * start_line == element.y0)
-        m.addConstr(baseline_height * end_line == element.y1)
+        if not element.initial.fixed_height:
+            m.addConstr(baseline_height * end_line == element.y1)
 
 
 def apply_padding(bbox: BoundingBox, padding: Padding):
