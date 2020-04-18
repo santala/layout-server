@@ -25,6 +25,8 @@ class ElementProps:
         self.x1 = self.x0 + self.w
         self.y1 = self.y0 + self.h
 
+        print(self.component_name)
+
 
 class Layout:
     def __init__(self, m: Model, props: LayoutProps, fixed_width: bool = True, fixed_height: bool = True):
@@ -53,6 +55,13 @@ class Element:
         m.addConstr(self.y1 - self.y0 == self.h)
 
     @lru_cache(maxsize=None)
+    def is_chrome(self):
+        for name in ["Left pane", "Menu Bar", "Stripe"]:
+            if name in self.initial.component_name:
+                return True
+        return False
+
+    @lru_cache(maxsize=None)
     def is_left_of(self, other):
         return self.initial.x1 <= other.initial.x0
 
@@ -65,6 +74,13 @@ class Element:
         return self.parent() is not None
 
     @lru_cache(maxsize=None)
+    def get_padding(self, other):
+        if "Card" in self.initial.component_name:
+            return [80, 32, 32, 32]
+        else:
+            return [32] * 4
+
+    @lru_cache(maxsize=None)
     def parent(self):
         potential_parents = [other for other in self.m._elements if other is not self and self.is_within(other)]
         if len(potential_parents) == 0:
@@ -72,6 +88,10 @@ class Element:
         else:
             # If there are multiple containing elements, pick the one with smallest area
             return min(potential_parents, key=lambda e: e.initial.w * e.initial.h)
+
+    @lru_cache(maxsize=None)
+    def children(self):
+        return [other for other in self.m._elements if other.parent() == self]
 
     @lru_cache(maxsize=None)
     def is_within(self, other):
@@ -83,7 +103,7 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     m = Model("DesignSystem")
 
-    m.Params.OutputFlag = 1
+    m.Params.OutputFlag = 0
 
     m.Params.TimeLimit = time_out
     m.Params.MIPFocus = 1
@@ -102,17 +122,23 @@ def solve(layout_dict: dict, time_out: int = 30):
     # Match the internal layout of identical groups
     #
 
-    for element, other in permutations(elements, 2):
-        if element.is_content() and element.parent() == other.parent():
-            # Maintain relationships
-            if element.is_left_of(other):
-                m.addConstr(element.x1 <= other.x0)
-            if element.is_above(other):
-                m.addConstr(element.y1 <= other.y0)
+    chrome_elements = [element for element in elements if element.is_chrome()]
+    top_level_elements = [element for element in elements if element.parent() is None]
+    content_elements = [element for element in elements if element.parent() is not None]
 
-    maintain_relationships(m, elements)
-    apply_horizontal_grid(m, elements, 0, layout.w, 24, 16, 8)
     apply_vertical_baseline(m, elements, 8)
+
+    maintain_relationships(m, top_level_elements)
+    maintain_alignment(m, top_level_elements)
+    maintain_equal_dimensions(m, top_level_elements)
+    apply_horizontal_grid(m, top_level_elements, 0, layout.w, 24, 16, 8)
+
+    for top_level_element in top_level_elements:
+        children = top_level_element.children()
+        contain_within(m, top_level_element, children)
+        maintain_relationships(m, children)
+        maintain_alignment(m, children)
+        maintain_equal_dimensions(m, children)
 
     size_loss = get_size_loss(m, elements)
 
@@ -131,13 +157,13 @@ def solve(layout_dict: dict, time_out: int = 30):
 
                 element_props = []
 
-                for element in elements:
+                for top_level_element in elements:
                     element_props.append({
-                        'id': element.initial.id,
-                        'x': element.x0.X,
-                        'y': element.y0.X,
-                        'width': element.w.X,
-                        'height': element.h.X,
+                        'id': top_level_element.initial.id,
+                        'x': top_level_element.x0.X,
+                        'y': top_level_element.y0.X,
+                        'width': top_level_element.w.X,
+                        'height': top_level_element.h.X,
                     })
 
                 layouts.append({
@@ -170,12 +196,41 @@ def solve(layout_dict: dict, time_out: int = 30):
         raise e
 
 
+def contain_within(m: Model, container: Element, elements: List[Element], padding: float = 0):
+    for element in elements:
+        p_top, p_right, p_bottom, p_left = container.get_padding(element)
+        m.addConstr(element.x0 >= container.x0 + p_left)
+        m.addConstr(element.y0 >= container.y0 + p_top)
+        m.addConstr(element.x1 <= container.x1 - p_right)
+        m.addConstr(element.y1 <= container.y1 - p_bottom)
+
+
 def maintain_relationships(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
         if element.is_left_of(other):
             m.addConstr(element.x1 <= other.x0)
         if element.is_above(other):
             m.addConstr(element.y1 <= other.y0)
+
+
+def maintain_alignment(m: Model, elements: List[Element]):
+    for element, other in permutations(elements, 2):
+        if element.initial.x0 == other.initial.x0:
+            m.addConstr(element.x0 == other.x0)
+        if element.initial.y0 == other.initial.y0:
+            m.addConstr(element.y0 == other.y0)
+        if element.initial.x1 == other.initial.x1:
+            m.addConstr(element.x1 == other.x1)
+        if element.initial.y1 == other.initial.y1:
+            m.addConstr(element.y1 == other.y1)
+
+
+def maintain_equal_dimensions(m: Model, elements: List[Element]):
+    for element, other in permutations(elements, 2):
+        if element.initial.w == other.initial.w:
+            m.addConstr(element.w == other.w)
+        if element.initial.h == other.initial.h:
+            m.addConstr(element.h == other.h)
 
 
 def get_size_loss(m: Model, elements: List[Element]):
