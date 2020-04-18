@@ -285,6 +285,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     apply_vertical_baseline(m, horizontal_chrome_elements, baseline_height)
 
     maintain_relationships(m, top_level_elements)
+
     maintain_alignment(m, top_level_elements)
     maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
     #maintain_matching_dimensions(m, top_level_elements, tolerance)
@@ -298,6 +299,8 @@ def solve(layout_dict: dict, time_out: int = 30):
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #alignment.add(improve_alignment(m, top_level_elements))
 
+    excessive_upscaling = LinExpr()
+
     for top_level_element in top_level_elements:
         children = top_level_element.children()
 
@@ -310,17 +313,18 @@ def solve(layout_dict: dict, time_out: int = 30):
         maintain_matching_neighbor_distances(m, children, tolerance)
         #keep_neighbors_together(m, children, grid_gutter)
         #snap_distances(m, children)
+        maintain_relative_size(m, children)
 
         alignment.add(improve_alignment(m, children))
+        excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
 
     apply_vertical_baseline(m, content_elements, baseline_height)
 
-    size_loss = get_size_loss(m, elements)
+    downscaling = get_downscaling_expr(m, elements)
 
-    # Minimize downscaling of elements
-    #m.setObjective(alignment + size_loss)
-    m.setObjectiveN(alignment, 0, priority=1, weight=1, abstol=0, reltol=0)
-    m.setObjectiveN(size_loss, 1, priority=10, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(downscaling, 0, priority=10, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(alignment, 1, priority=2, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(excessive_upscaling, 1, priority=1, weight=1, abstol=0, reltol=0)
 
     try:
         m.optimize()
@@ -351,7 +355,7 @@ def solve(layout_dict: dict, time_out: int = 30):
                 })
 
             try:
-                print('Size loss', size_loss.getValue())
+                print('Size loss', downscaling.getValue())
                 print('Alignment', alignment.getValue())
             except:
                 e = sys.exc_info()[0]
@@ -420,6 +424,14 @@ def maintain_relationships(m: Model, elements: List[Element]):
             m.addConstr(element.x1 + element.get_margin().right <= other.x0)
         if element.is_above(other):
             m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
+
+
+def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.2):
+    for element, other in permutations(elements, 2):
+        if element.initial.w > other.initial.w * factor:
+            m.addConstr(element.w >= other.w)
+        if element.initial.h > other.initial.h * factor:
+            m.addConstr(element.h >= other.h)
 
 
 def maintain_alignment(m: Model, elements: List[Element], tolerance: float = 8):
@@ -497,23 +509,46 @@ def get_distance_var(m: Model, element: Element, other: Element):
     return distance_var
 
 
-def get_size_loss(m: Model, elements: List[Element]):
+def get_downscaling_expr(m: Model, elements: List[Element]):
     max_initial_width = max([element.initial.w for element in elements])
     max_initial_height = max([element.initial.h for element in elements])
 
-    size_loss = LinExpr(0)
+    downscaling_expr = LinExpr(0)
 
     for element in elements:
         # Smaller elements should be scaled down less
         element_width_loss = m.addVar(lb=0)
         m.addConstr(element_width_loss >= element.initial.w - element.w)
-        size_loss.add(element_width_loss * max_initial_width / element.initial.w)
+        downscaling_expr.add(element_width_loss * max_initial_width / element.initial.w)
 
         element_height_loss = m.addVar(lb=0)
         m.addConstr(element_height_loss >= element.initial.h - element.h)
-        size_loss.add(element_height_loss * max_initial_height / element.initial.h)
+        downscaling_expr.add(element_height_loss * max_initial_height / element.initial.h)
 
-    return size_loss
+    return downscaling_expr
+
+
+def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .2):
+    excessive_upscaling_expr = LinExpr(0)
+
+    if len(elements) == 0:
+        return excessive_upscaling_expr
+
+    max_initial_width = max([element.initial.w for element in elements])
+    max_initial_height = max([element.initial.h for element in elements])
+
+
+    for element in elements:
+        # Smaller elements should be scaled down less
+        excessive_element_width_increase = m.addVar(lb=0)
+        m.addConstr(excessive_element_width_increase >= element.w - element.initial.w * (1 + horizontal_threshold))
+        excessive_upscaling_expr.add(excessive_element_width_increase * max_initial_width / element.initial.w)
+
+        excessive_element_height_increase = m.addVar(lb=0)
+        m.addConstr(excessive_element_height_increase >= element.h - element.initial.h * (1 + vertical_threshold))
+        excessive_upscaling_expr.add(excessive_element_height_increase * max_initial_height / element.initial.h)
+
+    return excessive_upscaling_expr
 
 
 def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, col_count: int, margin: float, gutter: float):
