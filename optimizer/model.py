@@ -234,7 +234,7 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     m = Model("DesignSystem")
 
-    m.Params.OutputFlag = 1
+    m.Params.OutputFlag = 0
 
     m.Params.TimeLimit = time_out
     m.Params.MIPFocus = 1
@@ -249,8 +249,8 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     # Fix layout size
     m.addConstr(layout.w == layout.initial.w)
-    if False:
-        m.addConstr(layout.h == layout.initial.h)
+    if True:
+        m.addConstr(layout.h <= layout.initial.h)
 
     # Layout Parameters
     column_count = 24
@@ -292,6 +292,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
     #keep_neighbors_together(m, top_level_elements, grid_gutter)
     #snap_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
+    #snap_vertical_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
     apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
     make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
     #apply_vertical_baseline(m, top_level_elements, baseline_height)
@@ -305,7 +306,7 @@ def solve(layout_dict: dict, time_out: int = 30):
         children = top_level_element.children()
 
         contain_within(m, top_level_element, children)
-        bind_to_edges_of(m, top_level_element, children)
+        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
         maintain_relationships(m, children)
         maintain_alignment(m, children)
         maintain_matching_neighbor_dimensions(m, children, tolerance)
@@ -315,15 +316,16 @@ def solve(layout_dict: dict, time_out: int = 30):
         #snap_distances(m, children)
         maintain_relative_size(m, children)
 
-        alignment.add(improve_alignment(m, children))
+        #alignment.add(improve_alignment(m, children))
+        alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
 
     apply_vertical_baseline(m, content_elements, baseline_height)
 
     downscaling = get_downscaling_expr(m, elements)
 
-    m.setObjectiveN(downscaling, 0, priority=10, weight=1, abstol=0, reltol=0)
-    m.setObjectiveN(alignment, 1, priority=2, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(downscaling, 0, priority=5, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(alignment, 1, priority=10, weight=10, abstol=0, reltol=0)
     m.setObjectiveN(excessive_upscaling, 1, priority=1, weight=1, abstol=0, reltol=0)
 
     try:
@@ -418,12 +420,60 @@ def bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elements:
     m.addConstr(max_y1 == bbox.y1)
 
 
+def soft_bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
+    quality = LinExpr(0)
+
+    if len(elements) == 0:
+        return quality
+
+    if isinstance(container, Element):
+        padding = container.get_padding()
+    else:
+        padding = Padding(0, 0, 0, 0)
+    bbox = apply_padding(container, padding)
+
+    min_x0 = m.addVar(vtype=GRB.CONTINUOUS)
+    m.addConstr(min_x0 == min_([e.x0 for e in elements]))
+    m.addConstr(min_x0 == bbox.x0)
+
+    min_y0 = m.addVar(vtype=GRB.CONTINUOUS)
+    m.addConstr(min_y0 == min_([e.y0 for e in elements]))
+    m.addConstr(min_y0 == bbox.y0)
+
+    max_x1 = m.addVar(vtype=GRB.CONTINUOUS)
+    m.addConstr(max_x1 == max_([e.x1 for e in elements]))
+    binding_x1 = m.addVar(vtype=GRB.BINARY)
+    #m.addConstr((binding_x1 == 0) >> (max_x1 == bbox.x1))
+    #m.addConstr(binding_x1 * max_x1 == binding_x1 * bbox.x1)
+    m.addConstr(max_x1 <= bbox.x1)
+    quality.add(bbox.x1 - max_x1)
+
+    max_y1 = m.addVar(vtype=GRB.CONTINUOUS)
+    m.addConstr(max_y1 == max_([e.y1 for e in elements]))
+    #not_binding_y1 = m.addVar(vtype=GRB.BINARY)
+    #m.addConstr((not_binding_y1 == 0) >> (max_y1 == bbox.y1))
+    #quality.add(not_binding_y1)
+    m.addConstr(max_y1 <= bbox.y1)
+    quality.add(bbox.y1 - max_y1)
+
+    return quality
+
+
 def maintain_relationships(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
         if element.is_left_of(other):
             m.addConstr(element.x1 + element.get_margin().right <= other.x0)
         if element.is_above(other):
             m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
+
+
+def maintain_neighbor_relationships(m: Model, elements: List[Element]):
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            if element.is_left_of(other):
+                m.addConstr(element.x1 + element.get_margin().right <= other.x0)
+            if element.is_above(other):
+                m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
 
 
 def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.2):
@@ -487,8 +537,41 @@ def snap_distances(m: Model, elements: List[Element], close: float = 8, far: flo
             distance_var = get_distance_var(m, element, other)
             if 0 <= distance <= (close + far) / 2:
                 m.addConstr(distance_var == close)
-            elif (close + far) / 2 < distance <= far + (close + far) / 2:
+            else:
                 m.addConstr(distance_var == far)
+
+
+def snap_vertical_distances(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            direction = element.direction_to(other)
+            if direction in [Cardinal.N, Cardinal.S]:
+                distance = element.distance_to(other)
+                distance_var = get_distance_var(m, element, other)
+                if 0 <= distance <= (close + far) / 2:
+                    m.addConstr(distance_var == close)
+                else:
+                    m.addConstr(distance_var == far)
+
+
+def try_snapping(m: Model, elements: List[Element], close: float = 8, far: float = 32):  # TODO: rename as something better
+    snapping = LinExpr(0)
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            initial_distance = element.distance_to(other)
+            distance_var = get_distance_var(m, element, other)
+            m.addConstr(distance_var >= close)
+            snapping_error = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
+            if initial_distance <= (close + far) / 2:
+                m.addConstr(snapping_error >= distance_var - close)
+            elif initial_distance <= far:
+                m.addConstr(snapping_error >= distance_var - far)
+                m.addConstr(snapping_error >= far - distance_var)
+            else:
+                m.addConstr(distance_var >= far)
+            snapping.add(snapping_error)
+
+    return snapping
 
 
 def get_distance_var(m: Model, element: Element, other: Element):
@@ -509,7 +592,7 @@ def get_distance_var(m: Model, element: Element, other: Element):
     return distance_var
 
 
-def get_downscaling_expr(m: Model, elements: List[Element]):
+def get_downscaling_expr(m: Model, elements: List[Element], threshold: float = .0):
     max_initial_width = max([element.initial.w for element in elements])
     max_initial_height = max([element.initial.h for element in elements])
 
@@ -518,17 +601,17 @@ def get_downscaling_expr(m: Model, elements: List[Element]):
     for element in elements:
         # Smaller elements should be scaled down less
         element_width_loss = m.addVar(lb=0)
-        m.addConstr(element_width_loss >= element.initial.w - element.w)
+        m.addConstr(element_width_loss >= (element.initial.w * (1 - threshold)) - element.w)
         downscaling_expr.add(element_width_loss * max_initial_width / element.initial.w)
 
         element_height_loss = m.addVar(lb=0)
-        m.addConstr(element_height_loss >= element.initial.h - element.h)
+        m.addConstr(element_height_loss >= (element.initial.h * (1 - threshold)) - element.h)
         downscaling_expr.add(element_height_loss * max_initial_height / element.initial.h)
 
     return downscaling_expr
 
 
-def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .2):
+def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .5):
     excessive_upscaling_expr = LinExpr(0)
 
     if len(elements) == 0:
