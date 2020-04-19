@@ -229,6 +229,36 @@ class Element:
         return self.initial.x0 > other.initial.x0 and self.initial.y0 > other.initial.y0 \
                and self.initial.x1 < other.initial.x1 and self.initial.y1 < other.initial.y1
 
+    @lru_cache(maxsize=None)
+    def coordinates_match_with(self, other: 'Element') -> bool:
+        parent = self.parent() if self.parent() is not None else self.m._layout
+        other_parent = other.parent() if other.parent() is not None else self.m._layout
+        return (self.initial.x0 - parent.initial.x0) == (other.initial.x0 - other_parent.initial.x0) \
+               and (self.initial.y0 - parent.initial.y0) == (other.initial.y0 - other_parent.initial.y0) \
+               and (self.initial.x1 - parent.initial.x0) == (other.initial.x1 - other_parent.initial.x0) \
+               and (self.initial.y1 - parent.initial.y0) == (other.initial.y1 - other_parent.initial.y0)
+
+    @lru_cache(maxsize=None)
+    def match_children(self, other: 'Element') -> List[Tuple['Element', 'Element']]:
+        children = self.children()
+        other_children = other.children()
+        if len(children) == 0 or len(other_children) == 0 or len(children) != len(other_children):
+            return []
+        else:
+            matched_children = []
+            matched_other_children = []
+            for element in children:
+                for other in other_children:
+                    if element.coordinates_match_with(other) and other not in matched_other_children:
+                        matched_children.append(element)
+                        matched_other_children.append(other)
+                        break
+            if len(matched_children) == len(children):
+                return list(zip(matched_children, matched_other_children))
+            else:
+                return []
+
+
 
 def solve(layout_dict: dict, time_out: int = 30):
 
@@ -299,6 +329,8 @@ def solve(layout_dict: dict, time_out: int = 30):
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #alignment.add(improve_alignment(m, top_level_elements))
+
+    link_group_layouts(m, top_level_elements)
 
     excessive_upscaling = LinExpr()
 
@@ -845,3 +877,17 @@ def compute_minimum_grid(n: int) -> int:
         else:
             result = (4 * min_grid_width) + (2 * extra_columns) + 2
     return result
+
+
+def link_group_layouts(m: Model, parents: List[Element]):
+    for parent, other_parent in combinations(parents, 2):
+        if parent.initial.w == other_parent.initial.w and parent.initial.h == other_parent.initial.h:
+            matched_children = parent.match_children(other_parent)
+            if len(matched_children) > 0:
+                m.addConstr(parent.w == other_parent.w)
+                m.addConstr(parent.h == other_parent.h)
+                for child, other_child in matched_children:
+                    m.addConstr(child.x0 - parent.x0 == other_child.x0 - other_parent.x0)
+                    m.addConstr(child.y0 - parent.y0 == other_child.y0 - other_parent.y0)
+                    m.addConstr(child.x1 - parent.x1 == other_child.x1 - other_parent.x1)
+                    m.addConstr(child.y1 - parent.y1 == other_child.y1 - other_parent.y1)
