@@ -325,7 +325,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     #snap_vertical_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
     apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
     make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
-    #apply_vertical_baseline(m, top_level_elements, baseline_height)
+    apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #alignment.add(improve_alignment(m, top_level_elements))
