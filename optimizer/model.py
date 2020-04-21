@@ -330,6 +330,8 @@ def solve(layout_dict: dict, time_out: int = 30):
     #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
     #alignment.add(improve_alignment(m, top_level_elements))
 
+    maintain_relative_size(m, top_level_elements)
+
     link_group_layouts(m, top_level_elements)
 
     excessive_upscaling = LinExpr()
@@ -338,7 +340,7 @@ def solve(layout_dict: dict, time_out: int = 30):
         children = top_level_element.children()
 
         contain_within(m, top_level_element, children)
-        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
+
         maintain_relationships(m, children)
         maintain_alignment(m, children)
         maintain_matching_neighbor_dimensions(m, children, tolerance)
@@ -349,6 +351,7 @@ def solve(layout_dict: dict, time_out: int = 30):
         maintain_relative_size(m, children)
 
         #alignment.add(improve_alignment(m, children))
+        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
         alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
 
@@ -692,10 +695,10 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
             m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
 
         # There are no other elements before this one, this element should start in the first column
-        others_before = [other for other in elements if other.is_left_of(element)]
-        if len(others_before) == 0:
-            m.addConstr(col_start_flags[0] == 1)
-
+        # This one is implemented in the make_edges_even function
+        #others_before = [other for other in elements if other.is_left_of(element)]
+        #if len(others_before) == 0:
+        #    m.addConstr(col_start_flags[0] == 1)
 
     m.addConstr(starting_in_first_col >= 1)
     m.addConstr(ending_in_last_col >= 1)
