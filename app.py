@@ -39,22 +39,35 @@ def upload() -> Response:
 def optimize_layout() -> Response:
     # TODO: consider adding checks for security
     request_props = json.loads(request.data)
-    layout = classes.Layout(request_props['layout'])
+
 
     time_out = int(request_props.get('timeOut', 30))
-
-    number_of_solutions = int(request_props.get('numberOfSolutions', 1))
+    snap_tolerance = float(request_props.get('snapTolerance', 8))
+    gutter = float(request_props.get('gridGutter', 8))
+    margin = float(request_props.get('gridMargin', 16))
+    column_count = int(request_props.get('columnCount', 24))
+    baseline = float(request_props.get('baseline', 8))
 
     if False:
+        layout = classes.Layout(request_props['layout'])
+        number_of_solutions = int(request_props.get('numberOfSolutions', 1))
         with open('./output/layouts/' + str(int(time.time_ns() / 1000)) + '.json', 'w', encoding='utf-8') as f:
             json.dump(request_props['layout'], f, ensure_ascii=False, indent=4)
     # Testing code
     #guidelines.solve(layout)
-    print('starting solve')
+    print('Request Props', request_props)
+    print('Solving…')
     if False:
         result = guidelines.solve(layout, number_of_solutions=number_of_solutions, time_out=time_out)
     else:
-        result = model.solve(request_props['layout'], time_out=time_out)
+        result = model.solve(request_props['layout'],
+                             time_out=time_out,
+                             columns=column_count,
+                             gutter=gutter,
+                             margin=margin,
+                             tolerance=snap_tolerance,
+                             baseline=baseline
+                             )
 
     return jsonify(result)
 

@@ -259,8 +259,7 @@ class Element:
                 return []
 
 
-
-def solve(layout_dict: dict, time_out: int = 30):
+def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     m = Model("DesignSystem")
 
@@ -271,6 +270,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     m.Params.ModelSense = GRB.MINIMIZE
     m.Params.Presolve = -1  # -1=auto, 0=off, 1=conservative, 2=aggressive
     m.Params.PoolSearchMode = 0
+    m.Params.PoolSolutions = 1
 
     layout = Layout(m, LayoutProps(layout_dict))
     m._layout = layout
@@ -283,19 +283,14 @@ def solve(layout_dict: dict, time_out: int = 30):
         m.addConstr(layout.h <= layout.initial.h)
 
     # Layout Parameters
-    column_count = 24
-    grid_margin = 16
-    grid_gutter = 8
-    baseline_height = 8
-    tolerance = 8
+    column_count = kwargs.get('columns', 24)
+    grid_margin = kwargs.get('margin', 16)
+    grid_gutter = kwargs.get('gutter', 8)
+    baseline_height = kwargs.get('baseline', 8)
+    tolerance = kwargs.get('tolerance', 8)
 
-    # TODO: Match distances to neighbors
-    # TODO: Grid gaps
-    # TODO: Match the internal layout of identical groups
     # TODO: Consider supporting reflow and resolution changes
     # TODO: Consider supporting locking aspect ratio
-
-    alignment = LinExpr()
 
     apply_component_specific_constraints(m, elements)
 
@@ -317,7 +312,7 @@ def solve(layout_dict: dict, time_out: int = 30):
     maintain_relationships(m, top_level_elements)
 
     maintain_alignment(m, top_level_elements)
-    maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
+    match_top_lvl_dim_constrs = maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
     #maintain_matching_dimensions(m, top_level_elements, tolerance)
     maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
     #keep_neighbors_together(m, top_level_elements, grid_gutter)
@@ -334,6 +329,7 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     link_group_layouts(m, top_level_elements)
 
+    alignment = LinExpr()
     excessive_upscaling = LinExpr()
 
     for top_level_element in top_level_elements:
@@ -365,6 +361,10 @@ def solve(layout_dict: dict, time_out: int = 30):
 
     try:
         m.optimize()
+
+        if m.Status == GRB.Status.INFEASIBLE:
+            m.remove(match_top_lvl_dim_constrs)
+            m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
 
@@ -403,11 +403,6 @@ def solve(layout_dict: dict, time_out: int = 30):
                 'layouts': layouts
             }
         else:
-            if m.Status == GRB.Status.INFEASIBLE:
-                m.computeIIS()
-                #m.write("output/SimoPracticeModel.ilp")
-            print('Non-optimal status:', m.Status)
-
             return {'status': 1}
 
     except GurobiError as e:
@@ -477,17 +472,11 @@ def soft_bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elem
 
     max_x1 = m.addVar(vtype=GRB.CONTINUOUS)
     m.addConstr(max_x1 == max_([e.x1 for e in elements]))
-    binding_x1 = m.addVar(vtype=GRB.BINARY)
-    #m.addConstr((binding_x1 == 0) >> (max_x1 == bbox.x1))
-    #m.addConstr(binding_x1 * max_x1 == binding_x1 * bbox.x1)
     m.addConstr(max_x1 <= bbox.x1)
     quality.add(bbox.x1 - max_x1)
 
     max_y1 = m.addVar(vtype=GRB.CONTINUOUS)
     m.addConstr(max_y1 == max_([e.y1 for e in elements]))
-    #not_binding_y1 = m.addVar(vtype=GRB.BINARY)
-    #m.addConstr((not_binding_y1 == 0) >> (max_y1 == bbox.y1))
-    #quality.add(not_binding_y1)
     m.addConstr(max_y1 <= bbox.y1)
     quality.add(bbox.y1 - max_y1)
 
@@ -540,12 +529,14 @@ def maintain_matching_dimensions(m: Model, elements: List[Element], tolerance: f
 
 
 def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tolerance: float = 8):
+    constraints = []
     for element, other in permutations(elements, 2):
         if element.is_neighbor_of(other):
             if abs(element.initial.w - other.initial.w) <= tolerance:
-                m.addConstr(element.w == other.w)
+                constraints.append(m.addConstr(element.w == other.w))
             if abs(element.initial.h - other.initial.h) <= tolerance:
-                m.addConstr(element.h == other.h)
+                constraints.append(m.addConstr(element.h == other.h))
+    return constraints
 
 
 def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8, close: float = 8, far: float = 32):
@@ -657,7 +648,7 @@ def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_t
 
 
     for element in elements:
-        # Smaller elements should be scaled down less
+        # Smaller elements should be scaled up less
         excessive_element_width_increase = m.addVar(lb=0)
         m.addConstr(excessive_element_width_increase >= element.w - element.initial.w * (1 + horizontal_threshold))
         excessive_upscaling_expr.add(excessive_element_width_increase * max_initial_width / element.initial.w)
