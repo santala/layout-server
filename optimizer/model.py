@@ -227,8 +227,9 @@ class Element:
 
     @lru_cache(maxsize=None)
     def is_within(self, other: 'Element'):
-        return self.initial.x0 > other.initial.x0 and self.initial.y0 > other.initial.y0 \
-               and self.initial.x1 < other.initial.x1 and self.initial.y1 < other.initial.y1
+        return self.initial.x0 >= other.initial.x0 and self.initial.y0 >= other.initial.y0 \
+               and self.initial.x1 <= other.initial.x1 and self.initial.y1 <= other.initial.y1 \
+               and self.initial.w * self.initial.h < other.initial.w * other.initial.h
 
     @lru_cache(maxsize=None)
     def coordinates_match_with(self, other: 'Element') -> bool:
@@ -266,7 +267,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     m = Model("DesignSystem")
 
-    m.Params.OutputFlag = 0
+    m.Params.OutputFlag = 1
 
     m.Params.TimeLimit = time_out
     m.Params.MIPFocus = 1
@@ -346,8 +347,8 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         maintain_matching_neighbor_distances(m, children, tolerance)
         child_rel_size_constrs += maintain_relative_size(m, children)
 
-        alignment.add(improve_alignment(m, children))
-        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
+        alignment.add(improve_alignment(m, children), 100)
+        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 10)
         alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
 
