@@ -1,5 +1,6 @@
 import sys
 import math
+import time
 from collections import namedtuple
 from enum import Enum
 from functools import lru_cache
@@ -261,6 +262,8 @@ class Element:
 
 def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
+    start = time.time()
+
     m = Model("DesignSystem")
 
     m.Params.OutputFlag = 0
@@ -289,6 +292,9 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     baseline_height = kwargs.get('baseline', 8)
     tolerance = kwargs.get('tolerance', 8)
 
+    if True:
+        tolerance = 0
+
     # TODO: Consider supporting reflow and resolution changes
     # TODO: Consider supporting locking aspect ratio
 
@@ -313,24 +319,21 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     maintain_alignment(m, top_level_elements)
     match_top_lvl_dim_constrs = maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
-    #maintain_matching_dimensions(m, top_level_elements, tolerance)
-    maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
-    #keep_neighbors_together(m, top_level_elements, grid_gutter)
-    #snap_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
-    #snap_vertical_distances(m, top_level_elements, grid_gutter, 4 * grid_gutter)
+
+    match_top_lvl_dist_constrs = maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
+
     apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
     make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
     apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
-    #bind_to_edges_of(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
-    #alignment.add(improve_alignment(m, top_level_elements))
 
-    maintain_relative_size(m, top_level_elements)
+    top_level_rel_size_constrs = maintain_relative_size(m, top_level_elements)
 
     link_group_layouts(m, top_level_elements)
 
     alignment = LinExpr()
     excessive_upscaling = LinExpr()
+    child_rel_size_constrs = []
 
     for top_level_element in top_level_elements:
         children = top_level_element.children()
@@ -340,11 +343,8 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         maintain_relationships(m, children)
         maintain_alignment(m, children)
         maintain_matching_neighbor_dimensions(m, children, tolerance)
-        #maintain_matching_dimensions(m, children, tolerance)
         maintain_matching_neighbor_distances(m, children, tolerance)
-        #keep_neighbors_together(m, children, grid_gutter)
-        #snap_distances(m, children)
-        maintain_relative_size(m, children)
+        child_rel_size_constrs += maintain_relative_size(m, children)
 
         alignment.add(improve_alignment(m, children))
         alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
@@ -363,7 +363,19 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         m.optimize()
 
         if m.Status == GRB.Status.INFEASIBLE:
+            m.remove(top_level_rel_size_constrs)
+            m.optimize()
+
+        if m.Status == GRB.Status.INFEASIBLE:
             m.remove(match_top_lvl_dim_constrs)
+            m.optimize()
+
+        if m.Status == GRB.Status.INFEASIBLE:
+            m.remove(match_top_lvl_dist_constrs)
+            m.optimize()
+
+        if m.Status == GRB.Status.INFEASIBLE:
+            m.remove(child_rel_size_constrs)
             m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
@@ -397,6 +409,9 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
             except:
                 e = sys.exc_info()[0]
                 print(e)
+
+            runtime = time.time() - start
+            print('Runtime', runtime, 'seconds')
 
             return {
                 'status': 0,
@@ -501,11 +516,14 @@ def maintain_neighbor_relationships(m: Model, elements: List[Element]):
 
 
 def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.2):
+    constraints = []
     for element, other in permutations(elements, 2):
         if element.initial.w > other.initial.w * factor:
-            m.addConstr(element.w >= other.w)
+            constraints.append(m.addConstr(element.w >= other.w))
         if element.initial.h > other.initial.h * factor:
-            m.addConstr(element.h >= other.h)
+            constraints.append(m.addConstr(element.h >= other.h))
+
+    return constraints
 
 
 def maintain_alignment(m: Model, elements: List[Element], tolerance: float = 8):
@@ -540,6 +558,7 @@ def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tol
 
 
 def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8, close: float = 8, far: float = 32):
+    constraints = []
     for element in elements:
         for other, third in combinations([e for e in elements if e is not element], 2):
             if element.is_neighbor_of(other) and element.is_neighbor_of(third):
@@ -547,7 +566,8 @@ def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tole
                 dist_to_third = element.distance_to(third)
                 if abs(dist_to_other - dist_to_third) <= tolerance:
                     dist_to_other_var = get_distance_var(m, element, other)
-                    m.addConstr(dist_to_other_var == get_distance_var(m, element, third))
+                    constraints.append(m.addConstr(dist_to_other_var == get_distance_var(m, element, third)))
+    return constraints
 
 
 def keep_neighbors_together(m: Model, elements: List[Element], distance):
@@ -905,7 +925,11 @@ def get_min_row_count(elements: List[Element]) -> int:
 
 def get_min_grid_width(start: List[float], end: List[float]) -> int:
 
+    print('Computing minimum grid')
+
     m = Model('GridWidth')
+    m.Params.OutputFlag = 0
+    m.Params.TimeLimit = 5
 
     start_vars = m.addVars(len(start), lb=0, ub=len(start), vtype=GRB.INTEGER)
     end_vars = m.addVars(len(start), lb=1, ub=len(start) + 1, vtype=GRB.INTEGER)
@@ -920,9 +944,15 @@ def get_min_grid_width(start: List[float], end: List[float]) -> int:
                 m.addConstr(end_vars[i] <= start_vars[j])
 
     m.setObjective(grid_width, GRB.MINIMIZE)
-    m.optimize()
 
-    for i in range(len(start)):
-        print(start[i], ',', end[i], '>', start_vars[i].X, ',', end_vars[i].X)
+    try:
+        m.optimize()
+    except GurobiError as e:
+        print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
+        raise e
+
+    print(m.Status)
+
+    print('Min grid', int(grid_width.X))
 
     return int(grid_width.X)
