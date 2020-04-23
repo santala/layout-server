@@ -346,7 +346,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         #snap_distances(m, children)
         maintain_relative_size(m, children)
 
-        #alignment.add(improve_alignment(m, children))
+        alignment.add(improve_alignment(m, children))
         alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 100)
         alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
@@ -660,7 +660,9 @@ def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_t
     return excessive_upscaling_expr
 
 
-def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, col_count: int, margin: float, gutter: float):
+def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, pref_col_count: int, margin: float, gutter: float):
+    col_count = max(pref_col_count, get_min_col_count(elements))
+
     gutter_count = col_count - 1
     col_width = m.addVar(vtype=GRB.CONTINUOUS)
     m.addConstr(grid_x1 == grid_x0 + 2 * margin + col_count * col_width + gutter_count * gutter)
@@ -811,9 +813,11 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
             m.addConstr(element.h == element.initial.h)
 
 
-def improve_alignment(m: Model, elements: List[Element], weight: float = 1):
+def improve_alignment(m: Model, elements: List[Element]):
     n = len(elements)
     max_groups = n
+    min_cols = get_min_col_count(elements)
+    min_rows = get_min_row_count(elements)
 
     group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
     group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
@@ -849,12 +853,12 @@ def improve_alignment(m: Model, elements: List[Element], weight: float = 1):
             m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
             m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
 
-    group_count = m.addVar(lb=0, vtype=GRB.INTEGER)
-    m.addConstr(group_count >= group_x0_enabled.sum() + group_y0_enabled.sum() \
+    alignment = m.addVar(lb=0, vtype=GRB.INTEGER)
+    m.addConstr(alignment >= 2 * min_cols + 2 * min_rows)
+    m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
                 + group_x1_enabled.sum() + group_y1_enabled.sum())
-    m.addConstr(group_count >= compute_minimum_grid(n))
 
-    return LinExpr(group_count * weight)
+    return LinExpr(alignment)
 
 
 def compute_minimum_grid(n: int) -> int:
@@ -885,3 +889,40 @@ def link_group_layouts(m: Model, parents: List[Element]):
                     m.addConstr(child.y0 - parent.y0 == other_child.y0 - other_parent.y0)
                     m.addConstr(child.x1 - parent.x1 == other_child.x1 - other_parent.x1)
                     m.addConstr(child.y1 - parent.y1 == other_child.y1 - other_parent.y1)
+
+
+def get_min_col_count(elements: List[Element]) -> int:
+    start = [e.initial.x0 for e in elements]
+    end = [e.initial.x1 for e in elements]
+    return get_min_grid_width(start, end)
+
+
+def get_min_row_count(elements: List[Element]) -> int:
+    start = [e.initial.y0 for e in elements]
+    end = [e.initial.y1 for e in elements]
+    return get_min_grid_width(start, end)
+
+
+def get_min_grid_width(start: List[float], end: List[float]) -> int:
+
+    m = Model('GridWidth')
+
+    start_vars = m.addVars(len(start), lb=0, ub=len(start), vtype=GRB.INTEGER)
+    end_vars = m.addVars(len(start), lb=1, ub=len(start) + 1, vtype=GRB.INTEGER)
+
+    grid_width = m.addVar(lb=0, vtype=GRB.INTEGER)
+
+    for i in range(len(start)):
+        m.addConstr(start_vars[i] + 1 <= end_vars[i])
+        m.addConstr(grid_width >= end_vars[i])
+        for j in range(len(start)):
+            if end[i] <= start[j]:
+                m.addConstr(end_vars[i] <= start_vars[j])
+
+    m.setObjective(grid_width, GRB.MINIMIZE)
+    m.optimize()
+
+    for i in range(len(start)):
+        print(start[i], ',', end[i], '>', start_vars[i].X, ',', end_vars[i].X)
+
+    return int(grid_width.X)
