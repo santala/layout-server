@@ -904,6 +904,11 @@ def improve_alignment(m: Model, elements: List[Element]):
             m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
             m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
             m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
+            # If no elements belong to a group, the group cannot be enabled
+            m.addConstr(group_x0_enabled[g] <= element_in_group_x0.sum('*', g))
+            m.addConstr(group_y0_enabled[g] <= element_in_group_y0.sum('*', g))
+            m.addConstr(group_x1_enabled[g] <= element_in_group_x1.sum('*', g))
+            m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
             # If element belongs to a group, the group coordinate value must equal the element coordinate value
             # i.e. if multiple elements belong to a group, they must have the same coordinate value
             m.addConstr(element_in_group_x0[i, g] * element.x0 == element_in_group_x0[i, g] * group_x0[g])
@@ -911,12 +916,13 @@ def improve_alignment(m: Model, elements: List[Element]):
             m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
             m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
 
+    min_alignment = 2 * min_cols + 2 * min_rows
     alignment = m.addVar(lb=0, vtype=GRB.INTEGER)
-    m.addConstr(alignment >= 2 * min_cols + 2 * min_rows)
+    m.addConstr(alignment >= min_alignment)
     m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
                 + group_x1_enabled.sum() + group_y1_enabled.sum())
 
-    return LinExpr(alignment)
+    return LinExpr(alignment - min_alignment)
 
 
 def compute_minimum_grid(n: int) -> int:
