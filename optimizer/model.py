@@ -56,12 +56,15 @@ class ElementProps:
         self.y1 = self.y0 + self.h
         self.fixed_width = bool(props.get('fixedWidth', False))
 
+        self.fixed_width = 'Left pane / Compact' in self.component_name
         self.fixed_height = 'Stripe' in self.component_name or 'Main Menu' in self.component_name
 
         if 'Stripe' in self.component_name:
             self.h = 32
         if 'Main Menu' in self.component_name:
             self.h = 48
+        if 'Left pane / Compact' in self.component_name:
+            self.w = 96
 
 
 
@@ -125,7 +128,7 @@ class Element:
     @lru_cache(maxsize=None)
     def get_margin(self) -> Margin:
         # TODO: make configurable somehow
-        if self.is_chrome():
+        if self.is_chrome() or True:
             return Margin(0, 0, 0, 0)
         else:
             return Margin(8, 8, 8, 8)
@@ -327,6 +330,9 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
     apply_vertical_baseline(m, top_level_elements, baseline_height)
     contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
+
+    snap_distances2(m, top_level_elements, grid_gutter, grid_gutter * 4)
+    vertical_min_distance(m, top_level_elements, grid_gutter)
 
     top_level_rel_size_constrs = maintain_relative_size(m, top_level_elements)
 
@@ -586,6 +592,29 @@ def snap_distances(m: Model, elements: List[Element], close: float = 8, far: flo
                 m.addConstr(distance_var == close)
             else:
                 m.addConstr(distance_var == far)
+
+
+def snap_distances2(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
+    quality = LinExpr(0)
+    for element, other in permutations(elements, 2):
+        if element.is_neighbor_of(other):
+            distance = element.distance_to(other)
+            distance_var = get_distance_var(m, element, other)
+            snap_diff = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
+            if 0 <= distance <= (close + far) / 2:
+                m.addConstr(snap_diff >= close - distance_var)
+                m.addConstr(snap_diff >= distance_var - close)
+            else:
+                m.addConstr(snap_diff >= far - distance_var)
+                m.addConstr(snap_diff >= distance_var - far)
+            quality.add(snap_diff)
+    return quality
+
+
+def vertical_min_distance(m: Model, elements: List[Element], min_distance: Var):
+    for element, other in permutations(elements, 2):
+        if element.is_above(other):
+            m.addConstr(element.y1 + min_distance <= other.y0)
 
 
 def snap_vertical_distances(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
