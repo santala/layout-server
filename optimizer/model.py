@@ -40,6 +40,8 @@ class LayoutProps:
         self.id = str(props.get('id'))
         self.w = float(props.get('canvasWidth', 0))
         self.h = float(props.get('canvasHeight', 0))
+        self.max_width = self.w
+        self.max_height = self.h
 
 
 class ElementProps:
@@ -724,6 +726,7 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
     # Ensure that the whole grid is used
     starting_in_first_col = LinExpr(0)
     ending_in_last_col = LinExpr(0)
+    layout = m._layout
 
     for i, element in enumerate(elements):
 
@@ -737,9 +740,14 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
 
         for col_index in range(col_count):
             col_x0 = LinExpr(grid_x0 + margin + col_index * (col_width + gutter))
-            m.addConstr(col_start_flags[col_index] * element.x0 == col_start_flags[col_index] * col_x0)
+            #m.addConstr(col_start_flags[col_index] * element.x0 == col_start_flags[col_index] * col_x0)
+            m.addConstr(element.x0 >= col_x0 - layout.initial.w * (1 - col_start_flags[col_index]))
+            m.addConstr(element.x0 <= col_x0 + layout.initial.w * (1 - col_start_flags[col_index]))
+
             col_x1 = LinExpr(grid_x0 + margin + (col_index + 1) * (col_width + gutter) - gutter)
-            m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
+            #m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
+            m.addConstr(element.x1 >= col_x1 - layout.initial.w * (1 - col_end_flags[col_index]))
+            m.addConstr(element.x1 <= col_x1 + layout.initial.w * (1 - col_end_flags[col_index]))
 
         # There are no other elements before this one, this element should start in the first column
         # This one is implemented in the make_edges_even function
@@ -911,10 +919,21 @@ def improve_alignment(m: Model, elements: List[Element]):
             m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
             # If element belongs to a group, the group coordinate value must equal the element coordinate value
             # i.e. if multiple elements belong to a group, they must have the same coordinate value
-            m.addConstr(element_in_group_x0[i, g] * element.x0 == element_in_group_x0[i, g] * group_x0[g])
-            m.addConstr(element_in_group_y0[i, g] * element.y0 == element_in_group_y0[i, g] * group_y0[g])
-            m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
-            m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
+            if False:
+                m.addConstr(element_in_group_x0[i, g] * element.x0 == element_in_group_x0[i, g] * group_x0[g])
+                m.addConstr(element_in_group_y0[i, g] * element.y0 == element_in_group_y0[i, g] * group_y0[g])
+                m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
+                m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
+            else:
+                layout: Layout = m._layout
+                m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_x0[i, g]))
+                m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_x0[i, g]))
 
     min_alignment = 2 * min_cols + 2 * min_rows
     alignment = m.addVar(lb=0, vtype=GRB.INTEGER)
