@@ -55,6 +55,8 @@ class ElementProps:
         self.x1 = self.x0 + self.w
         self.y1 = self.y0 + self.h
         self.fixed_width = bool(props.get('fixedWidth', False))
+        self.min_width = float(props.get('minWidth', 0))
+        self.min_height = float(props.get('minHeight', 0))
 
         self.fixed_width = 'Left pane / Compact' in self.component_name
         self.fixed_height = 'Stripe' in self.component_name or 'Main Menu' in self.component_name
@@ -65,6 +67,8 @@ class ElementProps:
             self.h = 48
         if 'Left pane / Compact' in self.component_name:
             self.w = 96
+        if 'Left pane / Full' in self.component_name:
+            self.min_width = 96
 
 
 
@@ -859,8 +863,12 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
     for element in elements:
         if element.initial.fixed_width:
             m.addConstr(element.w == element.initial.w)
+        else:
+            m.addConstr(element.w >= element.initial.min_width)
         if element.initial.fixed_height:
             m.addConstr(element.h == element.initial.h)
+        else:
+            m.addConstr(element.h >= element.initial.min_height)
 
 
 def improve_alignment(m: Model, elements: List[Element]):
