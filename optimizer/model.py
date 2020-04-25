@@ -359,7 +359,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         maintain_matching_neighbor_distances(m, children, tolerance)
         child_rel_size_constrs += maintain_relative_size(m, children)
 
-        alignment.add(improve_alignment(m, children), 100)
+        alignment.add(improve_alignment_relaxed(m, children), 100)
         alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 10)
         alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
@@ -368,9 +368,9 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     downscaling = get_downscaling_expr(m, elements)
 
-    m.setObjectiveN(downscaling, 0, priority=5, weight=1, abstol=0, reltol=0)
-    m.setObjectiveN(alignment, 1, priority=10, weight=10, abstol=0, reltol=0)
-    m.setObjectiveN(excessive_upscaling, 1, priority=1, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(alignment, 0, priority=10, weight=10, abstol=0, reltol=0)
+    m.setObjectiveN(downscaling, 1, priority=5, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(excessive_upscaling, 2, priority=1, weight=1, abstol=0, reltol=0)
 
     try:
         m.optimize()
@@ -880,6 +880,7 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
 
 
 def improve_alignment(m: Model, elements: List[Element]):
+    layout: Layout = m._layout
     n = len(elements)
     max_groups = n
     min_cols = get_min_col_count(elements)
@@ -919,24 +920,90 @@ def improve_alignment(m: Model, elements: List[Element]):
             m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
             # If element belongs to a group, the group coordinate value must equal the element coordinate value
             # i.e. if multiple elements belong to a group, they must have the same coordinate value
-            if False:
-                m.addConstr(element_in_group_x0[i, g] * element.x0 == element_in_group_x0[i, g] * group_x0[g])
-                m.addConstr(element_in_group_y0[i, g] * element.y0 == element_in_group_y0[i, g] * group_y0[g])
-                m.addConstr(element_in_group_x1[i, g] * element.x1 == element_in_group_x1[i, g] * group_x1[g])
-                m.addConstr(element_in_group_y1[i, g] * element.y1 == element_in_group_y1[i, g] * group_y1[g])
-            else:
-                layout: Layout = m._layout
-                m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_x0[i, g]))
-                m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_x0[i, g]))
+            m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+            m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+            m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x1[i, g]))
+            m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x1[i, g]))
+            m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_y0[i, g]))
+            m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_y0[i, g]))
+            m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_y1[i, g]))
+            m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
 
     min_alignment = 2 * min_cols + 2 * min_rows
-    alignment = m.addVar(lb=0, vtype=GRB.INTEGER)
+    min_alignment = 0
+    alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
+    m.addConstr(alignment >= min_alignment)
+    m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
+                + group_x1_enabled.sum() + group_y1_enabled.sum())
+
+    print(min_cols, min_rows, min_alignment)
+    return LinExpr(alignment - min_alignment)
+
+
+def improve_alignment_relaxed(m: Model, elements: List[Element]):
+    return improve_alignment(m, elements)
+    layout: Layout = m._layout
+    n = len(elements)
+    max_groups = n
+    min_cols = get_min_col_count(elements)
+    min_rows = get_min_row_count(elements)
+
+    group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_x1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+    group_y1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
+
+    group_x0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    group_y0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    group_x1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    group_y1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+
+    element_in_group_x0 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    element_in_group_y0 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    element_in_group_x1 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+    element_in_group_y1 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
+
+    if False:
+        for g in range(max_groups):
+            m.addConstr(n * group_x0_enabled[g] >= element_in_group_x0.sum('*', g))
+            m.addConstr(n * group_y0_enabled[g] >= element_in_group_y0.sum('*', g))
+            m.addConstr(n * group_x1_enabled[g] >= element_in_group_x1.sum('*', g))
+            m.addConstr(n * group_y1_enabled[g] >= element_in_group_y1.sum('*', g))
+
+    for i, element in enumerate(elements):
+        # Element can belong to a single group only
+        m.addConstr(element_in_group_x0.sum(i, '*') == 1)
+        m.addConstr(element_in_group_y0.sum(i, '*') == 1)
+        m.addConstr(element_in_group_x1.sum(i, '*') == 1)
+        m.addConstr(element_in_group_y1.sum(i, '*') == 1)
+        for g in range(max_groups):
+
+            if True:
+                # If an element belongs to a group, the group must be enabled
+                m.addConstr(group_x0_enabled[g] >= element_in_group_x0[i, g])
+                m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
+                m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
+                m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
+            # If no elements belong to a group, the group cannot be enabled
+            m.addConstr(group_x0_enabled[g] <= element_in_group_x0.sum('*', g))
+            m.addConstr(group_y0_enabled[g] <= element_in_group_y0.sum('*', g))
+            m.addConstr(group_x1_enabled[g] <= element_in_group_x1.sum('*', g))
+            m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
+            # If element belongs to a group, the group coordinate value must equal the element coordinate value
+            # i.e. if multiple elements belong to a group, they must have the same coordinate value
+
+            m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+            m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
+            m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x1[i, g]))
+            m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x1[i, g]))
+            m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_y0[i, g]))
+            m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_y0[i, g]))
+            m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_y1[i, g]))
+            m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
+
+    min_alignment = 2 * min_cols + 2 * min_rows
+    min_alignment = 0
+    alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
     m.addConstr(alignment >= min_alignment)
     m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
                 + group_x1_enabled.sum() + group_y1_enabled.sum())

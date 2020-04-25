@@ -4,3 +4,4 @@ gurobi.log
 .idea/
 .DS_STORE
 **/__pycache__/
+action_log.txt

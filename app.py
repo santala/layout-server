@@ -1,4 +1,4 @@
-import json, time
+import json, datetime, time
 from flask import Flask, abort, jsonify, render_template, request, Response
 
 
@@ -34,6 +34,12 @@ def upload() -> Response:
     result = layout_difference.solve(first_layout, second_layout)
 
     return jsonify(result)
+
+@app.route('/api/v1.0/log-action/', methods=['GET'])
+def log_action() -> Response:
+    with open("action_log.txt", "a") as myfile:
+        myfile.write(str(datetime.datetime.now())+"\n")
+    return Response(status=200)
 
 @app.route('/api/v1.0/optimize-layout/', methods=['POST'])
 def optimize_layout() -> Response:
