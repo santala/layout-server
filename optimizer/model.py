@@ -357,9 +357,9 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         maintain_alignment(m, children)
         maintain_matching_neighbor_dimensions(m, children, tolerance)
         maintain_matching_neighbor_distances(m, children, tolerance)
-        child_rel_size_constrs += maintain_relative_size(m, children)
+        #child_rel_size_constrs += maintain_relative_size(m, children)
 
-        alignment.add(improve_alignment_relaxed(m, children), 100)
+        alignment.add(improve_alignment(m, children), 10)
         alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 10)
         alignment.add(try_snapping(m, children))
         excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
@@ -930,7 +930,7 @@ def improve_alignment(m: Model, elements: List[Element]):
             m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
 
     min_alignment = 2 * min_cols + 2 * min_rows
-    min_alignment = 0
+    #min_alignment = 0
     alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
     m.addConstr(alignment >= min_alignment)
     m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
