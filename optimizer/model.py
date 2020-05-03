@@ -73,7 +73,6 @@ class ElementProps:
             self.min_width = 96
 
 
-
 class Layout:
     def __init__(self, m: Model, props: LayoutProps, fixed_width: bool = True, fixed_height: bool = True):
         self.m = m
@@ -214,14 +213,6 @@ class Element:
         return True
 
     @lru_cache(maxsize=None)
-    def neighbors(self):
-        return [e for e in self.m._elements if e is not self and e.is_neighbor_of(self)]
-
-    @lru_cache(maxsize=None)
-    def is_content(self) -> bool:
-        return self.parent() is not None
-
-    @lru_cache(maxsize=None)
     def parent(self) -> Optional['Element']:
         potential_parents = [other for other in self.m._elements if other is not self and self.is_within(other)]
         if len(potential_parents) == 0:
@@ -292,21 +283,13 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     # Fix layout size
     m.addConstr(layout.w == layout.initial.w)
-    if True:
-        m.addConstr(layout.h <= layout.initial.h)
+    m.addConstr(layout.h == layout.initial.h)
 
     # Layout Parameters
     column_count = kwargs.get('columns', 24)
     grid_margin = kwargs.get('margin', 16)
     grid_gutter = kwargs.get('gutter', 8)
     baseline_height = kwargs.get('baseline', 8)
-    tolerance = kwargs.get('tolerance', 8)
-
-    if True:
-        tolerance = 0
-
-    # TODO: Consider supporting reflow and resolution changes
-    # TODO: Consider supporting locking aspect ratio
 
     apply_component_specific_constraints(m, elements)
 
@@ -315,81 +298,76 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         element for element in chrome_elements
         if element.get_alignment() in [Alignment.CHROME_BOTTOM, Alignment.CHROME_BOTTOM]
     ]
-    top_level_elements = [element for element in elements if element.parent() is None and not element.is_chrome()]
-    content_elements = [element for element in elements if element.parent() is not None and not element.is_chrome()]
+
+    apply_vertical_baseline(m, horizontal_chrome_elements, baseline_height)
 
     if len(chrome_elements) > 0:
         content_area = align_chrome(m, chrome_elements)
     else:
         content_area = BoundingBox(0, 0, layout.w, layout.h)
 
-    apply_vertical_baseline(m, horizontal_chrome_elements, baseline_height)
+    content_area = apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin))
 
-    maintain_relationships(m, top_level_elements)
+    top_level_elements = [element for element in elements if element.parent() is None and not element.is_chrome()]
 
-    maintain_alignment(m, top_level_elements)
-    match_top_lvl_dim_constrs = maintain_matching_neighbor_dimensions(m, top_level_elements, tolerance)
+    keep_within(m, content_area, top_level_elements)
 
-    match_top_lvl_dist_constrs = maintain_matching_neighbor_distances(m, top_level_elements, tolerance)
+    keep_relations(m, top_level_elements)
+    keep_alignment(m, top_level_elements)
 
-    apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_margin, grid_gutter)
-    make_edges_even(m, top_level_elements, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)))
+    apply_horizontal_grid(m, top_level_elements, content_area.x0, content_area.x1, column_count, grid_gutter)
+    make_edges_even(m, top_level_elements, content_area)
     apply_vertical_baseline(m, top_level_elements, baseline_height)
-    contain_within(m, apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin)), top_level_elements)
 
-    snap_distances2(m, top_level_elements, grid_gutter, grid_gutter * 4)
-    vertical_min_distance(m, top_level_elements, grid_gutter)
-
-    top_level_rel_size_constrs = maintain_relative_size(m, top_level_elements)
+    vertical_min_dist(m, top_level_elements, grid_gutter)
+    snap_dist(m, top_level_elements, grid_gutter, grid_gutter * 4)
 
     link_group_layouts(m, top_level_elements)
 
-    alignment = LinExpr()
-    excessive_upscaling = LinExpr()
-    child_rel_size_constrs = []
+    equal_dim_constrs = keep_equal_dim(m, top_level_elements)
+    equal_dist_constrs = keep_equal_dist(m, top_level_elements)
+    rel_size_constrs = keep_rel_size(m, top_level_elements)
+
+    alignment_obj = LinExpr()
+    upscaling_obj = LinExpr()
 
     for top_level_element in top_level_elements:
 
         children = top_level_element.children()
 
-        contain_within(m, top_level_element, children)
+        keep_within(m, top_level_element, children)
 
-        maintain_relationships(m, children)
-        maintain_alignment(m, children)
-        maintain_matching_neighbor_dimensions(m, children, tolerance)
-        maintain_matching_neighbor_distances(m, children, tolerance)
-        #child_rel_size_constrs += maintain_relative_size(m, children)
+        keep_relations(m, children)
+        keep_alignment(m, children)
+        keep_equal_dim(m, children)
+        keep_equal_dist(m, children)
 
-        alignment.add(improve_alignment_alt(m, children), 10)
-        alignment.add(soft_bind_to_edges_of(m, top_level_element, children), 10)
-        alignment.add(try_snapping(m, children))
-        excessive_upscaling.add(get_excessive_upscaling_expr(m, children))
+        apply_vertical_baseline(m, children, baseline_height)
 
-    apply_vertical_baseline(m, content_elements, baseline_height)
+        alignment_obj.add(get_alignment_expr(m, children), 10)
+        alignment_obj.add(get_fill_container_expr(m, top_level_element, children), 10)
+        alignment_obj.add(get_snapping_expr(m, children, close=8, far=32))
+        upscaling_obj.add(get_upscaling_expr(m, children))
 
-    downscaling = get_downscaling_expr(m, elements)
+    downscaling_obj = get_downscaling_expr(m, elements)
 
-    m.setObjectiveN(alignment, 0, priority=10, weight=10, abstol=0, reltol=0)
-    m.setObjectiveN(downscaling, 1, priority=5, weight=1, abstol=0, reltol=0)
-    m.setObjectiveN(excessive_upscaling, 2, priority=1, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(alignment_obj, 0, priority=10, weight=10, abstol=0, reltol=0)
+    m.setObjectiveN(downscaling_obj, 1, priority=5, weight=1, abstol=0, reltol=0)
+    m.setObjectiveN(upscaling_obj, 2, priority=1, weight=1, abstol=0, reltol=0)
 
     try:
         m.optimize()
 
         if m.Status == GRB.Status.INFEASIBLE:
-            m.remove(top_level_rel_size_constrs)
+            m.remove(rel_size_constrs)
             m.optimize()
 
         if m.Status == GRB.Status.INFEASIBLE:
-            m.remove(match_top_lvl_dim_constrs)
+            m.remove(equal_dim_constrs)
             m.optimize()
 
         if m.Status == GRB.Status.INFEASIBLE:
-            m.remove(match_top_lvl_dist_constrs)
-            m.optimize()
-
-        if m.Status == GRB.Status.INFEASIBLE:
-            m.remove(child_rel_size_constrs)
+            m.remove(equal_dist_constrs)
             m.optimize()
 
         if m.Status in [GRB.Status.OPTIMAL, GRB.Status.INTERRUPTED, GRB.Status.TIME_LIMIT]:
@@ -419,8 +397,8 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
                 })
 
             try:
-                print('Size loss', downscaling.getValue())
-                print('Alignment', alignment.getValue())
+                print('Size loss', downscaling_obj.getValue())
+                print('Alignment', alignment_obj.getValue())
             except:
                 e = sys.exc_info()[0]
                 print(e)
@@ -440,7 +418,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         raise e
 
 
-def contain_within(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
+def keep_within(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
     if isinstance(container, Element):
         padding = container.get_padding()
     else:
@@ -453,34 +431,7 @@ def contain_within(m: Model, container: Union[Element, BoundingBox], elements: L
         m.addConstr(element.y1 <= bbox.y1)
 
 
-def bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
-    if len(elements) == 0:
-        return
-
-    if isinstance(container, Element):
-        padding = container.get_padding()
-    else:
-        padding = Padding(0, 0, 0, 0)
-    bbox = apply_padding(container, padding)
-
-    min_x0 = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(min_x0 == min_([e.x0 for e in elements]))
-    m.addConstr(min_x0 == bbox.x0)
-
-    min_y0 = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(min_y0 == min_([e.y0 for e in elements]))
-    m.addConstr(min_y0 == bbox.y0)
-
-    max_x1 = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(max_x1 == max_([e.x1 for e in elements]))
-    m.addConstr(max_x1 == bbox.x1)
-
-    max_y1 = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(max_y1 == max_([e.y1 for e in elements]))
-    m.addConstr(max_y1 == bbox.y1)
-
-
-def soft_bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
+def get_fill_container_expr(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
     quality = LinExpr(0)
 
     if len(elements) == 0:
@@ -513,7 +464,7 @@ def soft_bind_to_edges_of(m: Model, container: Union[Element, BoundingBox], elem
     return quality
 
 
-def maintain_relationships(m: Model, elements: List[Element]):
+def keep_relations(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
         if element.is_left_of(other):
             m.addConstr(element.x1 + element.get_margin().right <= other.x0)
@@ -521,7 +472,7 @@ def maintain_relationships(m: Model, elements: List[Element]):
             m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
 
 
-def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.2):
+def keep_rel_size(m: Model, elements: List[Element], factor: float = 1.2):
     constraints = []
     for element, other in permutations(elements, 2):
         if element.initial.w > other.initial.w * factor:
@@ -532,7 +483,7 @@ def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.
     return constraints
 
 
-def maintain_alignment(m: Model, elements: List[Element], tolerance: float = 8):
+def keep_alignment(m: Model, elements: List[Element], tolerance: float = 8):
     for element, other in permutations(elements, 2):
         if abs(element.initial.x0 - other.initial.x0) <= tolerance:
             m.addConstr(element.x0 == other.x0)
@@ -544,31 +495,31 @@ def maintain_alignment(m: Model, elements: List[Element], tolerance: float = 8):
             m.addConstr(element.y1 == other.y1)
 
 
-def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tolerance: float = 8):
+def keep_equal_dim(m: Model, elements: List[Element]):
     constraints = []
     for element, other in permutations(elements, 2):
         if element.is_neighbor_of(other):
-            if abs(element.initial.w - other.initial.w) <= tolerance:
+            if element.initial.w == other.initial.w == 0:
                 constraints.append(m.addConstr(element.w == other.w))
-            if abs(element.initial.h - other.initial.h) <= tolerance:
+            if element.initial.h == other.initial.h:
                 constraints.append(m.addConstr(element.h == other.h))
     return constraints
 
 
-def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tolerance: float = 8, close: float = 8, far: float = 32):
+def keep_equal_dist(m: Model, elements: List[Element]):
     constraints = []
     for element in elements:
         for other, third in combinations([e for e in elements if e is not element], 2):
             if element.is_neighbor_of(other) and element.is_neighbor_of(third):
                 dist_to_other = element.distance_to(other)
                 dist_to_third = element.distance_to(third)
-                if abs(dist_to_other - dist_to_third) <= tolerance:
+                if dist_to_other == dist_to_third:
                     dist_to_other_var = get_distance_var(m, element, other)
                     constraints.append(m.addConstr(dist_to_other_var == get_distance_var(m, element, third)))
     return constraints
 
 
-def snap_distances2(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
+def snap_dist(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
     quality = LinExpr(0)
     for element, other in permutations(elements, 2):
         if element.is_neighbor_of(other):
@@ -585,13 +536,13 @@ def snap_distances2(m: Model, elements: List[Element], close: float = 8, far: fl
     return quality
 
 
-def vertical_min_distance(m: Model, elements: List[Element], min_distance: Var):
+def vertical_min_dist(m: Model, elements: List[Element], min_distance: Var):
     for element, other in permutations(elements, 2):
         if element.is_above(other):
             m.addConstr(element.y1 + min_distance <= other.y0)
 
 
-def try_snapping(m: Model, elements: List[Element], close: float = 8, far: float = 32):  # TODO: rename as something better
+def get_snapping_expr(m: Model, elements: List[Element], close: float, far: float):
     snapping = LinExpr(0)
     for element, other in permutations(elements, 2):
         if element.is_neighbor_of(other):
@@ -648,7 +599,7 @@ def get_downscaling_expr(m: Model, elements: List[Element], threshold: float = .
     return downscaling_expr
 
 
-def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .5):
+def get_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .5):
     excessive_upscaling_expr = LinExpr(0)
 
     if len(elements) == 0:
@@ -671,14 +622,14 @@ def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_t
     return excessive_upscaling_expr
 
 
-def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, pref_col_count: int, margin: float, gutter: float):
+def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, pref_col_count: int, gutter: float):
     if len(elements) == 0:
         return
     col_count = max(pref_col_count, get_min_col_count(elements))
 
     gutter_count = col_count - 1
     col_width = m.addVar(vtype=GRB.CONTINUOUS)
-    m.addConstr(grid_x1 == grid_x0 + 2 * margin + col_count * col_width + gutter_count * gutter)
+    m.addConstr(grid_x1 == grid_x0 + col_count * col_width + gutter_count * gutter)
 
     # Ensure that the whole grid is used
     starting_in_first_col = LinExpr(0)
@@ -696,12 +647,12 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
         ending_in_last_col.add(col_end_flags[col_count - 1])
 
         for col_index in range(col_count):
-            col_x0 = LinExpr(grid_x0 + margin + col_index * (col_width + gutter))
+            col_x0 = LinExpr(grid_x0 + col_index * (col_width + gutter))
             #m.addConstr(col_start_flags[col_index] * element.x0 == col_start_flags[col_index] * col_x0)
             m.addConstr(element.x0 >= col_x0 - layout.initial.w * (1 - col_start_flags[col_index]))
             m.addConstr(element.x0 <= col_x0 + layout.initial.w * (1 - col_start_flags[col_index]))
 
-            col_x1 = LinExpr(grid_x0 + margin + (col_index + 1) * (col_width + gutter) - gutter)
+            col_x1 = LinExpr(grid_x0 + (col_index + 1) * (col_width + gutter) - gutter)
             #m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
             m.addConstr(element.x1 >= col_x1 - layout.initial.w * (1 - col_end_flags[col_index]))
             m.addConstr(element.x1 <= col_x1 + layout.initial.w * (1 - col_end_flags[col_index]))
@@ -836,7 +787,7 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
             m.addConstr(element.h >= element.initial.min_height)
 
 
-def improve_alignment_alt(m: Model, elements: List[Element]):
+def get_alignment_expr(m: Model, elements: List[Element]):
     layout: Layout = m._layout
     alignment = LinExpr(0)
 
