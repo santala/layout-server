@@ -276,7 +276,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
 
     m = Model("DesignSystem")
 
-    m.Params.OutputFlag = 1
+    m.Params.OutputFlag = 0
 
     m.Params.TimeLimit = time_out
     m.Params.MIPFocus = 1
@@ -349,6 +349,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     child_rel_size_constrs = []
 
     for top_level_element in top_level_elements:
+
         children = top_level_element.children()
 
         contain_within(m, top_level_element, children)
@@ -410,6 +411,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
                     })
 
                 layouts.append({
+                    'id': layout.initial.id,
                     'solutionNumber': s,
                     'canvasWidth': layout.w.X,
                     'canvasHeight': layout.h.X,
@@ -519,15 +521,6 @@ def maintain_relationships(m: Model, elements: List[Element]):
             m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
 
 
-def maintain_neighbor_relationships(m: Model, elements: List[Element]):
-    for element, other in permutations(elements, 2):
-        if element.is_neighbor_of(other):
-            if element.is_left_of(other):
-                m.addConstr(element.x1 + element.get_margin().right <= other.x0)
-            if element.is_above(other):
-                m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
-
-
 def maintain_relative_size(m: Model, elements: List[Element], factor: float = 1.2):
     constraints = []
     for element, other in permutations(elements, 2):
@@ -549,14 +542,6 @@ def maintain_alignment(m: Model, elements: List[Element], tolerance: float = 8):
             m.addConstr(element.x1 == other.x1)
         if abs(element.initial.y1 - other.initial.y1) <= tolerance:
             m.addConstr(element.y1 == other.y1)
-
-
-def maintain_matching_dimensions(m: Model, elements: List[Element], tolerance: float = 8):
-    for element, other in permutations(elements, 2):
-        if abs(element.initial.w - other.initial.w) <= tolerance:
-            m.addConstr(element.w == other.w)
-        if abs(element.initial.h - other.initial.h) <= tolerance:
-            m.addConstr(element.h == other.h)
 
 
 def maintain_matching_neighbor_dimensions(m: Model, elements: List[Element], tolerance: float = 8):
@@ -583,23 +568,6 @@ def maintain_matching_neighbor_distances(m: Model, elements: List[Element], tole
     return constraints
 
 
-def keep_neighbors_together(m: Model, elements: List[Element], distance):
-    for element, other in permutations(elements, 2):
-        if element.is_neighbor_of(other):
-            m.addConstr(get_distance_var(m, element, other) == distance)
-
-
-def snap_distances(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
-    for element, other in permutations(elements, 2):
-        if element.is_neighbor_of(other):
-            distance = element.distance_to(other)
-            distance_var = get_distance_var(m, element, other)
-            if 0 <= distance <= (close + far) / 2:
-                m.addConstr(distance_var == close)
-            else:
-                m.addConstr(distance_var == far)
-
-
 def snap_distances2(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
     quality = LinExpr(0)
     for element, other in permutations(elements, 2):
@@ -621,19 +589,6 @@ def vertical_min_distance(m: Model, elements: List[Element], min_distance: Var):
     for element, other in permutations(elements, 2):
         if element.is_above(other):
             m.addConstr(element.y1 + min_distance <= other.y0)
-
-
-def snap_vertical_distances(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
-    for element, other in permutations(elements, 2):
-        if element.is_neighbor_of(other):
-            direction = element.direction_to(other)
-            if direction in [Cardinal.N, Cardinal.S]:
-                distance = element.distance_to(other)
-                distance_var = get_distance_var(m, element, other)
-                if 0 <= distance <= (close + far) / 2:
-                    m.addConstr(distance_var == close)
-                else:
-                    m.addConstr(distance_var == far)
 
 
 def try_snapping(m: Model, elements: List[Element], close: float = 8, far: float = 32):  # TODO: rename as something better
@@ -717,6 +672,8 @@ def get_excessive_upscaling_expr(m: Model, elements: List[Element], horizontal_t
 
 
 def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, pref_col_count: int, margin: float, gutter: float):
+    if len(elements) == 0:
+        return
     col_count = max(pref_col_count, get_min_col_count(elements))
 
     gutter_count = col_count - 1
@@ -879,247 +836,35 @@ def apply_component_specific_constraints(m: Model, elements: List[Element]):
             m.addConstr(element.h >= element.initial.min_height)
 
 
-def improve_alignment(m: Model, elements: List[Element]):
-    layout: Layout = m._layout
-    n = len(elements)
-    max_groups = n
-    min_cols = get_min_col_count(elements)
-    min_rows = get_min_row_count(elements)
-
-    group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_x1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-
-    group_x0_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
-    group_y0_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
-    group_x1_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
-    group_y1_enabled = m.addVars(max_groups, vtype=GRB.BINARY)
-
-    element_in_group_x0 = m.addVars(n, max_groups, vtype=GRB.BINARY)
-    element_in_group_y0 = m.addVars(n, max_groups, vtype=GRB.BINARY)
-    element_in_group_x1 = m.addVars(n, max_groups, vtype=GRB.BINARY)
-    element_in_group_y1 = m.addVars(n, max_groups, vtype=GRB.BINARY)
-
-    for i, element in enumerate(elements):
-        # Element can belong to a single group only
-        m.addConstr(element_in_group_x0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_x1.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y1.sum(i, '*') == 1)
-        for g in range(max_groups):
-            # If an element belongs to a group, the group must be enabled
-            m.addConstr(group_x0_enabled[g] >= element_in_group_x0[i, g])
-            m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
-            m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
-            m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
-            # If no elements belong to a group, the group cannot be enabled
-            m.addConstr(group_x0_enabled[g] <= element_in_group_x0.sum('*', g))
-            m.addConstr(group_y0_enabled[g] <= element_in_group_y0.sum('*', g))
-            m.addConstr(group_x1_enabled[g] <= element_in_group_x1.sum('*', g))
-            m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
-            # If element belongs to a group, the group coordinate value must equal the element coordinate value
-            # i.e. if multiple elements belong to a group, they must have the same coordinate value
-            m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-            m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-
-    min_alignment = 2 * min_cols + 2 * min_rows
-    #min_alignment = 0
-    alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
-    m.addConstr(alignment >= min_alignment)
-    m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
-                + group_x1_enabled.sum() + group_y1_enabled.sum())
-
-    print(min_cols, min_rows, min_alignment)
-    return LinExpr(alignment - min_alignment)
-
-
 def improve_alignment_alt(m: Model, elements: List[Element]):
     layout: Layout = m._layout
-    n = len(elements)
     alignment = LinExpr(0)
 
-    for element, other in permutations(elements, 2):
-        element: Element
-        if element.overlaps_vertically_with(other) and not element.overlaps_with(other):
-            elements_align_start = m.addVar(vtype=GRB.INTEGER)
+    var_count = 0
+
+    for element, other in combinations(elements, 2):
+        if element.overlaps_horizontally_with(other) and not element.overlaps_with(other):
+            elements_align_start = m.addVar(vtype=GRB.BINARY)
             m.addConstr(element.x0 >= other.x0 - layout.initial.max_width * (1 - elements_align_start))
             m.addConstr(element.x0 <= other.x0 + layout.initial.max_width * (1 - elements_align_start))
-            elements_align_end = m.addVar(vtype=GRB.INTEGER)
+            elements_align_end = m.addVar(vtype=GRB.BINARY)
             m.addConstr(element.x1 >= other.x1 - layout.initial.max_width * (1 - elements_align_end))
             m.addConstr(element.x1 <= other.x1 + layout.initial.max_width * (1 - elements_align_end))
-            alignment.add(elements_align_start + elements_align_end)
-        if element.overlaps_horizontally_with(other) and not element.overlaps_with(other):
-            elements_align_start = m.addVar(vtype=GRB.INTEGER)
+            alignment.add(2 - elements_align_start - elements_align_end)
+            var_count += 2
+        elif element.overlaps_vertically_with(other) and not element.overlaps_with(other):
+            elements_align_start = m.addVar(vtype=GRB.BINARY)
             m.addConstr(element.y0 >= other.y0 - layout.initial.max_height * (1 - elements_align_start))
             m.addConstr(element.y0 <= other.y0 + layout.initial.max_height * (1 - elements_align_start))
-            elements_align_end = m.addVar(vtype=GRB.INTEGER)
+            elements_align_end = m.addVar(vtype=GRB.BINARY)
             m.addConstr(element.y1 >= other.y1 - layout.initial.max_height * (1 - elements_align_end))
             m.addConstr(element.y1 <= other.y1 + layout.initial.max_height * (1 - elements_align_end))
-            alignment.add(elements_align_start + elements_align_end)
+            alignment.add(2 - elements_align_start - elements_align_end)
+            var_count += 2
+
+    print('var_count', var_count)
 
     return alignment
-
-    layout: Layout = m._layout
-    n = len(elements)
-    max_groups = n
-    min_cols = get_min_col_count(elements)
-    min_rows = get_min_row_count(elements)
-
-    group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_x1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-
-    group_x0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_y0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_x1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_y1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-
-    element_in_group_x0 = m.addVars(n, max_groups, vtype=GRB.INTEGER, lb=0, ub=1)
-    element_in_group_y0 = m.addVars(n, max_groups, vtype=GRB.INTEGER, lb=0, ub=1)
-    element_in_group_x1 = m.addVars(n, max_groups, vtype=GRB.INTEGER, lb=0, ub=1)
-    element_in_group_y1 = m.addVars(n, max_groups, vtype=GRB.INTEGER, lb=0, ub=1)
-
-    if False:
-        for g in range(max_groups):
-            m.addConstr(n * group_x0_enabled[g] >= element_in_group_x0.sum('*', g))
-            m.addConstr(n * group_y0_enabled[g] >= element_in_group_y0.sum('*', g))
-            m.addConstr(n * group_x1_enabled[g] >= element_in_group_x1.sum('*', g))
-            m.addConstr(n * group_y1_enabled[g] >= element_in_group_y1.sum('*', g))
-
-    for i, element in enumerate(elements):
-        # Element can belong to a single group only
-        m.addConstr(element_in_group_x0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_x1.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y1.sum(i, '*') == 1)
-
-        for g in range(max_groups):
-
-            if True:
-                # If an element belongs to a group, the group must be enabled
-                m.addConstr(group_x0_enabled[g] >= element_in_group_x0[i, g])
-                m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
-                m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
-                m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
-            # If no elements belong to a group, the group cannot be enabled
-            m.addConstr(group_x0_enabled[g] <= element_in_group_x0.sum('*', g))
-            m.addConstr(group_y0_enabled[g] <= element_in_group_y0.sum('*', g))
-            m.addConstr(group_x1_enabled[g] <= element_in_group_x1.sum('*', g))
-            m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
-            # If element belongs to a group, the group coordinate value must equal the element coordinate value
-            # i.e. if multiple elements belong to a group, they must have the same coordinate value
-
-            m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-            m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-
-    min_alignment = 2 * min_cols + 2 * min_rows
-    #min_alignment = 0
-    alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
-    m.addConstr(alignment >= min_alignment)
-    m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
-                + group_x1_enabled.sum() + group_y1_enabled.sum())
-
-    return LinExpr(alignment - min_alignment)
-
-
-def improve_alignment_relaxed(m: Model, elements: List[Element]):
-    layout: Layout = m._layout
-    n = len(elements)
-    max_groups = n
-    min_cols = get_min_col_count(elements)
-    min_rows = get_min_row_count(elements)
-
-    group_x0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y0 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_x1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-    group_y1 = m.addVars(max_groups, vtype=GRB.CONTINUOUS)
-
-    group_x0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_y0_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_x1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    group_y1_enabled = m.addVars(max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-
-    element_in_group_x0 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    element_in_group_y0 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    element_in_group_x1 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-    element_in_group_y1 = m.addVars(n, max_groups, vtype=GRB.CONTINUOUS, lb=0, ub=1)
-
-    if False:
-        for g in range(max_groups):
-            m.addConstr(n * group_x0_enabled[g] >= element_in_group_x0.sum('*', g))
-            m.addConstr(n * group_y0_enabled[g] >= element_in_group_y0.sum('*', g))
-            m.addConstr(n * group_x1_enabled[g] >= element_in_group_x1.sum('*', g))
-            m.addConstr(n * group_y1_enabled[g] >= element_in_group_y1.sum('*', g))
-
-    for i, element in enumerate(elements):
-        # Element can belong to a single group only
-        m.addConstr(element_in_group_x0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y0.sum(i, '*') == 1)
-        m.addConstr(element_in_group_x1.sum(i, '*') == 1)
-        m.addConstr(element_in_group_y1.sum(i, '*') == 1)
-        for g in range(max_groups):
-
-            if True:
-                # If an element belongs to a group, the group must be enabled
-                m.addConstr(group_x0_enabled[g] >= element_in_group_x0[i, g])
-                m.addConstr(group_y0_enabled[g] >= element_in_group_y0[i, g])
-                m.addConstr(group_x1_enabled[g] >= element_in_group_x1[i, g])
-                m.addConstr(group_y1_enabled[g] >= element_in_group_y1[i, g])
-            # If no elements belong to a group, the group cannot be enabled
-            m.addConstr(group_x0_enabled[g] <= element_in_group_x0.sum('*', g))
-            m.addConstr(group_y0_enabled[g] <= element_in_group_y0.sum('*', g))
-            m.addConstr(group_x1_enabled[g] <= element_in_group_x1.sum('*', g))
-            m.addConstr(group_y1_enabled[g] <= element_in_group_y1.sum('*', g))
-            # If element belongs to a group, the group coordinate value must equal the element coordinate value
-            # i.e. if multiple elements belong to a group, they must have the same coordinate value
-
-            m.addConstr(element.x0 >= group_x0[g] - layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x0 <= group_x0[g] + layout.initial.max_width * (1 - element_in_group_x0[i, g]))
-            m.addConstr(element.x1 >= group_x1[g] - layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.x1 <= group_x1[g] + layout.initial.max_width * (1 - element_in_group_x1[i, g]))
-            m.addConstr(element.y0 >= group_y0[g] - layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y0 <= group_y0[g] + layout.initial.max_height * (1 - element_in_group_y0[i, g]))
-            m.addConstr(element.y1 >= group_y1[g] - layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-            m.addConstr(element.y1 <= group_y1[g] + layout.initial.max_height * (1 - element_in_group_y1[i, g]))
-
-    min_alignment = 2 * min_cols + 2 * min_rows
-    min_alignment = 0
-    alignment = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
-    m.addConstr(alignment >= min_alignment)
-    m.addConstr(alignment >= group_x0_enabled.sum() + group_y0_enabled.sum() \
-                + group_x1_enabled.sum() + group_y1_enabled.sum())
-
-    return LinExpr(alignment - min_alignment)
-
-
-def compute_minimum_grid(n: int) -> int:
-    min_grid_width = int(math.sqrt(n))
-    elements_in_min_grid = min_grid_width**2
-    extra_elements = n - elements_in_min_grid
-    if extra_elements == 0:
-        result = 4 * min_grid_width
-    else:
-        extra_columns = int(extra_elements / min_grid_width)
-        remainder = (extra_elements - (extra_columns * min_grid_width))
-        if remainder == 0:
-            result = (4 * min_grid_width) + (2 * extra_columns)
-        else:
-            result = (4 * min_grid_width) + (2 * extra_columns) + 2
-    return result
 
 
 def link_group_layouts(m: Model, parents: List[Element]):
