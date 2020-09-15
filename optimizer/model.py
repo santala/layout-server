@@ -4,14 +4,14 @@ import time
 from collections import namedtuple
 from enum import Enum
 from functools import lru_cache
-from typing import Dict, List, Optional, Union, Tuple
-from itertools import combinations, permutations, product
-from gurobi import GRB, GenExpr, LinExpr, Model, tupledict, abs_, and_, max_, min_, QuadExpr, GurobiError, Var
+from typing import List, Optional, Union, Tuple
+from itertools import combinations, permutations
+from gurobi import GRB, LinExpr, Model, max_, min_, GurobiError, Var
 
 
 Margin = namedtuple('Margin', 'top right bottom left')
 Padding = namedtuple('Margin', 'top right bottom left')
-BoundingBox = namedtuple('BBox', 'x0 y0 x1 y1')
+BBox = namedtuple('BBox', 'x0 y0 x1 y1')
 
 
 class Alignment(Enum):
@@ -57,13 +57,20 @@ class ElementProps:
         self.x1 = self.x0 + self.w
         self.y1 = self.y0 + self.h
         self.fixed_width = bool(props.get('fixedWidth', False))
+        self.fixed_height = bool(props.get('fixedHeight', False))
         self.min_width = float(props.get('minWidth', 0))
         self.min_height = float(props.get('minHeight', 0))
 
         self.fixed_width = 'Left pane / Compact' in self.component_name
-        self.fixed_height = 'Stripe' in self.component_name or 'Main Menu' in self.component_name
+        self.fixed_height = any(name in self.component_name for name in [
+            'Stripe', 'Main Menu', 'Select', 'button'
+        ])
 
         if 'Stripe' in self.component_name:
+            self.h = 32
+        if 'Select' in self.component_name:
+            self.h = 80
+        if 'button--32' in self.component_name:
             self.h = 32
         if 'Main Menu' in self.component_name:
             self.h = 48
@@ -74,7 +81,7 @@ class ElementProps:
 
 
 class Layout:
-    def __init__(self, m: Model, props: LayoutProps, fixed_width: bool = True, fixed_height: bool = True):
+    def __init__(self, m: Model, props: LayoutProps):
         self.m = m
         self.initial: LayoutProps = props
 
@@ -86,8 +93,6 @@ class Element:
     def __init__(self, m: Model, props: ElementProps):
         self.m = m
         self.initial: ElementProps = props
-
-        # Variables
 
         self.x0 = m.addVar(vtype=GRB.CONTINUOUS)
         self.y0 = m.addVar(vtype=GRB.CONTINUOUS)
@@ -101,7 +106,7 @@ class Element:
 
     @lru_cache(maxsize=None)
     def is_chrome(self) -> bool:
-        for name in ["Left pane", "Menu Bar", "Stripe"]:
+        for name in ["Menu Bar", "Stripe", "Left pane", "Footer"]:
             if name in self.initial.component_name:
                 return True
         return False
@@ -129,14 +134,6 @@ class Element:
             if name in self.initial.component_name:
                 return priority
         return 999
-
-    @lru_cache(maxsize=None)
-    def get_margin(self) -> Margin:
-        # TODO: make configurable somehow
-        if self.is_chrome() or True:
-            return Margin(0, 0, 0, 0)
-        else:
-            return Margin(8, 8, 8, 8)
 
     @lru_cache(maxsize=None)
     def get_padding(self) -> Padding:
@@ -261,7 +258,7 @@ class Element:
                 return []
 
 
-def solve(layout_dict: dict, time_out: int = 30, **kwargs):
+def solve(layout_dict: dict, time_out: int = 30, **kwargs) -> dict:
 
     start = time.time()
 
@@ -291,7 +288,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     grid_gutter = kwargs.get('gutter', 8)
     baseline_height = kwargs.get('baseline', 8)
 
-    apply_component_specific_constraints(m, elements)
+    apply_component_constraints(m, elements)
 
     chrome_elements = [element for element in elements if element.is_chrome()]
     horizontal_chrome_elements = [
@@ -304,7 +301,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     if len(chrome_elements) > 0:
         content_area = align_chrome(m, chrome_elements)
     else:
-        content_area = BoundingBox(0, 0, layout.w, layout.h)
+        content_area = BBox(0, 0, layout.w, layout.h)
 
     content_area = apply_padding(content_area, Padding(grid_margin, grid_margin, grid_margin, grid_margin))
 
@@ -320,7 +317,6 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
     apply_vertical_baseline(m, top_level_elements, baseline_height)
 
     vertical_min_dist(m, top_level_elements, grid_gutter)
-    snap_dist(m, top_level_elements, grid_gutter, grid_gutter * 4)
 
     link_group_layouts(m, top_level_elements)
 
@@ -418,7 +414,7 @@ def solve(layout_dict: dict, time_out: int = 30, **kwargs):
         raise e
 
 
-def keep_within(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
+def keep_within(m: Model, container: Union[Element, BBox], elements: List[Element]):
     if isinstance(container, Element):
         padding = container.get_padding()
     else:
@@ -431,11 +427,11 @@ def keep_within(m: Model, container: Union[Element, BoundingBox], elements: List
         m.addConstr(element.y1 <= bbox.y1)
 
 
-def get_fill_container_expr(m: Model, container: Union[Element, BoundingBox], elements: List[Element]):
-    quality = LinExpr(0)
+def get_fill_container_expr(m: Model, container: Union[Element, BBox], elements: List[Element]):
+    fill_container_expr = LinExpr(0)
 
     if len(elements) == 0:
-        return quality
+        return fill_container_expr
 
     if isinstance(container, Element):
         padding = container.get_padding()
@@ -454,22 +450,22 @@ def get_fill_container_expr(m: Model, container: Union[Element, BoundingBox], el
     max_x1 = m.addVar(vtype=GRB.CONTINUOUS)
     m.addConstr(max_x1 == max_([e.x1 for e in elements]))
     m.addConstr(max_x1 <= bbox.x1)
-    quality.add(bbox.x1 - max_x1)
+    fill_container_expr.add(bbox.x1 - max_x1)
 
     max_y1 = m.addVar(vtype=GRB.CONTINUOUS)
     m.addConstr(max_y1 == max_([e.y1 for e in elements]))
     m.addConstr(max_y1 <= bbox.y1)
-    quality.add(bbox.y1 - max_y1)
+    fill_container_expr.add(bbox.y1 - max_y1)
 
-    return quality
+    return fill_container_expr
 
 
 def keep_relations(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
         if element.is_left_of(other):
-            m.addConstr(element.x1 + element.get_margin().right <= other.x0)
+            m.addConstr(element.x1 <= other.x0)
         if element.is_above(other):
-            m.addConstr(element.y1 + element.get_margin().bottom <= other.y0)
+            m.addConstr(element.y1 <= other.y0)
 
 
 def keep_rel_size(m: Model, elements: List[Element], factor: float = 1.2):
@@ -483,15 +479,15 @@ def keep_rel_size(m: Model, elements: List[Element], factor: float = 1.2):
     return constraints
 
 
-def keep_alignment(m: Model, elements: List[Element], tolerance: float = 8):
+def keep_alignment(m: Model, elements: List[Element]):
     for element, other in permutations(elements, 2):
-        if abs(element.initial.x0 - other.initial.x0) <= tolerance:
+        if element.initial.x0 == other.initial.x0:
             m.addConstr(element.x0 == other.x0)
-        if abs(element.initial.y0 - other.initial.y0) <= tolerance:
+        if element.initial.y0 == other.initial.y0:
             m.addConstr(element.y0 == other.y0)
-        if abs(element.initial.x1 - other.initial.x1) <= tolerance:
+        if element.initial.x1 == other.initial.x1:
             m.addConstr(element.x1 == other.x1)
-        if abs(element.initial.y1 - other.initial.y1) <= tolerance:
+        if element.initial.y1 == other.initial.y1:
             m.addConstr(element.y1 == other.y1)
 
 
@@ -517,23 +513,6 @@ def keep_equal_dist(m: Model, elements: List[Element]):
                     dist_to_other_var = get_distance_var(m, element, other)
                     constraints.append(m.addConstr(dist_to_other_var == get_distance_var(m, element, third)))
     return constraints
-
-
-def snap_dist(m: Model, elements: List[Element], close: float = 8, far: float = 32): # TODO: rename as something better
-    quality = LinExpr(0)
-    for element, other in permutations(elements, 2):
-        if element.is_neighbor_of(other):
-            distance = element.distance_to(other)
-            distance_var = get_distance_var(m, element, other)
-            snap_diff = m.addVar(lb=0, vtype=GRB.CONTINUOUS)
-            if 0 <= distance <= (close + far) / 2:
-                m.addConstr(snap_diff >= close - distance_var)
-                m.addConstr(snap_diff >= distance_var - close)
-            else:
-                m.addConstr(snap_diff >= far - distance_var)
-                m.addConstr(snap_diff >= distance_var - far)
-            quality.add(snap_diff)
-    return quality
 
 
 def vertical_min_dist(m: Model, elements: List[Element], min_distance: Var):
@@ -580,46 +559,49 @@ def get_distance_var(m: Model, element: Element, other: Element):
     return distance_var
 
 
-def get_downscaling_expr(m: Model, elements: List[Element], threshold: float = .0):
+def get_downscaling_expr(m: Model, elements: List[Element]):
+    downscaling = LinExpr(0)
+    if len(elements) == 0:
+        return downscaling
+
     max_initial_width = max([element.initial.w for element in elements])
     max_initial_height = max([element.initial.h for element in elements])
-
-    downscaling_expr = LinExpr(0)
 
     for element in elements:
         # Smaller elements should be scaled down less
         element_width_loss = m.addVar(lb=0)
-        m.addConstr(element_width_loss >= (element.initial.w * (1 - threshold)) - element.w)
-        downscaling_expr.add(element_width_loss * max_initial_width / element.initial.w)
+        m.addConstr(element_width_loss >= element.initial.w - element.w)
+        downscaling.add(element_width_loss * max_initial_width / element.initial.w)
 
         element_height_loss = m.addVar(lb=0)
-        m.addConstr(element_height_loss >= (element.initial.h * (1 - threshold)) - element.h)
-        downscaling_expr.add(element_height_loss * max_initial_height / element.initial.h)
+        m.addConstr(element_height_loss >= element.initial.h - element.h)
+        downscaling.add(element_height_loss * max_initial_height / element.initial.h)
 
-    return downscaling_expr
+    return downscaling
 
 
-def get_upscaling_expr(m: Model, elements: List[Element], horizontal_threshold: float = 1., vertical_threshold: float = .5):
-    excessive_upscaling_expr = LinExpr(0)
+def get_upscaling_expr(m: Model, elements: List[Element]):
+    upscaling = LinExpr(0)
+    horizontal_threshold = 1.
+    vertical_threshold = .5
 
     if len(elements) == 0:
-        return excessive_upscaling_expr
+        return upscaling
 
     max_initial_width = max([element.initial.w for element in elements])
     max_initial_height = max([element.initial.h for element in elements])
-
 
     for element in elements:
         # Smaller elements should be scaled up less
         excessive_element_width_increase = m.addVar(lb=0)
         m.addConstr(excessive_element_width_increase >= element.w - element.initial.w * (1 + horizontal_threshold))
-        excessive_upscaling_expr.add(excessive_element_width_increase * max_initial_width / element.initial.w)
+        upscaling.add(excessive_element_width_increase * max_initial_width / element.initial.w)
 
         excessive_element_height_increase = m.addVar(lb=0)
         m.addConstr(excessive_element_height_increase >= element.h - element.initial.h * (1 + vertical_threshold))
-        excessive_upscaling_expr.add(excessive_element_height_increase * max_initial_height / element.initial.h)
+        upscaling.add(excessive_element_height_increase * max_initial_height / element.initial.h)
 
-    return excessive_upscaling_expr
+    return upscaling
 
 
 def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_x1: Var, pref_col_count: int, gutter: float):
@@ -648,26 +630,18 @@ def apply_horizontal_grid(m: Model, elements: List[Element], grid_x0: Var, grid_
 
         for col_index in range(col_count):
             col_x0 = LinExpr(grid_x0 + col_index * (col_width + gutter))
-            #m.addConstr(col_start_flags[col_index] * element.x0 == col_start_flags[col_index] * col_x0)
             m.addConstr(element.x0 >= col_x0 - layout.initial.w * (1 - col_start_flags[col_index]))
             m.addConstr(element.x0 <= col_x0 + layout.initial.w * (1 - col_start_flags[col_index]))
 
             col_x1 = LinExpr(grid_x0 + (col_index + 1) * (col_width + gutter) - gutter)
-            #m.addConstr(col_end_flags[col_index] * element.x1 == col_end_flags[col_index] * col_x1)
             m.addConstr(element.x1 >= col_x1 - layout.initial.w * (1 - col_end_flags[col_index]))
             m.addConstr(element.x1 <= col_x1 + layout.initial.w * (1 - col_end_flags[col_index]))
-
-        # There are no other elements before this one, this element should start in the first column
-        # This one is implemented in the make_edges_even function
-        #others_before = [other for other in elements if other.is_left_of(element)]
-        #if len(others_before) == 0:
-        #    m.addConstr(col_start_flags[0] == 1)
 
     m.addConstr(starting_in_first_col >= 1)
     m.addConstr(ending_in_last_col >= 1)
 
 
-def make_edges_even(m: Model, elements: List[Element], bbox: BoundingBox):
+def make_edges_even(m: Model, elements: List[Element], bbox: BBox):
     for element in elements:
         others_on_left = [other for other in elements if other.is_left_of(element)]
         if len(others_on_left) == 0:
@@ -695,8 +669,8 @@ def apply_vertical_baseline(m: Model, elements: List[Element], baseline_height: 
             m.addConstr(baseline_height * end_line == element.y1)
 
 
-def apply_padding(bbox: BoundingBox, padding: Padding):
-    return BoundingBox(
+def apply_padding(bbox: BBox, padding: Padding):
+    return BBox(
         bbox.x0 + padding.left,
         bbox.y0 + padding.top,
         bbox.x1 - padding.right,
@@ -704,7 +678,7 @@ def apply_padding(bbox: BoundingBox, padding: Padding):
     )
 
 
-def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
+def align_chrome(m: Model, chrome_elements: List[Element]) -> BBox:
     layout = m._layout
     sorted_chrome_elements = sorted(chrome_elements, key=lambda e: e.get_priority())
 
@@ -716,27 +690,27 @@ def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
     for element in sorted_chrome_elements:
         if element.get_alignment() is not Alignment.CHROME_RIGHT:
             if last_on_left is None:
-                m.addConstr(element.x0 == element.get_margin().left)
+                m.addConstr(element.x0 == 0)
             else:
-                m.addConstr(element.x0 == last_on_left.x1 + element.get_margin().left)
+                m.addConstr(element.x0 == last_on_left.x1)
 
         if element.get_alignment() is not Alignment.CHROME_BOTTOM:
             if last_above is None:
-                m.addConstr(element.y0 == element.get_margin().top)
+                m.addConstr(element.y0 == 0)
             else:
-                m.addConstr(element.y0 == last_above.y1 + element.get_margin().top)
+                m.addConstr(element.y0 == last_above.y1)
 
         if element.get_alignment() is not Alignment.CHROME_LEFT:
             if last_on_left is None:
-                m.addConstr(element.x1 == layout.w - element.get_margin().left)
+                m.addConstr(element.x1 == layout.w)
             else:
-                m.addConstr(element.x1 == last_on_left.x0 - element.get_margin().left)
+                m.addConstr(element.x1 == last_on_left.x0)
 
         if element.get_alignment() is not Alignment.CHROME_TOP:
             if last_below is None:
-                m.addConstr(element.y1 == layout.h - element.get_margin().bottom)
+                m.addConstr(element.y1 == layout.h)
             else:
-                m.addConstr(element.y1 == last_above.y0 - element.get_margin().bottom)
+                m.addConstr(element.y1 == last_above.y0)
 
         if element.get_alignment() is Alignment.CHROME_LEFT:
             last_on_left = element
@@ -755,27 +729,27 @@ def align_chrome(m: Model, chrome_elements: List[Element]) -> BoundingBox:
     if last_on_left is None:
         m.addConstr(content_x0 == 0)
     else:
-        m.addConstr(content_x0 == last_on_left.x1 + last_on_left.get_margin().right)
+        m.addConstr(content_x0 == last_on_left.x1)
 
     if last_above is None:
         m.addConstr(content_y0 == 0)
     else:
-        m.addConstr(content_y0 == last_above.y1 + last_above.get_margin().bottom)
+        m.addConstr(content_y0 == last_above.y1)
 
     if last_on_right is None:
         m.addConstr(content_x1 == layout.w)
     else:
-        m.addConstr(content_x1 == last_on_right.x0 - last_on_left.get_margin().left)
+        m.addConstr(content_x1 == last_on_right.x0)
 
     if last_below is None:
         m.addConstr(content_y1 == layout.h)
     else:
-        m.addConstr(content_y1 == last_below.y0 - last_above.get_margin().top)
+        m.addConstr(content_y1 == last_below.y0)
 
-    return BoundingBox(content_x0, content_y0, content_x1, content_y1)
+    return BBox(content_x0, content_y0, content_x1, content_y1)
 
 
-def apply_component_specific_constraints(m: Model, elements: List[Element]):
+def apply_component_constraints(m: Model, elements: List[Element]):
     for element in elements:
         if element.initial.fixed_width:
             m.addConstr(element.w == element.initial.w)
@@ -813,8 +787,6 @@ def get_alignment_expr(m: Model, elements: List[Element]):
             alignment.add(2 - elements_align_start - elements_align_end)
             var_count += 2
 
-    print('var_count', var_count)
-
     return alignment
 
 
@@ -846,8 +818,6 @@ def get_min_row_count(elements: List[Element]) -> int:
 
 def get_min_grid_width(start: List[float], end: List[float]) -> int:
 
-    print('Computing minimum grid')
-
     m = Model('GridWidth')
     m.Params.OutputFlag = 0
     m.Params.TimeLimit = 5
@@ -871,9 +841,5 @@ def get_min_grid_width(start: List[float], end: List[float]) -> int:
     except GurobiError as e:
         print('Gurobi Error code ' + str(e.errno) + ": " + str(e))
         raise e
-
-    print(m.Status)
-
-    print('Min grid', int(grid_width.X))
 
     return int(grid_width.X)
